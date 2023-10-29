@@ -4,15 +4,17 @@ using UnityEngine;
 
 namespace sg {
     public class AnimatorHandler : MonoBehaviour {
+        PlayerManager playerManager;
+        InputHandler inputHandler;
+        PlayerLocomotion playerLocomotion;
         public Animator anim;
-        public InputHandler inputHandler;
-        public PlayerLocomotion playerLocomotion;
 
         int vertical;
         int horizontal;
         public bool canRotate;
         
         public void Initialize() {
+            playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -41,7 +43,7 @@ namespace sg {
             else h = 0;
             #endregion
 
-            if (isSprinting) {
+            if (isSprinting && inputHandler.moveAmount > 0) {
                 v = 2;
                 h = horizontalMovement;
             }
@@ -49,10 +51,11 @@ namespace sg {
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
+        // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            anim.CrossFade(targetAnim, 0.3f);
         }
 
         public void CanRotate() {
@@ -63,7 +66,7 @@ namespace sg {
         }
 
         private void OnAnimatorMove() {
-            if(!inputHandler.isInteracting)
+            if(!playerManager.isInteracting)
                 return;
 
             float delta = Time.deltaTime;
