@@ -9,6 +9,11 @@ namespace sg {
         public float moveAmount;
         public float mouseX, mouseY;
 
+        public bool b_Input;
+        public bool rollFlag;
+        public bool isInteracting;
+
+        // Input Action 인스턴스
         PlayerControls inputActions;
         CameraHandler cameraHandler;
 
@@ -43,6 +48,7 @@ namespace sg {
 
         public void TickInput(float delta) {
             MoveInput(delta);
+            HandleRollInput(delta);
         }
 
         private void MoveInput(float delta) {
@@ -51,6 +57,15 @@ namespace sg {
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
+        }
+
+        // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.
+        private void HandleRollInput(float delta) {
+            b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            if (b_Input) {
+                //Debug.Log("rollFlag : " + rollFlag);
+                rollFlag = true;
+            }
         }
     }
 }

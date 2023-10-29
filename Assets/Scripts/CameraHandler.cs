@@ -52,8 +52,8 @@ namespace sg {
 
             HandleCameraCollision(delta);
 
-            Debug.Log("플레이어 Position : " + targetTransform.position);
-            Debug.Log("카메라 PivotPosition : " + cameraPivotTransform.position);
+            //Debug.Log("플레이어 Position : " + targetTransform.position);
+            //Debug.Log("카메라 PivotPosition : " + cameraPivotTransform.position);
         }
 
         /*
@@ -88,7 +88,7 @@ namespace sg {
             Vector3 direction = cameraTransform.position - cameraPivotTransform.position; // 플레이어의 좌표로부터 카메라까지의 방향
             direction.Normalize();
             
-            Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
+            //Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
 
             if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayers)) {
                 // 플레이어의 좌표로부터 카메라의 방향으로 ray를 발사하여 카메라를 제외한 무언가와 충돌했을 경우 충돌한 좌표까지의 거리
@@ -104,7 +104,7 @@ namespace sg {
                 targetPosition = -minimumCollisionOffset;
             }
 
-            Debug.Log("카메라 이동거리(?)" + targetPosition);
+            //Debug.Log("카메라 이동거리" + targetPosition);
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
             cameraTransform.localPosition = cameraTransformPosition;
         }

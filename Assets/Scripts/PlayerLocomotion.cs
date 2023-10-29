@@ -34,22 +34,8 @@ namespace sg {
         public void Update() {
             float delta = Time.deltaTime;
             inputHandler.TickInput(delta);
-            // 이동방향에 입력을 반영한다.
-            moveDirection = cameraObject.forward * inputHandler.vertical;
-            moveDirection += cameraObject.right * inputHandler.horizontal;
-            moveDirection.Normalize();
-            moveDirection.y = 0;
-
-            float speed = movementSpeed;
-            moveDirection *= speed; // 이동속도 반영
-
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
-            rigidbody.velocity = projectedVelocity;
-            
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
-
-            if(animatorHandler.canRotate)
-                HandleRotation(delta);
+            HandleMovement(delta);
+            HandleRollingAndSprinting(delta);
         }
         #region Movement
         Vector3 normalVector;
@@ -67,9 +53,9 @@ namespace sg {
             targetDir.y = 0;
 
             // 방향 조작이 없다면 캐릭터의 현재좌표에서 정면을 바라봄
-            if(targetDir == Vector3.zero)
+            if (targetDir == Vector3.zero)
                 targetDir = myTransform.forward;
-            
+
             float moveOverride = inputHandler.moveAmount;
 
             // 스크립트에서 회전 처리를 다루는 경우 Quaternion 클래스와 이 클래스의 함수를 사용하여 회전 값을 만들고 수정해야 한다.
@@ -78,6 +64,54 @@ namespace sg {
             Quaternion tr = Quaternion.LookRotation(targetDir); // 회전
             Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta); // 회전이 부드럽게 이어지도록한다
             myTransform.rotation = targetRotation; // 회전값을 Quaternion으로 저장한다.
+        }
+
+        public void HandleMovement(float delta) {
+            // 이동방향에 입력을 반영한다.
+            moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
+            moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
+            moveDirection.Normalize();
+            moveDirection.y = 0;
+
+            float speed = movementSpeed;
+            moveDirection *= speed; // 이동속도 반영
+
+            /*
+             * Vector3.ProjectOnPlane(Vector3 vector, Vector3 normalVector)
+             * @vector - 정사영하고자 하는 벡터
+             * @normalVector - 면의 법선 벡터
+             * vector를 normalVector에 수직인 방향으로 투영된 벡터를 반환한다.
+             * 플레이어가 이동하는 방향을 바닥면의 법선벡터에 대해 정사영하여 바닥면에 수직인 방향을 구함
+             * 기울어진 바닥을 따라 이동할 때, 수직방향을 유지하며 이동할 수 있다.
+             */
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            rigidbody.velocity = projectedVelocity;
+
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
+
+            if (animatorHandler.canRotate)
+                HandleRotation(delta);
+        }
+
+        public void HandleRollingAndSprinting(float delta) {
+            if(animatorHandler.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
+                return;
+
+            if (inputHandler.rollFlag) {
+                moveDirection = cameraObject.forward * inputHandler.vertical;
+                moveDirection += cameraObject.right * inputHandler.horizontal;
+
+                if (inputHandler.moveAmount > 0) { // 이동중이라면 구르기
+                    //Debug.Log("구르기!!!");
+                    animatorHandler.PlayTargetAnimation("Rolling", true);
+                    moveDirection.y = 0;
+                    Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = rollRotation;
+                } else { // 이동중이 아니라면 백스텝
+                    //Debug.Log("백스텝!!!");
+                    animatorHandler.PlayTargetAnimation("Backstep", true);
+                }
+            }
         }
         #endregion
     }
