@@ -11,8 +11,10 @@ namespace sg {
 
         public bool b_Input;
         public bool rollFlag;
+        public bool sprintFlag;
+        public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public bool isInteracting;
-
+       
         // Input Action 인스턴스
         PlayerControls inputActions;
         CameraHandler cameraHandler;
@@ -64,7 +66,14 @@ namespace sg {
             b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
             if (b_Input) {
                 //Debug.Log("rollFlag : " + rollFlag);
-                rollFlag = true;
+                rollInputTimer += delta;
+                sprintFlag = true;
+            } else {
+                if (rollInputTimer > 0 && rollInputTimer < 0.25f) {
+                    sprintFlag = false;
+                    rollFlag = true;
+                }
+                rollInputTimer = 0;
             }
         }
     }

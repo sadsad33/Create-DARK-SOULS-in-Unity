@@ -20,7 +20,11 @@ namespace sg {
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
+        float sprintSpeed = 7;
+        [SerializeField]
         float rotationSpeed = 10;
+
+        public bool isSprinting;
 
         void Start() {
             rigidbody = GetComponent<Rigidbody>();
@@ -33,6 +37,7 @@ namespace sg {
 
         public void Update() {
             float delta = Time.deltaTime;
+            isSprinting = inputHandler.b_Input; // b버튼을 누르고 있다면 true가, 아니라면 false가 됨
             inputHandler.TickInput(delta);
             HandleMovement(delta);
             HandleRollingAndSprinting(delta);
@@ -67,6 +72,9 @@ namespace sg {
         }
 
         public void HandleMovement(float delta) {
+
+            if (inputHandler.rollFlag) return;
+
             // 이동방향에 입력을 반영한다.
             moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
             moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
@@ -74,6 +82,11 @@ namespace sg {
             moveDirection.y = 0;
 
             float speed = movementSpeed;
+
+            if (inputHandler.sprintFlag) {
+                speed = sprintSpeed;
+                isSprinting = true;
+            }
             moveDirection *= speed; // 이동속도 반영
 
             /*
@@ -87,14 +100,14 @@ namespace sg {
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             rigidbody.velocity = projectedVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
 
             if (animatorHandler.canRotate)
                 HandleRotation(delta);
         }
 
         public void HandleRollingAndSprinting(float delta) {
-            if(animatorHandler.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
+            if (animatorHandler.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
                 return;
 
             if (inputHandler.rollFlag) {
