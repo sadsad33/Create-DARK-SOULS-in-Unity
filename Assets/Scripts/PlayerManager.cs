@@ -14,6 +14,7 @@ namespace sg {
         void Update() {
             inputHandler.isInteracting = anim.GetBool("isInteracting");
             inputHandler.rollFlag = false; // 회피 플래그 리셋
+            inputHandler.sprintFlag = false; // 스프린트 플래그 리셋
         }
     }
 

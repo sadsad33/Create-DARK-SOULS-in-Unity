@@ -8,7 +8,7 @@ namespace sg {
         public Transform targetTransform;
         // 카메라의 위치
         public Transform cameraTransform;
-        // 카메라의 회전 중심 위치(?)
+        // 카메라의 회전 중심 위치
         public Transform cameraPivotTransform;
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
         private Vector3 cameraTransformPosition;
