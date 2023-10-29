@@ -6,7 +6,8 @@ namespace sg {
     public class PlayerLocomotion : MonoBehaviour {
         Transform cameraObject;
         InputHandler inputHandler;
-        Vector3 moveDirection;
+        PlayerManager playerManager;
+        public Vector3 moveDirection;
 
         [HideInInspector]
         public Transform myTransform;
@@ -16,32 +17,45 @@ namespace sg {
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
-        [Header("Stats")]
+        // 플레이어의 Collider를 살짝 위로 들어올렸기 때문에 플레이어의 다리 부분이 묻히게 된다.
+        // 따라서 Collider의 끝 부분에서 레이캐스트를 바닥으로 쏴서 착지, 낙하를 감지함
+        [Header("Ground & Air Detection Stats")]
+        [SerializeField]
+        float groundDetectionRayStartPoint = 0.5f; // 플레이어로부터 뻗어나가는 레이캐스트 시작 지점
+        [SerializeField]
+        float minimumDistanceNeededToBeginFall = 1f; // 플레이어가 떨어지는 최소 높이
+        [SerializeField]
+        float groundDirectionRayDistance = 0.2f; // 레이캐스트시작 지점 오프셋
+        LayerMask ignoreForGroundCheck;
+        public float inAirTimer;
+
+        [Header("Movement Stats")]
         [SerializeField]
         float movementSpeed = 5;
+        [SerializeField]
+        float walkingSpeed = 1;
         [SerializeField]
         float sprintSpeed = 7;
         [SerializeField]
         float rotationSpeed = 10;
-
-        public bool isSprinting;
+        [SerializeField]
+        float fallingSpeed = 80;
+        
 
         void Start() {
+            playerManager = GetComponent<PlayerManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
+
+            playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
+            ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
         }
 
-        public void Update() {
-            float delta = Time.deltaTime;
-            isSprinting = inputHandler.b_Input; // b버튼을 누르고 있다면 true가, 아니라면 false가 됨
-            inputHandler.TickInput(delta);
-            HandleMovement(delta);
-            HandleRollingAndSprinting(delta);
-        }
+        
         #region Movement
         Vector3 normalVector;
         Vector3 targetPosition;
@@ -71,10 +85,11 @@ namespace sg {
             myTransform.rotation = targetRotation; // 회전값을 Quaternion으로 저장한다.
         }
 
+        // 캐릭터 이동
         public void HandleMovement(float delta) {
 
             if (inputHandler.rollFlag) return;
-
+            if (playerManager.isInteracting) return;
             // 이동방향에 입력을 반영한다.
             moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
             moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
@@ -85,7 +100,7 @@ namespace sg {
 
             if (inputHandler.sprintFlag) {
                 speed = sprintSpeed;
-                isSprinting = true;
+                playerManager.isSprinting = true;
             }
             moveDirection *= speed; // 이동속도 반영
 
@@ -100,12 +115,13 @@ namespace sg {
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             rigidbody.velocity = projectedVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
 
             if (animatorHandler.canRotate)
                 HandleRotation(delta);
         }
 
+        // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             if (animatorHandler.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
                 return;
@@ -122,7 +138,71 @@ namespace sg {
                     myTransform.rotation = rollRotation;
                 } else { // 이동중이 아니라면 백스텝
                     //Debug.Log("백스텝!!!");
-                    animatorHandler.PlayTargetAnimation("Backstep", true);
+                    if (inputHandler.backstepDelay > 0.3f) {
+                        animatorHandler.PlayTargetAnimation("Backstep", true);
+                        rigidbody.AddForce(-myTransform.forward * 20, ForceMode.Impulse);
+                    }
+                }
+            }
+        }
+
+        // 낙하
+        public void HandleFalling(float delta, Vector3 moveDirection) {
+            playerManager.isGrounded = false;
+            RaycastHit hit;
+            Vector3 origin = myTransform.position; // 낙하 시작지점
+            origin.y += groundDetectionRayStartPoint; // 레이캐스트 시작 지점 설정
+
+            if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f)) {
+                moveDirection = Vector3.zero;
+            }
+
+            if (playerManager.isInAir) {
+                rigidbody.AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
+                rigidbody.AddForce(moveDirection * fallingSpeed / 5f); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
+            }
+
+            Vector3 dir = moveDirection;
+            dir.Normalize();
+            origin += dir * groundDirectionRayDistance; 
+            targetPosition = myTransform.position;
+            Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
+            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
+                normalVector = hit.normal; // 아래쪽으로 레이를 쏴서 부딪힌 지점의 법선 벡터
+                Vector3 tp = hit.point; // 착지할 곳의 좌표
+                playerManager.isGrounded = true;
+                targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
+                
+                if (playerManager.isInAir) { // 플레이어가 공중에 있다면
+                    if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
+                        Debug.Log("You were in the air for" + inAirTimer);
+                        animatorHandler.PlayTargetAnimation("Land", true);
+                        playerManager.isInteracting = true;
+                    } else { // 일반 이동 애니메이션으로 전환
+                        animatorHandler.PlayTargetAnimation("Locomotion", false);
+                    }
+                    inAirTimer = 0;
+                    playerManager.isInAir = false;
+                }
+            } else { // 현재 땅과의 거리가 최소 낙하거리보다 크다면
+                if (playerManager.isGrounded) { 
+                    playerManager.isGrounded = false; // flag 변경
+                }
+                if (!playerManager.isInAir) { 
+                    if (!playerManager.isInteracting) { 
+                        animatorHandler.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
+                    }
+                    Vector3 vel = rigidbody.velocity;
+                    vel.Normalize();
+                    rigidbody.velocity = vel * (movementSpeed / 2);
+                    playerManager.isInAir = true; // flag 변경
+                }
+            }
+            if (playerManager.isGrounded) {
+                if (playerManager.isInteracting || inputHandler.moveAmount > 0) {
+                    myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, Time.deltaTime);
+                } else {
+                    myTransform.position = targetPosition;
                 }
             }
         }

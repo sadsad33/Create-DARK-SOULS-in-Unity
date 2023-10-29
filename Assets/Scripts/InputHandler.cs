@@ -13,27 +13,15 @@ namespace sg {
         public bool rollFlag;
         public bool sprintFlag;
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
-        public bool isInteracting;
-       
+        public float backstepDelay;
         // Input Action 인스턴스
         PlayerControls inputActions;
-        CameraHandler cameraHandler;
-
+      
         Vector2 movementInput;
         Vector2 cameraInput;
 
-        private void Awake() {
-            cameraHandler = CameraHandler.singleton;
-        }
-
-        private void FixedUpdate() {
-            float delta = Time.fixedDeltaTime;
-
-            if (cameraHandler != null) {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
-            }
-        }
+        
+        
 
         public void OnEnable() {
             if (inputActions == null) {
@@ -64,12 +52,12 @@ namespace sg {
         // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.
         private void HandleRollInput(float delta) {
             b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
-            if (b_Input) {
+            if (b_Input) { // 회피버튼을 누르고 있는 동안
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
                 sprintFlag = true;
             } else {
-                if (rollInputTimer > 0 && rollInputTimer < 0.25f) {
+                if (rollInputTimer > 0 && rollInputTimer < 0.3f) {
                     sprintFlag = false;
                     rollFlag = true;
                 }
