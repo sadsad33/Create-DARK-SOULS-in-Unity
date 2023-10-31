@@ -40,7 +40,7 @@ namespace sg {
         float rotationSpeed = 10;
         [SerializeField]
         float fallingSpeed = 80;
-        
+
 
         void Start() {
             playerManager = GetComponent<PlayerManager>();
@@ -55,7 +55,7 @@ namespace sg {
             ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
         }
 
-        
+
         #region Movement
         Vector3 normalVector;
         Vector3 targetPosition;
@@ -98,11 +98,19 @@ namespace sg {
 
             float speed = movementSpeed;
 
-            if (inputHandler.sprintFlag) {
+            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
+                moveDirection *= speed; // 이동속도 반영
+            } else {
+                if (inputHandler.moveAmount < 0.5f) {
+                    moveDirection *= walkingSpeed;
+                    playerManager.isSprinting = false;
+                } else {
+                    moveDirection *= speed;
+                    playerManager.isSprinting = false;
+                }
             }
-            moveDirection *= speed; // 이동속도 반영
 
             /*
              * Vector3.ProjectOnPlane(Vector3 vector, Vector3 normalVector)
@@ -164,7 +172,7 @@ namespace sg {
 
             Vector3 dir = moveDirection;
             dir.Normalize();
-            origin += dir * groundDirectionRayDistance; 
+            origin += dir * groundDirectionRayDistance;
             targetPosition = myTransform.position;
             Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
             if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
@@ -172,7 +180,7 @@ namespace sg {
                 Vector3 tp = hit.point; // 착지할 곳의 좌표
                 playerManager.isGrounded = true;
                 targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
-                
+
                 if (playerManager.isInAir) { // 플레이어가 공중에 있다면
                     if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
                         Debug.Log("You were in the air for" + inAirTimer);
@@ -185,11 +193,11 @@ namespace sg {
                     playerManager.isInAir = false;
                 }
             } else { // 현재 땅과의 거리가 최소 낙하거리보다 크다면
-                if (playerManager.isGrounded) { 
+                if (playerManager.isGrounded) {
                     playerManager.isGrounded = false; // flag 변경
                 }
-                if (!playerManager.isInAir) { 
-                    if (!playerManager.isInteracting) { 
+                if (!playerManager.isInAir) {
+                    if (!playerManager.isInteracting) {
                         animatorHandler.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
                     }
                     Vector3 vel = rigidbody.velocity;

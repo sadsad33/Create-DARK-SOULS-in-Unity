@@ -58,7 +58,8 @@ namespace sg {
         private void LateUpdate() {
             inputHandler.rollFlag = false; // 회피 플래그 리셋
             inputHandler.sprintFlag = false; // 스프린트 플래그 리셋
-            isSprinting = inputHandler.b_Input; // b버튼을 누르고 있다면 true가, 아니라면 false가 됨
+            inputHandler.rb_Input = false; // 약공격 플래그 리셋
+            inputHandler.rt_Input = false; // 강공격 플래그 리셋
 
             if (isInAir) { // 플레이어가 허공에 있다면
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
