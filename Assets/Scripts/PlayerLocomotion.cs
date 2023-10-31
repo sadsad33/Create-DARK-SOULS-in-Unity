@@ -186,8 +186,8 @@ namespace sg {
                         Debug.Log("You were in the air for" + inAirTimer);
                         animatorHandler.PlayTargetAnimation("Land", true);
                         playerManager.isInteracting = true;
-                    } else { // 일반 이동 애니메이션으로 전환
-                        animatorHandler.PlayTargetAnimation("Locomotion", false);
+                    } else {
+                        animatorHandler.PlayTargetAnimation("Empty", false);
                     }
                     inAirTimer = 0;
                     playerManager.isInAir = false;
