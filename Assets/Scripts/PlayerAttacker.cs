@@ -5,19 +5,32 @@ using UnityEngine;
 namespace sg {
     public class PlayerAttacker : MonoBehaviour {
         AnimatorHandler animatorHandler;
-        PlayerManager playerManager;
+        InputHandler inputHandler;
+
+        public string lastAttack;
         public void Awake() {
-            playerManager = GetComponent<PlayerManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            inputHandler = GetComponent<InputHandler>();
         }
+
+        public void HandleWeaponCombo(WeaponItem weapon) {
+            if (inputHandler.comboFlag) {
+                animatorHandler.anim.SetBool("canDoCombo", false);
+                if (lastAttack == weapon.OH_Light_Attack_1) {
+                    Debug.Log("콤보 공격 실행");
+                    animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
+                }
+            }
+        }
+
         public void HandleLightAttack(WeaponItem weapon) {
-            if (playerManager.isInteracting) return;
             animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
+            lastAttack = weapon.OH_Light_Attack_1;
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {
-            if (playerManager.isInteracting) return;
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+            lastAttack = weapon.OH_Heavy_Attack_1;
         }
     }
 }

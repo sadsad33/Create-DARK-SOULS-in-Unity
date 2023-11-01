@@ -15,12 +15,15 @@ namespace sg {
 
         public bool rollFlag;
         public bool sprintFlag;
+        public bool comboFlag;
+        
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public float backstepDelay;
         // Input Action 인스턴스
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
+        PlayerManager playerManager;
 
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -28,6 +31,7 @@ namespace sg {
         public void Awake() {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerManager = GetComponent<PlayerManager>();
         }
         public void OnEnable() {
             if (inputActions == null) {
@@ -78,9 +82,19 @@ namespace sg {
 
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
-                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                if (playerManager.canDoCombo) {
+                    comboFlag = true;
+                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                    comboFlag = false;
+                } else {
+                    if (playerManager.isInteracting) return;
+                    if (playerManager.canDoCombo) return;
+                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                }
             }
             if (rt_Input) {
+                if (playerManager.isInteracting) return;
+                if (playerManager.canDoCombo) return;
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
             
