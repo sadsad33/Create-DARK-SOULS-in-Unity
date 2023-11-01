@@ -40,6 +40,7 @@ namespace sg {
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            targetTransform = FindObjectOfType<PlayerManager>().transform;
         }
 
         // 카메라가 대상을 따라가도록 하는 함수

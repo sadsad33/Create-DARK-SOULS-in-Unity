@@ -6,6 +6,7 @@ namespace sg {
     public class WeaponSlotManager : MonoBehaviour {
         WeaponHolderSlot leftHandSlot, rightHandSlot;
 
+        DamageCollider leftHandDamageCollider, rightHandDamageCollider;
         private void Awake() {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>(); // 플레이어의 왼손과 오른손에 있는 WeaponHolderSlot을 모두 가져온다.
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
@@ -17,10 +18,41 @@ namespace sg {
         }
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
-            if (isLeft)
+            if (isLeft) {
                 leftHandSlot.LoadWeaponModel(weaponItem);
-            else
+                LoadLeftWeaponDamageCollider();
+            } else {
                 rightHandSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
+            }
         }
+
+        #region Handle Weapon's Damage Collider
+        // 애니메이션을 내에 event로 다음의 함수들을 사용할 것
+        private void LoadLeftWeaponDamageCollider() {
+            leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        private void LoadRightWeaponDamageCollider() {
+            rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void OpenRightDamageCollider() {
+            rightHandDamageCollider.EnableDamageCollider();
+        }
+
+        public void CloseRightDamageCollider() {
+            rightHandDamageCollider.DisableDamageCollider();
+        }
+
+        public void OpenLeftDamageCollider() {
+            leftHandDamageCollider.EnableDamageCollider();
+        }
+
+        public void CloseLeftDamageCollider() {
+            leftHandDamageCollider.DisableDamageCollider();
+        }
+
+        #endregion
     }
 }
