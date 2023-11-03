@@ -10,9 +10,10 @@ namespace sg {
 
         Animator animator;
 
+        QuickSlots quickSlots;
         private void Awake() {
             animator = GetComponent<Animator>();
-
+            quickSlots = FindObjectOfType<QuickSlots>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>(); // 플레이어의 왼손과 오른손에 있는 WeaponHolderSlot을 모두 가져온다.
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
                 if (weaponSlot.isLeftHandSlot)
@@ -26,6 +27,7 @@ namespace sg {
             if (isLeft) {
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
+                quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
 
                 #region Handle Left Weapon Idle Animation
                 if (weaponItem != null) {
@@ -37,7 +39,7 @@ namespace sg {
             } else {
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
-
+                quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
                 #region Handle Right Weapon Idle Animation
                 if (weaponItem != null) {
                     animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);

@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7067eea7413364d847461fc0777f6a, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 66aecd82b6b8d3c43af70dad8c7689bd, type: 3}
   itemName: Sword
   modelPrefab: {fileID: 4542352730122972032, guid: b7dac9745987ca0438f9cc67b18b7361, type: 3}
   isUnarmed: 0
   Right_Hand_Idle: Right_Arm_Idle_1
   Left_Hand_Idle: Left_Arm_Idle_1
+  UnarmedAttack1: 
+  UnarmedAttack2: 
   OH_Light_Attack_1: OH_Light_Attack_1
   OH_Light_Attack_2: OH_Light_Attack_2
   OH_Heavy_Attack_1: HeavyAttack
