@@ -7,7 +7,12 @@ namespace sg {
         WeaponHolderSlot leftHandSlot, rightHandSlot;
 
         DamageCollider leftHandDamageCollider, rightHandDamageCollider;
+
+        Animator animator;
+
         private void Awake() {
+            animator = GetComponent<Animator>();
+
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>(); // 플레이어의 왼손과 오른손에 있는 WeaponHolderSlot을 모두 가져온다.
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
                 if (weaponSlot.isLeftHandSlot)
@@ -21,9 +26,25 @@ namespace sg {
             if (isLeft) {
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
+
+                #region Handle Left Weapon Idle Animation
+                if (weaponItem != null) {
+                    animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
+                } else {
+                    animator.CrossFade("Left Arm Empty", 0.2f);
+                }
+                #endregion
             } else {
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
+
+                #region Handle Right Weapon Idle Animation
+                if (weaponItem != null) {
+                    animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
+                } else {
+                    animator.CrossFade("Right Arm Empty", 0.2f);
+                }
+                #endregion
             }
         }
 
