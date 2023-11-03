@@ -6,7 +6,7 @@ namespace sg {
     public class PlayerAttacker : MonoBehaviour {
         AnimatorHandler animatorHandler;
         InputHandler inputHandler;
-
+        
         public string lastAttack;
         public void Awake() {
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -17,7 +17,7 @@ namespace sg {
             if (inputHandler.comboFlag) {
                 animatorHandler.anim.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
-                    Debug.Log("콤보 공격 실행");
+                    //Debug.Log("콤보 공격 실행");
                     animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
                 }
             }

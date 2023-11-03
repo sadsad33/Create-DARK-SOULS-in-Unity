@@ -7,8 +7,8 @@ namespace sg {
         WeaponSlotManager weaponSlotManager;
         public WeaponItem rightWeapon, leftWeapon, unarmedWeapon;
 
-        public WeaponItem[] weaponsInRightHandSlot = new WeaponItem[1]; // 오른손 무기슬롯
-        public WeaponItem[] weaponsInLeftHandSlot = new WeaponItem[1]; // 왼손 무기슬롯
+        public WeaponItem[] weaponsInRightHandSlot = new WeaponItem[2]; // 오른손 무기슬롯
+        public WeaponItem[] weaponsInLeftHandSlot = new WeaponItem[2]; // 왼손 무기슬롯
 
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
@@ -17,19 +17,12 @@ namespace sg {
         }
 
         private void Start() {
-            //rightWeapon = weaponsInRightHandSlot[currentRightWeaponIndex];
-            //leftWeapon = weaponsInLeftHandSlot[currentLeftWeaponIndex];
-            //weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            //weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
-            currentRightWeaponIndex = -1;
-            currentLeftWeaponIndex = -1; 
             rightWeapon = unarmedWeapon;
             leftWeapon = unarmedWeapon;
-            Debug.Log(currentRightWeaponIndex + "," + currentLeftWeaponIndex);
         }
 
         public void ChangeRightWeapon() {
-            currentRightWeaponIndex = currentRightWeaponIndex + 1; // 다음인덱스로 넘어간다.
+            currentRightWeaponIndex += 1; // 다음인덱스로 넘어간다.
 
             // 다음 인덱스가 0일 경우
             if (currentRightWeaponIndex == 0 && weaponsInRightHandSlot[0] != null) {
@@ -39,7 +32,7 @@ namespace sg {
                 currentRightWeaponIndex += 1;
             }
 
-            // 다음 인덱스가 1일 경우
+            //다음 인덱스가 1일 경우
             else if (currentRightWeaponIndex == 1 && weaponsInRightHandSlot[1] != null) {
                 rightWeapon = weaponsInRightHandSlot[currentRightWeaponIndex];
                 weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
