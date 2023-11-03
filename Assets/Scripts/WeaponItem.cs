@@ -14,6 +14,10 @@ namespace sg {
         public string Right_Hand_Idle;
         public string Left_Hand_Idle;
 
+        [Header("Unarmed Animations")]
+        public string UnarmedAttack1;
+        public string UnarmedAttack2;
+
         [Header("One Handed Attack Animations")]
         public string OH_Light_Attack_1;
         public string OH_Light_Attack_2;
