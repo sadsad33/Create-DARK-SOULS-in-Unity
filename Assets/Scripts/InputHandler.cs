@@ -12,6 +12,10 @@ namespace sg {
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool d_Pad_Up;
+        public bool d_Pad_Down;
+        public bool d_Pad_Right;
+        public bool d_Pad_Left;
 
         public bool rollFlag;
         public bool sprintFlag;
@@ -46,10 +50,12 @@ namespace sg {
             inputActions.Disable();
         }
 
+        // 모든 입력 감지
         public void TickInput(float delta) {
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleQuickSlotInput(delta);
         }
 
         private void MoveInput(float delta) {
@@ -98,6 +104,16 @@ namespace sg {
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
             
+        }
+
+        private void HandleQuickSlotInput(float delta) {
+            inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
+            inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
+            if (d_Pad_Right) {
+                playerInventory.ChangeRightWeapon();
+            } else if (d_Pad_Left) {
+                playerInventory.ChangeLeftWeapon();
+            }
         }
     }
 }
