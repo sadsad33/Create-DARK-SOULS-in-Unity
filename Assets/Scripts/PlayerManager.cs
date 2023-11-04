@@ -10,6 +10,8 @@ namespace sg {
         InputHandler inputHandler;
         Animator anim;
         public bool isInteracting;
+        public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
+        public GameObject itemInteractableGameObject; // 아이템 획득 메세지
 
         [Header("Player Flags")]
         public bool isSprinting;
@@ -19,6 +21,7 @@ namespace sg {
 
         PlayerLocomotion playerLocomotion;
         CameraHandler cameraHandler;
+        InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
         private void Awake() {
             cameraHandler = FindObjectOfType<CameraHandler>();
         }
@@ -27,6 +30,7 @@ namespace sg {
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            interactableUI = FindObjectOfType<InteractableUI>();
         }
 
         void Update() {
@@ -82,14 +86,21 @@ namespace sg {
                     Interactable interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null) {
                         string interactableText = interactableObject.interactableText;
-                        //Set the UI Text to the interactable object's text
-                        //Set the UI Pop up to true
-
+                        interactableUI.interactableText.text = interactableText;
+                        interactableUIGameObject.SetActive(true);
+                        
                         if (inputHandler.a_Input) {
-                            Debug.Log("아이템 먹기");
                             hit.collider.GetComponent<Interactable>().Interact(this);
                         }
                     }
+                }
+            } else { // 주변에 상호작용가능한 오브젝트가 없음에도 메세지창이 떠있지 않도록
+                if (interactableUIGameObject != null) {
+                    interactableUIGameObject.SetActive(false);
+                }
+
+                if (itemInteractableGameObject != null && inputHandler.a_Input) {
+                    itemInteractableGameObject.SetActive(false);
                 }
             }
         }
