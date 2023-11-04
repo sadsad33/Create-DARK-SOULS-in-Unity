@@ -192,6 +192,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""A-button"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f56557a-0b27-4526-b8da-03e3f378ff33"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -326,6 +335,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""D-pad Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ad86aa7-fe37-47d2-96ed-31f18aaa94bf"",
+                    ""path"": ""<NimbusGamepadHid>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A-button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dba96aad-7445-4c2d-8326-f9ebdba8cb77"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A-button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -345,6 +376,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_DpadDown = m_PlayerActions.FindAction("D-pad Down", throwIfNotFound: true);
         m_PlayerActions_DpadRight = m_PlayerActions.FindAction("D-pad Right", throwIfNotFound: true);
         m_PlayerActions_DpadLeft = m_PlayerActions.FindAction("D-pad Left", throwIfNotFound: true);
+        m_PlayerActions_Abutton = m_PlayerActions.FindAction("A-button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -467,6 +499,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_DpadDown;
     private readonly InputAction m_PlayerActions_DpadRight;
     private readonly InputAction m_PlayerActions_DpadLeft;
+    private readonly InputAction m_PlayerActions_Abutton;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -478,6 +511,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @DpadDown => m_Wrapper.m_PlayerActions_DpadDown;
         public InputAction @DpadRight => m_Wrapper.m_PlayerActions_DpadRight;
         public InputAction @DpadLeft => m_Wrapper.m_PlayerActions_DpadLeft;
+        public InputAction @Abutton => m_Wrapper.m_PlayerActions_Abutton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -508,6 +542,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DpadLeft.started += instance.OnDpadLeft;
             @DpadLeft.performed += instance.OnDpadLeft;
             @DpadLeft.canceled += instance.OnDpadLeft;
+            @Abutton.started += instance.OnAbutton;
+            @Abutton.performed += instance.OnAbutton;
+            @Abutton.canceled += instance.OnAbutton;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -533,6 +570,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DpadLeft.started -= instance.OnDpadLeft;
             @DpadLeft.performed -= instance.OnDpadLeft;
             @DpadLeft.canceled -= instance.OnDpadLeft;
+            @Abutton.started -= instance.OnAbutton;
+            @Abutton.performed -= instance.OnAbutton;
+            @Abutton.canceled -= instance.OnAbutton;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -564,5 +604,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDpadDown(InputAction.CallbackContext context);
         void OnDpadRight(InputAction.CallbackContext context);
         void OnDpadLeft(InputAction.CallbackContext context);
+        void OnAbutton(InputAction.CallbackContext context);
     }
 }

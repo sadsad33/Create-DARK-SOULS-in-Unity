@@ -12,6 +12,8 @@ namespace sg {
 
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
+        public List<WeaponItem> weaponsInventory; // 플레이어의 인벤토리
+
         private void Awake() {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
