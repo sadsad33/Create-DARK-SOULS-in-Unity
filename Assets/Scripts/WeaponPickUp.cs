@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace sg {
     public class WeaponPickUp : Interactable {
@@ -11,7 +12,6 @@ namespace sg {
             PickUpItem(playerManager);
         }
         private void PickUpItem(PlayerManager playerManager) {
-            Debug.Log("아이템 줍기");
             PlayerInventory playerInventory;
             PlayerLocomotion playerLocomotion;
             AnimatorHandler animatorHandler;
@@ -23,6 +23,12 @@ namespace sg {
             playerLocomotion.rigidbody.velocity = Vector3.zero; // 플레이어가 아이템을 줍는동안 정지
             animatorHandler.PlayTargetAnimation("PickingUp", true);
             playerInventory.weaponsInventory.Add(weapon);
+            
+            // 무기 아이템을 줏을때는 무기 아이템의 이름이 표시되도록한다.
+            playerManager.itemInteractableGameObject.GetComponentInChildren<Text>().text = weapon.itemName;
+            playerManager.itemInteractableGameObject.GetComponentInChildren<RawImage>().texture = weapon.itemIcon.texture; 
+            playerManager.itemInteractableGameObject.SetActive(true);
+            
             Destroy(gameObject);
         }
     }
