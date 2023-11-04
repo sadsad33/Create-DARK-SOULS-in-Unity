@@ -38,6 +38,8 @@ namespace sg {
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+
+            CheckForInteractableObject();
             
             // 이동키와 백스텝키가 짧은 간격으로 눌리면 백스텝 이후 sprint 애니메이션이 실행되는 경우가 있다.
             // 이를 해결하기 위해 delay 추가
@@ -66,9 +68,29 @@ namespace sg {
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.d_Pad_Right = false;
+            inputHandler.a_Input = false;
 
             if (isInAir) { // 플레이어가 허공에 있다면
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+            }
+        }
+
+        public void CheckForInteractableObject() {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers)) {
+                if (hit.collider.tag == "Interactable") {
+                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+                    if (interactableObject != null) {
+                        string interactableText = interactableObject.interactableText;
+                        //Set the UI Text to the interactable object's text
+                        //Set the UI Pop up to true
+
+                        if (inputHandler.a_Input) {
+                            Debug.Log("아이템 먹기");
+                            hit.collider.GetComponent<Interactable>().Interact(this);
+                        }
+                    }
+                }
             }
         }
     }

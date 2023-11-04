@@ -16,11 +16,12 @@ namespace sg {
         public bool d_Pad_Down;
         public bool d_Pad_Right;
         public bool d_Pad_Left;
+        public bool a_Input;
 
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
-        
+
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public float backstepDelay;
         // Input Action 인스턴스
@@ -56,6 +57,7 @@ namespace sg {
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotInput(delta);
+            HandleInteractingButtonInput(delta);
         }
 
         private void MoveInput(float delta) {
@@ -103,7 +105,7 @@ namespace sg {
                 if (playerManager.canDoCombo) return;
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
-            
+
         }
 
         private void HandleQuickSlotInput(float delta) {
@@ -114,6 +116,10 @@ namespace sg {
             } else if (d_Pad_Left) {
                 playerInventory.ChangeLeftWeapon();
             }
+        }
+
+        private void HandleInteractingButtonInput(float delta) {
+            inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
         }
     }
 }
