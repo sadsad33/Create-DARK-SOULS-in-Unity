@@ -704,21 +704,21 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HeavyAttack
+  m_Name: OH_Heavy_Attack_1
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4861437400497679424}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a94a686258fcba64c9cd23ff05486f16, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3b62d04756f2fa946a6d4d29db850aea, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

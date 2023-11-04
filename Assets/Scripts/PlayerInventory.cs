@@ -7,8 +7,8 @@ namespace sg {
         WeaponSlotManager weaponSlotManager;
         public WeaponItem rightWeapon, leftWeapon, unarmedWeapon;
 
-        public WeaponItem[] weaponsInRightHandSlot = new WeaponItem[2]; // 오른손 무기슬롯
-        public WeaponItem[] weaponsInLeftHandSlot = new WeaponItem[2]; // 왼손 무기슬롯
+        public WeaponItem[] weaponsInRightHandSlot = new WeaponItem[1]; // 오른손 무기슬롯
+        public WeaponItem[] weaponsInLeftHandSlot = new WeaponItem[1]; // 왼손 무기슬롯
 
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
@@ -33,15 +33,15 @@ namespace sg {
             }
 
             //다음 인덱스가 1일 경우
-            else if (currentRightWeaponIndex == 1 && weaponsInRightHandSlot[1] != null) {
-                rightWeapon = weaponsInRightHandSlot[currentRightWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            } else {
-                currentRightWeaponIndex += 1;
-            }
+            //else if (currentRightWeaponIndex == 1 && weaponsInRightHandSlot[1] != null) {
+            //    rightWeapon = weaponsInRightHandSlot[currentRightWeaponIndex];
+            //    weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+            //} else {
+            //    currentRightWeaponIndex += 1;
+            //}
 
             // 배열의 인덱스가 범위를 벗어나면 무장해제 한다.
-            if (currentRightWeaponIndex > weaponsInRightHandSlot.Length) {
+            if (currentRightWeaponIndex >= weaponsInRightHandSlot.Length) {
                 currentRightWeaponIndex = -1;
                 rightWeapon = unarmedWeapon;
                 weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
@@ -56,14 +56,15 @@ namespace sg {
                 weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
             } else if (currentLeftWeaponIndex == 0 && weaponsInLeftHandSlot[0] == null) {
                 currentLeftWeaponIndex += 1;
-            } else if (currentLeftWeaponIndex == 1 && weaponsInLeftHandSlot[1] != null) {
-                leftWeapon = weaponsInLeftHandSlot[currentLeftWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
-            } else {
-                currentLeftWeaponIndex += 1;
             }
+            //} else if (currentLeftWeaponIndex == 1 && weaponsInLeftHandSlot[1] != null) {
+            //    leftWeapon = weaponsInLeftHandSlot[currentLeftWeaponIndex];
+            //    weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            //} else {
+            //    currentLeftWeaponIndex += 1;
+            //}
 
-            if (currentLeftWeaponIndex > weaponsInLeftHandSlot.Length) {
+            if (currentLeftWeaponIndex >= weaponsInLeftHandSlot.Length) {
                 currentLeftWeaponIndex = -1;
                 leftWeapon = unarmedWeapon;
                 weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
