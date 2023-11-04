@@ -99,6 +99,7 @@ namespace sg {
                     interactableUIGameObject.SetActive(false);
                 }
 
+                // 아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
                     itemInteractableGameObject.SetActive(false);
                 }
