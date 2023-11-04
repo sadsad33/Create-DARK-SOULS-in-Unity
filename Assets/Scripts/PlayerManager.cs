@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Update Method를 주로 처리
+// 플레이어를 위한 Update 함수를 처리
 // 플레이어의 각종 Flag를 처리한다.
 // 플레이어의 각종 기능들을 연결한다.
 namespace sg {

@@ -22,5 +22,10 @@ namespace sg {
         public string OH_Light_Attack_1;
         public string OH_Light_Attack_2;
         public string OH_Heavy_Attack_1;
+
+        [Header("Stamina Costs")]
+        public int baseStamina;
+        public float lightAttackMultiplier;
+        public float heavyAttackMultiplier;
     }
 }
