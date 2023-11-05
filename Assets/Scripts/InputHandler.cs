@@ -17,10 +17,13 @@ namespace sg {
         public bool d_Pad_Right;
         public bool d_Pad_Left;
         public bool a_Input;
+        public bool jump_Input;
+        public bool inventory_Input;
 
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
+        public bool inventoryFlag;
 
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public float backstepDelay;
@@ -29,7 +32,7 @@ namespace sg {
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
-
+        UIManager uiManager;
         Vector2 movementInput;
         Vector2 cameraInput;
 
@@ -37,6 +40,7 @@ namespace sg {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
         public void OnEnable() {
             if (inputActions == null) {
@@ -58,6 +62,8 @@ namespace sg {
             HandleAttackInput(delta);
             HandleQuickSlotInput(delta);
             HandleInteractingButtonInput(delta);
+            HandleJumpInput(delta);
+            HandleInventoryInput(delta);
         }
 
         private void MoveInput(float delta) {
@@ -120,6 +126,22 @@ namespace sg {
 
         private void HandleInteractingButtonInput(float delta) {
             inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
+        }
+
+        private void HandleJumpInput(float delta) {
+            inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
+        }
+
+        private void HandleInventoryInput(float delta) {
+            inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
+            if (inventory_Input) {
+                inventoryFlag = !inventoryFlag;
+                if (inventoryFlag) {
+                    uiManager.OpenSelectWindow();
+                } else {
+                    uiManager.CloseSelectWindow();
+                }
+            }
         }
     }
 }

@@ -37,11 +37,13 @@ namespace sg {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
+            anim.SetBool("isInAir", isInAir);
 
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            playerLocomotion.HandleJumping();
 
             CheckForInteractableObject();
             
@@ -64,15 +66,18 @@ namespace sg {
         }
 
         private void LateUpdate() {
-            inputHandler.rollFlag = false; // 회피 플래그 리셋
-            inputHandler.sprintFlag = false; // 스프린트 플래그 리셋
-            inputHandler.rb_Input = false; // 약공격 플래그 리셋
-            inputHandler.rt_Input = false; // 강공격 플래그 리셋
+            // 1프레임당 한번의 호출만 이뤄지도록 한다.
+            inputHandler.rollFlag = false;
+            inputHandler.sprintFlag = false;
+            inputHandler.rb_Input = false;
+            inputHandler.rt_Input = false;
             inputHandler.d_Pad_Up = false;
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.d_Pad_Right = false;
             inputHandler.a_Input = false;
+            inputHandler.jump_Input = false;
+            inputHandler.inventory_Input = false;
 
             if (isInAir) { // 플레이어가 허공에 있다면
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;

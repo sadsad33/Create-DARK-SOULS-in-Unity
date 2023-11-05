@@ -201,6 +201,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""e29e90a0-d932-498e-ad0b-d6a962ab3802"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ad06337-3c66-4228-8cce-927df9213491"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -357,6 +375,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""A-button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58a3b8eb-799f-4bb0-b9d2-8f847226662f"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e52ba2a-1053-44d9-8034-ba9287dace16"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""837b442b-e741-48e2-a5be-6c9e9347f367"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -377,6 +428,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_DpadRight = m_PlayerActions.FindAction("D-pad Right", throwIfNotFound: true);
         m_PlayerActions_DpadLeft = m_PlayerActions.FindAction("D-pad Left", throwIfNotFound: true);
         m_PlayerActions_Abutton = m_PlayerActions.FindAction("A-button", throwIfNotFound: true);
+        m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActions_Inventory = m_PlayerActions.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -500,6 +553,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_DpadRight;
     private readonly InputAction m_PlayerActions_DpadLeft;
     private readonly InputAction m_PlayerActions_Abutton;
+    private readonly InputAction m_PlayerActions_Jump;
+    private readonly InputAction m_PlayerActions_Inventory;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -512,6 +567,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @DpadRight => m_Wrapper.m_PlayerActions_DpadRight;
         public InputAction @DpadLeft => m_Wrapper.m_PlayerActions_DpadLeft;
         public InputAction @Abutton => m_Wrapper.m_PlayerActions_Abutton;
+        public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
+        public InputAction @Inventory => m_Wrapper.m_PlayerActions_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -545,6 +602,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Abutton.started += instance.OnAbutton;
             @Abutton.performed += instance.OnAbutton;
             @Abutton.canceled += instance.OnAbutton;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -573,6 +636,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Abutton.started -= instance.OnAbutton;
             @Abutton.performed -= instance.OnAbutton;
             @Abutton.canceled -= instance.OnAbutton;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -605,5 +674,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDpadRight(InputAction.CallbackContext context);
         void OnDpadLeft(InputAction.CallbackContext context);
         void OnAbutton(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

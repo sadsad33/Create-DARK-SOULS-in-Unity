@@ -57,6 +57,7 @@ namespace sg {
 
 
         #region Movement
+
         Vector3 normalVector;
         Vector3 targetPosition;
 
@@ -87,7 +88,6 @@ namespace sg {
 
         // 캐릭터 이동
         public void HandleMovement(float delta) {
-
             if (inputHandler.rollFlag) return;
             if (playerManager.isInteracting) return;
             // 이동방향에 입력을 반영한다.
@@ -167,7 +167,7 @@ namespace sg {
 
             if (playerManager.isInAir) {
                 rigidbody.AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
-                rigidbody.AddForce(moveDirection * fallingSpeed / 5f); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
+                rigidbody.AddForce(moveDirection * fallingSpeed / 7); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
             }
 
             Vector3 dir = moveDirection;
@@ -220,7 +220,32 @@ namespace sg {
             else
                 myTransform.position = targetPosition;
 
-            #endregion
         }
+
+        public void HandleJumping() {
+            if (playerManager.isInteracting) return;
+
+            if (inputHandler.jump_Input) {
+                if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
+                    moveDirection = cameraObject.forward * inputHandler.vertical;
+                    moveDirection += cameraObject.right * inputHandler.horizontal;
+                    
+                    // 리지드 바디의 현재 속도를 저장
+                    Vector3 currentVelocity = GetComponent<Rigidbody>().velocity;
+                    // 점프할 방향
+                    Vector3 jumpDirection = (moveDirection + Vector3.up).normalized;
+                    // 현재 속도에 점프 속도를 합성
+                    GetComponent<Rigidbody>().velocity = currentVelocity + jumpDirection * 20;
+
+                    animatorHandler.PlayTargetAnimation("Jump", true);
+                    //moveDirection.y = 0;
+                    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = jumpRotation;
+                }
+            }
+        }
+        #endregion
+
+
     }
 }
