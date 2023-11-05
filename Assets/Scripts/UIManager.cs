@@ -6,7 +6,8 @@ using UnityEngine.UI;
 namespace sg {
     public class UIManager : MonoBehaviour {
         public PlayerInventory playerInventory;
-        
+        EquipmentWindowUI equipmentWindowUI;
+
         [Header("UI Windows")]
         public GameObject hudWindow;
         public GameObject selectWindow;
@@ -17,8 +18,12 @@ namespace sg {
         public Transform weaponInventorySlotsParent; // 인벤토리의 부모 오브젝트
         WeaponInventorySlot[] weaponInventorySlots; // 인벤토리 슬롯 배열
 
+        private void Awake() {
+            equipmentWindowUI = FindObjectOfType<EquipmentWindowUI>();
+        }
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
+            equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
         }
         public void UpdateUI() {
             #region Weapon Inventory Slots
