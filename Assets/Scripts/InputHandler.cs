@@ -138,8 +138,12 @@ namespace sg {
                 inventoryFlag = !inventoryFlag;
                 if (inventoryFlag) {
                     uiManager.OpenSelectWindow();
+                    uiManager.UpdateUI(); // 인벤토리 업데이트
+                    uiManager.hudWindow.SetActive(false); // 인벤토리가 열리면 HUD를 끈다.
                 } else {
                     uiManager.CloseSelectWindow();
+                    uiManager.CloseAllInventoryWindows();
+                    uiManager.hudWindow.SetActive(true); // 인벤토리가 닫히면 HUD를 킨다.
                 }
             }
         }
