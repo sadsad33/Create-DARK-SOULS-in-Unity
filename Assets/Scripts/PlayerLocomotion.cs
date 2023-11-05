@@ -229,7 +229,7 @@ namespace sg {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
                     moveDirection = cameraObject.forward * inputHandler.vertical;
                     moveDirection += cameraObject.right * inputHandler.horizontal;
-                    
+
                     // 리지드 바디의 현재 속도를 저장
                     Vector3 currentVelocity = GetComponent<Rigidbody>().velocity;
                     // 점프할 방향

@@ -501,7 +501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 352126587}
   m_Layer: 5
-  m_Name: Inventory Window
+  m_Name: Weapon Inventory Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5918,8 +5918,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 846336676}
+  - component: {fileID: 846336677}
   m_Layer: 5
-  m_Name: Inventory Slot
+  m_Name: Weapon Inventory Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5946,6 +5947,19 @@ RectTransform:
   m_AnchoredPosition: {x: 110, y: -90}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &846336677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846336675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86393c8afaa7bca469afc9ea83cdc40c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 686767767}
 --- !u!1 &873377964
 GameObject:
   m_ObjectHideFlags: 0
@@ -7100,11 +7114,20 @@ PrefabInstance:
       value: PlayerUI
       objectReference: {fileID: 0}
     - target: {fileID: 5265302459628239622, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+      propertyPath: m_Name
+      value: HUD Window
+      objectReference: {fileID: 0}
+    - target: {fileID: 5265302459628239622, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+--- !u!1 &2974136226236906644 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5265302459628239622, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+  m_PrefabInstance: {fileID: 2974136226236906643}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4086121375561442825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7194,6 +7217,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
+--- !u!114 &4086121375561442826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
+  m_PrefabInstance: {fileID: 4086121375561442825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0ae6b8856022145bf0feb555aa8df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5779780423549578334 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 901758663, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
@@ -7221,4 +7255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd676ff440b5ba4d869b11d0ecb4ae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: {fileID: 4086121375561442826}
+  hudWindow: {fileID: 2974136226236906644}
   selectWindow: {fileID: 1577174782}
+  weaponInventoryWindow: {fileID: 352126586}
+  weaponInventorySlotPrefab: {fileID: 846336675}
+  weaponInventorySlotsParent: {fileID: 989728988}

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaBar : MonoBehaviour
-{
-    Slider slider;
+namespace sg {
+    public class StaminaBar : MonoBehaviour {
+        Slider slider;
 
-    private void Start() {
-        slider = GetComponent<Slider>();        
-    }
+        private void Awake() {
+            slider = GetComponent<Slider>();
+        }
 
-    public void SetMaxStamina(int maxStamina) {
-        slider.maxValue = maxStamina;
-        slider.value = maxStamina;
-    }
+        public void SetMaxStamina(int maxStamina) {
+            slider.maxValue = maxStamina;
+            slider.value = maxStamina;
+        }
 
-    public void SetCurrentStamina(int currentStamina) {
-        slider.value = currentStamina;
+        public void SetCurrentStamina(int currentStamina) {
+            slider.value = currentStamina;
+        }
     }
 }
