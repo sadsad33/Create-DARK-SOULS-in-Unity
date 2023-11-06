@@ -230,15 +230,15 @@ namespace sg {
                     moveDirection = cameraObject.forward * inputHandler.vertical;
                     moveDirection += cameraObject.right * inputHandler.horizontal;
 
-                    // 리지드 바디의 현재 속도를 저장
-                    Vector3 currentVelocity = GetComponent<Rigidbody>().velocity;
-                    // 점프할 방향
-                    Vector3 jumpDirection = (moveDirection + Vector3.up).normalized;
-                    // 현재 속도에 점프 속도를 합성
-                    GetComponent<Rigidbody>().velocity = currentVelocity + jumpDirection * 20;
+                    //// 리지드 바디의 현재 속도를 저장
+                    //Vector3 currentVelocity = rigidbody.velocity;
+                    //// 점프할 방향
+                    //Vector3 jumpDirection = (moveDirection + rigidbody.transform.up).normalized;
+                    //// 현재 속도에 점프 속도를 합성
+                    //rigidbody.velocity = currentVelocity + jumpDirection * 30;
 
                     animatorHandler.PlayTargetAnimation("Jump", true);
-                    //moveDirection.y = 0;
+                    moveDirection.y = 0;
                     Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = jumpRotation;
                 }

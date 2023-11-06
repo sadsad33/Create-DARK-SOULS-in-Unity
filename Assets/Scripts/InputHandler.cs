@@ -47,6 +47,15 @@ namespace sg {
                 inputActions = new PlayerControls();
                 inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
+
+                // 버튼의 입력을 매 프레임마다 감지하게 되면 GarbageCollector에게 부담을 주게 된다.
+                inputActions.PlayerActions.RB.performed += i => rb_Input = true;
+                inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+                inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
+                inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
+                inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
+                inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
+                inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
             }
             inputActions.Enable();
         }
@@ -61,8 +70,6 @@ namespace sg {
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotInput(delta);
-            HandleInteractingButtonInput(delta);
-            HandleJumpInput(delta);
             HandleInventoryInput(delta);
         }
 
@@ -77,10 +84,11 @@ namespace sg {
         // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.
         private void HandleRollInput(float delta) {
             b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            sprintFlag = b_Input;
+
             if (b_Input) { // 회피버튼을 누르고 있는 동안
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
-                sprintFlag = true;
             } else {
                 if (rollInputTimer > 0 && rollInputTimer < 0.3f) {
                     sprintFlag = false;
@@ -91,8 +99,6 @@ namespace sg {
         }
 
         private void HandleAttackInput(float delta) {
-            inputActions.PlayerActions.RB.performed += i => rb_Input = true;
-            inputActions.PlayerActions.RT.performed += i => rt_Input = true;
 
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
@@ -115,8 +121,7 @@ namespace sg {
         }
 
         private void HandleQuickSlotInput(float delta) {
-            inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
-            inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
+
             if (d_Pad_Right) {
                 playerInventory.ChangeRightWeapon();
             } else if (d_Pad_Left) {
@@ -124,16 +129,8 @@ namespace sg {
             }
         }
 
-        private void HandleInteractingButtonInput(float delta) {
-            inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
-        }
-
-        private void HandleJumpInput(float delta) {
-            inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
-        }
-
         private void HandleInventoryInput(float delta) {
-            inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
+
             if (inventory_Input) {
                 inventoryFlag = !inventoryFlag;
                 if (inventoryFlag) {

@@ -38,11 +38,10 @@ namespace sg {
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
             anim.SetBool("isInAir", isInAir);
-
+            
             inputHandler.TickInput(delta);
-            playerLocomotion.HandleMovement(delta);
+            // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
-            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleJumping();
 
             CheckForInteractableObject();
@@ -58,17 +57,15 @@ namespace sg {
 
         private void FixedUpdate() {
             float delta = Time.fixedDeltaTime;
-
-            if (cameraHandler != null) {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
-            }
+            
+            // Rigidbody를 통해 처리되는 움직임은 FixedUpdate에서 처리되는것이 좋음
+            playerLocomotion.HandleMovement(delta);
+            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
         }
 
         private void LateUpdate() {
             // 1프레임당 한번의 호출만 이뤄지도록 한다.
             inputHandler.rollFlag = false;
-            inputHandler.sprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.d_Pad_Up = false;
@@ -78,6 +75,12 @@ namespace sg {
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
+
+            float delta = Time.deltaTime;
+            if (cameraHandler != null) {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
+            }
 
             if (isInAir) { // 플레이어가 허공에 있다면
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
