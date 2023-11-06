@@ -46,10 +46,11 @@ namespace sg {
 
         // 카메라가 대상을 따라가도록 하는 함수
         public void FollowTarget(float delta) {
-            //Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
 
             // 목표 지점까지 부드럽게 이동한다
-            Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
+            //Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
+            
+            Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
 
             HandleCameraCollision(delta);

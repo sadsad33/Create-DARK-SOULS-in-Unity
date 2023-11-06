@@ -484,9 +484,9 @@ MonoBehaviour:
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 0
-  lookSpeed: 0.1
+  lookSpeed: 0.002
   followSpeed: 0.1
-  pivotSpeed: 0.03
+  pivotSpeed: 0.0015
   minimumPivot: -35
   maximumPivot: 35
   cameraSphereRadius: 0.2
@@ -8676,6 +8676,14 @@ PrefabInstance:
     - target: {fileID: 4086121375157841863, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086121375157841881, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086121375157841883, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
+      propertyPath: fallingSpeed
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
       propertyPath: weaponsInLeftHandSlot.Array.size
