@@ -89,7 +89,7 @@ namespace sg {
 
         public void CheckForInteractableObject() {
             RaycastHit hit;
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers)) {
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayer)) {
                 if (hit.collider.tag == "Interactable") {
                     Interactable interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null) {

@@ -77,7 +77,7 @@ namespace sg {
 
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
-            MoveInput(delta);
+            HandleMoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotInput(delta);
@@ -85,7 +85,7 @@ namespace sg {
             HandleLockOnInput(delta);
         }
 
-        private void MoveInput(float delta) {
+        private void HandleMoveInput(float delta) {
             horizontal = movementInput.x;
             vertical = movementInput.y;
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
@@ -190,6 +190,8 @@ namespace sg {
                     cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
                 }
             }
+
+            cameraHandler.SetCameraHeight();
         }
     }
 }

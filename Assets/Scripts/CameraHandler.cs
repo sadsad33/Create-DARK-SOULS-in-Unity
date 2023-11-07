@@ -10,8 +10,8 @@ namespace sg {
         public Transform cameraTransform;
         // 카메라의 회전 중심 위치
         public Transform cameraPivotTransform;
-        public LayerMask ignoreLayers;
-        
+        public LayerMask ignoreLayer, environmentLayer;
+
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
         private Vector3 cameraTransformPosition;
         private Vector3 cameraFollowVelocity = Vector3.zero;
@@ -24,7 +24,7 @@ namespace sg {
 
         private float targetPosition;
         private float defaultPosition;
-        
+
         // Euler Angle을 사용하기 위한 변수
         private float lookAngle;
         private float pivotAngle;
@@ -35,6 +35,8 @@ namespace sg {
         public float cameraSphereRadius = 0.2f;
         public float cameraCollisionOffset = 0.2f;
         public float minimumCollisionOffset = 0.2f;
+        public float lockedPivotPosition = 2.25f;
+        public float unlockedPivotPosition = 1.65f;
 
         public Transform currentLockOnTarget;
         List<CharacterManager> availableTargets = new List<CharacterManager>();
@@ -43,13 +45,19 @@ namespace sg {
         public Transform leftLockTarget, rightLockTarget;
 
         InputHandler inputHandler;
+        PlayerManager playerManager;
         private void Awake() {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            ignoreLayer = ~(1 << 8 | 1 << 9 | 1 << 10);
             targetTransform = FindObjectOfType<PlayerManager>().transform;
             inputHandler = FindObjectOfType<InputHandler>();
+            playerManager = FindObjectOfType<PlayerManager>();
+        }
+
+        private void Start() {
+            environmentLayer = LayerMask.NameToLayer("Environment");
         }
 
         // 카메라가 대상을 따라가도록 하는 함수
@@ -57,7 +65,7 @@ namespace sg {
 
             // 목표 지점까지 부드럽게 이동한다
             //Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
-            
+
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
 
@@ -105,7 +113,7 @@ namespace sg {
                 // 카메라 피벗의 회전값을 위 회전값과 똑같이 맞춰줌
                 // 카메라 피벗의 회전값을 설정해주지 않으면, 록온 직전의 카메라 수직 회전값에 따라 록온 시점이 변함
                 cameraPivotTransform.rotation = targetRotation;
-                
+
                 //dir = currentLockOnTarget.position - cameraPivotTransform.position;
                 //dir.Normalize();
                 //targetRotation = Quaternion.LookRotation(dir);
@@ -123,13 +131,13 @@ namespace sg {
             // cameraPivotTransform 은 카메라 회전의 중심으로, 좌표는 플레이어의 Transform.position 과 같다.
             Vector3 direction = cameraTransform.position - cameraPivotTransform.position; // 플레이어의 좌표로부터 카메라까지의 방향
             direction.Normalize();
-            
+
             //Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
 
-            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayers)) {
+            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayer)) {
                 // 플레이어의 좌표로부터 카메라의 방향으로 ray를 발사하여 카메라를 제외한 무언가와 충돌했을 경우 충돌한 좌표까지의 거리
-                float dist = Vector3.Distance(cameraPivotTransform.position, hit.point); 
-                
+                float dist = Vector3.Distance(cameraPivotTransform.position, hit.point);
+
                 // 카메라가 이동해야할 z 좌표를 설정한다.
                 // 카메라는 pivot보다 항상 뒤에(z 좌표가 음수)있어야 하므로 음수 값이 되어야 한다.
                 targetPosition = -(dist - cameraCollisionOffset);
@@ -165,9 +173,18 @@ namespace sg {
                     // 록온을 했을시의 시야각. 화면 밖에있는 대상은 록온이 안되도록한다.
                     float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
 
+                    RaycastHit hit;
                     // 자기 자신에게는 록온이 안되도록 한다.
                     if (character.transform.root != targetTransform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
-                        availableTargets.Add(character);
+                        // 두 지점 사이에 레이를 쏜다.
+                        if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit)) {
+                            Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
+                            if (hit.transform.gameObject.layer == environmentLayer) {
+                                // 대상과 플레이어 사이에 장애물이 있을경우 록온이 안되도록 함
+                            } else {
+                                availableTargets.Add(character);
+                            }
+                        }
                     }
                 }
             }
@@ -207,6 +224,18 @@ namespace sg {
             availableTargets.Clear();
             nearestLockOnTarget = null;
             currentLockOnTarget = null;
+        }
+
+        // 록온 여부에따라 카메라의 높낮이를 바꾼다.
+        public void SetCameraHeight() {
+            Vector3 velocity = Vector3.zero;
+            Vector3 newLockedPosition = new Vector3(0, lockedPivotPosition);
+            Vector3 newUnlockedPosition = new Vector3(0, unlockedPivotPosition);
+            if (currentLockOnTarget != null) {
+                cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockedPosition, ref velocity, Time.deltaTime);
+            } else {
+                cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
+            }
         }
     }
 }
