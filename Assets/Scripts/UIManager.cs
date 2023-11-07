@@ -12,6 +12,7 @@ namespace sg {
         public GameObject hudWindow;
         public GameObject selectWindow;
         public GameObject weaponInventoryWindow;
+        public GameObject equipmentWindow;
 
         [Header("Weapon Inventory")]
         public GameObject weaponInventorySlotPrefab; // ½½·Ô prefab
@@ -23,7 +24,7 @@ namespace sg {
         }
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
-            equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
+            //equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
         }
         public void UpdateUI() {
             #region Weapon Inventory Slots
@@ -52,6 +53,7 @@ namespace sg {
 
         public void CloseAllInventoryWindows() {
             weaponInventoryWindow.SetActive(false);
+            equipmentWindow.SetActive(false);
         }
     }
 }
