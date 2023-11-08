@@ -22,6 +22,7 @@ namespace sg {
         PlayerLocomotion playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
+
         private void Awake() {
             cameraHandler = FindObjectOfType<CameraHandler>();
         }

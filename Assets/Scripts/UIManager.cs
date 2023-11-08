@@ -6,13 +6,20 @@ using UnityEngine.UI;
 namespace sg {
     public class UIManager : MonoBehaviour {
         public PlayerInventory playerInventory;
-        EquipmentWindowUI equipmentWindowUI;
+        public EquipmentWindowUI equipmentWindowUI;
 
         [Header("UI Windows")]
         public GameObject hudWindow;
         public GameObject selectWindow;
+        public GameObject equipmentScreenWindow;
         public GameObject weaponInventoryWindow;
-        public GameObject equipmentWindow;
+
+        // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
+        [Header("Equipment Window Slots Selected")]
+        public bool rightHandSlot1Selected;
+        public bool rightHandSlot2Selected;
+        public bool leftHandSlot1Selected; 
+        public bool leftHandSlot2Selected;
 
         [Header("Weapon Inventory")]
         public GameObject weaponInventorySlotPrefab; // 슬롯 prefab
@@ -20,11 +27,10 @@ namespace sg {
         WeaponInventorySlot[] weaponInventorySlots; // 인벤토리 슬롯 배열
 
         private void Awake() {
-            equipmentWindowUI = FindObjectOfType<EquipmentWindowUI>();
         }
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
-            //equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
+            equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
         }
         public void UpdateUI() {
             #region Weapon Inventory Slots
@@ -52,8 +58,17 @@ namespace sg {
         }
 
         public void CloseAllInventoryWindows() {
+            ResetAllSelectedSlots();
             weaponInventoryWindow.SetActive(false);
-            equipmentWindow.SetActive(false);
+            equipmentScreenWindow.SetActive(false);
+        }
+
+        // 이전에 선택됐던 장비창의 슬롯을 초기화한다.
+        public void ResetAllSelectedSlots() {
+            rightHandSlot1Selected = false;
+            rightHandSlot2Selected = false;
+            leftHandSlot1Selected = false;
+            leftHandSlot2Selected = false;
         }
     }
 }
