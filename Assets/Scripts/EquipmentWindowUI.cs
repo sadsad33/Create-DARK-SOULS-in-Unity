@@ -6,9 +6,8 @@ namespace sg {
     public class EquipmentWindowUI : MonoBehaviour {
         public bool rightHandSlot1, rightHandSlot2;
         public bool leftHandSlot1, leftHandSlot2;
-        HandEquipmentSlotUI[] handEquipmentSlotUI;
+        public HandEquipmentSlotUI[] handEquipmentSlotUI;
         private void Start() {
-            handEquipmentSlotUI = GetComponentsInChildren<HandEquipmentSlotUI>();
         }
 
         // 다크소울 처럼 오른손과 왼손에 각각 여러개의 무기들을 지니고있음
@@ -16,17 +15,14 @@ namespace sg {
         public void LoadWeaponOnEquipmentScreen(PlayerInventory playerInventory) {
             for (int i = 0; i < handEquipmentSlotUI.Length; i++) {
                 if (handEquipmentSlotUI[i].rightHandSlot1) {
-                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInRightHandSlot[0]);
+                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInRightHandSlots[0]);
+                } else if (handEquipmentSlotUI[i].rightHandSlot2) {
+                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInRightHandSlots[1]);
+                } else if (handEquipmentSlotUI[i].leftHandSlot1) {
+                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInLeftHandSlots[0]);
+                } else {
+                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInLeftHandSlots[1]);
                 }
-                //else if (handEquipmentSlotUI[i].rightHandSlot2) {
-                //handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInRightHandSlot[1]);
-                //}
-                else if (handEquipmentSlotUI[i].leftHandSlot1) {
-                    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInLeftHandSlot[0]);
-                }
-                // else {
-                //    handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInLeftHandSlot[1]);
-                //}
             }
         }
         public void SelectRightHandSlot1() {

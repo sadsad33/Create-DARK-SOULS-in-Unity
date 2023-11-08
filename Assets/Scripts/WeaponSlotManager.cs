@@ -6,11 +6,8 @@ namespace sg {
     public class WeaponSlotManager : MonoBehaviour {
         public WeaponItem attackingWeapon;
         WeaponHolderSlot leftHandSlot, rightHandSlot;
-
         DamageCollider leftHandDamageCollider, rightHandDamageCollider;
-
         Animator animator;
-
         QuickSlots quickSlots;
         PlayerStats playerStats;
         private void Awake() {
