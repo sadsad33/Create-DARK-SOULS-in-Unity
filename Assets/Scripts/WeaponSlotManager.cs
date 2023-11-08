@@ -30,7 +30,7 @@ namespace sg {
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (isLeft) {
-                leftHandSlot.currentWeapon = weaponItem;
+                leftHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 왼쪽 무기를 기억한다.
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
                 quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
@@ -61,7 +61,7 @@ namespace sg {
                 }
 
                 // 양잡을 하던 안하던 오른쪽은 변함없음
-                rightHandSlot.currentWeapon = weaponItem;
+                rightHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 오른쪽 무기를 기억한다.
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
                 quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
