@@ -7,7 +7,8 @@ namespace sg {
         public Transform parentOverride; // 무기 prefab을 하나만 쓰기위해 필요
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
-
+        public bool isBackSlot;
+        public WeaponItem currentWeapon; // 양잡시 등에 멜 무기를 저장하기 위해 WeaponItem 형 변수를 만들어 현재 왼쪽/오른쪽 손의 무기를 저장한다.
         public GameObject currentWeaponModel;
 
         public void UnloadWeapon() {
