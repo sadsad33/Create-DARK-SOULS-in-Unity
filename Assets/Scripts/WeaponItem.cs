@@ -24,6 +24,10 @@ namespace sg {
         public string OH_Light_Attack_2;
         public string OH_Heavy_Attack_1;
 
+        [Header("Two Handed Attack Animtaions")]
+        public string TH_Light_Sword_Attack_1;
+        public string TH_Light_Sword_Attack_2;
+
         [Header("Stamina Costs")]
         public int baseStamina;
         public float lightAttackMultiplier;
