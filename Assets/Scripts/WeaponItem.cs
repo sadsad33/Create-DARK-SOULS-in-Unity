@@ -13,6 +13,7 @@ namespace sg {
         [Header("Idle Animations")]
         public string Right_Hand_Idle;
         public string Left_Hand_Idle;
+        public string th_idle;
 
         [Header("Unarmed Animations")]
         public string UnarmedAttack1;

@@ -224,6 +224,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Y-button",
+                    "type": "Button",
+                    "id": "f771556b-156a-4c41-9924-5a6df26d979d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -466,6 +475,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LockOnTargetRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4789bdc0-621e-4bfd-91cd-dcf41444b9b6",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Y-button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a477ed4-4d2f-4e11-a855-d3abdb2e0902",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Y-button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

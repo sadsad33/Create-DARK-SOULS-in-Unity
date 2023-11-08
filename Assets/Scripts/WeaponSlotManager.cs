@@ -10,7 +10,9 @@ namespace sg {
         Animator animator;
         QuickSlots quickSlots;
         PlayerStats playerStats;
+        InputHandler inputHandler;
         private void Awake() {
+            inputHandler = GetComponentInParent<InputHandler>();
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
             playerStats = GetComponentInParent<PlayerStats>();
@@ -37,17 +39,23 @@ namespace sg {
                 }
                 #endregion
             } else {
+                if (inputHandler.twoHandFlag) {
+                    animator.CrossFade(weaponItem.th_idle, 0.2f);
+                } else {
+                    #region Handle Right Weapon Idle Animation
+                    animator.CrossFade("Both Arms Empty", 0.2f);
+                    if (weaponItem != null) {
+                        animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
+                    } else {
+                        animator.CrossFade("Right Arm Empty", 0.2f);
+                    }
+                    #endregion
+                }
+
+                // 양잡을 하던 안하던 오른쪽은 변함없음
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
                 quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
-                
-                #region Handle Right Weapon Idle Animation
-                if (weaponItem != null) {
-                    animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
-                } else {
-                    animator.CrossFade("Right Arm Empty", 0.2f);
-                }
-                #endregion
             }
         }
 
