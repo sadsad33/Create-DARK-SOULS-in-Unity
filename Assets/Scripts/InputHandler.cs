@@ -17,12 +17,14 @@ namespace sg {
         public bool d_Pad_Right;
         public bool d_Pad_Left;
         public bool a_Input;
+        public bool y_Input;    
         public bool jump_Input;
         public bool inventory_Input;
         public bool lockOn_Input;
         public bool right_Stick_Right_Input;
         public bool right_Stick_Left_Input;
 
+        public bool twoHandFlag;
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
@@ -38,6 +40,7 @@ namespace sg {
         PlayerManager playerManager;
         UIManager uiManager;
         CameraHandler cameraHandler;
+        WeaponSlotManager weaponSlotManager;
         Vector2 movementInput;
         Vector2 cameraInput;
 
@@ -47,6 +50,7 @@ namespace sg {
             playerManager = GetComponent<PlayerManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
 
         public void OnEnable() {
@@ -67,6 +71,7 @@ namespace sg {
                 inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;
                 inputActions.PlayerActions.LockOnTargetLeft.performed += i => right_Stick_Left_Input = true;
                 inputActions.PlayerActions.LockOnTargetRight.performed += i => right_Stick_Right_Input = true;
+                inputActions.PlayerActions.Ybutton.performed += i => y_Input = true;
             }
             inputActions.Enable();
         }
@@ -83,6 +88,7 @@ namespace sg {
             HandleQuickSlotInput(delta);
             HandleInventoryInput(delta);
             HandleLockOnInput(delta);
+            HandleTwoHandInput(delta);
         }
 
         private void HandleMoveInput(float delta) {
@@ -192,6 +198,21 @@ namespace sg {
             }
 
             cameraHandler.SetCameraHeight();
+        }
+
+        // 양잡 기능
+        // 양잡을 하거나 양잡을 풀때 기본적으로 무기를 다시 로드한다.
+        private void HandleTwoHandInput(float delta) {
+            if (y_Input) {
+                y_Input = false;
+                twoHandFlag = !twoHandFlag;
+                if (twoHandFlag) { // 양잡
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                } else { // 양잡 해제
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                }
+            }
         }
     }
 }
