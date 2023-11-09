@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class AnimatorHandler : MonoBehaviour {
+    public class AnimatorHandler : AnimatorManager {
         PlayerManager playerManager;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
-        public Animator anim;
 
         int vertical;
         int horizontal;
@@ -49,13 +48,6 @@ namespace sg {
             }
             anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        }
-
-        // 해당 애니메이션을 실행한다.
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
-            anim.applyRootMotion = isInteracting;
-            anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.3f);
         }
 
         public void CanRotate() {
