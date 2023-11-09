@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace sg {
+    public class IdleState : State {
+        public LayerMask detectionLayer;
+        public PursueTargetState pursueTargetState;
+        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+
+            #region Handle Enemy Target Detection
+            // 주변 오브젝트들 감지
+            Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
+            for (int i = 0; i < colliders.Length; i++) {
+                // 감지한 주변 collider로부터 CharacterStats을 가져온다.
+                CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+
+                // 해당 오브젝트에 CharacterStats이 존재한다면
+                if (characterStats != null) {
+                    Vector3 targetDirection = characterStats.transform.position - transform.position;
+                    float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+
+                    // 정면과 목표물 사이의 각도가 최소 시야각과 최대 시야각 내의 범위에 있다면
+                    if (viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle) {
+                        enemyManager.currentTarget = characterStats; // 타겟을 설정한다.
+                    }
+                }
+            }
+            #endregion
+
+            #region Handle Switching to Next State
+            if (enemyManager.currentTarget != null) {
+                return pursueTargetState;
+            } else {
+                return this;
+            }
+            #endregion
+        }
+    }
+}
