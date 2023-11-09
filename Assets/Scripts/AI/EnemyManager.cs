@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 namespace sg {
     public class EnemyManager : CharacterManager {
         EnemyLocomotionManager enemyLocomotionManager;
@@ -11,7 +11,13 @@ namespace sg {
         public bool isPerformingAction;
         public State currentState;
         public CharacterStats currentTarget;
+        public NavMeshAgent navmeshAgent;
+        public Rigidbody enemyRigidbody;
 
+        public float distanceFromTarget;
+        public float rotationSpeed = 15;
+        public float maximumAttackRange = 1.5f;
+        public float viewableAngle;
         [Header("AI Settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
@@ -22,17 +28,27 @@ namespace sg {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStats = GetComponent<EnemyStats>();
+            navmeshAgent = GetComponentInChildren<NavMeshAgent>();
+            enemyRigidbody = GetComponent<Rigidbody>();
+            navmeshAgent.enabled = false;
+        }
+
+        private void Start() {
+            enemyRigidbody.isKinematic = false;
         }
 
         private void Update() {
             HandleRecoveryTimer();
+            //Debug.Log("í˜„ìž¬ ìƒíƒœ : " + currentState);
+            //Debug.Log(isPerformingAction);
+            //Debug.Log(navmeshAgent.enabled);
         }
 
         private void FixedUpdate() {
             HandleStateMachine();
         }
 
-        // Å¸°ÙÀÇ À¯¹«¿Í Å¸°Ù°úÀÇ °Å¸®¸¦ ÅëÇØ ÇöÀç Çàµ¿À» °áÁ¤ÇÑ´Ù
+        // íƒ€ê²Ÿì˜ ìœ ë¬´ì™€ íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ë¥¼ í†µí•´ í˜„ìž¬ í–‰ë™ì„ ê²°ì •í•œë‹¤
         private void HandleStateMachine() {
             if (currentState != null) {
                 State nextState = currentState.Tick(this, enemyStats, enemyAnimatorManager);
@@ -46,7 +62,7 @@ namespace sg {
             currentState = state;
         }
 
-        // °ø°Ý°ú °ø°Ý»çÀÌÀÇ µô·¹ÀÌ
+        // ê³µê²©ê³¼ ê³µê²©ì‚¬ì´ì˜ ë”œë ˆì´
         private void HandleRecoveryTimer() {
             if (currentRecoveryTime > 0) {
                 currentRecoveryTime -= Time.deltaTime;
@@ -57,61 +73,5 @@ namespace sg {
                 }
             }
         }
-
-        #region Attacks
-
-        // ´ë»ó °ø°Ý
-        private void AttackTarget() {
-            //if (isPerformingAction) return;
-            //if (currentAttack == null) {
-            //    //Debug.Log("´ÙÀ½°ø°Ý ÁØºñ");
-            //    GetNewAttack();
-            //} else {
-            //    Debug.Log("°ø°Ý!");
-            //    isPerformingAction = true;
-            //    currentRecoveryTime = currentAttack.recoveryTime;
-            //    enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            //    currentAttack = null;
-            //}
-        }
-
-        // °ø°Ý ¼±ÅÃ
-        private void GetNewAttack() {
-            //Vector3 targetDirection = enemyLocomotionManager.currentTarget.transform.position - transform.position;
-            //float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            //enemyLocomotionManager.distanceFromTarget = Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position);
-            
-            //int maxScore = 0;
-            //for (int i = 0; i < enemyAttacks.Length; i++) {
-            //    EnemyAttackActions enemyAttackAction = enemyAttacks[i];
-
-            //    if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
-            //        enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) { // ÇöÀç ¸ñÇ¥°¡ °ø°Ý »ç°Å¸® ³»¿¡ ÀÖ°í
-            //        if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) { // °ø°Ý °¡´ÉÇÑ ½Ã¾ß°¢³»¿¡ ÀÖ´Ù¸é
-            //            maxScore += enemyAttackAction.attackScore;
-            //        }
-            //    }
-            //}
-
-            //int randomValue = Random.Range(0, maxScore);
-            //int temporaryScore = 0;
-            //for (int i = 0; i < enemyAttacks.Length; i++) {
-            //    EnemyAttackActions enemyAttackAction = enemyAttacks[i];
-
-            //    if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
-            //        enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) {
-            //        if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) {
-            //            if (currentAttack != null) return; // ÀÌ¹Ì °ø°ÝÁßÀÌ¶ó¸é
-            //            temporaryScore += enemyAttackAction.attackScore;
-
-            //            if (temporaryScore > randomValue) {
-            //                currentAttack = enemyAttackAction;
-            //            }
-            //        }
-            //    }
-            //}
-        }
-
-        #endregion
     }
 }
