@@ -651,6 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638c66c7461e90a40a10af78dc3b9e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatStanceState: {fileID: 1269662335}
 --- !u!1 &436679369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1498,7 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 512
-  pursueTargetState: {fileID: 0}
+  pursueTargetState: {fileID: 367362763}
 --- !u!1 &644514625
 GameObject:
   m_ObjectHideFlags: 0
@@ -6631,6 +6632,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0a2ff724e39e7429d7c5bd1496ef55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatStanceState: {fileID: 1269662335}
+  enemyAttacks:
+  - {fileID: 11400000, guid: 12b6f39ee5c982244af284ea102c8a17, type: 2}
+  - {fileID: 11400000, guid: 714b0ac9bb0c6a84f80addfe12aca049, type: 2}
+  currentAttack: {fileID: 0}
 --- !u!1 &768062340
 GameObject:
   m_ObjectHideFlags: 0
@@ -12470,6 +12476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4169a915cedfd1b4fb2c42fed43ad18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackState: {fileID: 724058277}
+  pursueTargetState: {fileID: 367362763}
 --- !u!1 &1284610321
 GameObject:
   m_ObjectHideFlags: 0
@@ -13356,8 +13364,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 1284610322}
   isPerformingAction: 0
-  currentState: {fileID: 0}
+  currentState: {fileID: 634820070}
   currentTarget: {fileID: 0}
+  navmeshAgent: {fileID: 0}
+  enemyRigidbody: {fileID: 0}
+  distanceFromTarget: 0
+  rotationSpeed: 15
+  maximumAttackRange: 1.5
+  viewableAngle: 0
   detectionRadius: 10
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
@@ -13392,14 +13406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d3e019774199448a540bbafd9bb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navmeshAgent: {fileID: 0}
-  enemyRigidbody: {fileID: 0}
-  distanceFromTarget: 0
-  stoppingDistance: 1
-  rotationSpeed: 15
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1 &1789143009
 GameObject:
   m_ObjectHideFlags: 0

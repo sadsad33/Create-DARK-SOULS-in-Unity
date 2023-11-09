@@ -7,6 +7,9 @@ namespace sg {
         public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+            // 목표 탐색
+            // 목표 탐색에 성공하면 Pursue Target State가 됨
+            // 목표 탐색을 실패하면 Idle State 유지
 
             #region Handle Enemy Target Detection
             // 주변 오브젝트들 감지
