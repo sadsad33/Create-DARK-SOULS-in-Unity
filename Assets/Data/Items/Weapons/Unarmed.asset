@@ -13,13 +13,19 @@ MonoBehaviour:
   m_Name: Unarmed
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: 
+  itemName: Unarmed
   modelPrefab: {fileID: 2632065464822113383, guid: 1afb46791813863449b66e2ef847853e, type: 3}
   isUnarmed: 1
   Right_Hand_Idle: RightArmEmpty
   Left_Hand_Idle: LeftArmEmpty
+  th_idle: 
   UnarmedAttack1: UnarmedAttack1
   UnarmedAttack2: UnarmedAttack2
   OH_Light_Attack_1: 
   OH_Light_Attack_2: 
   OH_Heavy_Attack_1: 
+  TH_Light_Sword_Attack_1: 
+  TH_Light_Sword_Attack_2: 
+  baseStamina: 10
+  lightAttackMultiplier: 1
+  heavyAttackMultiplier: 2

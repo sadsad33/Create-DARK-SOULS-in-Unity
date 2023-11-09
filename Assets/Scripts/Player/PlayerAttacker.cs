@@ -24,11 +24,21 @@ namespace sg {
                     animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
                 } else if (lastAttack == weapon.TH_Light_Sword_Attack_1) {
                     animatorHandler.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_2, true);
+                } else if (lastAttack == weapon.UnarmedAttack1) {
+                    animatorHandler.PlayTargetAnimation(weapon.UnarmedAttack2, true);
                 }
             }
         }
 
+        public void HandleUnarmedAttack(WeaponItem weapon) {
+            //Debug.Log("맨주먹 공격");
+            weaponSlotManager.attackingWeapon = weapon;
+            animatorHandler.PlayTargetAnimation(weapon.UnarmedAttack1, true);
+            lastAttack = weapon.UnarmedAttack1;
+        }
+
         public void HandleLightAttack(WeaponItem weapon) {
+            //Debug.Log("한손 약공");
             weaponSlotManager.attackingWeapon = weapon;
             if (inputHandler.twoHandFlag) {
                 animatorHandler.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_1, true);
@@ -37,7 +47,6 @@ namespace sg {
                 animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
                 lastAttack = weapon.OH_Light_Attack_1;
             }
-
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {

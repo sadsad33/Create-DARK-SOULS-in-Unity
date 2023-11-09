@@ -127,7 +127,11 @@ namespace sg {
                 } else {
                     if (playerManager.isInteracting) return;
                     if (playerManager.canDoCombo) return;
-                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                    if (playerInventory.currentRightWeaponIndex != -1) {
+                        playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                    } else if (playerInventory.currentRightWeaponIndex == -1) {
+                        playerAttacker.HandleUnarmedAttack(playerInventory.rightWeapon);
+                    }
                 }
             }
             if (rt_Input) {
