@@ -15,6 +15,8 @@ namespace sg {
         [HideInInspector]
         public AnimatorHandler animatorHandler;
 
+        public CapsuleCollider characterCollider;
+        public CapsuleCollider characterColliderBlocker;
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
@@ -57,6 +59,7 @@ namespace sg {
 
             playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
             ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
+            Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
         }
 
 
