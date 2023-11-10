@@ -15,10 +15,8 @@ namespace sg {
         public NavMeshAgent navmeshAgent;
         public Rigidbody enemyRigidbody;
 
-        public float distanceFromTarget;
         public float rotationSpeed = 15;
         public float maximumAttackRange = 1.5f;
-        public float viewableAngle;
         [Header("AI Settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
