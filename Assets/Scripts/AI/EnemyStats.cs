@@ -20,12 +20,14 @@ namespace sg {
         }
 
         public void TakeDamage(int damage) {
+            if (isDead) return;
             currentHealth -= damage;
             animator.Play("Damage");
 
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 animator.Play("Dead");
+                isDead = true;
             }
         }
     }
