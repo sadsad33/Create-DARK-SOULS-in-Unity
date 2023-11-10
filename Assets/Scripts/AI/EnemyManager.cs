@@ -9,6 +9,7 @@ namespace sg {
         EnemyStats enemyStats;
 
         public bool isPerformingAction;
+        public bool isInteracting;
         public State currentState;
         public CharacterStats currentTarget;
         public NavMeshAgent navmeshAgent;
@@ -38,6 +39,7 @@ namespace sg {
         }
 
         private void Update() {
+            isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
             HandleRecoveryTimer();
             //Debug.Log("현재 상태 : " + currentState);
             //Debug.Log(isPerformingAction);
