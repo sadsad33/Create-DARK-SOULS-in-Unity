@@ -41,6 +41,7 @@ namespace sg {
         UIManager uiManager;
         CameraHandler cameraHandler;
         WeaponSlotManager weaponSlotManager;
+        AnimatorHandler animatorHandler;
         Vector2 movementInput;
         Vector2 cameraInput;
 
@@ -51,6 +52,7 @@ namespace sg {
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
         }
 
         public void OnEnable() {
@@ -127,6 +129,7 @@ namespace sg {
                 } else {
                     if (playerManager.isInteracting) return;
                     if (playerManager.canDoCombo) return;
+                    animatorHandler.anim.SetBool("isUsingRightHand", true);
                     if (playerInventory.currentRightWeaponIndex != -1) {
                         playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
                     } else if (playerInventory.currentRightWeaponIndex == -1) {

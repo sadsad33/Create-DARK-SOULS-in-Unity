@@ -18,6 +18,7 @@ namespace sg {
         public bool isInAir;
         public bool isGrounded;
         public bool canDoCombo;
+        public bool isUsingRightHand, isUsingLeftHand;
 
         PlayerLocomotion playerLocomotion;
         CameraHandler cameraHandler;
@@ -39,7 +40,8 @@ namespace sg {
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
             anim.SetBool("isInAir", isInAir);
-            
+            isUsingRightHand = anim.GetBool("isUsingRightHand");
+            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
