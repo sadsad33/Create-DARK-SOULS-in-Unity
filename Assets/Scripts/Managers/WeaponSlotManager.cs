@@ -5,17 +5,23 @@ using UnityEngine;
 namespace sg {
     public class WeaponSlotManager : MonoBehaviour {
         public WeaponItem attackingWeapon;
+        [SerializeField] 
         WeaponHolderSlot leftHandSlot, rightHandSlot, backSlot;
+        [SerializeField]
         DamageCollider leftHandDamageCollider, rightHandDamageCollider;
+        
         Animator animator;
         QuickSlots quickSlots;
         PlayerStats playerStats;
         InputHandler inputHandler;
+        PlayerManager playerManager;
         private void Awake() {
+            playerManager = GetComponentInParent<PlayerManager>();
             inputHandler = GetComponentInParent<InputHandler>();
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
             playerStats = GetComponentInParent<PlayerStats>();
+            
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>(); // 플레이어의 왼손과 오른손에 있는 WeaponHolderSlot을 모두 가져온다.
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
                 if (weaponSlot.isLeftHandSlot)
@@ -71,26 +77,25 @@ namespace sg {
         #region Handle Weapon's Damage Collider
         // 애니메이션 내의 event로 다음의 함수들을 사용할 것
         private void LoadLeftWeaponDamageCollider() {
+            Debug.Log("왼쪽 무기 콜라이더 로드");
             leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
         private void LoadRightWeaponDamageCollider() {
+            Debug.Log("오른쪽 무기 콜라이더 로드");
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
-        public void OpenRightDamageCollider() {
-            rightHandDamageCollider.EnableDamageCollider();
+        public void OpenDamageCollider() {
+            if (playerManager.isUsingRightHand) {
+                rightHandDamageCollider.EnableDamageCollider();
+            } else if (playerManager.isUsingLeftHand) {
+                leftHandDamageCollider.EnableDamageCollider();
+            }
         }
 
-        public void CloseRightDamageCollider() {
+        public void CloseDamageCollider() {
             rightHandDamageCollider.DisableDamageCollider();
-        }
-
-        public void OpenLeftDamageCollider() {
-            leftHandDamageCollider.EnableDamageCollider();
-        }
-
-        public void CloseLeftDamageCollider() {
             leftHandDamageCollider.DisableDamageCollider();
         }
 
