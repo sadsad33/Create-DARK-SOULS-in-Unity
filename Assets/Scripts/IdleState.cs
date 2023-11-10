@@ -20,8 +20,8 @@ namespace sg {
 
                 // 해당 오브젝트에 CharacterStats이 존재한다면
                 if (characterStats != null) {
-                    Vector3 targetDirection = characterStats.transform.position - transform.position;
-                    float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+                    Vector3 targetDirection = characterStats.transform.position - enemyManager.transform.position;
+                    float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
 
                     // 정면과 목표물 사이의 각도가 최소 시야각과 최대 시야각 내의 범위에 있다면
                     if (viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle) {

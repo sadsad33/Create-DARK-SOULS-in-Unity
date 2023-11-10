@@ -13,10 +13,14 @@ namespace sg {
             // 공격후 딜레이 상태라면 Combat Stance State로 돌아오고 타겟 주위를 배회
             // 만약 타겟이 공격 사거리 밖으로 도망가버리면 Pursue Target State가 됨.
 
-            enemyManager.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            if (enemyManager.currentRecoveryTime <= 0 && enemyManager.distanceFromTarget <= enemyManager.maximumAttackRange) {
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+
+            if (enemyManager.isPerformingAction) {
+                enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            }
+            if (enemyManager.currentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.maximumAttackRange) {
                 return attackState;
-            } else if (enemyManager.distanceFromTarget > enemyManager.maximumAttackRange) {
+            } else if (distanceFromTarget > enemyManager.maximumAttackRange) {
                 return pursueTargetState;
             } else
                 return this;
