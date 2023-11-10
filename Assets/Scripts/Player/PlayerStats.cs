@@ -4,14 +4,17 @@ using UnityEngine;
 
 namespace sg {
     public class PlayerStats : CharacterStats {
-        public HealthBar healthBar;
-        public StaminaBar staminaBar;
-
+        HealthBar healthBar;
+        StaminaBar staminaBar;
+        PlayerManager playerManager;
         AnimatorHandler animatorHandler;
+        public float staminaRegenerationAmount = 20;
+        public float staminaRegenerationTimer = 0;
         private void Awake() {
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
+            playerManager = GetComponent<PlayerManager>();
         }
         private void Start() {
             maxHealth = SetMaxHealthFromHealthLevel();
@@ -23,17 +26,18 @@ namespace sg {
             staminaBar.SetMaxStamina(currentStamina);
         }
         
-        private int SetMaxHealthFromHealthLevel() {
+        private float SetMaxHealthFromHealthLevel() {
             maxHealth = healthLevel * 10;
             return maxHealth;
         }
 
-        private int SetMaxStaminaFromStaminaLevel() {
+        private float SetMaxStaminaFromStaminaLevel() {
             maxStamina = staminaLevel * 10;
             return maxStamina;
         }
 
-        public void TakeDamage(int damage) {
+        public void TakeDamage(float damage) {
+            if (playerManager.isInvulnerable) return;
             if (isDead) return;
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
@@ -54,6 +58,18 @@ namespace sg {
 
             // TODO
             // stamina가 0이하로 떨어졌을 경우
+        }
+
+        public void RegenerateStamina() {
+            if (playerManager.isInteracting) {
+                staminaRegenerationTimer = 0;
+                return;
+            }
+            staminaRegenerationTimer += Time.deltaTime;
+            if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
+                currentStamina += staminaRegenerationAmount * Time.deltaTime;
+                staminaBar.SetCurrentStamina(currentStamina);
+            }
         }
     }
 }

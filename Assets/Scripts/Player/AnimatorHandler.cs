@@ -74,5 +74,13 @@ namespace sg {
             Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
             playerLocomotion.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
         }
+
+        public void EnableIsInvulnerable() {
+            anim.SetBool("isInvulnerable", true);
+        }
+
+        public void DisableIsInvulnerable() {
+            anim.SetBool("isInvulnerable", false);            
+        }
     }
 }

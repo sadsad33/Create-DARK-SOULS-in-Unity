@@ -10,12 +10,12 @@ namespace sg {
             slider = GetComponent<Slider>();
         }
 
-        public void SetMaxHealth(int maxHealth) { // 최대 체력
+        public void SetMaxHealth(float maxHealth) { // 최대 체력
             slider.maxValue = maxHealth;
             slider.value = maxHealth;
         }
 
-        public void SetCurrentHealth(int currentHealth) { // 현재 체력
+        public void SetCurrentHealth(float currentHealth) { // 현재 체력
             slider.value = currentHealth;
         }
     }

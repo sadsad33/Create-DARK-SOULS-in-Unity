@@ -14,12 +14,12 @@ namespace sg {
             currentHealth = maxHealth;
         }
 
-        private int SetMaxHealthFromHealthLevel() {
+        private float SetMaxHealthFromHealthLevel() {
             maxHealth = healthLevel * 10;
             return maxHealth;
         }
 
-        public void TakeDamage(int damage) {
+        public void TakeDamage(float damage) {
             if (isDead) return;
             currentHealth -= damage;
             animator.Play("Damage");

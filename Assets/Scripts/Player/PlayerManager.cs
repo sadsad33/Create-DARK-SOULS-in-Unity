@@ -19,13 +19,16 @@ namespace sg {
         public bool isGrounded;
         public bool canDoCombo;
         public bool isUsingRightHand, isUsingLeftHand;
+        public bool isInvulnerable;
 
+        PlayerStats playerStats;
         PlayerLocomotion playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
 
         private void Awake() {
             cameraHandler = FindObjectOfType<CameraHandler>();
+            playerStats = GetComponent<PlayerStats>();
         }
 
         void Start() {
@@ -43,12 +46,15 @@ namespace sg {
             isUsingRightHand = anim.GetBool("isUsingRightHand");
             isUsingLeftHand = anim.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
+            isInvulnerable = anim.GetBool("isInvulnerable");
+
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
+            playerStats.RegenerateStamina();
 
             CheckForInteractableObject();
-            
+
             // 이동키와 백스텝키가 짧은 간격으로 눌리면 백스텝 이후 sprint 애니메이션이 실행되는 경우가 있다.
             // 이를 해결하기 위해 delay 추가
             if (inputHandler.moveAmount == 0) {
@@ -60,7 +66,7 @@ namespace sg {
 
         private void FixedUpdate() {
             float delta = Time.fixedDeltaTime;
-            
+
             // Rigidbody를 통해 처리되는 움직임은 FixedUpdate에서 처리되는것이 좋음
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
@@ -99,7 +105,7 @@ namespace sg {
                         string interactableText = interactableObject.interactableText;
                         interactableUI.interactableText.text = interactableText;
                         interactableUIGameObject.SetActive(true);
-                        
+
                         if (inputHandler.a_Input) {
                             hit.collider.GetComponent<Interactable>().Interact(this);
                         }
