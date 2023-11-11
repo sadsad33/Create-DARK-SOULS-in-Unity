@@ -5,14 +5,18 @@ using UnityEngine;
 namespace sg {
     public class PlayerAttacker : MonoBehaviour {
         AnimatorHandler animatorHandler;
+        PlayerInventory playerInventory;
+        PlayerManager playerManager;
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
 
         public string lastAttack;
         public void Awake() {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
-            inputHandler = GetComponent<InputHandler>();
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            animatorHandler = GetComponent<AnimatorHandler>();
+            playerInventory = GetComponentInParent<PlayerInventory>();
+            playerManager = GetComponentInParent<PlayerManager>();
+            inputHandler = GetComponentInParent<InputHandler>();
+            weaponSlotManager = GetComponent<WeaponSlotManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
@@ -54,5 +58,46 @@ namespace sg {
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
+
+        // 공격 입력
+        // 플레이어가 들고있는 무기의 종류에 따라 같은 공격 입력에도 행동이 달라야한다.
+        #region Input Actions
+        public void HandleRBAction() {
+            if (playerInventory.rightWeapon.isMeleeWeapon) {
+                PerformRBMeleeAction();
+            } else if (playerInventory.rightWeapon.isMagicCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster) {
+                PerformRBMagicAction(playerInventory.rightWeapon);
+            } 
+        }
+        #endregion
+
+        #region Attack Actions
+        // 근접 공격
+        private void PerformRBMeleeAction() {
+            if (playerManager.canDoCombo) {
+                inputHandler.comboFlag = true;
+                HandleWeaponCombo(playerInventory.rightWeapon);
+                inputHandler.comboFlag = false;
+            } else {
+                if (playerManager.isInteracting) return;
+                if (playerManager.canDoCombo) return;
+                animatorHandler.anim.SetBool("isUsingRightHand", true);
+                if (playerInventory.currentRightWeaponIndex != -1) {
+                    HandleLightAttack(playerInventory.rightWeapon);
+                } else if (playerInventory.currentRightWeaponIndex == -1) {
+                    HandleUnarmedAttack(playerInventory.rightWeapon);
+                }
+            }
+        }
+
+        // 마술 공격
+        private void PerformRBMagicAction(WeaponItem weapon) {
+            if (weapon.isMagicCaster) {
+                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isMagicSpell) {
+                    
+                }
+            }
+        }
+        #endregion
     }
 }
