@@ -6,8 +6,11 @@ namespace sg {
     public class SpellItem : Item {
         public GameObject spellWarmUpFX;
         public GameObject spellCastFX;
-
         public string spellAnimation;
+
+        [Header("Spell Cost")]
+        public float focusCost;
+
         [Header("Spell Type")]
         public bool isFaithSpell;
         public bool isMagicSpell;
@@ -23,6 +26,7 @@ namespace sg {
 
         public virtual void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
             Debug.Log("주문 영창 성공");
+            playerStats.DeductFocus(focusCost);
         }
     }
 }
