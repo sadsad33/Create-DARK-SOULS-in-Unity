@@ -24,6 +24,12 @@ MonoBehaviour:
   OH_Light_Attack_1: OH_Light_Attack_1
   OH_Light_Attack_2: OH_Light_Attack_2
   OH_Heavy_Attack_1: OH_Heavy_Attack_1
+  TH_Light_Sword_Attack_1: 
+  TH_Light_Sword_Attack_2: 
   baseStamina: 25
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
+  isMagicCaster: 0
+  isFaithCaster: 0
+  isPyroCaster: 0
+  isMeleeWeapon: 1

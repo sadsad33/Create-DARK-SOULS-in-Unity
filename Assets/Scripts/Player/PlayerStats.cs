@@ -71,5 +71,13 @@ namespace sg {
                 staminaBar.SetCurrentStamina(currentStamina);
             }
         }
+
+        public void HealPlayer(float healAmount) {
+            currentHealth += healAmount;
+            if (currentHealth > maxHealth) {
+                currentHealth = maxHealth;
+            }
+            healthBar.SetCurrentHealth(currentHealth);
+        }
     }
 }

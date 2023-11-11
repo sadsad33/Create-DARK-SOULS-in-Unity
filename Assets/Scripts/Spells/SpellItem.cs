@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class SpellItem : MonoBehaviour {
+    public class SpellItem : Item {
         public GameObject spellWarmUpFX;
         public GameObject spellCastFX;
 
@@ -17,11 +17,11 @@ namespace sg {
         [TextArea]
         public string spellDescription;
 
-        public virtual void AttemptToCastSpell() {
+        public virtual void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
             Debug.Log("주문 영창 시도");
         }
 
-        public virtual void SuccessfullyCastSpell() {
+        public virtual void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
             Debug.Log("주문 영창 성공");
         }
     }
