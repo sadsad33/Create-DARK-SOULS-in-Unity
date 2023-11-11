@@ -32,5 +32,11 @@ namespace sg {
         public int baseStamina;
         public float lightAttackMultiplier;
         public float heavyAttackMultiplier;
+
+        [Header("Weapon Type")]
+        public bool isMagicCaster;
+        public bool isFaithCaster;
+        public bool isPyroCaster;
+        public bool isMeleeWeapon;
     }
 }

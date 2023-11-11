@@ -882,6 +882,7 @@ GameObject:
   - component: {fileID: 8481484491186356988}
   - component: {fileID: 4086121374917253539}
   - component: {fileID: 4086121374917253541}
+  - component: {fileID: 4086121375561442828}
   m_Layer: 11
   m_Name: Player Model
   m_TagString: Untagged
@@ -954,6 +955,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackingWeapon: {fileID: 0}
+  leftHandSlot: {fileID: 0}
+  rightHandSlot: {fileID: 0}
+  backSlot: {fileID: 0}
+  leftHandDamageCollider: {fileID: 0}
+  rightHandDamageCollider: {fileID: 0}
+--- !u!114 &4086121375561442828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2891228828765012540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95cee32909a99f45b81f4f41e3e5fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastAttack: 
 --- !u!1 &3043310324655453614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,7 +1369,6 @@ GameObject:
   - component: {fileID: 4086121375157841883}
   - component: {fileID: 4086121375157841885}
   - component: {fileID: 4086121375157841884}
-  - component: {fileID: 4086121375157841887}
   - component: {fileID: 4086121375157841886}
   m_Layer: 11
   m_Name: Player
@@ -1496,6 +1514,7 @@ MonoBehaviour:
   canDoCombo: 0
   isUsingRightHand: 0
   isUsingLeftHand: 0
+  isInvulnerable: 0
 --- !u!114 &4086121375157841884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,19 +1539,6 @@ MonoBehaviour:
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponsInventory: []
---- !u!114 &4086121375157841887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4086121375157841863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c95cee32909a99f45b81f4f41e3e5fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lastAttack: 
 --- !u!114 &4086121375157841886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,8 +1557,9 @@ MonoBehaviour:
   staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
-  healthBar: {fileID: 0}
-  staminaBar: {fileID: 0}
+  isDead: 0
+  staminaRegenerationAmount: 20
+  staminaRegenerationTimer: 0
 --- !u!1 &4259091751369522566
 GameObject:
   m_ObjectHideFlags: 0
