@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d7067eea7413364d847461fc0777f6a, type: 3}
-  m_Name: Sword
+  m_Name: Talisman
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 21300000, guid: 3d5de3033771a224ba4f9b2409012617, type: 3}
-  itemName: Sword
-  modelPrefab: {fileID: 3532690363611797894, guid: d5fb25c7ffd5e5e408d12b0dc639213b, type: 3}
+  itemIcon: {fileID: 21300000, guid: 92c6fbc1833686244a56633c96eadc6f, type: 3}
+  itemName: Talisman
+  modelPrefab: {fileID: 3369392048246929232, guid: d04a868860d690241a3c165b2feac5a4, type: 3}
   isUnarmed: 0
   Right_Hand_Idle: Right_Arm_Idle_1
   Left_Hand_Idle: Left_Arm_Idle_1
@@ -30,6 +30,6 @@ MonoBehaviour:
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
   isMagicCaster: 0
-  isFaithCaster: 0
+  isFaithCaster: 1
   isPyroCaster: 0
-  isMeleeWeapon: 1
+  isMeleeWeapon: 0

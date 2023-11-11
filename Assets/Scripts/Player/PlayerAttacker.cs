@@ -9,10 +9,12 @@ namespace sg {
         PlayerManager playerManager;
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
-
+        PlayerStats playerStats;
         public string lastAttack;
+
         public void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
+            playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             playerManager = GetComponentInParent<PlayerManager>();
             inputHandler = GetComponentInParent<InputHandler>();
@@ -20,7 +22,6 @@ namespace sg {
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
-
             if (inputHandler.comboFlag) {
                 animatorHandler.anim.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
@@ -66,7 +67,7 @@ namespace sg {
             if (playerInventory.rightWeapon.isMeleeWeapon) {
                 PerformRBMeleeAction();
             } else if (playerInventory.rightWeapon.isMagicCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster) {
-                PerformRBMagicAction(playerInventory.rightWeapon);
+                PerformRBSpellAction(playerInventory.rightWeapon);
             } 
         }
         #endregion
@@ -90,13 +91,18 @@ namespace sg {
             }
         }
 
-        // 마술 공격
-        private void PerformRBMagicAction(WeaponItem weapon) {
-            if (weapon.isMagicCaster) {
-                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isMagicSpell) {
-                    
+        // 영창 공격
+        private void PerformRBSpellAction(WeaponItem weapon) {
+            if (weapon.isFaithCaster) {
+                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell) {
+                    playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
                 }
             }
+        }
+
+        // Animation Event에서 호출하기 위한 함수
+        private void SuccessfullyCastSpell() {
+            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
         }
         #endregion
     }
