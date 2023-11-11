@@ -68,7 +68,7 @@ namespace sg {
                 PerformRBMeleeAction();
             } else if (playerInventory.rightWeapon.isMagicCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster) {
                 PerformRBSpellAction(playerInventory.rightWeapon);
-            } 
+            }
         }
         #endregion
 
@@ -93,9 +93,13 @@ namespace sg {
 
         // 영창 공격
         private void PerformRBSpellAction(WeaponItem weapon) {
+            if (playerManager.isInteracting) return;
+
             if (weapon.isFaithCaster) {
                 if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell) {
-                    playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                    if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                    else animatorHandler.PlayTargetAnimation("Shrugging", true);
                 }
             }
         }

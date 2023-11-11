@@ -8,13 +8,15 @@ namespace sg {
         public float healAmount;
 
         public override void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
-            GameObject instantiatedWarmUpSpellFX = Instantiate(spellWarmUpFX, animatorHandler.transform);
+            base.AttemptToCastSpell(animatorHandler, playerStats);
+            Instantiate(spellWarmUpFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
             Debug.Log("영창 중..");
         }
 
         public override void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
-            GameObject instantiatedSpellFX = Instantiate(spellCastFX, animatorHandler.transform);
+            base.SuccessfullyCastSpell(animatorHandler, playerStats);
+            Instantiate(spellCastFX, animatorHandler.transform);
             playerStats.HealPlayer(healAmount);
             Debug.Log("시전!!");
         }
