@@ -23,6 +23,7 @@ namespace sg {
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
+            if (playerStats.currentStamina <= 0) return;
             if (inputHandler.comboFlag) {
                 animatorHandler.anim.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
@@ -37,6 +38,7 @@ namespace sg {
         }
 
         public void HandleUnarmedAttack(WeaponItem weapon) {
+            if (playerStats.currentStamina <= 0) return;
             //Debug.Log("맨주먹 공격");
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.UnarmedAttack1, true);
@@ -44,6 +46,7 @@ namespace sg {
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
+            if (playerStats.currentStamina <= 0) return;
             //Debug.Log("한손 약공");
             weaponSlotManager.attackingWeapon = weapon;
             if (inputHandler.twoHandFlag) {
@@ -56,6 +59,7 @@ namespace sg {
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {
+            if (playerStats.currentStamina <= 0) return;
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
@@ -113,6 +117,7 @@ namespace sg {
 
         // 뒤잡, 앞잡 시도
         public void AttemptBackStabOrRiposte() {
+            if (playerStats.currentStamina <= 0) return;
             RaycastHit hit;
             if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();

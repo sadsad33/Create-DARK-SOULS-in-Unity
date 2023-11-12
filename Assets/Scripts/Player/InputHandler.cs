@@ -46,10 +46,12 @@ namespace sg {
         CameraHandler cameraHandler;
         WeaponSlotManager weaponSlotManager;
         PlayerAnimatorManager animatorHandler;
+        PlayerStats playerStats;
         Vector2 movementInput;
         Vector2 cameraInput;
 
         public void Awake() {
+            playerStats = GetComponent<PlayerStats>();
             playerAttacker = GetComponentInChildren<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
@@ -72,6 +74,10 @@ namespace sg {
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
+                // 버튼이 눌리면 이벤트 호출
+                inputActions.PlayerActions.Roll.performed += i => b_Input = true;
+                // 버튼을 눌렀다 바로 뗄떼 이벤트가 호출되는듯
+                inputActions.PlayerActions.Roll.canceled += i => b_Input = false; 
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;
@@ -109,15 +115,21 @@ namespace sg {
 
         // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.
         private void HandleRollInput(float delta) {
-            b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
-            sprintFlag = b_Input;
 
             if (b_Input) { // 회피버튼을 누르고 있는 동안
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
-            } else {
-                if (rollInputTimer > 0 && rollInputTimer < 0.3f) {
+
+                if (playerStats.currentStamina <= 0) { // 스테미너가 남아있지 않다면
+                    b_Input = false;
                     sprintFlag = false;
+                }
+                if (moveAmount > 0.5f && playerStats.currentStamina > 0) {
+                    sprintFlag = true;
+                }
+            } else {
+                sprintFlag = false;
+                if (rollInputTimer > 0 && rollInputTimer < 0.3f) {
                     rollFlag = true;
                 }
                 rollInputTimer = 0;

@@ -8,6 +8,7 @@ namespace sg {
         Transform cameraObject;
         InputHandler inputHandler;
         PlayerManager playerManager;
+        PlayerStats playerStats;
         public Vector3 moveDirection;
 
         [HideInInspector]
@@ -44,15 +45,21 @@ namespace sg {
         [SerializeField]
         float fallingSpeed = 80;
 
+        [Header("Stamina Costs")]
+        [SerializeField]
+        float rollStaminaCost = 15;
+        float backstepStaminaCost = 12;
+        float sprintStaminaCost = 1;
         private void Awake() {
             cameraHandler = FindObjectOfType<CameraHandler>();
-        }
-
-        void Start() {
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
+        }
+
+        void Start() {
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
@@ -136,6 +143,7 @@ namespace sg {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed; // 이동속도 반영
+                playerStats.TakeStaminaDamage(sprintStaminaCost);
             } else {
                 if (inputHandler.moveAmount < 0.5f) {
                     moveDirection *= walkingSpeed;
@@ -163,14 +171,14 @@ namespace sg {
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
                 animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
             }
-
-                
         }
 
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             if (animatorHandler.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
                 return;
+
+            if (playerStats.currentStamina <= 0) return;
 
             if (inputHandler.rollFlag) {
                 moveDirection = cameraObject.forward * inputHandler.vertical;
@@ -182,11 +190,13 @@ namespace sg {
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
+                    playerStats.TakeStaminaDamage(rollStaminaCost);
                 } else { // 이동중이 아니라면 백스텝
                     //Debug.Log("백스텝!!!");
                     if (inputHandler.backstepDelay > 0.3f) {
                         animatorHandler.PlayTargetAnimation("Backstep", true);
                         rigidbody.AddForce(-myTransform.forward * 20, ForceMode.Impulse);
+                        playerStats.TakeStaminaDamage(backstepStaminaCost);
                     }
                 }
             }
@@ -262,6 +272,7 @@ namespace sg {
 
         public void HandleJumping() {
             if (playerManager.isInteracting) return;
+            if (playerStats.currentStamina <= 0) return;
 
             if (inputHandler.jump_Input) {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {

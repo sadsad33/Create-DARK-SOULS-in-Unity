@@ -72,7 +72,7 @@ namespace sg {
             }
         }
 
-        public void TakeStaminaDamage(int damage) {
+        public void TakeStaminaDamage(float damage) {
             currentStamina -= damage;
             staminaBar.SetCurrentStamina(currentStamina);
 
