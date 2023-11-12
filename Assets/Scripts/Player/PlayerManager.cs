@@ -21,18 +21,17 @@ namespace sg {
         public bool isUsingRightHand, isUsingLeftHand;
         public bool isInvulnerable;
 
+        PlayerAnimatorManager playerAnimatorManager;
         PlayerStats playerStats;
         PlayerLocomotion playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
 
         private void Awake() {
+            playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerStats = GetComponent<PlayerStats>();
             backStabCollider = GetComponentInChildren<BackStabCollider>();
-        }
-
-        void Start() {
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
@@ -53,8 +52,9 @@ namespace sg {
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
             playerStats.RegenerateStamina();
-
             CheckForInteractableObject();
+
+            playerAnimatorManager.canRotate = anim.GetBool("canRotate");
 
             // 이동키와 백스텝키가 짧은 간격으로 눌리면 백스텝 이후 sprint 애니메이션이 실행되는 경우가 있다.
             // 이를 해결하기 위해 delay 추가
@@ -71,6 +71,7 @@ namespace sg {
             // Rigidbody를 통해 처리되는 움직임은 FixedUpdate에서 처리되는것이 좋음
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            playerLocomotion.HandleRotation(delta);
         }
 
         private void LateUpdate() {
