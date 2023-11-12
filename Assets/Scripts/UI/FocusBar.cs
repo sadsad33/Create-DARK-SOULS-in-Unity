@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace sg {
     public class FocusBar : MonoBehaviour {
         public Slider slider;
-        private void Start() {
+        private void Awake() {
             slider = GetComponent<Slider>();
         }
 

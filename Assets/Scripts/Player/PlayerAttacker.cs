@@ -11,7 +11,8 @@ namespace sg {
         WeaponSlotManager weaponSlotManager;
         PlayerStats playerStats;
         public string lastAttack;
-
+        LayerMask backStabLayer = 1 << 12;
+        
         public void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
             playerStats = GetComponentInParent<PlayerStats>();
@@ -109,5 +110,33 @@ namespace sg {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
         }
         #endregion
+
+        // 뒤잡, 앞잡 시도
+        public void AttemptBackStabOrRiposte() {
+            RaycastHit hit;
+            if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
+                CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                if (enemyCharacterManager != null) { // 뒤잡, 혹은 앞잡이 가능한 대상을 포착했을 경우
+                    // TODO
+                    // 피아 식별 (아군이나 자신에게는 가능하지 않도록)
+
+                    // 뒤잡 혹은 앞잡을 할때 어색하지 않도록 특정 좌표로 이동시킴
+                    playerManager.transform.position = enemyCharacterManager.backStabCollider.backStabberStandPoint.position;
+                    // 회전값도 조정
+                    Vector3 rotationDirection = playerManager.transform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - playerManager.transform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
+                    playerManager.transform.rotation = targetRotation;
+                    
+                    // 애니메이션 재생
+                    animatorHandler.PlayTargetAnimation("Back Stab", true);
+                    enemyCharacterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabbed", true);
+                    // 데미지 전달
+                }
+            }
+        }
     }
 }
