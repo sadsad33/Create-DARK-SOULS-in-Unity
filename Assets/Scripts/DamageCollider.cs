@@ -6,7 +6,7 @@ using UnityEngine;
 namespace sg {
     public class DamageCollider : MonoBehaviour {
         Collider damageCollider;
-        public float currentWeaponDamage = 25;
+        public float currentWeaponDamage;
         private void Awake() {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);

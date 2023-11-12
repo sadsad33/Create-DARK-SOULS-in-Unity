@@ -5,10 +5,13 @@ using UnityEngine;
 namespace sg {
     public class WeaponSlotManager : MonoBehaviour {
         public WeaponItem attackingWeapon;
+        PlayerInventory playerInventory;
         [SerializeField] 
         WeaponHolderSlot leftHandSlot, rightHandSlot, backSlot;
         [SerializeField]
-        DamageCollider leftHandDamageCollider, rightHandDamageCollider;
+        public DamageCollider leftHandDamageCollider; 
+        [SerializeField]
+        public DamageCollider rightHandDamageCollider;
         
         Animator animator;
         QuickSlots quickSlots;
@@ -17,6 +20,7 @@ namespace sg {
         PlayerManager playerManager;
         private void Awake() {
             playerManager = GetComponentInParent<PlayerManager>();
+            playerInventory = GetComponentInParent<PlayerInventory>();
             inputHandler = GetComponentInParent<InputHandler>();
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
@@ -77,13 +81,13 @@ namespace sg {
         #region Handle Weapon's Damage Collider
         // 애니메이션 내의 event로 다음의 함수들을 사용할 것
         private void LoadLeftWeaponDamageCollider() {
-            Debug.Log("왼쪽 무기 콜라이더 로드");
             leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            leftHandDamageCollider.currentWeaponDamage = playerInventory.leftWeapon.baseDamage;
         }
 
         private void LoadRightWeaponDamageCollider() {
-            Debug.Log("오른쪽 무기 콜라이더 로드");
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            rightHandDamageCollider.currentWeaponDamage = playerInventory.rightWeapon.baseDamage;
         }
 
         public void OpenDamageCollider() {

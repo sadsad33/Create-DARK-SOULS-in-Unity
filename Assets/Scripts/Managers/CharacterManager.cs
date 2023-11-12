@@ -10,5 +10,8 @@ namespace sg {
         [Header("Comabat Colliders")]
         public BoxCollider backStabBoxCollider;
         public BackStabCollider backStabCollider;
+
+        // 데미지는 애니메이션 이벤트로 가해질 것
+        public float pendingCriticalDamage;
     }
 }
