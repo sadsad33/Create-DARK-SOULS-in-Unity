@@ -5,9 +5,11 @@ using UnityEngine;
 namespace sg {
     public class EnemyAnimatorManager : AnimatorManager {
         EnemyManager enemyManager;
+        EnemyStats enemyStats;
         private void Awake() {
             anim = GetComponent<Animator>();
             enemyManager = GetComponentInParent<EnemyManager>();
+            enemyStats = GetComponentInParent<EnemyStats>();
         }
 
         private void OnAnimatorMove() {
@@ -17,6 +19,11 @@ namespace sg {
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
+        }
+
+        public override void TakeCriticalDamageAnimationEvent() {
+            enemyStats.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
+            enemyManager.pendingCriticalDamage = 0;
         }
     }
 }

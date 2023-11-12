@@ -27,6 +27,7 @@ namespace sg {
                 UnloadWeapon();
                 return;
             }
+
             GameObject model = Instantiate(weaponItem.modelPrefab);
             if (model != null) {
                 UnloadWeaponAndDestroy(); // 이전 무기는 파괴, 비활성화
@@ -36,7 +37,7 @@ namespace sg {
 
                 //else
                 //    model.transform.parent = transform; // override 항목이 없으면 자신의 위치에 맞춘다.
-
+                
                 model.transform.parent = parentOverride;
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localRotation = Quaternion.identity;

@@ -7,14 +7,14 @@ namespace sg {
     public class HealingSpell : SpellItem {
         public float healAmount;
 
-        public override void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
+        public override void AttemptToCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats) {
             base.AttemptToCastSpell(animatorHandler, playerStats);
             Instantiate(spellWarmUpFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
             Debug.Log("¿µÃ¢ Áß..");
         }
 
-        public override void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats) {
+        public override void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats) {
             base.SuccessfullyCastSpell(animatorHandler, playerStats);
             Instantiate(spellCastFX, animatorHandler.transform);
             playerStats.HealPlayer(healAmount);
