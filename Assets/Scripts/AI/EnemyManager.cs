@@ -40,9 +40,7 @@ namespace sg {
         private void Update() {
             isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
             HandleRecoveryTimer();
-            //Debug.Log("현재 상태 : " + currentState);
-            //Debug.Log(isPerformingAction);
-            //Debug.Log(navmeshAgent.enabled);
+            enemyAnimatorManager.anim.SetBool("isDead", enemyStats.isDead);
         }
 
         private void FixedUpdate() {

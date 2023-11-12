@@ -10,6 +10,10 @@ namespace sg {
         public GameObject modelPrefab;
         public bool isUnarmed;
 
+        [Header("Damage")]
+        public float baseDamage = 25;
+        public int criticalDamageMultiplier = 4;
+
         [Header("Idle Animations")]
         public string Right_Hand_Idle;
         public string Left_Hand_Idle;

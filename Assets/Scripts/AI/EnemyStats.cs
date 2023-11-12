@@ -19,6 +19,16 @@ namespace sg {
             return maxHealth;
         }
 
+        public void TakeDamageNoAnimation(float damage) {
+            Debug.Log("받은 데미지 : " + damage);
+            currentHealth -= damage;
+            Debug.Log("현재 체력 : " + currentHealth);
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+            }
+        }
+
         public void TakeDamage(float damage) {
             if (isDead) return;
             currentHealth -= damage;

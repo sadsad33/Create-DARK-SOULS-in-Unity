@@ -8,12 +8,12 @@ namespace sg {
         StaminaBar staminaBar;
         FocusBar focusBar;
         PlayerManager playerManager;
-        AnimatorHandler animatorHandler;
+        PlayerAnimatorManager animatorHandler;
 
         public float staminaRegenerationAmount = 20;
         public float staminaRegenerationTimer = 0;
         private void Awake() {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
             focusBar = FindObjectOfType<FocusBar>();
@@ -46,6 +46,14 @@ namespace sg {
         private float SetMaxStaminaFromStaminaLevel() {
             maxStamina = staminaLevel * 10;
             return maxStamina;
+        }
+
+        public void TakeDamageNoAnimation(float damage) {
+            currentHealth -= damage;
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+            }
         }
 
         public void TakeDamage(float damage) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace sg {
     public class PlayerAttacker : MonoBehaviour {
-        AnimatorHandler animatorHandler;
+        PlayerAnimatorManager animatorHandler;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         InputHandler inputHandler;
@@ -14,7 +14,7 @@ namespace sg {
         LayerMask backStabLayer = 1 << 12;
         
         public void Awake() {
-            animatorHandler = GetComponent<AnimatorHandler>();
+            animatorHandler = GetComponent<PlayerAnimatorManager>();
             playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             playerManager = GetComponentInParent<PlayerManager>();
@@ -116,6 +116,7 @@ namespace sg {
             RaycastHit hit;
             if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                DamageCollider rightWeapon = weaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null) { // 뒤잡, 혹은 앞잡이 가능한 대상을 포착했을 경우
                     // TODO
                     // 피아 식별 (아군이나 자신에게는 가능하지 않도록)
@@ -130,7 +131,10 @@ namespace sg {
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
                     Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
                     playerManager.transform.rotation = targetRotation;
-                    
+
+                    float criticalDamage = playerInventory.rightWeapon.criticalDamageMultiplier * rightWeapon.currentWeaponDamage;
+                    enemyCharacterManager.pendingCriticalDamage = criticalDamage;
+
                     // 애니메이션 재생
                     animatorHandler.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabbed", true);

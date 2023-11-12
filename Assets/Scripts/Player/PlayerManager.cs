@@ -48,7 +48,7 @@ namespace sg {
             isUsingLeftHand = anim.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
             isInvulnerable = anim.GetBool("isInvulnerable");
-
+            anim.SetBool("isDead", playerStats.isDead);
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
