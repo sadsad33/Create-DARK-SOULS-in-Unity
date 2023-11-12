@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class AnimatorHandler : AnimatorManager {
+    public class PlayerAnimatorManager : AnimatorManager {
         PlayerManager playerManager;
+        PlayerStats playerStats;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
 
@@ -14,6 +15,7 @@ namespace sg {
         
         public void Initialize() {
             playerManager = GetComponentInParent<PlayerManager>();
+            playerStats = GetComponentInParent<PlayerStats>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -62,7 +64,6 @@ namespace sg {
         public void DisableCombo() {
             anim.SetBool("canDoCombo", false);
         }
-
         private void OnAnimatorMove() {
             if(!playerManager.isInteracting)
                 return;
@@ -81,6 +82,11 @@ namespace sg {
 
         public void DisableIsInvulnerable() {
             anim.SetBool("isInvulnerable", false);            
+        }
+
+        public override void TakeCriticalDamageAnimationEvent() {
+            playerStats.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
+            playerManager.pendingCriticalDamage = 0;
         }
     }
 }

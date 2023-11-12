@@ -12,5 +12,9 @@ namespace sg {
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.3f);
         }
+
+        public virtual void TakeCriticalDamageAnimationEvent() {
+
+        } 
     }
 }
