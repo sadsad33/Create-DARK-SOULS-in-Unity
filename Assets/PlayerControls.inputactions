@@ -136,6 +136,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CriticalAttack",
+                    "type": "Button",
+                    "id": "3914d6d6-bff2-4e43-9f92-7af9f7ed7e7b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "RT",
                     "type": "Button",
                     "id": "0dfcef9e-0145-491b-a551-93f694c4b5b9",
@@ -262,7 +271,7 @@
                     "name": "",
                     "id": "f62fe6ad-14a4-4178-add8-bc2ccc2f5dbb",
                     "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
                     "action": "RB",
@@ -497,6 +506,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Y-button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d3ad79a-691b-40c3-808f-226ce34df56e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CriticalAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b774cfa0-a308-49d3-81ff-f048e1270cd9",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CriticalAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

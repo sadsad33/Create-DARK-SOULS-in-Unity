@@ -12,6 +12,7 @@ namespace sg {
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool critical_Attack_Input;
         public bool d_Pad_Up;
         public bool d_Pad_Down;
         public bool d_Pad_Right;
@@ -33,6 +34,9 @@ namespace sg {
 
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public float backstepDelay;
+
+        public Transform criticalAttackRayCastStartPoint;
+
         // Input Action 인스턴스
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
@@ -74,6 +78,7 @@ namespace sg {
                 inputActions.PlayerActions.LockOnTargetLeft.performed += i => right_Stick_Left_Input = true;
                 inputActions.PlayerActions.LockOnTargetRight.performed += i => right_Stick_Right_Input = true;
                 inputActions.PlayerActions.Ybutton.performed += i => y_Input = true;
+                inputActions.PlayerActions.CriticalAttack.performed += i => critical_Attack_Input = true;
             }
             inputActions.Enable();
         }
@@ -84,16 +89,17 @@ namespace sg {
 
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
-            HandleMoveInput(delta);
+            HandleMoveInput();
             HandleRollInput(delta);
-            HandleAttackInput(delta);
-            HandleQuickSlotInput(delta);
-            HandleInventoryInput(delta);
-            HandleLockOnInput(delta);
-            HandleTwoHandInput(delta);
+            HandleAttackInput();
+            HandleQuickSlotInput();
+            HandleInventoryInput();
+            HandleLockOnInput();
+            HandleTwoHandInput();
+            HandleCriticalAttackInput();
         }
 
-        private void HandleMoveInput(float delta) {
+        private void HandleMoveInput() {
             horizontal = movementInput.x;
             vertical = movementInput.y;
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
@@ -118,7 +124,7 @@ namespace sg {
             }
         }
 
-        private void HandleAttackInput(float delta) {
+        private void HandleAttackInput() {
 
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
@@ -132,7 +138,7 @@ namespace sg {
 
         }
 
-        private void HandleQuickSlotInput(float delta) {
+        private void HandleQuickSlotInput() {
 
             if (d_Pad_Right) {
                 playerInventory.ChangeRightWeapon();
@@ -141,7 +147,7 @@ namespace sg {
             }
         }
 
-        private void HandleInventoryInput(float delta) {
+        private void HandleInventoryInput() {
             if (inventory_Input) {
                 inventoryFlag = !inventoryFlag;
                 if (inventoryFlag) {
@@ -156,7 +162,7 @@ namespace sg {
             }
         }
 
-        private void HandleLockOnInput(float delta) {
+        private void HandleLockOnInput() {
             // 록온 버튼이 눌렸고 아직 록온 상태가 아닌경우
             if (lockOn_Input && !lockOnFlag) {
 
@@ -196,7 +202,7 @@ namespace sg {
 
         // 양잡 기능
         // 양잡을 하거나 양잡을 풀때 기본적으로 무기를 다시 로드한다.
-        private void HandleTwoHandInput(float delta) {
+        private void HandleTwoHandInput() {
             if (y_Input) {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
@@ -206,6 +212,13 @@ namespace sg {
                     weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
                     weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
                 }
+            }
+        }
+
+        private void HandleCriticalAttackInput() {
+            if (critical_Attack_Input) {
+                critical_Attack_Input = false;
+                playerAttacker.AttemptBackStabOrRiposte();
             }
         }
     }
