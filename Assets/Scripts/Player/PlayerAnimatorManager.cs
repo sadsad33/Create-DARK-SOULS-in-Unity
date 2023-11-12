@@ -11,7 +11,6 @@ namespace sg {
 
         int vertical;
         int horizontal;
-        public bool canRotate;
         
         public void Initialize() {
             playerManager = GetComponentInParent<PlayerManager>();
@@ -53,10 +52,10 @@ namespace sg {
         }
 
         public void CanRotate() {
-            canRotate = true;
+            anim.SetBool("canRotate", true);
         }
         public void StopRotation() {
-            canRotate = false;
+            anim.SetBool("canRotate", false);
         }
         public void EnableCombo() {
             anim.SetBool("canDoCombo", true);

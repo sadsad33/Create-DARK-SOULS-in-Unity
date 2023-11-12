@@ -5,10 +5,12 @@ using UnityEngine;
 namespace sg {
     public class AnimatorManager : MonoBehaviour {
         public Animator anim;
+        public bool canRotate;
 
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
             anim.applyRootMotion = isInteracting;
+            canRotate = false;
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.3f);
         }
