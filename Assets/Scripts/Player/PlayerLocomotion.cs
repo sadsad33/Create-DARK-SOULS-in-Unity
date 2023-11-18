@@ -50,7 +50,10 @@ namespace sg {
         float rollStaminaCost = 15;
         float backstepStaminaCost = 12;
         float sprintStaminaCost = 1;
+
+        public BoxCollider jumpCollider;
         private void Awake() {
+            jumpCollider.enabled = false;
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
@@ -166,7 +169,7 @@ namespace sg {
             rigidbody.velocity = projectedVelocity;
 
             // 록온 상태의경우 수평이동 입력값과 수직이동 입력값을 모두 사용한다.
-            if (inputHandler.lockOnFlag && !inputHandler.sprintFlag) { 
+            if (inputHandler.lockOnFlag && !inputHandler.sprintFlag) {
                 animatorHandler.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
                 animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
@@ -278,14 +281,7 @@ namespace sg {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
                     moveDirection = cameraObject.forward * inputHandler.vertical;
                     moveDirection += cameraObject.right * inputHandler.horizontal;
-
-                    //// 리지드 바디의 현재 속도를 저장
-                    //Vector3 currentVelocity = rigidbody.velocity;
-                    //// 점프할 방향
-                    //Vector3 jumpDirection = (moveDirection + rigidbody.transform.up).normalized;
-                    //// 현재 속도에 점프 속도를 합성
-                    //rigidbody.velocity = currentVelocity + jumpDirection * 30;
-
+                    StartCoroutine(JumpBooster());
                     animatorHandler.PlayTargetAnimation("Jump", true);
                     moveDirection.y = 0;
                     Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
@@ -294,7 +290,10 @@ namespace sg {
             }
         }
         #endregion
-
-
+        IEnumerator JumpBooster() {
+            jumpCollider.enabled = true;
+            yield return new WaitForSeconds(0.75f);
+            jumpCollider.enabled = false;
+        }
     }
 }

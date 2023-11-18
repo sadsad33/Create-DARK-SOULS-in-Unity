@@ -98,7 +98,10 @@ namespace sg {
             }
         }
 
+        #region Player Interactions
+
         public void CheckForInteractableObject() {
+            if (isInteracting) return;
             RaycastHit hit;
             if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayer)) {
                 if (hit.collider.tag == "Interactable") {
@@ -109,20 +112,31 @@ namespace sg {
                         interactableUIGameObject.SetActive(true);
 
                         if (inputHandler.a_Input) {
+                            interactableUIGameObject.SetActive(false);
                             hit.collider.GetComponent<Interactable>().Interact(this);
                         }
                     }
                 }
-            } else { // 주변에 상호작용가능한 오브젝트가 없음에도 메세지창이 떠있지 않도록
+            } else {
+                // 주변에 상호작용가능한 오브젝트가 없음에도 메세지창이 떠있지 않도록
                 if (interactableUIGameObject != null) {
                     interactableUIGameObject.SetActive(false);
                 }
 
                 // 아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
+                    Debug.Log("획득한 아이템 창 닫기");
                     itemInteractableGameObject.SetActive(false);
                 }
             }
         }
+
+        public void OpenChestInteraction(Transform playerStandingPosition) {
+            // 달리다가 상호작용을 할 경우 미끄러지는것을 방지
+            playerLocomotion.rigidbody.velocity = Vector3.zero;
+            transform.position = playerStandingPosition.transform.position;
+            playerAnimatorManager.PlayTargetAnimation("Open Chest", true);
+        }
+        #endregion
     }
 }

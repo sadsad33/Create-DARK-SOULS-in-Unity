@@ -24,7 +24,7 @@ namespace sg {
             animatorHandler.PlayTargetAnimation("PickingUp", true);
             playerInventory.weaponsInventory.Add(weapon);
             
-            // 무기 아이템을 줏을때는 무기 아이템의 이름이 표시되도록한다.
+            // 무기 아이템을 루팅 할때는 무기 아이템의 이름이 표시되도록한다.
             playerManager.itemInteractableGameObject.GetComponentInChildren<Text>().text = weapon.itemName;
             playerManager.itemInteractableGameObject.GetComponentInChildren<RawImage>().texture = weapon.itemIcon.texture; 
             playerManager.itemInteractableGameObject.SetActive(true);
