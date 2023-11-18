@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace sg {
     public class Interactable : MonoBehaviour {
-        public float radius = 0.5f;
+        public float radius = 0.6f;
         public string interactableText;
 
         private void OnDrawGizmos() {
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(transform.position, radius);
         }
 
 
