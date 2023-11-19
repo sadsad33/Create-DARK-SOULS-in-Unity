@@ -29,7 +29,7 @@ namespace sg {
             enemyStats = GetComponent<EnemyStats>();
             navmeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
-            backStabCollider = GetComponentInChildren<BackStabCollider>();
+            backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             navmeshAgent.enabled = false;
         }
 
