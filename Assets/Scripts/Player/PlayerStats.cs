@@ -107,5 +107,9 @@ namespace sg {
             }
             focusBar.SetCurrentFocus(currentFocus);
         }
+
+        public void AddSouls(int souls) {
+            soulCount += souls;
+        }
     }
 }

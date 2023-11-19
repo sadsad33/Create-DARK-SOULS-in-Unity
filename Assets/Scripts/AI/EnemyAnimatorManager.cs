@@ -25,5 +25,18 @@ namespace sg {
             enemyStats.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
             enemyManager.pendingCriticalDamage = 0;
         }
+
+        public void AwardSoulsOnDeath() {
+            // 씬 내의 모든 플레이어에게 소울을 줌
+            PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+            SoulCountBar soulCountBar = FindObjectOfType<SoulCountBar>();
+
+            if (playerStats != null) {
+                playerStats.AddSouls(enemyStats.soulsAwardedOnDeath);
+                if (soulCountBar != null) {
+                    soulCountBar.SetSoulCountText(playerStats.soulCount);
+                }
+            }
+        }
     }
 }

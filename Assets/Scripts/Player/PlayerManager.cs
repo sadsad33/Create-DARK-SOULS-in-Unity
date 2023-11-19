@@ -125,7 +125,6 @@ namespace sg {
 
                 // 아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
-                    Debug.Log("획득한 아이템 창 닫기");
                     itemInteractableGameObject.SetActive(false);
                 }
             }
