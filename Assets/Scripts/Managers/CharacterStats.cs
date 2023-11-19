@@ -16,6 +16,8 @@ namespace sg {
         public float maxFocus;
         public float currentFocus;
 
+        public int soulCount = 0;
+
         public bool isDead;
     }
 }

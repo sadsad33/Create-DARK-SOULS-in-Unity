@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace sg {
     public class EnemyStats : CharacterStats {
-        Animator animator;
+        public int soulsAwardedOnDeath;
+        EnemyAnimatorManager enemyAnimatorManager;
         private void Awake() {
-            animator = GetComponentInChildren<Animator>();
+            soulsAwardedOnDeath = 50;
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
         }
 
         private void Start() {
@@ -20,9 +22,7 @@ namespace sg {
         }
 
         public void TakeDamageNoAnimation(float damage) {
-            Debug.Log("받은 데미지 : " + damage);
             currentHealth -= damage;
-            Debug.Log("현재 체력 : " + currentHealth);
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
@@ -32,13 +32,17 @@ namespace sg {
         public void TakeDamage(float damage) {
             if (isDead) return;
             currentHealth -= damage;
-            animator.Play("Damage");
+            enemyAnimatorManager.PlayTargetAnimation("Damage", true);
 
             if (currentHealth <= 0) {
-                currentHealth = 0;
-                animator.Play("Dead");
-                isDead = true;
+                HandleDeath();
             }
+        }
+
+        private void HandleDeath() {
+            currentHealth = 0;
+            enemyAnimatorManager.PlayTargetAnimation("Dead",true);
+            isDead = true;
         }
     }
 }
