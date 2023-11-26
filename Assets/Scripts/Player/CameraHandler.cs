@@ -50,7 +50,7 @@ namespace sg {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayer = ~(1 << 8 | 1 << 9 | 1 << 10 | 1 << 11 | 1 << 12);
+            ignoreLayer = ~(1 << 8 | 1 << 9 | 1 << 10 | 1 << 11 | 1 << 12 | 1 << 13);
             targetTransform = FindObjectOfType<PlayerManager>().transform;
             inputHandler = FindObjectOfType<InputHandler>();
             playerManager = FindObjectOfType<PlayerManager>();
@@ -145,6 +145,7 @@ namespace sg {
 
             // 물체와 플레이어 사이의 거리가 너무 가깝다면 최소치로 맞춰줌
             if (Mathf.Abs(targetPosition) < minimumCollisionOffset) {
+                //Debug.Log(hit.collider.gameObject.layer);
                 targetPosition = -minimumCollisionOffset;
             }
 

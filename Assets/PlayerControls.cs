@@ -264,6 +264,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LT"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd6be592-eb41-4be3-a4f6-d45bb17de00f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -552,6 +561,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""CriticalAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea402c5f-1c2e-4101-a77c-30f371c46eca"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40ed48e4-ca6c-4b9c-a637-bc9d237f3811"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -579,6 +610,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_LockOnTargetLeft = m_PlayerActions.FindAction("LockOnTargetLeft", throwIfNotFound: true);
         m_PlayerActions_LockOnTargetRight = m_PlayerActions.FindAction("LockOnTargetRight", throwIfNotFound: true);
         m_PlayerActions_Ybutton = m_PlayerActions.FindAction("Y-button", throwIfNotFound: true);
+        m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -709,6 +741,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LockOnTargetLeft;
     private readonly InputAction m_PlayerActions_LockOnTargetRight;
     private readonly InputAction m_PlayerActions_Ybutton;
+    private readonly InputAction m_PlayerActions_LT;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -728,6 +761,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @LockOnTargetLeft => m_Wrapper.m_PlayerActions_LockOnTargetLeft;
         public InputAction @LockOnTargetRight => m_Wrapper.m_PlayerActions_LockOnTargetRight;
         public InputAction @Ybutton => m_Wrapper.m_PlayerActions_Ybutton;
+        public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -782,6 +816,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Ybutton.started += instance.OnYbutton;
             @Ybutton.performed += instance.OnYbutton;
             @Ybutton.canceled += instance.OnYbutton;
+            @LT.started += instance.OnLT;
+            @LT.performed += instance.OnLT;
+            @LT.canceled += instance.OnLT;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -831,6 +868,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Ybutton.started -= instance.OnYbutton;
             @Ybutton.performed -= instance.OnYbutton;
             @Ybutton.canceled -= instance.OnYbutton;
+            @LT.started -= instance.OnLT;
+            @LT.performed -= instance.OnLT;
+            @LT.canceled -= instance.OnLT;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -870,5 +910,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnLockOnTargetLeft(InputAction.CallbackContext context);
         void OnLockOnTargetRight(InputAction.CallbackContext context);
         void OnYbutton(InputAction.CallbackContext context);
+        void OnLT(InputAction.CallbackContext context);
     }
 }

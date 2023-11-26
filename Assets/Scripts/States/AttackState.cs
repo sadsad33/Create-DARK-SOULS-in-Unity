@@ -21,7 +21,8 @@ namespace sg {
             HandleRotateTowardsTarget(enemyManager);
 
             // 대상 공격
-            if (enemyManager.isPerformingAction) return combatStanceState;
+            if (enemyManager.isPerformingAction)
+                return combatStanceState;
 
             if (currentAttack != null) {
                 // 만약 타겟이 공격하기에 너무 가까이 있다면 새로운 공격을 선택한다.
@@ -30,6 +31,7 @@ namespace sg {
                 } else if (distanceFromTarget < currentAttack.maximumDistanceNeededToAttack) {
                     if (viewableAngle <= currentAttack.maximumAttackAngle && viewableAngle >= currentAttack.minimumAttackAngle) {
                         if (enemyManager.currentRecoveryTime <= 0 && !enemyManager.isPerformingAction) {
+                            if (enemyManager.isInteracting) return combatStanceState;
                             enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
@@ -84,9 +86,10 @@ namespace sg {
             }
         }
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
+            if (enemyManager.isInteracting) return;
             //Debug.Log("회전");
 
-            // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
+                // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
                 //Debug.Log("일반 회전");
                 Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;

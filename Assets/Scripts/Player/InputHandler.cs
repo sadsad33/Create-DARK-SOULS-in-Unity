@@ -12,13 +12,14 @@ namespace sg {
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool lt_Input;
         public bool critical_Attack_Input;
         public bool d_Pad_Up;
         public bool d_Pad_Down;
         public bool d_Pad_Right;
         public bool d_Pad_Left;
         public bool a_Input;
-        public bool y_Input;    
+        public bool y_Input;
         public bool jump_Input;
         public bool inventory_Input;
         public bool lockOn_Input;
@@ -71,13 +72,14 @@ namespace sg {
                 // 버튼의 입력을 매 프레임마다 감지하게 되면 GarbageCollector에게 부담을 주게 된다.
                 inputActions.PlayerActions.RB.performed += i => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+                inputActions.PlayerActions.LT.performed += i => lt_Input = true;
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
                 // 버튼이 눌리면 이벤트 호출
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
                 // 버튼을 눌렀다 바로 뗄떼 이벤트가 호출되는듯
-                inputActions.PlayerActions.Roll.canceled += i => b_Input = false; 
+                inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;
@@ -148,6 +150,16 @@ namespace sg {
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
 
+            if (lt_Input) {
+                // 양잡상태라면 전투기술 사용
+                if (twoHandFlag) {
+
+                } else {
+                    // 왼손또한 무기를 들고있다면 왼손 약공
+                    // 방패를 들고있다면 방패 전투기술 사용
+                    playerAttacker.HandleLTAction();
+                }
+            }
         }
 
         private void HandleQuickSlotInput() {

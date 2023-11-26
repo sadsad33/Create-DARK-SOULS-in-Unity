@@ -64,8 +64,7 @@ namespace sg {
             anim.SetBool("canDoCombo", false);
         }
         private void OnAnimatorMove() {
-            if(!playerManager.isInteracting)
-                return;
+            if(!playerManager.isInteracting) return;
 
             float delta = Time.deltaTime;
             playerLocomotion.rigidbody.drag = 0;
@@ -81,6 +80,22 @@ namespace sg {
 
         public void DisableIsInvulnerable() {
             anim.SetBool("isInvulnerable", false);            
+        }
+
+        public void EnableIsParrying() {
+            playerManager.isParrying = true;
+        }
+
+        public void DisableIsParrying() {
+            playerManager.isParrying = false;
+        }
+
+        public void EnableCanBeRiposted() {
+            playerManager.canBeRiposted = true;
+        }
+
+        public void DisableCanBeRiposted() {
+            playerManager.canBeRiposted = false;
         }
 
         public override void TakeCriticalDamageAnimationEvent() {

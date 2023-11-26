@@ -26,6 +26,22 @@ namespace sg {
             enemyManager.pendingCriticalDamage = 0;
         }
 
+        public void EnableIsParrying() {
+            enemyManager.isParrying = true;
+        }
+
+        public void DisableIsParrying() {
+            enemyManager.isParrying = false;
+        }
+
+        public void EnableCanBeRiposted() {
+            enemyManager.canBeRiposted = true;
+        }
+
+        public void DisableCanBeRiposted() {
+            enemyManager.canBeRiposted = false;
+        }
+
         public void AwardSoulsOnDeath() {
             // 씬 내의 모든 플레이어에게 소울을 줌
             PlayerStats playerStats = FindObjectOfType<PlayerStats>();
