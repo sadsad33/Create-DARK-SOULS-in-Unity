@@ -46,7 +46,7 @@ namespace sg {
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0) return;
+            if (playerStats.currentStamina <= 0 || playerManager.isInteracting) return;
             //Debug.Log("한손 약공");
             weaponSlotManager.attackingWeapon = weapon;
             if (inputHandler.twoHandFlag) {
@@ -59,7 +59,7 @@ namespace sg {
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0) return;
+            if (playerStats.currentStamina <= 0 || playerManager.isInteracting) return;
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
@@ -73,6 +73,14 @@ namespace sg {
                 PerformRBMeleeAction();
             } else if (playerInventory.rightWeapon.isMagicCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster) {
                 PerformRBSpellAction(playerInventory.rightWeapon);
+            }
+        }
+
+        public void HandleLTAction() {
+            if (playerInventory.leftWeapon.isShieldWeapon) {
+                PerformLTWeaponArt(inputHandler.twoHandFlag);
+            } else if (playerInventory.leftWeapon.isMeleeWeapon) {
+                // 약공
             }
         }
         #endregion
@@ -99,7 +107,6 @@ namespace sg {
         // 영창 공격
         private void PerformRBSpellAction(WeaponItem weapon) {
             if (playerManager.isInteracting) return;
-
             if (weapon.isFaithCaster) {
                 if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell) {
                     if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
@@ -109,6 +116,17 @@ namespace sg {
             }
         }
 
+        private void PerformLTWeaponArt(bool isTwoHanding) {
+            if (playerManager.isInteracting) return;
+
+            if (isTwoHanding) {
+                // 양잡 상태라면 오른손 무기의 전기 사용
+
+            } else {
+                // 왼손 무기의 전기를 사용
+                animatorHandler.PlayTargetAnimation(playerInventory.leftWeapon.weaponArt, true);
+            }
+        }
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
@@ -148,6 +166,7 @@ namespace sg {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
                 DamageCollider rightWeapon = weaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null && enemyCharacterManager.canBeRiposted) {
+                    Debug.Log("앞잡");
                     playerManager.transform.position = enemyCharacterManager.riposteCollider.criticalDamagerStandPosition.position;
 
                     Vector3 rotationDirection = playerManager.transform.root.eulerAngles;

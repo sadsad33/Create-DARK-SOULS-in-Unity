@@ -5,6 +5,7 @@ using UnityEngine;
 // 각각의 무기가 가지고 있을 Collider의 스크립트
 namespace sg {
     public class DamageCollider : MonoBehaviour {
+        public CharacterManager characterManager;
         Collider damageCollider;
         public float currentWeaponDamage;
         private void Awake() {
@@ -25,6 +26,14 @@ namespace sg {
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
                 PlayerStats playerStats = other.GetComponent<PlayerStats>();
+                CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
+
+                if (enemyCharacterManager != null) {
+                    if (enemyCharacterManager.isParrying) {
+                        characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
+                        return;
+                    }
+                }
                 if (playerStats != null) {
                     playerStats.TakeDamage(currentWeaponDamage);
                 }
@@ -32,6 +41,14 @@ namespace sg {
 
             if (other.tag == "Enemy") {
                 EnemyStats enemyStats = other.GetComponent<EnemyStats>();
+                CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
+
+                if (enemyCharacterManager != null) {
+                    if (enemyCharacterManager.isParrying) {
+                        characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
+                        return;
+                    }
+                }
                 if (enemyStats != null) {
                     enemyStats.TakeDamage(currentWeaponDamage);
                 }

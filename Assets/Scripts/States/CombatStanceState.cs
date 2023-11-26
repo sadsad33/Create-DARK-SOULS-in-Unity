@@ -28,7 +28,8 @@ namespace sg {
         }
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
             //Debug.Log("회전");
-
+            if (enemyManager.isInteracting) return;
+            
             // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
                 //Debug.Log("일반 회전");
