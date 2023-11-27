@@ -9,6 +9,8 @@ namespace sg {
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨
             // 타겟이 공격 사거리 밖으로 나가면 Pursue Target State를 유지한채 추적
+
+            if (enemyManager.isInteracting) return this;
             if (enemyManager.isPerformingAction) { // 행동중이라면
                 enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 정지
                 return this;
@@ -23,8 +25,7 @@ namespace sg {
             }
 
             HandleRotateTowardsTarget(enemyManager);
-            enemyManager.navmeshAgent.transform.localPosition = Vector3.zero;
-            enemyManager.navmeshAgent.transform.localRotation = Quaternion.identity;
+
 
             if (distanceFromTarget <= enemyManager.maximumAttackRange) {
                 return combatStanceState;
@@ -36,7 +37,6 @@ namespace sg {
         // 목표 방향으로 회전
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
             //Debug.Log("회전");
-            if (enemyManager.isInteracting) return;
             // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
                 //Debug.Log("일반 회전");

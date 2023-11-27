@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Attack 01
   m_EditorClassIdentifier: 
   actionAnimation: DaggerAttack1
+  canCombo: 1
+  comboAction: {fileID: 11400000, guid: 714b0ac9bb0c6a84f80addfe12aca049, type: 2}
   attackScore: 3
   recoveryTime: 2
   maximumAttackAngle: 35
