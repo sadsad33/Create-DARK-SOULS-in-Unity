@@ -14,6 +14,10 @@ namespace sg {
         public float baseDamage = 25;
         public int criticalDamageMultiplier = 4;
 
+        // 방어시 물리 피해 흡수량
+        [Header("Absorption")]
+        public float physicalDamageAbsorption;
+
         [Header("Idle Animations")]
         public string Right_Hand_Idle;
         public string Left_Hand_Idle;

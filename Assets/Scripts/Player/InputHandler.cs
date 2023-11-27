@@ -49,6 +49,9 @@ namespace sg {
         WeaponSlotManager weaponSlotManager;
         PlayerAnimatorManager animatorHandler;
         PlayerStats playerStats;
+
+        BlockingCollider blockingCollider;
+
         Vector2 movementInput;
         Vector2 cameraInput;
 
@@ -60,6 +63,7 @@ namespace sg {
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            blockingCollider = GetComponentInChildren<BlockingCollider>();
             animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
         }
 
@@ -168,6 +172,9 @@ namespace sg {
                 playerAttacker.HandleLBAction();
             } else {
                 playerManager.isBlocking = false;
+                if (blockingCollider.blockingCollider.enabled) {
+                    blockingCollider.DisableBlockingCollider();
+                }
             }
 
         }

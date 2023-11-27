@@ -29,10 +29,10 @@ namespace sg {
             }
         }
 
-        public void TakeDamage(float damage) {
+        public void TakeDamage(float damage, string damageAnimation = "Damage") {
             if (isDead) return;
             currentHealth -= damage;
-            enemyAnimatorManager.PlayTargetAnimation("Damage", true);
+            enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
                 HandleDeath();
