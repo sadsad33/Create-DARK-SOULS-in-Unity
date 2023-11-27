@@ -17,6 +17,9 @@ namespace sg {
 
         public float rotationSpeed = 15;
         public float maximumAttackRange = 1.5f;
+        [Header("Combat Flags")]
+        public bool canDoCombo;
+
         [Header("AI Settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
@@ -37,13 +40,17 @@ namespace sg {
         }
 
         private void Update() {
-            isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
             HandleRecoveryTimer();
+            HandleStateMachine();
+            isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
+            canDoCombo = enemyAnimatorManager.anim.GetBool("canDoCombo");
             enemyAnimatorManager.anim.SetBool("isDead", enemyStats.isDead);
+
         }
 
-        private void FixedUpdate() {
-            HandleStateMachine();
+        private void LateUpdate() {
+            navmeshAgent.transform.localPosition = Vector3.zero;
+            navmeshAgent.transform.localRotation = Quaternion.identity;
         }
 
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다

@@ -63,16 +63,6 @@ namespace sg {
         public void DisableCombo() {
             anim.SetBool("canDoCombo", false);
         }
-        private void OnAnimatorMove() {
-            if(!playerManager.isInteracting) return;
-
-            float delta = Time.deltaTime;
-            playerLocomotion.rigidbody.drag = 0;
-            Vector3 deltaPosition = anim.deltaPosition; // 애니메이션의 마지막 프레임때 아바타의 좌표를 가져옴
-            deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
-            playerLocomotion.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
-        }
 
         public void EnableIsInvulnerable() {
             anim.SetBool("isInvulnerable", true);
@@ -96,6 +86,17 @@ namespace sg {
 
         public void DisableCanBeRiposted() {
             playerManager.canBeRiposted = false;
+        }
+
+        private void OnAnimatorMove() {
+            if(!playerManager.isInteracting) return;
+
+            float delta = Time.deltaTime;
+            playerLocomotion.rigidbody.drag = 0;
+            Vector3 deltaPosition = anim.deltaPosition; // 애니메이션의 마지막 프레임때 아바타의 좌표를 가져옴
+            deltaPosition.y = 0;
+            Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
+            playerLocomotion.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
         }
 
         public override void TakeCriticalDamageAnimationEvent() {

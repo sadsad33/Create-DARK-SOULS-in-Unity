@@ -12,7 +12,7 @@ namespace sg {
             // 공격 사거리 내에 들어가면 Attack State가 된다.
             // 공격후 딜레이 상태라면 Combat Stance State로 돌아오고 타겟 주위를 배회
             // 만약 타겟이 공격 사거리 밖으로 도망가버리면 Pursue Target State가 됨.
-
+            if (enemyManager.isInteracting) return this;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             HandleRotateTowardsTarget(enemyManager);
 
@@ -28,8 +28,6 @@ namespace sg {
         }
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
             //Debug.Log("회전");
-            if (enemyManager.isInteracting) return;
-            
             // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
                 //Debug.Log("일반 회전");
