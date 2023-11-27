@@ -8,9 +8,9 @@ namespace sg {
         public bool canRotate;
 
         // 해당 애니메이션을 실행한다.
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
+        public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
             anim.applyRootMotion = isInteracting;
-            canRotate = false;
+            anim.SetBool("canRotate", canRotate);
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.3f);
         }
