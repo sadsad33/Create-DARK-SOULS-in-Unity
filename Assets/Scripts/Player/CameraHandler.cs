@@ -38,11 +38,12 @@ namespace sg {
         public float lockedPivotPosition = 2.25f;
         public float unlockedPivotPosition = 1.65f;
 
-        public Transform currentLockOnTarget;
+        public CharacterManager currentLockOnTarget;
+        
         List<CharacterManager> availableTargets = new List<CharacterManager>();
-        public Transform nearestLockOnTarget;
+        public CharacterManager nearestLockOnTarget;
         public float maximumLockOnDistance = 30f;
-        public Transform leftLockTarget, rightLockTarget;
+        public CharacterManager leftLockTarget, rightLockTarget;
 
         InputHandler inputHandler;
         PlayerManager playerManager;
@@ -102,7 +103,7 @@ namespace sg {
             // 록온을 했을 경우
             else {
                 // 카메라가 록온한 대상을 정면으로 바라보며 수평회전하도록 한다.
-                Vector3 dir = currentLockOnTarget.position - transform.position;
+                Vector3 dir = currentLockOnTarget.transform.position - transform.position;
                 dir.Normalize();
                 dir.y = 0;
 
@@ -157,7 +158,8 @@ namespace sg {
         public void HandleLockOn() {
 
             float shortestDistance = Mathf.Infinity;
-            float shortestDistanceOfLeftTarget = Mathf.Infinity;
+            // 자기 자신을 원점으로 왼쪽은 -무한대 오른쪽은 +무한대
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity; 
             float shortestDistanceOfRightTarget = Mathf.Infinity;
 
             Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 26);
@@ -194,29 +196,30 @@ namespace sg {
                 float distanceFromTarget = Vector3.Distance(targetTransform.position, availableTargets[i].transform.position);
                 if (distanceFromTarget < shortestDistance) {
                     shortestDistance = distanceFromTarget;
-                    nearestLockOnTarget = availableTargets[i].lockOnTransform;
+                    nearestLockOnTarget = availableTargets[i];
                 }
                 if (inputHandler.lockOnFlag) { // 록온 상태
-                    // 적도 플레이어를 록온한 상태에서 마주보고 있다는 상황을 가정한듯
                     // InverseTransformPoint : 객체의 월드좌표를 로컬좌표로 변환
-                    // 현재 록온 되어있는 오브젝트의 로컬좌표계 내에서 다른 록온 가능한 오브젝트들의 상대좌표를 구한다.
-                    Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(availableTargets[i].transform.position);
-                    // 현재 록온되어있는 오브젝트와 다른 오브젝트 사이의 x축 거리
-                    var distanceFromLeftTarget = currentLockOnTarget.transform.position.x - availableTargets[i].transform.position.x;
-                    var distanceFromRightTarget = currentLockOnTarget.transform.position.x + availableTargets[i].transform.position.x;
-
-                    // 상대 좌표의 x 좌표가 양수라면 록온된 오브젝트의 기준으로 오른쪽 : 플레이어 기준으로 왼쪽
-                    if (relativeEnemyPosition.x > 0.00 && distanceFromLeftTarget < shortestDistanceOfLeftTarget) {
+                    // 주변에 락온이 가능한 타겟들의 월드 좌표를 자기 자신의 로컬좌표계로 편입시킨다.
+                    Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);
+                    var distanceFromLeftTarget = relativeEnemyPosition.x; // 왼쪽 타겟의 좌표
+                    var distanceFromRightTarget = relativeEnemyPosition.x; // 오른쪽 타겟의 좌표
+                    
+                    // 만약 x 좌표가 음수라면 자신을 기준으로 왼쪽에 있는 것
+                    // 왼쪽에 있는 타겟들은 x 좌표의 값이 - 이므로 멀수록 값이 작아지고 가까울수록 값이 커짐
+                    // 해당 좌표의 타겟이 현재 록온된 타겟이 아니라면
+                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget && availableTargets[i] != currentLockOnTarget) {
                         shortestDistanceOfLeftTarget = distanceFromLeftTarget;
                         // 현재 록온된 오브젝트와 가장 가까운 거리를 가진 왼쪽 오브젝트를 저장
-                        leftLockTarget = availableTargets[i].lockOnTransform;
+                        leftLockTarget = availableTargets[i];
                     }
-
-                    // 상대 좌표의 x 좌표가 음수라면 록온된 오브젝트의 기준으로 왼쪽에 : 플레이어를 기준으로 오른쪽
-                    if (relativeEnemyPosition.x < 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget) {
+                    // x 좌표가 양수라면 자신을 기준으로 오른쪽에 있는 것
+                    // 오른쪽에 있는 타겟들은 x 좌표의 값이 + 이므로 멀수록 값이 커지고 가까울수록 값이 작아짐
+                    // 해당 좌표의 타겟이 현재 록온된 타겟이 아니라면
+                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget && availableTargets[i] != currentLockOnTarget) {
                         shortestDistanceOfRightTarget = distanceFromRightTarget;
                         // 현재 록온된 오브젝트와 가장 가까운 거리를 가진 오른쪽 오브젝트를 저장
-                        rightLockTarget = availableTargets[i].lockOnTransform;
+                        rightLockTarget = availableTargets[i];
                     }
                 }
             }
