@@ -76,6 +76,10 @@ namespace sg {
             }
         }
 
+        public void HandleLBAction() {
+            PerformLBBlockingAction();
+        }
+
         public void HandleLTAction() {
             if (playerInventory.leftWeapon.isShieldWeapon) {
                 PerformLTWeaponArt(inputHandler.twoHandFlag);
@@ -127,12 +131,26 @@ namespace sg {
                 animatorHandler.PlayTargetAnimation(playerInventory.leftWeapon.weaponArt, true);
             }
         }
+
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
         }
+
         #endregion
 
+        #region Defense Actions
+        private void PerformLBBlockingAction() {
+            if (playerManager.isInteracting) return;
+            // 이미 막기중이라면 반환
+            // 계속해서 Block Start 애니메이션이 실행되는것을 방지
+            if (playerManager.isBlocking) return;
+
+            animatorHandler.PlayTargetAnimation("Block Start", false, true);
+            playerManager.isBlocking = true;
+        }
+
+        #endregion
         // 뒤잡, 앞잡 시도
         public void AttemptBackStabOrRiposte() {
             if (playerStats.currentStamina <= 0) return;

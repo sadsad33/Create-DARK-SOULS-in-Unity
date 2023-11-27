@@ -11,6 +11,7 @@ namespace sg {
 
         public bool b_Input;
         public bool rb_Input;
+        public bool lb_Input;
         public bool rt_Input;
         public bool lt_Input;
         public bool critical_Attack_Input;
@@ -72,6 +73,8 @@ namespace sg {
                 // 버튼의 입력을 매 프레임마다 감지하게 되면 GarbageCollector에게 부담을 주게 된다.
                 inputActions.PlayerActions.RB.performed += i => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+                inputActions.PlayerActions.LB.performed += i => lb_Input = true;
+                inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
@@ -99,7 +102,7 @@ namespace sg {
         public void TickInput(float delta) {
             HandleMoveInput();
             HandleRollInput(delta);
-            HandleAttackInput();
+            HandleCombatInput();
             HandleQuickSlotInput();
             HandleInventoryInput();
             HandleLockOnInput();
@@ -138,7 +141,7 @@ namespace sg {
             }
         }
 
-        private void HandleAttackInput() {
+        private void HandleCombatInput() {
 
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
@@ -160,6 +163,13 @@ namespace sg {
                     playerAttacker.HandleLTAction();
                 }
             }
+
+            if (lb_Input) {
+                playerAttacker.HandleLBAction();
+            } else {
+                playerManager.isBlocking = false;
+            }
+
         }
 
         private void HandleQuickSlotInput() {

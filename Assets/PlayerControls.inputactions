@@ -136,6 +136,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LB",
+                    "type": "Button",
+                    "id": "d285a60f-edda-45d4-9867-6af3981fba31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "CriticalAttack",
                     "type": "Button",
                     "id": "3914d6d6-bff2-4e43-9f92-7af9f7ed7e7b",
@@ -279,7 +288,7 @@
                 {
                     "name": "",
                     "id": "f62fe6ad-14a4-4178-add8-bc2ccc2f5dbb",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
@@ -521,7 +530,7 @@
                 {
                     "name": "",
                     "id": "3d3ad79a-691b-40c3-808f-226ce34df56e",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
@@ -559,6 +568,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e05ec9b-d9a5-46ba-98b4-a8480e432601",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
