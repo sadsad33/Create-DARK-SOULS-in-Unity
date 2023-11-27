@@ -20,7 +20,6 @@ namespace sg {
         public bool canDoCombo;
         public bool isUsingRightHand, isUsingLeftHand;
         public bool isInvulnerable;
-        public bool isBlocking;
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStats playerStats;
@@ -74,6 +73,7 @@ namespace sg {
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleRotation(delta);
+            Debug.Log(isInAir);
         }
 
         private void LateUpdate() {

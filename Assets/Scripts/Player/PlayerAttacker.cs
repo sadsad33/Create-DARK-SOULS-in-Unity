@@ -5,6 +5,7 @@ using UnityEngine;
 namespace sg {
     public class PlayerAttacker : MonoBehaviour {
         PlayerAnimatorManager animatorHandler;
+        PlayerEquipmentManager playerEquipmentManager;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         InputHandler inputHandler;
@@ -15,6 +16,7 @@ namespace sg {
         LayerMask riposteLayer = 1 << 13;
         public void Awake() {
             animatorHandler = GetComponent<PlayerAnimatorManager>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             playerManager = GetComponentInParent<PlayerManager>();
@@ -147,6 +149,7 @@ namespace sg {
             if (playerManager.isBlocking) return;
 
             animatorHandler.PlayTargetAnimation("Block Start", false, true);
+            playerEquipmentManager.OpenBlockingCollider();
             playerManager.isBlocking = true;
         }
 

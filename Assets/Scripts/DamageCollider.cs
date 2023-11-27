@@ -27,11 +27,17 @@ namespace sg {
             if (other.tag == "Player") {
                 PlayerStats playerStats = other.GetComponent<PlayerStats>();
                 CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
-
+                BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 if (enemyCharacterManager != null) {
                     if (enemyCharacterManager.isParrying) {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
+                    } else if (shield != null && enemyCharacterManager.isBlocking) {
+                        float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
+                        if (playerStats != null) {
+                            playerStats.TakeDamage(physicalDamageAfterBlock, "Block Impact");
+                            return;
+                        }
                     }
                 }
                 if (playerStats != null) {
@@ -42,11 +48,17 @@ namespace sg {
             if (other.tag == "Enemy") {
                 EnemyStats enemyStats = other.GetComponent<EnemyStats>();
                 CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
-
+                BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 if (enemyCharacterManager != null) {
                     if (enemyCharacterManager.isParrying) {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
+                    } else if (shield != null && enemyCharacterManager.isBlocking) {
+                        float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
+                        if (enemyStats != null) {
+                            enemyStats.TakeDamage(physicalDamageAfterBlock, "Block Impact");
+                            return;
+                        }
                     }
                 }
                 if (enemyStats != null) {

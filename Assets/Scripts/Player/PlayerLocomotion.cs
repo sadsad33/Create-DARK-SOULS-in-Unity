@@ -218,26 +218,27 @@ namespace sg {
 
             if (playerManager.isInAir) {
                 rigidbody.AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
-                rigidbody.AddForce(moveDirection * fallingSpeed / 7); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
+                rigidbody.AddForce(moveDirection * fallingSpeed / 10); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
             }
 
             Vector3 dir = moveDirection;
             dir.Normalize();
             origin += dir * groundDirectionRayDistance;
             targetPosition = myTransform.position;
-            Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
+            Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.05f, false);
             if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
                 normalVector = hit.normal; // 아래쪽으로 레이를 쏴서 부딪힌 지점의 법선 벡터
                 Vector3 tp = hit.point; // 착지할 곳의 좌표
                 playerManager.isGrounded = true;
                 targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
-
+                Debug.Log(targetPosition);
                 if (playerManager.isInAir) { // 플레이어가 공중에 있다면
                     if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
                         Debug.Log("You were in the air for" + inAirTimer);
                         animatorHandler.PlayTargetAnimation("Land", true);
                         playerManager.isInteracting = true;
                     } else {
+                        Debug.Log("You were in the air for" + inAirTimer);
                         animatorHandler.PlayTargetAnimation("Empty", false);
                     }
                     inAirTimer = 0;
@@ -248,13 +249,13 @@ namespace sg {
                     playerManager.isGrounded = false; // flag 변경
                 }
                 if (!playerManager.isInAir) {
-                    if (!playerManager.isInteracting) {
+                    playerManager.isInAir = true; // flag 변경
+                    if (playerManager.isInAir && !playerManager.isInteracting) {
                         animatorHandler.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
                     }
                     Vector3 vel = rigidbody.velocity;
                     vel.Normalize();
                     rigidbody.velocity = vel * (movementSpeed / 2);
-                    playerManager.isInAir = true; // flag 변경
                 }
             }
 
@@ -270,7 +271,6 @@ namespace sg {
                 myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
             else
                 myTransform.position = targetPosition;
-
         }
 
         public void HandleJumping() {

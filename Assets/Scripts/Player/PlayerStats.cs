@@ -56,12 +56,12 @@ namespace sg {
             }
         }
 
-        public void TakeDamage(float damage) {
+        public void TakeDamage(float damage, string damageAnimation = "Damage") {
             if (playerManager.isInvulnerable) return;
             if (isDead) return;
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
-            animatorHandler.PlayTargetAnimation("Damage", true);
+            animatorHandler.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
                 currentHealth = 0;
