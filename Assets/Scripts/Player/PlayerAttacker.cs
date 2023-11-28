@@ -187,7 +187,6 @@ namespace sg {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
                 DamageCollider rightWeapon = weaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null && enemyCharacterManager.canBeRiposted) {
-                    Debug.Log("æ’¿‚");
                     playerManager.transform.position = enemyCharacterManager.riposteCollider.criticalDamagerStandPosition.position;
 
                     Vector3 rotationDirection = playerManager.transform.root.eulerAngles;

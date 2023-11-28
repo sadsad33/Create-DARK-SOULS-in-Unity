@@ -231,7 +231,6 @@ namespace sg {
                 Vector3 tp = hit.point; // 착지할 곳의 좌표
                 playerManager.isGrounded = true;
                 targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
-                Debug.Log(targetPosition);
                 if (playerManager.isInAir) { // 플레이어가 공중에 있다면
                     if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
                         Debug.Log("You were in the air for" + inAirTimer);

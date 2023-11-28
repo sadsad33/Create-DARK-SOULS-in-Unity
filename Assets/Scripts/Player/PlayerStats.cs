@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace sg {
     public class PlayerStats : CharacterStats {
-        HealthBar healthBar;
-        StaminaBar staminaBar;
-        FocusBar focusBar;
+        public HealthBar healthBar;
+        public StaminaBar staminaBar;
+        public FocusBar focusBar;
         PlayerManager playerManager;
         PlayerAnimatorManager animatorHandler;
 
@@ -14,9 +14,6 @@ namespace sg {
         public float staminaRegenerationTimer = 0;
         private void Awake() {
             animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
-            healthBar = FindObjectOfType<HealthBar>();
-            staminaBar = FindObjectOfType<StaminaBar>();
-            focusBar = FindObjectOfType<FocusBar>();
             playerManager = GetComponent<PlayerManager>();
         }
         private void Start() {

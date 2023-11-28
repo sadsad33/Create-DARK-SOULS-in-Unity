@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace sg {
     public class HealthBar : MonoBehaviour {
+        [SerializeField]
         Slider slider;
 
         private void Awake() {
