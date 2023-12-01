@@ -116,7 +116,13 @@ namespace sg {
             if (weapon.isFaithCaster) {
                 if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell) {
                     if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
-                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
+                    else animatorHandler.PlayTargetAnimation("Shrugging", true);
+                }
+            } else if (weapon.isPyroCaster) {
+                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isPyroSpell) {
+                    if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
                     else animatorHandler.PlayTargetAnimation("Shrugging", true);
                 }
             }
@@ -137,6 +143,8 @@ namespace sg {
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
+            animatorHandler.anim.SetBool("isFiringSpell", true);
+            //Debug.Log("투척 이벤트");
         }
 
         #endregion

@@ -7,7 +7,7 @@ namespace sg {
         public WeaponItem attackingWeapon;
         PlayerInventory playerInventory;
         [SerializeField] 
-        WeaponHolderSlot leftHandSlot, rightHandSlot, backSlot;
+        public WeaponHolderSlot leftHandSlot, rightHandSlot, backSlot;
         [SerializeField]
         public DamageCollider leftHandDamageCollider; 
         [SerializeField]

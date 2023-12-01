@@ -41,6 +41,7 @@ namespace sg {
         void Update() {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
+            isFiringSpell = anim.GetBool("isFiringSpell");
             canDoCombo = anim.GetBool("canDoCombo");
             anim.SetBool("isInAir", isInAir);
             isUsingRightHand = anim.GetBool("isUsingRightHand");

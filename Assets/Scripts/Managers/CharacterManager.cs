@@ -17,6 +17,9 @@ namespace sg {
         public bool isParrying;
         public bool isBlocking;
 
+        [Header("Spells")]
+        public bool isFiringSpell;
+
         // 데미지는 애니메이션 이벤트로 가해질 것
         public float pendingCriticalDamage;
     }
