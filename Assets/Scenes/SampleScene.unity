@@ -971,7 +971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 936726435520118136, guid: 79a362a9bae9fcb44a9b2cb139ced898, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 936726435520118136, guid: 79a362a9bae9fcb44a9b2cb139ced898, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1806,6 +1806,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
+      propertyPath: currentSpell
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e111f3902d017345b6d5edbbde327a1, type: 2}
+    - target: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
       propertyPath: weaponsInLeftHandSlots.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -1824,7 +1828,7 @@ PrefabInstance:
     - target: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
       propertyPath: weaponsInRightHandSlots.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: abb7cab4b5daf3149b10e080111dff8d, type: 2}
+      objectReference: {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
     - target: {fileID: 4086121375157841884, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
       propertyPath: weaponsInRightHandSlots.Array.data[2]
       value: 
@@ -1949,7 +1953,7 @@ Transform:
   m_Children:
   - {fileID: 6450411920818120557}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3189470384246409790
 GameObject:
