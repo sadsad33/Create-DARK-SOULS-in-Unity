@@ -11,10 +11,12 @@ namespace sg {
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
         PlayerStats playerStats;
+        CameraHandler cameraHandler;
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
         public void Awake() {
+            cameraHandler = FindObjectOfType<CameraHandler>();
             animatorHandler = GetComponent<PlayerAnimatorManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerStats = GetComponentInParent<PlayerStats>();
@@ -142,7 +144,7 @@ namespace sg {
 
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
-            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
+            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
             animatorHandler.anim.SetBool("isFiringSpell", true);
             //Debug.Log("투척 이벤트");
         }

@@ -14,8 +14,8 @@ namespace sg {
             Debug.Log("영창 중..");
         }
 
-        public override void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats) {
-            base.SuccessfullyCastSpell(animatorHandler, playerStats);
+        public override void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats, CameraHandler cameraHandler, WeaponSlotManager weaponSlotManager) {
+            base.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
             Instantiate(spellCastFX, animatorHandler.transform);
             playerStats.HealPlayer(healAmount);
             Debug.Log("시전!!");
