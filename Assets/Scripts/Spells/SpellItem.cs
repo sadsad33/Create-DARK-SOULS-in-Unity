@@ -24,7 +24,7 @@ namespace sg {
             Debug.Log("주문 영창 시도");
         }
 
-        public virtual void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats) {
+        public virtual void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStats playerStats, CameraHandler cameraHandler, WeaponSlotManager weaponSlotManager) {
             Debug.Log("주문 영창 성공");
             playerStats.DeductFocus(focusCost);
         }
