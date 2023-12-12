@@ -32,7 +32,7 @@ namespace sg {
             }
         }
 
-        public void TakeDamage(float damage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, string damageAnimation = "Damage") {
             if (isDead) return;
             currentHealth -= damage;
             enemyHealthBar.SetHealth(currentHealth);
