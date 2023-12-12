@@ -6,13 +6,16 @@ using UnityEngine;
 namespace sg {
     public class DamageCollider : MonoBehaviour {
         public CharacterManager characterManager;
+        public bool enabledDamageColliderOnStartUp = false;
         Collider damageCollider;
+
         public float currentWeaponDamage;
         private void Awake() {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.enabled = false; // Collider ¸¸ ²ô±â
             damageCollider.isTrigger = true;
+            damageCollider.enabled = enabledDamageColliderOnStartUp;
         }
 
         public void EnableDamageCollider() {

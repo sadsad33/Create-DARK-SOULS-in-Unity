@@ -28,6 +28,15 @@ namespace sg {
             rigidbody = instantiatedSpellFX.GetComponent<Rigidbody>();
             //spellDamageCollider = instantiatedSpellFX.GetComponent<SpellDamageCollider>();
 
+            if (cameraHandler.currentLockOnTarget != null) {
+                // 락온 상태라면 락온된 대상의 방향으로 투사체가 날아간다.
+                instantiatedSpellFX.transform.LookAt(cameraHandler.currentLockOnTarget.transform);
+            } else {
+                // 투사체가 발사되는 높이는 카메라에 의해 제어된다.
+                // 락온 상태가 아닐경우 플레이어가 바라보는 방향으로 투사체가 나가게끔 한다.
+                instantiatedSpellFX.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerStats.transform.eulerAngles.y, 0);
+            }
+
             rigidbody.AddForce(instantiatedSpellFX.transform.forward * projectileForwardVelocity);
             rigidbody.AddForce(instantiatedSpellFX.transform.up * projectileUpwardVelocity);
             rigidbody.useGravity = isEffectedByGravity;

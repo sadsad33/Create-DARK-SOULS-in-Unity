@@ -53,7 +53,7 @@ namespace sg {
             }
         }
 
-        public void TakeDamage(float damage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, string damageAnimation = "Damage") {
             if (playerManager.isInvulnerable) return;
             if (isDead) return;
             currentHealth -= damage;
