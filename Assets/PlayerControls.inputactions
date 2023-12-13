@@ -260,6 +260,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "X-button",
+                    "type": "Button",
+                    "id": "0f7e33c9-53d7-40b0-9107-c91c2c5cf195",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -579,6 +588,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bd6dd42-4e20-4a16-a592-554d2ef07c24",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X-button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

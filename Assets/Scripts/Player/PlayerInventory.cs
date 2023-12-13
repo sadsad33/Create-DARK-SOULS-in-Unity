@@ -5,10 +5,12 @@ using UnityEngine;
 namespace sg {
     public class PlayerInventory : MonoBehaviour {
         WeaponSlotManager weaponSlotManager;
+
         public WeaponItem rightWeapon, leftWeapon, unarmedWeapon;
         public SpellItem currentSpell;
         public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3]; // ¿À¸¥¼Õ ¹«±â½½·Ô
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3]; // ¿Þ¼Õ ¹«±â½½·Ô
+        public ConsumableItem currentConsumable;
 
         public int currentRightWeaponIndex;
         public int currentLeftWeaponIndex;

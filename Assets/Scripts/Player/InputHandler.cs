@@ -10,6 +10,7 @@ namespace sg {
         public float mouseX, mouseY;
 
         public bool b_Input;
+        public bool x_Input;
         public bool rb_Input;
         public bool lb_Input;
         public bool rt_Input;
@@ -49,6 +50,7 @@ namespace sg {
         WeaponSlotManager weaponSlotManager;
         PlayerAnimatorManager animatorHandler;
         PlayerStats playerStats;
+        PlayerEffectsManager playerEffectsManager;
 
         BlockingCollider blockingCollider;
 
@@ -65,6 +67,7 @@ namespace sg {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
             animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
+            playerEffectsManager = GetComponentInChildren<PlayerEffectsManager>();
         }
 
         public void OnEnable() {
@@ -83,8 +86,11 @@ namespace sg {
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
+                inputActions.PlayerActions.Xbutton.performed += i => x_Input = true;
+
                 // 버튼이 눌리면 이벤트 호출
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
+                
                 // 버튼을 눌렀다 바로 뗄떼 이벤트가 호출되는듯
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
@@ -112,6 +118,7 @@ namespace sg {
             HandleLockOnInput();
             HandleTwoHandInput();
             HandleCriticalAttackInput();
+            HandleUseConsumableInput();
         }
 
         private void HandleMoveInput() {
@@ -260,6 +267,14 @@ namespace sg {
             if (critical_Attack_Input) {
                 critical_Attack_Input = false;
                 playerAttacker.AttemptBackStabOrRiposte();
+            }
+        }
+
+        private void HandleUseConsumableInput() {
+            if (x_Input) {
+                x_Input = false;
+                // 현재 소비 아이템을 사용한다.
+                playerInventory.currentConsumable.AttemptToConsumeItem(animatorHandler, weaponSlotManager, playerEffectsManager);
             }
         }
     }
