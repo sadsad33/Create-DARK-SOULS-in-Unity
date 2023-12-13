@@ -38,6 +38,13 @@ namespace sg {
             }
         }
 
+        // 손에 무기가 아닌 무언가를 들고 하는 동작이 끝난후 무기를 다시 로드하기 위한 함수
+        // 애니메이션 이벤트로 추가하는게 좀더 보기 좋은듯
+        public void LoadBothWeaponsOnSlots() {
+            LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+            LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+        }
+
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (isLeft) {
                 leftHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 왼쪽 무기를 기억한다.
@@ -77,6 +84,7 @@ namespace sg {
                 quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
             }
         }
+
 
         #region Handle Weapon's Damage Collider
         // 애니메이션 내의 event로 다음의 함수들을 사용할 것

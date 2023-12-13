@@ -282,6 +282,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""X-button"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f7e33c9-53d7-40b0-9107-c91c2c5cf195"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -603,6 +612,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""LB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bd6dd42-4e20-4a16-a592-554d2ef07c24"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X-button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -632,6 +652,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_LockOnTargetRight = m_PlayerActions.FindAction("LockOnTargetRight", throwIfNotFound: true);
         m_PlayerActions_Ybutton = m_PlayerActions.FindAction("Y-button", throwIfNotFound: true);
         m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
+        m_PlayerActions_Xbutton = m_PlayerActions.FindAction("X-button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -764,6 +785,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LockOnTargetRight;
     private readonly InputAction m_PlayerActions_Ybutton;
     private readonly InputAction m_PlayerActions_LT;
+    private readonly InputAction m_PlayerActions_Xbutton;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -785,6 +807,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @LockOnTargetRight => m_Wrapper.m_PlayerActions_LockOnTargetRight;
         public InputAction @Ybutton => m_Wrapper.m_PlayerActions_Ybutton;
         public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
+        public InputAction @Xbutton => m_Wrapper.m_PlayerActions_Xbutton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -845,6 +868,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started += instance.OnLT;
             @LT.performed += instance.OnLT;
             @LT.canceled += instance.OnLT;
+            @Xbutton.started += instance.OnXbutton;
+            @Xbutton.performed += instance.OnXbutton;
+            @Xbutton.canceled += instance.OnXbutton;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -900,6 +926,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started -= instance.OnLT;
             @LT.performed -= instance.OnLT;
             @LT.canceled -= instance.OnLT;
+            @Xbutton.started -= instance.OnXbutton;
+            @Xbutton.performed -= instance.OnXbutton;
+            @Xbutton.canceled -= instance.OnXbutton;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -941,5 +970,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnLockOnTargetRight(InputAction.CallbackContext context);
         void OnYbutton(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
+        void OnXbutton(InputAction.CallbackContext context);
     }
 }

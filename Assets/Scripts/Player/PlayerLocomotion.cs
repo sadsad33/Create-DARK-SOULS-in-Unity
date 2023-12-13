@@ -218,7 +218,7 @@ namespace sg {
 
             if (playerManager.isInAir) {
                 rigidbody.AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
-                rigidbody.AddForce(moveDirection * fallingSpeed / 10); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
+                rigidbody.AddForce(moveDirection * fallingSpeed / 12); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
             }
 
             Vector3 dir = moveDirection;
@@ -265,11 +265,12 @@ namespace sg {
             //        myTransform.position = targetPosition;
             //    }
             //}
-
-            if (playerManager.isInteracting || inputHandler.moveAmount > 0)
-                myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
-            else
-                myTransform.position = targetPosition;
+            if (playerManager.isGrounded) {
+                if (playerManager.isInteracting || inputHandler.moveAmount > 0)
+                    myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
+                else
+                    myTransform.position = targetPosition;
+            }
         }
 
         public void HandleJumping() {
