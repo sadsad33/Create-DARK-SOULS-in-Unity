@@ -55,15 +55,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4949313763760395615}
-  m_LocalRotation: {x: -0.771608, y: -0.17352028, z: 0.07252407, w: 0.6076612}
-  m_LocalPosition: {x: 0.058, y: 0.049, z: 0.04}
+  m_LocalRotation: {x: -0.63257754, y: 0.13982281, z: 0.23230144, w: 0.725487}
+  m_LocalPosition: {x: -0.055, y: -0.025, z: 0.063}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7018501926833017890}
   m_Father: {fileID: 4348057499500581475}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -65.865, y: -127.865, z: 119.489}
+  m_LocalEulerAnglesHint: {x: -79.363, y: -29.543, z: 60.19}
 --- !u!1 &7650888979095916184
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,3 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b6ec872f5fb3742923228c6065eb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManager: {fileID: 0}
+  enabledDamageColliderOnStartUp: 0
+  currentWeaponDamage: 0

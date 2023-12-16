@@ -1803,8 +1803,11 @@ MonoBehaviour:
   mouseX: 0
   mouseY: 0
   b_Input: 0
+  x_Input: 0
   rb_Input: 0
+  lb_Input: 0
   rt_Input: 0
+  lt_Input: 0
   critical_Attack_Input: 0
   d_Pad_Up: 0
   d_Pad_Down: 0
@@ -1872,6 +1875,10 @@ MonoBehaviour:
   backStabCollider: {fileID: 229186707681697945}
   riposteCollider: {fileID: 229186707484642016}
   canBeRiposted: 0
+  canBeParried: 0
+  isParrying: 0
+  isBlocking: 0
+  isFiringSpell: 0
   pendingCriticalDamage: 0
   isInteracting: 0
   interactableUIGameObject: {fileID: 0}
@@ -1905,6 +1912,7 @@ MonoBehaviour:
   weaponsInLeftHandSlots:
   - {fileID: 11400000, guid: afec93e198cf13042ba1053339d24b29, type: 2}
   - {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
+  currentConsumable: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponsInventory: []
@@ -1931,6 +1939,9 @@ MonoBehaviour:
   currentFocus: 0
   soulCount: 0
   isDead: 0
+  healthBar: {fileID: 0}
+  staminaBar: {fileID: 0}
+  focusBar: {fileID: 0}
   staminaRegenerationAmount: 20
   staminaRegenerationTimer: 0
 --- !u!1 &4259091751369522566
