@@ -6,11 +6,21 @@ namespace sg {
     public class PlayerEquipmentManager : MonoBehaviour {
         InputHandler inputHandler;
         PlayerInventory playerInventory;
+        
+        [Header("Equipment Model Changer")]
+        HelmetModelChanger helmetModelChanger;
+
         public BlockingCollider blockingCollider;
 
         private void Awake() {
             inputHandler = GetComponentInParent<InputHandler>();
             playerInventory = GetComponentInParent<PlayerInventory>();
+            helmetModelChanger = GetComponentInChildren<HelmetModelChanger>();
+        }
+
+        private void Start() {
+            helmetModelChanger.UnEquipAllHelmetModels();
+            helmetModelChanger.EquipHelmetModelByName(playerInventory.currentHelmetEquipment.helmetModelName);
         }
 
         // 방어용 Collider 적용
