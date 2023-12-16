@@ -4888,6 +4888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
+  enabledDamageColliderOnStartUp: 0
   currentWeaponDamage: 0
 --- !u!1 &4060686756248096633
 GameObject:
@@ -24209,7 +24210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6881740203468614841}
   m_LocalRotation: {x: 0.36788583, y: -0.48560464, z: 0.72923005, w: 0.31156325}
-  m_LocalPosition: {x: 0.158, y: 0.047, z: 0.088}
+  m_LocalPosition: {x: -0.147, y: -0.047, z: 0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
