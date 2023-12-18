@@ -16,3 +16,4 @@ MonoBehaviour:
   itemName: Linen Armor
   physicalDefense: 0
   torsoModelName: PT_Male_Armor_05_C_body
+  capeModelName: PT_Male_Armor_05_C_cape

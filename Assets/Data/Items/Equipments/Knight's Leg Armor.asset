@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06a279507b1030e4ea310ecf2ba53e1d, type: 3}
-  m_Name: Knight's ChestPlate
+  m_Script: {fileID: 11500000, guid: 2869815ece50aa840b73ec99bbc6de95, type: 3}
+  m_Name: Knight's Leg Armor
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: Knight's ChestPlate
+  itemName: Knight's Leg Armor
   physicalDefense: 0
-  torsoModelName: PT_Male_Armor_01_A_body
-  capeModelName: PT_Male_Armor_01_A_cape
+  legModelName: PT_Male_Armor_01_A_legs
+  bootsModelName: PT_Male_Armor_01_A_boots

@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06a279507b1030e4ea310ecf2ba53e1d, type: 3}
-  m_Name: Knight's ChestPlate
+  m_Script: {fileID: 11500000, guid: 2bab1fca9157f59438f5c7a72576e900, type: 3}
+  m_Name: Linen Guntlet
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: Knight's ChestPlate
+  itemName: Linen Guntlet
   physicalDefense: 0
-  torsoModelName: PT_Male_Armor_01_A_body
-  capeModelName: PT_Male_Armor_01_A_cape
+  guntletModelName: PT_Male_Armor_05_C_gauntlets

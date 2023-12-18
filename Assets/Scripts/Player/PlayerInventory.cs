@@ -18,6 +18,8 @@ namespace sg {
         [Header("Current Equipment")]
         public HelmetEquipment currentHelmetEquipment;
         public TorsoEquipment currentTorsoEquipment;
+        public LegEquipment currentLegEquipment;
+        public GuntletEquipment currentGuntletEquipment;
 
         public int currentRightWeaponIndex;
         public int currentLeftWeaponIndex;

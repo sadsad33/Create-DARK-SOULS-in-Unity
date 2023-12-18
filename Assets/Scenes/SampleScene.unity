@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5357456}
+  - component: {fileID: 5357457}
   m_Layer: 11
   m_Name: Male_Legs
   m_TagString: Untagged
@@ -158,6 +159,19 @@ Transform:
   m_Father: {fileID: 2089419099057825881}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5357457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5357455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce387cac8055b4849bfe64fdb5e5a0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legModels: []
 --- !u!1 &88803901
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +446,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433213086}
+  - component: {fileID: 433213087}
   m_Layer: 11
   m_Name: Male_Guntlets
   m_TagString: Untagged
@@ -458,6 +473,19 @@ Transform:
   m_Father: {fileID: 2089419099057825881}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &433213087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433213085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debaea28e052e4d40ab31f6913e1fd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guntletModels: []
 --- !u!1 &529954939
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 591270341}
+  - component: {fileID: 591270342}
   m_Layer: 11
   m_Name: Male_Cape
   m_TagString: Untagged
@@ -596,11 +625,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2081806418}
   - {fileID: 4360964797517020602}
   - {fileID: 4360964797451575137}
   m_Father: {fileID: 2089419099057825881}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &591270342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591270340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff9c7a5c3eb77041be929a1b2ba0b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capeModels: []
 --- !u!114 &599826540 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5779780424125324873, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
@@ -1357,6 +1400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1797870417}
+  - component: {fileID: 1797870418}
   m_Layer: 11
   m_Name: Male_Boots
   m_TagString: Untagged
@@ -1383,6 +1427,19 @@ Transform:
   m_Father: {fileID: 2089419099057825881}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1797870418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797870416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292becb3bf10d9644ac3608eb7e555ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bootsModel: []
 --- !u!1 &2049720725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,6 +1491,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulCountText: {fileID: 627379289}
+--- !u!1 &2081806417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2081806418}
+  m_Layer: 11
+  m_Name: PT_Male_Armor_naked_cape
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2081806418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081806417}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 591270341}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &180280066152209290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2029,8 +2117,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: afec93e198cf13042ba1053339d24b29, type: 2}
   - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
   - {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
-  currentHelmetEquipment: {fileID: 0}
-  currentTorsoEquipment: {fileID: 11400000, guid: e67d82a93443a204090643a8bbdec9d8, type: 2}
+  currentHelmetEquipment: {fileID: 11400000, guid: 9fd0aea1c6995794a8ae5a54a1662bcf, type: 2}
+  currentTorsoEquipment: {fileID: 11400000, guid: 45e938a30804f964ab9f69c147c7b9c9, type: 2}
+  currentLegEquipment: {fileID: 11400000, guid: 73115051e8b2f47488a248e47d3fbccd, type: 2}
+  currentGuntletEquipment: {fileID: 11400000, guid: 5bdbecf98282d1148968477099f17041, type: 2}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponsInventory: []
@@ -5080,6 +5170,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nakedHeadModel: PT_Male_Armor_hair_01
   nakedTorsoModel: PT_Male_Armor_naked_00_body
+  nakedLegModel: PT_Male_Armor_naked_00_legs
+  nakedBootsModel: PT_Male_Armor_naked_00_boots
+  nakedGuntletModel: PT_Male_Armor_naked_00_gauntlets
+  nakedCapeModel: PT_Male_Armor_naked_cape
   blockingCollider: {fileID: 4360964796962569717}
 --- !u!114 &4360964797022457926
 MonoBehaviour:
@@ -6191,7 +6285,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 591270341}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4360964797451575138
 SkinnedMeshRenderer:
@@ -6418,7 +6512,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 591270341}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4360964797517020603
 SkinnedMeshRenderer:
