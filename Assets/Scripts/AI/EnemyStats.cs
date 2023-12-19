@@ -33,8 +33,8 @@ namespace sg {
         }
 
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {
-            if (isDead) return;
-            currentHealth -= damage;
+            base.TakeDamage(damage, damageAnimation = "Damage");
+            
             enemyHealthBar.SetHealth(currentHealth);
             enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
