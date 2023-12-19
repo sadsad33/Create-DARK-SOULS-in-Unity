@@ -2055,6 +2055,10 @@ MonoBehaviour:
   maxFocus: 0
   currentFocus: 0
   soulCount: 0
+  physicalDamageAbsorptionHead: 0
+  physicalDamageAbsorptionBody: 0
+  physicalDamageAbsorptionLegs: 0
+  physicalDamageAbsorptionHands: 0
   isDead: 0
   healthBar: {fileID: 580179355}
   staminaBar: {fileID: 599826540}
@@ -2117,10 +2121,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: afec93e198cf13042ba1053339d24b29, type: 2}
   - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
   - {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
-  currentHelmetEquipment: {fileID: 11400000, guid: 9fd0aea1c6995794a8ae5a54a1662bcf, type: 2}
-  currentTorsoEquipment: {fileID: 11400000, guid: 45e938a30804f964ab9f69c147c7b9c9, type: 2}
-  currentLegEquipment: {fileID: 11400000, guid: 73115051e8b2f47488a248e47d3fbccd, type: 2}
-  currentGuntletEquipment: {fileID: 11400000, guid: 5bdbecf98282d1148968477099f17041, type: 2}
+  currentHelmetEquipment: {fileID: 11400000, guid: fc1e36634f4ce4540be04eb96bc679c0, type: 2}
+  currentTorsoEquipment: {fileID: 11400000, guid: e67d82a93443a204090643a8bbdec9d8, type: 2}
+  currentLegEquipment: {fileID: 11400000, guid: d4d8bac998410a84594783304bc4a1f9, type: 2}
+  currentGuntletEquipment: {fileID: 11400000, guid: 47a41915e5ae5494591a6021240b8c1d, type: 2}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponsInventory: []
