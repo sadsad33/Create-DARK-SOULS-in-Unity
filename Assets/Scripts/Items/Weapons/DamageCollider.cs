@@ -68,6 +68,11 @@ namespace sg {
                     enemyStats.TakeDamage(currentWeaponDamage);
                 }
             }
+
+            if (other.tag == "IllusionaryWall") {
+                IllusionaryWall illusionaryWall = other.GetComponent<IllusionaryWall>();
+                illusionaryWall.illusionaryWallHealthPoint -= 1;
+            }
         }
     }
 }
