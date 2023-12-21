@@ -486,6 +486,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guntletModels: []
+--- !u!1 &448874411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 448874412}
+  - component: {fileID: 448874413}
+  m_Layer: 9
+  m_Name: RotateTowardsTargetState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448874412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448874411}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4436255635672414831}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &448874413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448874411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf3ab124fae898429ca1c40629fb0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529954939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,6 +2450,7 @@ MonoBehaviour:
   canBeParried: 0
   isParrying: 0
   isBlocking: 0
+  isRotatingWithRootMotion: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
   isInteracting: 0
@@ -10195,9 +10240,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1735633484, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: currentState
+      value: 
+      objectReference: {fileID: 448874413}
+    - target: {fileID: 1735633484, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: currentTarget
+      value: 
+      objectReference: {fileID: 513322146902302465}
     - target: {fileID: 1735633485, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: healthLevel
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247414621750747084, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 1247414621750747085, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_RootOrder
@@ -10253,6 +10310,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+--- !u!4 &4436255635672414831 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1284695206, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+  m_PrefabInstance: {fileID: 4436255635672414830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4587899699368695801
 Transform:
   m_ObjectHideFlags: 0

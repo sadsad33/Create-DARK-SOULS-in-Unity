@@ -16,11 +16,14 @@ public class ResetAnimatorBool : StateMachineBehaviour {
     public string isInvulnerableBool = "isInvulnerable";
     public bool isInvulnerableStatus = false;
 
+    public string isRotatingWithRootMotion = "isRotatingWithRootMotion";
+    public bool isRotatingWithRootMotionStatus = false;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         animator.SetBool(isInteractingBool, isInteractingStatus);
         animator.SetBool(isFiringSpellBool, isFiringSpellStatus);
         animator.SetBool(canRotateBool, canRotateBoolStatus);
         animator.SetBool(isInvulnerableBool, isInvulnerableStatus);
+        animator.SetBool(isRotatingWithRootMotion, isRotatingWithRootMotionStatus);
         //Debug.Log("애니메이션 종료");
     }
 }
