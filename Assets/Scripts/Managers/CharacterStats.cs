@@ -31,10 +31,10 @@ namespace sg {
 
             float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
-            Debug.Log("Total Physical Damage Absorption is " + totalPhysicalDamageAbsorption + "%");
+            //Debug.Log("Total Physical Damage Absorption is " + totalPhysicalDamageAbsorption + "%");
             float finalDamage = physicalDamage;
             currentHealth -= finalDamage;
-            Debug.Log("Total Damage Dealt is " + finalDamage);
+            //Debug.Log("Total Damage Dealt is " + finalDamage);
 
             if (currentHealth <= 0) {
                 currentHealth = 0;

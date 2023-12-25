@@ -4,107 +4,65 @@ using UnityEngine;
 
 namespace sg {
     public class AttackState : State {
+
+        public RotateTowardsTargetState rotateTowardsTargetState;
         public CombatStanceState combatStanceState;
-        public EnemyAttackActions[] enemyAttacks;
+        public PursueTargetState pursueTargetState;
         public EnemyAttackActions currentAttack;
 
         bool willDoComboOnNextAttack = false;
+        public bool hasPerformedAttack = false;
+
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
-            // attack score 변수에 따라 수행가능한 공격들중 하나를 선택한다
-            // 선택된 공격이 각도나 거리에 의해 불가능해 진다면 새로운 공격을 선택
-            // 공격이 가능하다면 이동을 멈춘후 공격
-            // 공격 딜레이 시간을 세팅한다.
-            // Combat Stance State로 돌아감
-            if (enemyManager.isInteracting && !enemyManager.canDoCombo) return this;
-            else if (enemyManager.isInteracting && enemyManager.canDoCombo) {
-                if (willDoComboOnNextAttack) {
-                    willDoComboOnNextAttack = false;
-                    enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-                }
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
+            RotateTowardsTargetWhileAttacking(enemyManager);
+
+            if (distanceFromTarget > enemyManager.maximumAggroRadius) { // 공격 사거리를 벗어나면 추적 상태로 전이
+                return pursueTargetState;
             }
 
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-
-            HandleRotateTowardsTarget(enemyManager);
-
-            // 대상 공격
-            if (enemyManager.isPerformingAction) return this;
-
-            if (currentAttack != null) {
-                // 만약 타겟이 공격하기에 너무 가까이 있다면 새로운 공격을 선택한다.
-                if (distanceFromTarget < currentAttack.minimumDistanceNeededToAttack) {
-                    return this;
-                } else if (distanceFromTarget < currentAttack.maximumDistanceNeededToAttack) {
-                    if (viewableAngle <= currentAttack.maximumAttackAngle && viewableAngle >= currentAttack.minimumAttackAngle) {
-                        if (enemyManager.currentRecoveryTime <= 0 && !enemyManager.isPerformingAction) {
-                            enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-                            enemyAnimatorManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
-                            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-                            enemyManager.isPerformingAction = true;
-                            RollForComboChance(enemyManager);
-                            if (currentAttack.canCombo && willDoComboOnNextAttack) {
-                                currentAttack = currentAttack.comboAction;
-                                return this;
-                            } else {
-                                enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-                                currentAttack = null;
-                                return combatStanceState;
-                            }
-                        }
-                    }
-                }
-            } else {
-                GetNewAttack(enemyManager);
+            if (willDoComboOnNextAttack && enemyManager.canDoCombo) {
+                // 콤보 공격
+                AttackTargetWithCombo(enemyAnimatorManager, enemyManager);
             }
 
-            return combatStanceState;
+            if (!hasPerformedAttack) {
+                // 공격
+                AttackTarget(enemyAnimatorManager, enemyManager);
+                // 콤보 공격 여부 결정
+                RollForComboChance(enemyManager);
+            }
+
+            if (willDoComboOnNextAttack && hasPerformedAttack) {
+                return this; 
+            }
+
+            return rotateTowardsTargetState;
         }
 
-        // 공격 선택
-        private void GetNewAttack(EnemyManager enemyManager) {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
+        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
+            //Debug.Log("공격");
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-
-            int maxScore = 0;
-            for (int i = 0; i < enemyAttacks.Length; i++) {
-                EnemyAttackActions enemyAttackAction = enemyAttacks[i];
-
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
-                    distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) { // 현재 목표가 공격 사거리 내에 있고
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) { // 공격 가능한 시야각내에 있다면
-                        maxScore += enemyAttackAction.attackScore;
-                    }
-                }
-            }
-
-            int randomValue = Random.Range(0, maxScore);
-            int temporaryScore = 0;
-            for (int i = 0; i < enemyAttacks.Length; i++) {
-                EnemyAttackActions enemyAttackAction = enemyAttacks[i];
-
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
-                    distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) {
-                        if (currentAttack != null) return; // 이미 공격중이라면
-                        temporaryScore += enemyAttackAction.attackScore;
-
-                        if (temporaryScore > randomValue) {
-                            currentAttack = enemyAttackAction;
-                        }
-                    }
-                }
-            }
+            Debug.Log("목표와의 사거리 : " + distanceFromTarget);
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
+            hasPerformedAttack = true;
         }
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
-            if (enemyManager.isInteracting) return;
-            //Debug.Log("회전");
 
-            // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
-            if (enemyManager.isPerformingAction) {
-                //Debug.Log("일반 회전");
+        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
+            //Debug.Log("콤보 공격");
+            willDoComboOnNextAttack = false;
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
+            currentAttack = null;
+        }
+
+        private void RotateTowardsTargetWhileAttacking(EnemyManager enemyManager) {
+            //if (enemyManager.isInteracting) return;
+
+            // 공격 모션도중 회전이 가능한 구간이 있음
+            // 공격 도중의 회전에만 관여하도록
+            if (enemyManager.canRotate && enemyManager.isInteracting) {
                 Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
@@ -114,14 +72,6 @@ namespace sg {
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
-            } else { // NavMeshAgent를 이용한 회전
-                //Debug.Log("NavMeshAgent를 이용한 회전");
-                //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
-                enemyManager.navmeshAgent.enabled = true;
-                enemyManager.navmeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.enemyRigidbody.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navmeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
         }
 
@@ -129,7 +79,13 @@ namespace sg {
             float comboChance = Random.Range(0, 100);
 
             if (enemyManager.allowAIToPerformCombos && comboChance <= enemyManager.comboLikelyHood) {
-                willDoComboOnNextAttack = true;
+                if (currentAttack.comboAction != null) {
+                    willDoComboOnNextAttack = true;
+                    currentAttack = currentAttack.comboAction;
+                } else {
+                    willDoComboOnNextAttack = false;
+                    currentAttack = null;
+                }
             }
         }
     }
