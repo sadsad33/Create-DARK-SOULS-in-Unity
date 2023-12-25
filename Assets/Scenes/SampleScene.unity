@@ -2423,7 +2423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710ac50d53460fc408b9cedbb8ecbc7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 99
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
@@ -10288,6 +10288,10 @@ PrefabInstance:
     - target: {fileID: 1735633484, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: maximumAggroRadius
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1735633484, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: allowAIToPerformCombos
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1735633485, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: healthLevel

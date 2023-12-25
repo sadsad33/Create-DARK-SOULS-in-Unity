@@ -50,7 +50,7 @@ namespace sg {
                 //nakedHeadModel.SetActive(false);
                 helmetModelChanger.EquipHelmetModelByName(playerInventory.currentHelmetEquipment.helmetModelName);
                 playerStats.physicalDamageAbsorptionHead = playerInventory.currentHelmetEquipment.physicalDefense;
-                Debug.Log("Head Absorption : " + playerStats.physicalDamageAbsorptionHead + "%");
+                //Debug.Log("Head Absorption : " + playerStats.physicalDamageAbsorptionHead + "%");
             } else {
                 //nakedHeadModel.SetActive(true);
                 helmetModelChanger.EquipHelmetModelByName(nakedHeadModel);
@@ -63,7 +63,7 @@ namespace sg {
                 torsoModelChanger.EquipTorsoModelByName(playerInventory.currentTorsoEquipment.torsoModelName);
                 capeModelChanger.EquipCapeModelByName(playerInventory.currentTorsoEquipment.capeModelName);
                 playerStats.physicalDamageAbsorptionBody = playerInventory.currentTorsoEquipment.physicalDefense;
-                Debug.Log("Body Absorption : " + playerStats.physicalDamageAbsorptionBody + "%");
+                //Debug.Log("Body Absorption : " + playerStats.physicalDamageAbsorptionBody + "%");
             } else {
                 torsoModelChanger.EquipTorsoModelByName(nakedTorsoModel);
                 capeModelChanger.EquipCapeModelByName(nakedCapeModel);
@@ -76,7 +76,7 @@ namespace sg {
                 legModelChanger.EquipLegModelByName(playerInventory.currentLegEquipment.legModelName);
                 bootsModelChanger.EquipBootsModelByName(playerInventory.currentLegEquipment.bootsModelName);
                 playerStats.physicalDamageAbsorptionLegs = playerInventory.currentLegEquipment.physicalDefense;
-                Debug.Log("Legs Absorption : " + playerStats.physicalDamageAbsorptionLegs + "%");
+                //Debug.Log("Legs Absorption : " + playerStats.physicalDamageAbsorptionLegs + "%");
             } else {
                 legModelChanger.EquipLegModelByName(nakedLegModel);
                 bootsModelChanger.EquipBootsModelByName(nakedBootsModel);
@@ -87,7 +87,7 @@ namespace sg {
             if (playerInventory.currentGuntletEquipment != null) {
                 guntletModelChanger.EquipGuntletModelByName(playerInventory.currentGuntletEquipment.guntletModelName);
                 playerStats.physicalDamageAbsorptionHands = playerInventory.currentGuntletEquipment.physicalDefense;
-                Debug.Log("Hands Absorption : " + playerStats.physicalDamageAbsorptionHands + "%");
+                //Debug.Log("Hands Absorption : " + playerStats.physicalDamageAbsorptionHands + "%");
             } else {
                 guntletModelChanger.EquipGuntletModelByName(nakedGuntletModel);
                 playerStats.physicalDamageAbsorptionHands = 0;

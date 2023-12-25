@@ -16,7 +16,7 @@ namespace sg {
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             RotateTowardsTargetWhileAttacking(enemyManager);
-
+            
             if (distanceFromTarget > enemyManager.maximumAggroRadius) { // 공격 사거리를 벗어나면 추적 상태로 전이
                 return pursueTargetState;
             }
@@ -26,32 +26,37 @@ namespace sg {
                 AttackTargetWithCombo(enemyAnimatorManager, enemyManager);
             }
 
+            //Debug.Log(hasPerformedAttack);
             if (!hasPerformedAttack) {
                 // 공격
+                //Debug.Log("공격?");
                 AttackTarget(enemyAnimatorManager, enemyManager);
                 // 콤보 공격 여부 결정
-                RollForComboChance(enemyManager);
+                //RollForComboChance(enemyManager);
             }
 
             if (willDoComboOnNextAttack && hasPerformedAttack) {
-                return this; 
+                return this;
             }
 
             return rotateTowardsTargetState;
         }
 
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
-            //Debug.Log("공격");
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            Debug.Log("목표와의 사거리 : " + distanceFromTarget);
+            //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
             hasPerformedAttack = true;
+            RollForComboChance(enemyManager);
+            if (!willDoComboOnNextAttack) {
+                //Debug.Log("콤보 안함");
+                enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
+                currentAttack = null;
+            }
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
-            //Debug.Log("콤보 공격");
             willDoComboOnNextAttack = false;
+            //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
             currentAttack = null;
@@ -77,14 +82,14 @@ namespace sg {
 
         private void RollForComboChance(EnemyManager enemyManager) {
             float comboChance = Random.Range(0, 100);
-
+            
             if (enemyManager.allowAIToPerformCombos && comboChance <= enemyManager.comboLikelyHood) {
-                if (currentAttack.comboAction != null) {
+                if (currentAttack.canCombo) {
                     willDoComboOnNextAttack = true;
                     currentAttack = currentAttack.comboAction;
                 } else {
                     willDoComboOnNextAttack = false;
-                    currentAttack = null;
+                    //currentAttack = null;
                 }
             }
         }
