@@ -34,10 +34,11 @@ namespace sg {
             HandleRotateTowardsTarget(enemyManager);
 
             // 현재 상태를 떠나기 전에 공격을 정한다.
-            // 해당 공격을 공격 상태로 전달
             // 현재 상태에서 공격 상태로 넘어가기 전에 해야할 것은 공격을 선택하는 것
             if (enemyManager.currentRecoveryTime <= 0 && attackState.currentAttack != null) { // 현재 공격이 선택된 상태라면 공격 상태로 전이
                 randomDestinationSet = false;
+                //Debug.Log(attackState.hasPerformedAttack);
+                //Debug.Log(attackState.currentAttack);
                 return attackState;
             } else { // 아니라면 공격 선택
                 GetNewAttack(enemyManager);
@@ -131,6 +132,8 @@ namespace sg {
 
                         if (temporaryScore > randomValue) {
                             attackState.currentAttack = enemyAttackAction;
+                            //Debug.Log(attackState.hasPerformedAttack);
+                            //Debug.Log(attackState.currentAttack);
                         }
                     }
                 }

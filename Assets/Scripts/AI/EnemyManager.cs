@@ -79,7 +79,7 @@ namespace sg {
             if (currentRecoveryTime > 0) {
                 currentRecoveryTime -= Time.deltaTime;
             }
-            else if (isPerformingAction) {
+            if (isPerformingAction) {
                 if (currentRecoveryTime <= 0) {
                     isPerformingAction = false;
                 }
