@@ -6,16 +6,22 @@ namespace sg {
     public class EnemyStats : CharacterStats {
         public int soulsAwardedOnDeath;
         EnemyAnimatorManager enemyAnimatorManager;
+        BossManager bossManager;
         public UIEnemyHealthBar enemyHealthBar;
+
+        public bool isBoss;
         private void Awake() {
             soulsAwardedOnDeath = 50;
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
+            bossManager = GetComponent<BossManager>();
+            // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
+            maxHealth = SetMaxHealthFromHealthLevel();
+            currentHealth = maxHealth;
         }
 
         private void Start() {
-            maxHealth = SetMaxHealthFromHealthLevel();
-            currentHealth = maxHealth;
-            enemyHealthBar.SetMaxHealth(maxHealth);
+            if (!isBoss)
+                enemyHealthBar.SetMaxHealth(maxHealth);
         }
 
         private float SetMaxHealthFromHealthLevel() {
@@ -23,9 +29,14 @@ namespace sg {
             return maxHealth;
         }
 
+        // 뒤잡이나 앞잡등 애니메이션을 강제해야 하는 경우 사용
         public void TakeDamageNoAnimation(float damage) {
             currentHealth -= damage;
-            enemyHealthBar.SetHealth(currentHealth);
+            if (!isBoss)
+                enemyHealthBar.SetHealth(currentHealth);
+            else if (isBoss && bossManager != null)
+                bossManager.UpdateBossHealthBar(currentHealth);
+
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
@@ -34,8 +45,11 @@ namespace sg {
 
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {
             base.TakeDamage(damage, damageAnimation = "Damage");
-            
-            enemyHealthBar.SetHealth(currentHealth);
+
+            if (!isBoss)
+                enemyHealthBar.SetHealth(currentHealth);
+            else if (isBoss && bossManager != null)
+                bossManager.UpdateBossHealthBar(currentHealth);
             enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
@@ -45,7 +59,7 @@ namespace sg {
 
         private void HandleDeath() {
             currentHealth = 0;
-            enemyAnimatorManager.PlayTargetAnimation("Dead",true);
+            enemyAnimatorManager.PlayTargetAnimation("Dead", true);
             isDead = true;
         }
     }

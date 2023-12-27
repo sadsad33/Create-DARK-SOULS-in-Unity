@@ -18,10 +18,6 @@ namespace sg {
 
             HandleRotateTowardsTarget(enemyManager);
 
-            if (viewableAngle > 65 || viewableAngle < -65) { // 특정 각도 내에 플레이어가 있을경우 추적을 멈추고 바로 회전
-                return rotateTowardsTargetState;    
-            }
-
             if (enemyManager.isInteracting) return this;
             
             if (enemyManager.isPerformingAction) { // 행동중이라면
@@ -44,10 +40,8 @@ namespace sg {
 
         // 목표 방향으로 회전
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
-            //Debug.Log("회전");
             // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
-                //Debug.Log("일반 회전");
                 Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
@@ -58,7 +52,6 @@ namespace sg {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             } else { // NavMeshAgent를 이용한 회전
-                //Debug.Log("NavMeshAgent를 이용한 회전");
                 //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity);
                 Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
                 enemyManager.navmeshAgent.enabled = true;
