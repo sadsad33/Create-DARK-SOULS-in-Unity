@@ -6,6 +6,7 @@ namespace sg {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
 
+        public List<FogWall> fogWalls;
         public BossHealthBar bossHealthBar;
         public BossManager boss;
 
@@ -22,12 +23,20 @@ namespace sg {
             bossHasBeenAwakened = true;
             bossHealthBar.SetUIHealthBarToActive();
             // 안개벽 생성
+
+            foreach (var fogWall in fogWalls) {
+                fogWall.ActivateFogWall();
+            }
         }
 
         public void BossHasBeenDefeated() {
             bossHasBeenDefeated = true;
             bossFightIsActive = false;
             // 안개벽 소멸
+
+            foreach (var fogWall in fogWalls) {
+                fogWall.DeactivateFogWall();
+            }
         }
     }
 }
