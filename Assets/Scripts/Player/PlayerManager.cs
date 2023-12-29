@@ -139,6 +139,15 @@ namespace sg {
             transform.position = playerStandingPosition.transform.position;
             playerAnimatorManager.PlayTargetAnimation("Open Chest", true);
         }
+
+        public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
+            playerLocomotion.rigidbody.velocity = Vector3.zero;
+            Vector3 rotationDirection = fogWallEntrance.transform.forward;
+            Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
+            transform.rotation = turnRotation;
+
+            playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
+        }
         #endregion
     }
 }

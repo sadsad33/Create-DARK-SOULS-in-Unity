@@ -103,5 +103,15 @@ namespace sg {
             playerStats.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
             playerManager.pendingCriticalDamage = 0;
         }
+
+        public void DisableCollision() {
+            playerLocomotion.characterCollider.enabled = false;
+            playerLocomotion.characterColliderBlocker.enabled = false;
+        }
+
+        public void EnableCollision() {
+            playerLocomotion.characterCollider.enabled = true;
+            playerLocomotion.characterColliderBlocker.enabled = true;
+        }
     }
 }
