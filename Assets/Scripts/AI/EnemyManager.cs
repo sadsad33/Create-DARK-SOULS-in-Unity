@@ -28,6 +28,7 @@ namespace sg {
 
         [Header("AI CombatSettings")]
         public bool allowAIToPerformCombos;
+        public bool isPhaseShifting; // 페이즈 전환을 수행했는지 여부
         public float comboLikelyHood;
 
         private void Awake() {
@@ -47,10 +48,12 @@ namespace sg {
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isPhaseShifting = enemyAnimatorManager.anim.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = enemyAnimatorManager.anim.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
             canDoCombo = enemyAnimatorManager.anim.GetBool("canDoCombo");
             canRotate = enemyAnimatorManager.anim.GetBool("canRotate");
+            isInvulnerable = enemyAnimatorManager.anim.GetBool("isInvulnerable");
             enemyAnimatorManager.anim.SetBool("isDead", enemyStats.isDead);
 
         }

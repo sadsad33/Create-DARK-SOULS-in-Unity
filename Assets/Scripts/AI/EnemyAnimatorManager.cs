@@ -6,9 +6,12 @@ namespace sg {
     public class EnemyAnimatorManager : AnimatorManager {
         EnemyManager enemyManager;
         EnemyStats enemyStats;
+        BossManager bossManager;
+
         private void Awake() {
             anim = GetComponent<Animator>();
             enemyManager = GetComponentInParent<EnemyManager>();
+            bossManager = GetComponentInParent<BossManager>();
             enemyStats = GetComponentInParent<EnemyStats>();
         }
 
@@ -68,6 +71,11 @@ namespace sg {
 
         public void DisableCanBeRiposted() {
             enemyManager.canBeRiposted = false;
+        }
+
+        public void InstantiateBossParticleFX() {
+            BossFXTransform bossFXTransform = GetComponentInChildren<BossFXTransform>();
+            GameObject phaseFX = Instantiate(bossManager.particleFX, bossFXTransform.transform);
         }
 
         public void AwardSoulsOnDeath() {

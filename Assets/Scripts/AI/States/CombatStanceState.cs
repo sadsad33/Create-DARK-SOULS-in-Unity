@@ -8,9 +8,9 @@ namespace sg {
         public EnemyAttackActions[] enemyAttacks;
         public PursueTargetState pursueTargetState;
 
-        bool randomDestinationSet = false; // animator value , 수직 이동, 수평 이동 값을 조절하기 위한 bool 변수
-        float verticalMovementValue = 0;
-        float horizontalMovementValue = 0;
+        protected bool randomDestinationSet = false; // animator value , 수직 이동, 수평 이동 값을 조절하기 위한 bool 변수
+        protected float verticalMovementValue = 0;
+        protected float horizontalMovementValue = 0;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
@@ -46,7 +46,7 @@ namespace sg {
             return this;
         }
 
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
+        protected void HandleRotateTowardsTarget(EnemyManager enemyManager) {
             // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
             if (enemyManager.isPerformingAction) {
                 //Debug.Log("일반 회전");
@@ -70,7 +70,7 @@ namespace sg {
         }
 
         // 원을 그리며 이동할때 어떤식으로 움직일지 결정
-        private void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager) {
+        protected void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager) {
             // 원을 그리며 앞으로만 이동
             // 원을 그리며 달림
             // 원을 그리며 걷기 등...
@@ -78,7 +78,7 @@ namespace sg {
         }
 
         // 타겟을 향해 걸어간다.
-        private void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager) {
+        protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager) {
             // 앞으로 이동하는 모션만 사용하기 위함
             // 뒷걸음질을 구현하고 싶다면 범위에 음수를 포함시키면 됨
             //verticalMovementValue = Random.Range(0, 1);
@@ -101,7 +101,7 @@ namespace sg {
 
         // 공격 선택
         // 거리, 각도 판단
-        private void GetNewAttack(EnemyManager enemyManager) {
+        protected virtual void GetNewAttack(EnemyManager enemyManager) {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);

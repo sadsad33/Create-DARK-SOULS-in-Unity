@@ -16,6 +16,7 @@ namespace sg {
         public bool canBeParried;
         public bool isParrying;
         public bool isBlocking;
+        public bool isInvulnerable;
 
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace sg {
     public class EnemyStats : CharacterStats {
+        EnemyManager enemyManager;
         public int soulsAwardedOnDeath;
         EnemyAnimatorManager enemyAnimatorManager;
         BossManager bossManager;
@@ -11,7 +12,7 @@ namespace sg {
 
         public bool isBoss;
         private void Awake() {
-            soulsAwardedOnDeath = 50;
+            enemyManager = GetComponent<EnemyManager>();
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
@@ -35,25 +36,27 @@ namespace sg {
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);
             else if (isBoss && bossManager != null)
-                bossManager.UpdateBossHealthBar(currentHealth);
+                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
 
             if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
+                HandleDeath();
             }
         }
 
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {
+
             base.TakeDamage(damage, damageAnimation = "Damage");
 
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);
             else if (isBoss && bossManager != null)
-                bossManager.UpdateBossHealthBar(currentHealth);
+                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+
             enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
-                HandleDeath();
+                currentHealth = 0;
+                isDead = true;
             }
         }
 
