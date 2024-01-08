@@ -18,6 +18,15 @@ namespace sg {
 
         public int soulCount = 0;
 
+        // 강인도 : 슈퍼아머 유지를 위한 필요 수치
+        [Header("Poise")]
+        public float totalPoiseDefense; // 데미지 계산에서의 총 강인도
+        public float offensivePoiseBonus; // 공격모션중 강인도 보너스
+        public float armorPoiseBonus; // 갑옷을 입음으로써 얻는 강인도
+        public float totalPoiseResetTime = 15; // 강인도 초기화 시간
+        public float poiseResetTimer = 0; // 강인도 초기화 타이머
+        
+
         [Header("Armor Absorptions")]
         public float physicalDamageAbsorptionHead;
         public float physicalDamageAbsorptionBody;
@@ -25,6 +34,14 @@ namespace sg {
         public float physicalDamageAbsorptionHands;
 
         public bool isDead;
+
+        protected virtual void Update() {
+            HandlePoiseResetTimer();
+        }
+
+        private void Start() {
+            totalPoiseDefense = armorPoiseBonus;
+        }
 
         public virtual void TakeDamage(float physicalDamage, string damageAnimation = "Damage") {
             if (isDead) return;
@@ -39,6 +56,14 @@ namespace sg {
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
+            }
+        }
+
+        public virtual void HandlePoiseResetTimer() {
+            if (poiseResetTimer > 0) {
+                poiseResetTimer -= Time.deltaTime;
+            } else {
+                totalPoiseDefense = armorPoiseBonus;
             }
         }
     }

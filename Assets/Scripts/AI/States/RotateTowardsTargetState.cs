@@ -19,7 +19,7 @@ namespace sg {
             if (enemyManager.isInteracting) 
                 return this;
             
-            Debug.Log(viewableAngle);
+            //Debug.Log(viewableAngle);
             if (viewableAngle >= 100 && viewableAngle <= 180 && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Left", true);
                 return combatStanceState;

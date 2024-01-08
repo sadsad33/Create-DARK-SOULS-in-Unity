@@ -91,11 +91,15 @@ namespace sg {
         private void LoadLeftWeaponDamageCollider() {
             leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             leftHandDamageCollider.currentWeaponDamage = playerInventory.leftWeapon.baseDamage;
+            // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
+            leftHandDamageCollider.poiseBreak = playerInventory.leftWeapon.poiseBreak;
         }
 
         private void LoadRightWeaponDamageCollider() {
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             rightHandDamageCollider.currentWeaponDamage = playerInventory.rightWeapon.baseDamage;
+            // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
+            rightHandDamageCollider.poiseBreak = playerInventory.rightWeapon.poiseBreak;
         }
 
         public void OpenDamageCollider() {
