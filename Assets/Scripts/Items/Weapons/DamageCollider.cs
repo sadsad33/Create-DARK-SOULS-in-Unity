@@ -65,7 +65,11 @@ namespace sg {
                     }
                 }
                 if (enemyStats != null) {
-                    enemyStats.TakeDamage(currentWeaponDamage);
+                    if (enemyStats.isBoss) { // 보스일경우 피격시 애니메이션 재생 X
+                        enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                    } else {
+                        enemyStats.TakeDamage(currentWeaponDamage);
+                    }
                 }
             }
 

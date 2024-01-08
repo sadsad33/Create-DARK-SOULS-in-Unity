@@ -19,7 +19,6 @@ namespace sg {
         public bool isGrounded;
         public bool canDoCombo;
         public bool isUsingRightHand, isUsingLeftHand;
-        public bool isInvulnerable;
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStats playerStats;
