@@ -39,7 +39,8 @@ namespace sg {
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
 
             if (currentHealth <= 0) {
-                HandleDeath();
+                currentHealth = 0;
+                isDead = true;
             }
         }
 
@@ -55,8 +56,7 @@ namespace sg {
             enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
+                HandleDeath();
             }
         }
 

@@ -14,6 +14,10 @@ namespace sg {
         public float baseDamage = 25;
         public int criticalDamageMultiplier = 4;
 
+        [Header("Poise")]
+        public float poiseBreak;
+        public float offensivePoiseBonus;
+
         // 방어시 물리 피해 흡수량
         [Header("Absorption")]
         public float physicalDamageAbsorption;
