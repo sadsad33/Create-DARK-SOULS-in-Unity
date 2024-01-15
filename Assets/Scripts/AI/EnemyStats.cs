@@ -65,5 +65,9 @@ namespace sg {
             enemyAnimatorManager.PlayTargetAnimation("Dead", true);
             isDead = true;
         }
+
+        public void BreakGuard() {
+            enemyAnimatorManager.PlayTargetAnimation("Break Guard", true);
+        }
     }
 }

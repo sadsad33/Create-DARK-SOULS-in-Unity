@@ -6,13 +6,13 @@ namespace sg {
     public class WeaponSlotManager : MonoBehaviour {
         public WeaponItem attackingWeapon;
         PlayerInventory playerInventory;
-        [SerializeField] 
+        [SerializeField]
         public WeaponHolderSlot leftHandSlot, rightHandSlot, backSlot;
         [SerializeField]
-        public DamageCollider leftHandDamageCollider; 
+        public DamageCollider leftHandDamageCollider;
         [SerializeField]
         public DamageCollider rightHandDamageCollider;
-        
+
         Animator animator;
         QuickSlots quickSlots;
         PlayerStats playerStats;
@@ -25,7 +25,7 @@ namespace sg {
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
             playerStats = GetComponentInParent<PlayerStats>();
-            
+
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>(); // 플레이어의 왼손과 오른손에 있는 WeaponHolderSlot을 모두 가져온다.
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
                 if (weaponSlot.isLeftHandSlot)
@@ -111,8 +111,8 @@ namespace sg {
         }
 
         public void CloseDamageCollider() {
-            rightHandDamageCollider.DisableDamageCollider();
-            leftHandDamageCollider.DisableDamageCollider();
+            if (rightHandDamageCollider != null) rightHandDamageCollider.DisableDamageCollider();
+            if (leftHandDamageCollider != null) leftHandDamageCollider.DisableDamageCollider();
         }
 
         #endregion
@@ -124,6 +124,16 @@ namespace sg {
 
         public void DrainStaminaHeavyAttack() {
             playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+        }
+        #endregion
+
+        #region Handle Weapon's Poise Bonus
+        public void GrantWeaponAttackingPoiseBonus() { // (특)대형무기 공격 도중 강인도 보너스 합산
+            playerStats.totalPoiseDefense = playerStats.totalPoiseDefense + attackingWeapon.offensivePoiseBonus;
+        }
+
+        public void ResetWeaponAttackingPoiseBonus() { // 공격이 끝나면 강인도 보너스 초기화
+            playerStats.totalPoiseDefense = playerStats.armorPoiseBonus;
         }
         #endregion
     }
