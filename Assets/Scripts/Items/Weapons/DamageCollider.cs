@@ -52,7 +52,7 @@ namespace sg {
                 if (playerStats != null) {
                     playerStats.poiseResetTimer = playerStats.totalPoiseResetTime;
                     playerStats.totalPoiseDefense = playerStats.totalPoiseDefense - poiseBreak;
-
+                    Debug.Log("Player's Poise is currently " + playerStats.totalPoiseDefense);
                     if (playerStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
                         playerStats.TakeDamageNoAnimation(currentWeaponDamage);
                         Debug.Log("Enemy Poise is currently " + playerStats.totalPoiseDefense);
@@ -81,12 +81,22 @@ namespace sg {
                 if (enemyStats != null) {
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
+                    Debug.Log("Enemy's Poise is currently " + enemyStats.totalPoiseDefense);
 
-                    if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
-                        enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
+                    if (enemyStats.isBoss) {
+                        if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                        } else {
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                            enemyStats.BreakGuard();
+                        }
                     } else {
-                        enemyStats.TakeDamage(currentWeaponDamage);
+                        if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                            Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
+                        } else {
+                            enemyStats.TakeDamage(currentWeaponDamage);
+                        }
                     }
                 }
             }

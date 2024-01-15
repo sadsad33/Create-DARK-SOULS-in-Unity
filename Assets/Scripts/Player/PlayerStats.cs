@@ -29,7 +29,14 @@ namespace sg {
             currentFocus = maxFocus;
             focusBar.SetMaxFocus(currentFocus);
         }
-        
+
+        public override void HandlePoiseResetTimer() {
+            if (poiseResetTimer > 0) {
+                poiseResetTimer -= Time.deltaTime;
+            } else if(poiseResetTimer <= 0 && !playerManager.isInteracting){
+                totalPoiseDefense = armorPoiseBonus;
+            }
+        }
         private float SetMaxHealthFromHealthLevel() {
             maxHealth = healthLevel * 10;
             return maxHealth;
