@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace sg {
     public class UIManager : MonoBehaviour {
-        public PlayerInventory playerInventory;
+        public PlayerInventoryManager playerInventory;
         public EquipmentWindowUI equipmentWindowUI;
 
         [Header("UI Windows")]

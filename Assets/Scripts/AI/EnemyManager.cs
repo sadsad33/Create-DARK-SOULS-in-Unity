@@ -11,7 +11,7 @@ namespace sg {
         public bool isPerformingAction;
         public bool isInteracting;
         public State currentState;
-        public CharacterStats currentTarget;
+        public CharacterStatsManager currentTarget;
         public NavMeshAgent navmeshAgent;
         public Rigidbody enemyRigidbody;
 

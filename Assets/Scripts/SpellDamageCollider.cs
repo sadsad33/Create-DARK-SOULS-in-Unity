@@ -11,7 +11,7 @@ namespace sg {
         bool hasCollided = false;
         Rigidbody rigidBody;
         SphereCollider collider;
-        CharacterStats spellTarget; // 목표물의 Stat
+        CharacterStatsManager spellTarget; // 목표물의 Stat
         Vector3 impactNormal; // impactParticles 회전축
 
         private void Awake() {
@@ -30,7 +30,7 @@ namespace sg {
 
         private void OnCollisionEnter(Collision collision) {
             if (!hasCollided) {
-                spellTarget = collision.transform.GetComponent<CharacterStats>();
+                spellTarget = collision.transform.GetComponent<CharacterStatsManager>();
                 if (spellTarget != null) {
                     spellTarget.TakeDamage(currentWeaponDamage);
                 }

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class PlayerInventory : MonoBehaviour {
-        WeaponSlotManager weaponSlotManager;
-
+    public class PlayerInventoryManager : MonoBehaviour {
+        PlayerWeaponSlotManager playerWeaponSlotManager;
 
         [Header("Quick Slot Items")]
         public SpellItem currentSpell;
-        public WeaponItem rightWeapon, leftWeapon, unarmedWeapon;
+        public WeaponItem rightWeapon, leftWeapon;
         public ConsumableItem currentConsumable;
 
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3]; // 왼손 무기슬롯
@@ -26,28 +25,27 @@ namespace sg {
         public List<WeaponItem> weaponsInventory; // 플레이어의 인벤토리
 
         private void Awake() {
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         private void Start() {
             rightWeapon = weaponsInRightHandSlots[0];
             leftWeapon = weaponsInLeftHandSlots[0];
-            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            playerWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+            playerWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         }
 
         public void ChangeRightWeapon() {
             currentRightWeaponIndex += 1; // 다음인덱스로 넘어간다.
-
             // 배열의 인덱스가 범위를 벗어나면 무장해제 한다.
             if (currentRightWeaponIndex >= weaponsInRightHandSlots.Length) {
                 currentRightWeaponIndex = -1;
-                rightWeapon = unarmedWeapon;
-                weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+                rightWeapon = playerWeaponSlotManager.unarmedWeapon;
+                playerWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
             } else {
                 if (weaponsInRightHandSlots[currentRightWeaponIndex] != null) {
                     rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
-                    weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+                    playerWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
                 } else {
                     currentRightWeaponIndex += 1;
                 }
@@ -56,15 +54,14 @@ namespace sg {
 
         public void ChangeLeftWeapon() {
             currentLeftWeaponIndex += 1;
-
             if (currentLeftWeaponIndex >= weaponsInLeftHandSlots.Length) {
                 currentLeftWeaponIndex = -1;
-                leftWeapon = unarmedWeapon;
-                weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+                leftWeapon = playerWeaponSlotManager.unarmedWeapon;
+                playerWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
             } else {
                 if (weaponsInLeftHandSlots[currentLeftWeaponIndex] != null) {
                     leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
-                    weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+                    playerWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
                 } else {
                     currentLeftWeaponIndex += 1;
                 }

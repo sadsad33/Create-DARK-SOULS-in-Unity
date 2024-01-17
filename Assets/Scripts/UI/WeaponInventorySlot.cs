@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace sg {
     public class WeaponInventorySlot : MonoBehaviour {
-        PlayerInventory playerInventory;
-        WeaponSlotManager weaponSlotManager;
+        PlayerInventoryManager playerInventory;
+        PlayerWeaponSlotManager weaponSlotManager;
         UIManager uiManager; 
 
         // 슬롯은 아이콘과 아이템을 갖는다.
@@ -14,8 +14,8 @@ namespace sg {
         WeaponItem item;
 
         private void Awake() {
-            playerInventory = FindObjectOfType<PlayerInventory>();
-            weaponSlotManager = FindObjectOfType<WeaponSlotManager>();
+            playerInventory = FindObjectOfType<PlayerInventoryManager>();
+            weaponSlotManager = FindObjectOfType<PlayerWeaponSlotManager>();
             uiManager = FindObjectOfType<UIManager>();
         }
         // 슬롯에 무기 추가

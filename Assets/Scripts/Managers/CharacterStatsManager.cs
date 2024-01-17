@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class CharacterStats : MonoBehaviour {
+    public class CharacterStatsManager : MonoBehaviour {
         public int healthLevel = 10;
         public float maxHealth;
         public float currentHealth;

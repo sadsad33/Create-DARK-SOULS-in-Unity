@@ -3,69 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class PlayerAttacker : MonoBehaviour {
-        PlayerAnimatorManager animatorHandler;
-        PlayerEquipmentManager playerEquipmentManager;
-        PlayerInventory playerInventory;
-        PlayerManager playerManager;
+    public class PlayerCombatManager : MonoBehaviour {
         InputHandler inputHandler;
-        WeaponSlotManager weaponSlotManager;
-        PlayerStats playerStats;
         CameraHandler cameraHandler;
+        PlayerManager playerManager;
+        PlayerAnimatorManager playerAnimatorManager;
+        PlayerEquipmentManager playerEquipmentManager;
+        PlayerInventoryManager playerInventoryManager;
+        PlayerWeaponSlotManager playerWeaponSlotManager;
+        PlayerStatsManager playerStatsManager;
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
         public void Awake() {
             cameraHandler = FindObjectOfType<CameraHandler>();
-            animatorHandler = GetComponent<PlayerAnimatorManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
-            playerStats = GetComponentInParent<PlayerStats>();
-            playerInventory = GetComponentInParent<PlayerInventory>();
-            playerManager = GetComponentInParent<PlayerManager>();
-            inputHandler = GetComponentInParent<InputHandler>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerManager = GetComponent<PlayerManager>();
+            inputHandler = GetComponent<InputHandler>();
+            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0) return;
+            if (playerStatsManager.currentStamina <= 0) return;
             if (inputHandler.comboFlag) {
-                animatorHandler.anim.SetBool("canDoCombo", false);
+                playerAnimatorManager.anim.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
                     //Debug.Log("콤보 공격 실행");
-                    animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
+                    playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
                 } else if (lastAttack == weapon.TH_Light_Sword_Attack_1) {
-                    animatorHandler.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_2, true);
+                    playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_2, true);
                 } else if (lastAttack == weapon.UnarmedAttack1) {
-                    animatorHandler.PlayTargetAnimation(weapon.UnarmedAttack2, true);
+                    playerAnimatorManager.PlayTargetAnimation(weapon.UnarmedAttack2, true);
                 }
             }
         }
 
         public void HandleUnarmedAttack(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0) return;
+            if (playerStatsManager.currentStamina <= 0) return;
             //Debug.Log("맨주먹 공격");
-            weaponSlotManager.attackingWeapon = weapon;
-            animatorHandler.PlayTargetAnimation(weapon.UnarmedAttack1, true);
+            playerWeaponSlotManager.attackingWeapon = weapon;
+            playerAnimatorManager.PlayTargetAnimation(weapon.UnarmedAttack1, true);
             lastAttack = weapon.UnarmedAttack1;
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0 || playerManager.isInteracting) return;
+            if (playerStatsManager.currentStamina <= 0 || playerManager.isInteracting) return;
             //Debug.Log("한손 약공");
-            weaponSlotManager.attackingWeapon = weapon;
+            playerWeaponSlotManager.attackingWeapon = weapon;
             if (inputHandler.twoHandFlag) {
-                animatorHandler.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_1, true);
+                playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_1, true);
                 lastAttack = weapon.TH_Light_Sword_Attack_1;
             } else {
-                animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
+                playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
                 lastAttack = weapon.OH_Light_Attack_1;
             }
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {
-            if (playerStats.currentStamina <= 0 || playerManager.isInteracting) return;
-            weaponSlotManager.attackingWeapon = weapon;
-            animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+            if (playerStatsManager.currentStamina <= 0 || playerManager.isInteracting) return;
+            playerWeaponSlotManager.attackingWeapon = weapon;
+            playerAnimatorManager.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
 
@@ -73,10 +73,10 @@ namespace sg {
         // 플레이어가 들고있는 무기의 종류에 따라 같은 공격 입력에도 행동이 달라야한다.
         #region Input Actions
         public void HandleRBAction() {
-            if (playerInventory.rightWeapon.isMeleeWeapon) {
+            if (playerInventoryManager.rightWeapon.isMeleeWeapon) {
                 PerformRBMeleeAction();
-            } else if (playerInventory.rightWeapon.isMagicCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster) {
-                PerformRBSpellAction(playerInventory.rightWeapon);
+            } else if (playerInventoryManager.rightWeapon.isMagicCaster || playerInventoryManager.rightWeapon.isFaithCaster || playerInventoryManager.rightWeapon.isPyroCaster) {
+                PerformRBSpellAction(playerInventoryManager.rightWeapon);
             }
         }
 
@@ -85,9 +85,9 @@ namespace sg {
         }
 
         public void HandleLTAction() {
-            if (playerInventory.leftWeapon.isShieldWeapon) {
+            if (playerInventoryManager.leftWeapon.isShieldWeapon) {
                 PerformLTWeaponArt(inputHandler.twoHandFlag);
-            } else if (playerInventory.leftWeapon.isMeleeWeapon) {
+            } else if (playerInventoryManager.leftWeapon.isMeleeWeapon) {
                 // 약공
             }
         }
@@ -98,16 +98,16 @@ namespace sg {
         private void PerformRBMeleeAction() {
             if (playerManager.canDoCombo) {
                 inputHandler.comboFlag = true;
-                HandleWeaponCombo(playerInventory.rightWeapon);
+                HandleWeaponCombo(playerInventoryManager.rightWeapon);
                 inputHandler.comboFlag = false;
             } else {
                 if (playerManager.isInteracting) return;
                 if (playerManager.canDoCombo) return;
-                animatorHandler.anim.SetBool("isUsingRightHand", true);
-                if (playerInventory.currentRightWeaponIndex != -1) {
-                    HandleLightAttack(playerInventory.rightWeapon);
-                } else if (playerInventory.currentRightWeaponIndex == -1) {
-                    HandleUnarmedAttack(playerInventory.rightWeapon);
+                playerAnimatorManager.anim.SetBool("isUsingRightHand", true);
+                if (playerInventoryManager.currentRightWeaponIndex != -1) {
+                    HandleLightAttack(playerInventoryManager.rightWeapon);
+                } else if (playerInventoryManager.currentRightWeaponIndex == -1) {
+                    HandleUnarmedAttack(playerInventoryManager.rightWeapon);
                 }
             }
         }
@@ -116,16 +116,16 @@ namespace sg {
         private void PerformRBSpellAction(WeaponItem weapon) {
             if (playerManager.isInteracting) return;
             if (weapon.isFaithCaster) {
-                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell) {
-                    if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
-                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
-                    else animatorHandler.PlayTargetAnimation("Shrugging", true);
+                if (playerInventoryManager.currentSpell != null && playerInventoryManager.currentSpell.isFaithSpell) {
+                    if (playerStatsManager.currentFocus >= playerInventoryManager.currentSpell.focusCost)
+                        playerInventoryManager.currentSpell.AttemptToCastSpell(playerAnimatorManager, playerStatsManager, playerWeaponSlotManager);
+                    else playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             } else if (weapon.isPyroCaster) {
-                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isPyroSpell) {
-                    if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
-                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
-                    else animatorHandler.PlayTargetAnimation("Shrugging", true);
+                if (playerInventoryManager.currentSpell != null && playerInventoryManager.currentSpell.isPyroSpell) {
+                    if (playerStatsManager.currentFocus >= playerInventoryManager.currentSpell.focusCost)
+                        playerInventoryManager.currentSpell.AttemptToCastSpell(playerAnimatorManager, playerStatsManager, playerWeaponSlotManager);
+                    else playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             }
         }
@@ -138,14 +138,14 @@ namespace sg {
 
             } else {
                 // 왼손 무기의 전기를 사용
-                animatorHandler.PlayTargetAnimation(playerInventory.leftWeapon.weaponArt, true);
+                playerAnimatorManager.PlayTargetAnimation(playerInventoryManager.leftWeapon.weaponArt, true);
             }
         }
 
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
-            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
-            animatorHandler.anim.SetBool("isFiringSpell", true);
+            playerInventoryManager.currentSpell.SuccessfullyCastSpell(playerAnimatorManager, playerStatsManager, cameraHandler, playerWeaponSlotManager);
+            playerAnimatorManager.anim.SetBool("isFiringSpell", true);
             //Debug.Log("투척 이벤트");
         }
 
@@ -158,7 +158,7 @@ namespace sg {
             // 계속해서 Block Start 애니메이션이 실행되는것을 방지
             if (playerManager.isBlocking) return;
 
-            animatorHandler.PlayTargetAnimation("Block Start", false, true);
+            playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
             playerEquipmentManager.OpenBlockingCollider();
             playerManager.isBlocking = true;
         }
@@ -166,11 +166,11 @@ namespace sg {
         #endregion
         // 뒤잡, 앞잡 시도
         public void AttemptBackStabOrRiposte() {
-            if (playerStats.currentStamina <= 0) return;
+            if (playerStatsManager.currentStamina <= 0) return;
             RaycastHit hit; // Riposte Collider 와 BackStab Collider 감지
             if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                DamageCollider rightWeapon = weaponSlotManager.rightHandDamageCollider;
+                DamageCollider rightWeapon = playerWeaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null) { // 뒤잡, 혹은 앞잡이 가능한 대상을 포착했을 경우
                     // TODO
                     // 피아 식별 (아군이나 자신에게는 가능하지 않도록)
@@ -186,16 +186,16 @@ namespace sg {
                     Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
                     playerManager.transform.rotation = targetRotation;
 
-                    float criticalDamage = playerInventory.rightWeapon.criticalDamageMultiplier * rightWeapon.currentWeaponDamage;
+                    float criticalDamage = playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.currentWeaponDamage;
                     enemyCharacterManager.pendingCriticalDamage = criticalDamage;
 
                     // 애니메이션 재생
-                    animatorHandler.PlayTargetAnimation("Back Stab", true);
+                    playerAnimatorManager.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabbed", true);
                 }
             } else if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                DamageCollider rightWeapon = weaponSlotManager.rightHandDamageCollider;
+                DamageCollider rightWeapon = playerWeaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null && enemyCharacterManager.canBeRiposted) {
                     playerManager.transform.position = enemyCharacterManager.riposteCollider.criticalDamagerStandPosition.position;
 
@@ -207,10 +207,10 @@ namespace sg {
                     Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
                     playerManager.transform.rotation = targetRotation;
 
-                    float criticalDamage = playerInventory.rightWeapon.criticalDamageMultiplier * rightWeapon.currentWeaponDamage;
+                    float criticalDamage = playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.currentWeaponDamage;
                     enemyCharacterManager.pendingCriticalDamage = criticalDamage;
 
-                    animatorHandler.PlayTargetAnimation("Riposte", true);
+                    playerAnimatorManager.PlayTargetAnimation("Riposte", true);
                     enemyCharacterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Riposted", true);
                 }
             }

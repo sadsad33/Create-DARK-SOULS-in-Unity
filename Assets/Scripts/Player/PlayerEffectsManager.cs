@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace sg {
     public class PlayerEffectsManager : MonoBehaviour {
-        PlayerStats playerStats;
-        WeaponSlotManager weaponSlotManager;
+        PlayerStatsManager playerStatsManager;
+        PlayerWeaponSlotManager playerWeaponSlotManager;
         public GameObject currentParticleFX; // 현재 플레이어의 상태에 따른 오라(?) 효과
         public GameObject instantiatedFXModel;
         public float amountToBeHealed;
 
         private void Awake() {
-            playerStats = GetComponentInParent<PlayerStats>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
         public void HealPlayerFromEffect() {
-            playerStats.HealPlayer(amountToBeHealed);
-            GameObject healParticles = Instantiate(currentParticleFX, playerStats.transform); // 회복 이펙트
+            playerStatsManager.HealPlayer(amountToBeHealed);
+            GameObject healParticles = Instantiate(currentParticleFX, playerStatsManager.transform); // 회복 이펙트
             Destroy(healParticles, 2f);
         }
 

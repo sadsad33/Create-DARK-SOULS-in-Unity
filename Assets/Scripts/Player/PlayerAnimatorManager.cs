@@ -5,19 +5,19 @@ using UnityEngine;
 namespace sg {
     public class PlayerAnimatorManager : AnimatorManager {
         PlayerManager playerManager;
-        PlayerStats playerStats;
+        PlayerStatsManager playerStatsManager;
         InputHandler inputHandler;
-        PlayerLocomotion playerLocomotion;
+        PlayerLocomotionManager playerLocomotionManager;
 
         int vertical;
         int horizontal;
         
         public void Initialize() {
             playerManager = GetComponentInParent<PlayerManager>();
-            playerStats = GetComponentInParent<PlayerStats>();
-            anim = GetComponent<Animator>();
+            playerStatsManager = GetComponentInParent<PlayerStatsManager>();
+            anim = GetComponentInChildren<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
-            playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+            playerLocomotionManager = GetComponentInParent<PlayerLocomotionManager>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
@@ -92,26 +92,26 @@ namespace sg {
             if(!playerManager.isInteracting) return;
 
             float delta = Time.deltaTime;
-            playerLocomotion.rigidbody.drag = 0;
+            playerLocomotionManager.rigidbody.drag = 0;
             Vector3 deltaPosition = anim.deltaPosition; // 애니메이션의 마지막 프레임때 아바타의 좌표를 가져옴
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
-            playerLocomotion.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
+            playerLocomotionManager.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
         }
 
         public override void TakeCriticalDamageAnimationEvent() {
-            playerStats.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
+            playerStatsManager.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
             playerManager.pendingCriticalDamage = 0;
         }
 
         public void DisableCollision() {
-            playerLocomotion.characterCollider.enabled = false;
-            playerLocomotion.characterColliderBlocker.enabled = false;
+            playerLocomotionManager.characterCollider.enabled = false;
+            playerLocomotionManager.characterColliderBlocker.enabled = false;
         }
 
         public void EnableCollision() {
-            playerLocomotion.characterCollider.enabled = true;
-            playerLocomotion.characterColliderBlocker.enabled = true;
+            playerLocomotionManager.characterCollider.enabled = true;
+            playerLocomotionManager.characterColliderBlocker.enabled = true;
         }
     }
 }
