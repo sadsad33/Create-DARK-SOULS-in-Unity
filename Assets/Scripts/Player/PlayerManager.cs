@@ -21,19 +21,19 @@ namespace sg {
         public bool isUsingRightHand, isUsingLeftHand;
 
         PlayerAnimatorManager playerAnimatorManager;
-        PlayerStats playerStats;
-        PlayerLocomotion playerLocomotion;
+        PlayerStatsManager playerStatsManager;
+        PlayerLocomotionManager playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
 
         private void Awake() {
-            playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
-            playerStats = GetComponent<PlayerStats>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
             backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             inputHandler = GetComponent<InputHandler>();
-            anim = GetComponentInChildren<Animator>();
-            playerLocomotion = GetComponent<PlayerLocomotion>();
+            anim = GetComponent<Animator>();
+            playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
         }
 
@@ -47,12 +47,12 @@ namespace sg {
             isUsingLeftHand = anim.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
             isInvulnerable = anim.GetBool("isInvulnerable");
-            anim.SetBool("isDead", playerStats.isDead);
+            anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
-            playerStats.RegenerateStamina();
+            playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
 
             playerAnimatorManager.canRotate = anim.GetBool("canRotate");

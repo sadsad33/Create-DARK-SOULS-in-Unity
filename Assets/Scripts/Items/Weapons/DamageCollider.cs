@@ -34,7 +34,7 @@ namespace sg {
 
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
-                PlayerStats playerStats = other.GetComponent<PlayerStats>();
+                PlayerStatsManager playerStats = other.GetComponent<PlayerStatsManager>();
                 CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 if (enemyCharacterManager != null) {
@@ -81,7 +81,7 @@ namespace sg {
                 if (enemyStats != null) {
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
-                    Debug.Log("Enemy's Poise is currently " + enemyStats.totalPoiseDefense);
+                    //Debug.Log("Enemy's Poise is currently " + enemyStats.totalPoiseDefense);
 
                     if (enemyStats.isBoss) {
                         if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
@@ -93,7 +93,7 @@ namespace sg {
                     } else {
                         if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
                             enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                            Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
+                            //Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
                         } else {
                             enemyStats.TakeDamage(currentWeaponDamage);
                         }

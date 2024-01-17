@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class EnemyStats : CharacterStats {
+    public class EnemyStats : CharacterStatsManager {
         EnemyManager enemyManager;
         public int soulsAwardedOnDeath;
         EnemyAnimatorManager enemyAnimatorManager;

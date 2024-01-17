@@ -16,7 +16,7 @@ namespace sg {
             Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
             for (int i = 0; i < colliders.Length; i++) {
                 // 감지한 주변 collider로부터 CharacterStats을 가져온다.
-                CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+                CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
 
                 // 해당 오브젝트에 CharacterStats이 존재한다면
                 if (characterStats != null) {

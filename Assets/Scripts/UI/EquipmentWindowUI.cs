@@ -7,12 +7,10 @@ namespace sg {
         public bool rightHandSlot1, rightHandSlot2;
         public bool leftHandSlot1, leftHandSlot2;
         public HandEquipmentSlotUI[] handEquipmentSlotUI;
-        private void Start() {
-        }
 
         // 다크소울 처럼 오른손과 왼손에 각각 여러개의 무기들을 지니고있음
         // 장비창에 플레이어가 현재 양손에 들고있는 무기들을 표시한다.
-        public void LoadWeaponOnEquipmentScreen(PlayerInventory playerInventory) {
+        public void LoadWeaponOnEquipmentScreen(PlayerInventoryManager playerInventory) {
             for (int i = 0; i < handEquipmentSlotUI.Length; i++) {
                 if (handEquipmentSlotUI[i].rightHandSlot1) {
                     handEquipmentSlotUI[i].AddItem(playerInventory.weaponsInRightHandSlots[0]);

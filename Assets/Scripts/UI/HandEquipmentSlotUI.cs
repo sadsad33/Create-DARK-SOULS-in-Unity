@@ -21,10 +21,12 @@ namespace sg {
 
         // 슬롯에 아이템 추가
         public void AddItem(WeaponItem newWeapon) {
-            weapon = newWeapon;
-            icon.sprite = newWeapon.itemIcon;
-            icon.enabled = true;
-            gameObject.SetActive(true);
+            if (newWeapon != null) {
+                weapon = newWeapon;
+                icon.sprite = newWeapon.itemIcon;
+                icon.enabled = true;
+                gameObject.SetActive(true);
+            }
         }
 
         // 슬롯에서 아이템 제거

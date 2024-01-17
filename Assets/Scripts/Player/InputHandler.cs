@@ -42,14 +42,15 @@ namespace sg {
 
         // Input Action 인스턴스
         PlayerControls inputActions;
-        PlayerAttacker playerAttacker;
-        PlayerInventory playerInventory;
+
+        PlayerCombatManager playerCombatManager;
+        PlayerInventoryManager playerInventoryManager;
         PlayerManager playerManager;
         UIManager uiManager;
         CameraHandler cameraHandler;
-        WeaponSlotManager weaponSlotManager;
-        PlayerAnimatorManager animatorHandler;
-        PlayerStats playerStats;
+        PlayerWeaponSlotManager weaponSlotManager;
+        PlayerAnimatorManager playerAnimatiorManager;
+        PlayerStatsManager playerStatsManager;
         PlayerEffectsManager playerEffectsManager;
 
         BlockingCollider blockingCollider;
@@ -58,16 +59,16 @@ namespace sg {
         Vector2 cameraInput;
 
         public void Awake() {
-            playerStats = GetComponent<PlayerStats>();
-            playerAttacker = GetComponentInChildren<PlayerAttacker>();
-            playerInventory = GetComponent<PlayerInventory>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerManager = GetComponent<PlayerManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
-            animatorHandler = GetComponentInChildren<PlayerAnimatorManager>();
-            playerEffectsManager = GetComponentInChildren<PlayerEffectsManager>();
+            playerAnimatiorManager = GetComponent<PlayerAnimatorManager>();
+            playerEffectsManager = GetComponent<PlayerEffectsManager>();
         }
 
         public void OnEnable() {
@@ -136,11 +137,11 @@ namespace sg {
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
 
-                if (playerStats.currentStamina <= 0) { // 스테미너가 남아있지 않다면
+                if (playerStatsManager.currentStamina <= 0) { // 스테미너가 남아있지 않다면
                     b_Input = false;
                     sprintFlag = false;
                 }
-                if (moveAmount > 0.5f && playerStats.currentStamina > 0) {
+                if (moveAmount > 0.5f && playerStatsManager.currentStamina > 0) {
                     sprintFlag = true;
                 }
             } else {
@@ -156,12 +157,12 @@ namespace sg {
 
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
-                playerAttacker.HandleRBAction();
+                playerCombatManager.HandleRBAction();
             }
             if (rt_Input) {
                 if (playerManager.isInteracting) return;
                 if (playerManager.canDoCombo) return;
-                playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+                playerCombatManager.HandleHeavyAttack(playerInventoryManager.rightWeapon);
             }
 
             if (lt_Input) {
@@ -171,12 +172,12 @@ namespace sg {
                 } else {
                     // 왼손또한 무기를 들고있다면 왼손 약공
                     // 방패를 들고있다면 방패 전투기술 사용
-                    playerAttacker.HandleLTAction();
+                    playerCombatManager.HandleLTAction();
                 }
             }
 
             if (lb_Input) {
-                playerAttacker.HandleLBAction();
+                playerCombatManager.HandleLBAction();
             } else {
                 playerManager.isBlocking = false;
                 if (blockingCollider.blockingCollider.enabled) {
@@ -189,9 +190,9 @@ namespace sg {
         private void HandleQuickSlotInput() {
 
             if (d_Pad_Right) {
-                playerInventory.ChangeRightWeapon();
+                playerInventoryManager.ChangeRightWeapon();
             } else if (d_Pad_Left) {
-                playerInventory.ChangeLeftWeapon();
+                playerInventoryManager.ChangeLeftWeapon();
             }
         }
 
@@ -255,10 +256,10 @@ namespace sg {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
                 if (twoHandFlag) { // 양잡
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
                 } else { // 양잡 해제
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.leftWeapon, true);
                 }
             }
         }
@@ -266,7 +267,7 @@ namespace sg {
         private void HandleCriticalAttackInput() {
             if (critical_Attack_Input) {
                 critical_Attack_Input = false;
-                playerAttacker.AttemptBackStabOrRiposte();
+                playerCombatManager.AttemptBackStabOrRiposte();
             }
         }
 
@@ -274,7 +275,7 @@ namespace sg {
             if (x_Input) {
                 x_Input = false;
                 // 현재 소비 아이템을 사용한다.
-                playerInventory.currentConsumable.AttemptToConsumeItem(animatorHandler, weaponSlotManager, playerEffectsManager);
+                playerInventoryManager.currentConsumable.AttemptToConsumeItem(playerAnimatiorManager, weaponSlotManager, playerEffectsManager);
             }
         }
     }
