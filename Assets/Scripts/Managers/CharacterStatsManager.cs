@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace sg {
     public class CharacterStatsManager : MonoBehaviour {
+        public int soulsAwardedOnDeath;
+
         public int healthLevel = 10;
         public float maxHealth;
         public float currentHealth;
@@ -53,6 +55,14 @@ namespace sg {
             currentHealth -= finalDamage;
             //Debug.Log("Total Damage Dealt is " + finalDamage);
 
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+            }
+        }
+
+        public virtual void TakeDamageNoAnimation(float damage) {
+            currentHealth -= damage;
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;

@@ -52,12 +52,9 @@ namespace sg {
             return maxStamina;
         }
 
-        public void TakeDamageNoAnimation(float damage) {
-            currentHealth -= damage;
-            if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
-            }
+        public override void TakeDamageNoAnimation(float damage) {
+            base.TakeDamageNoAnimation(damage);
+            healthBar.SetCurrentHealth(currentHealth);
         }
 
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {

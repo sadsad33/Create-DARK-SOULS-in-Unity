@@ -4,17 +4,14 @@ using UnityEngine;
 
 namespace sg {
     public class PlayerAnimatorManager : AnimatorManager {
-        PlayerManager playerManager;
-        PlayerStatsManager playerStatsManager;
         InputHandler inputHandler;
         PlayerLocomotionManager playerLocomotionManager;
 
         int vertical;
         int horizontal;
         
-        public void Initialize() {
-            playerManager = GetComponentInParent<PlayerManager>();
-            playerStatsManager = GetComponentInParent<PlayerStatsManager>();
+        protected override void Awake() {
+            base.Awake();
             anim = GetComponentInChildren<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotionManager = GetComponentInParent<PlayerLocomotionManager>();
@@ -51,45 +48,8 @@ namespace sg {
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
-        public void CanRotate() {
-            anim.SetBool("canRotate", true);
-        }
-        public void StopRotation() {
-            anim.SetBool("canRotate", false);
-        }
-        public void EnableCombo() {
-            anim.SetBool("canDoCombo", true);
-        }
-        public void DisableCombo() {
-            anim.SetBool("canDoCombo", false);
-        }
-
-        public void EnableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", true);
-        }
-
-        public void DisableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", false);            
-        }
-
-        public void EnableIsParrying() {
-            playerManager.isParrying = true;
-        }
-
-        public void DisableIsParrying() {
-            playerManager.isParrying = false;
-        }
-
-        public void EnableCanBeRiposted() {
-            playerManager.canBeRiposted = true;
-        }
-
-        public void DisableCanBeRiposted() {
-            playerManager.canBeRiposted = false;
-        }
-
         private void OnAnimatorMove() {
-            if(!playerManager.isInteracting) return;
+            if(!characterManager.isInteracting) return;
 
             float delta = Time.deltaTime;
             playerLocomotionManager.rigidbody.drag = 0;
@@ -97,11 +57,6 @@ namespace sg {
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
             playerLocomotionManager.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
-        }
-
-        public override void TakeCriticalDamageAnimationEvent() {
-            playerStatsManager.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
-            playerManager.pendingCriticalDamage = 0;
         }
 
         public void DisableCollision() {

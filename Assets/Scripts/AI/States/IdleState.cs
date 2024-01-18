@@ -6,7 +6,7 @@ namespace sg {
     public class IdleState : State {
         public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             // ¸ñÇ¥ Å½»ö
             // ¸ñÇ¥ Å½»ö¿¡ ¼º°øÇÏ¸é Pursue Target State°¡ µÊ
             // ¸ñÇ¥ Å½»öÀ» ½ÇÆÐÇÏ¸é Idle State À¯Áö

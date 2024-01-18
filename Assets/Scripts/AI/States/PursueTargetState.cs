@@ -6,7 +6,7 @@ namespace sg {
     public class PursueTargetState : State {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
 
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨

@@ -6,7 +6,7 @@ namespace sg {
     public class RotateTowardsTargetState : State {
         public CombatStanceState combatStanceState;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             enemyAnimatorManager.anim.SetFloat("Vertical", 0);
             enemyAnimatorManager.anim.SetFloat("Horizontal", 0);
 

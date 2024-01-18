@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace sg {
     public class EnemyManager : CharacterManager {
-        EnemyLocomotionManager enemyLocomotionManager;
         EnemyAnimatorManager enemyAnimatorManager;
-        EnemyStats enemyStats;
+        EnemyStatsManager enemyStatsManager;
 
         public bool isPerformingAction;
-        public bool isInteracting;
         public State currentState;
         public CharacterStatsManager currentTarget;
         public NavMeshAgent navmeshAgent;
@@ -17,8 +15,6 @@ namespace sg {
 
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 1.5f;
-        [Header("Combat Flags")]
-        public bool canDoCombo;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
@@ -32,9 +28,8 @@ namespace sg {
         public float comboLikelyHood;
 
         private void Awake() {
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
-            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
-            enemyStats = GetComponent<EnemyStats>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
             navmeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
             navmeshAgent.enabled = false;
@@ -54,7 +49,7 @@ namespace sg {
             canDoCombo = enemyAnimatorManager.anim.GetBool("canDoCombo");
             canRotate = enemyAnimatorManager.anim.GetBool("canRotate");
             isInvulnerable = enemyAnimatorManager.anim.GetBool("isInvulnerable");
-            enemyAnimatorManager.anim.SetBool("isDead", enemyStats.isDead);
+            enemyAnimatorManager.anim.SetBool("isDead", enemyStatsManager.isDead);
 
         }
 
@@ -66,7 +61,7 @@ namespace sg {
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
         private void HandleStateMachine() {
             if (currentState != null) {
-                State nextState = currentState.Tick(this, enemyStats, enemyAnimatorManager);
+                State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
                 if (nextState != null) {
                     SwitchToNextState(nextState);
                 }
