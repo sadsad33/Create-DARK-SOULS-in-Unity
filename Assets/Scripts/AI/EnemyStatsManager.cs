@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class EnemyStats : CharacterStatsManager {
-        EnemyManager enemyManager;
-        public int soulsAwardedOnDeath;
+    public class EnemyStatsManager : CharacterStatsManager {
         EnemyAnimatorManager enemyAnimatorManager;
         BossManager bossManager;
         public UIEnemyHealthBar enemyHealthBar;
 
         public bool isBoss;
         private void Awake() {
-            enemyManager = GetComponent<EnemyManager>();
-            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
             maxHealth = SetMaxHealthFromHealthLevel();
@@ -21,8 +18,7 @@ namespace sg {
         }
 
         private void Start() {
-            if (!isBoss)
-                enemyHealthBar.SetMaxHealth(maxHealth);
+            if (!isBoss) enemyHealthBar.SetMaxHealth(maxHealth);
         }
 
         private float SetMaxHealthFromHealthLevel() {
@@ -31,17 +27,12 @@ namespace sg {
         }
 
         // 뒤잡이나 앞잡등 애니메이션을 강제해야 하는 경우 사용
-        public void TakeDamageNoAnimation(float damage) {
-            currentHealth -= damage;
+        public override void TakeDamageNoAnimation(float damage) {
+            base.TakeDamageNoAnimation(damage);
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-
-            if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
-            }
         }
 
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {

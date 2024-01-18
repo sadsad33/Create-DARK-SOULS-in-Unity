@@ -63,7 +63,7 @@ namespace sg {
             }
 
             if (other.tag == "Enemy") {
-                EnemyStats enemyStats = other.GetComponent<EnemyStats>();
+                EnemyStatsManager enemyStats = other.GetComponent<EnemyStatsManager>();
                 CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 if (enemyCharacterManager != null) {

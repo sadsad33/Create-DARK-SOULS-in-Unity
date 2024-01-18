@@ -4,15 +4,13 @@ using UnityEngine;
 
 namespace sg {
     public class EnemyAnimatorManager : AnimatorManager {
-        EnemyManager enemyManager;
-        EnemyStats enemyStats;
         BossManager bossManager;
-
-        private void Awake() {
+        EnemyManager enemyManager;
+        protected override void Awake() {
+            base.Awake();
+            enemyManager = GetComponent<EnemyManager>();
             anim = GetComponent<Animator>();
-            enemyManager = GetComponentInParent<EnemyManager>();
-            bossManager = GetComponentInParent<BossManager>();
-            enemyStats = GetComponentInParent<EnemyStats>();
+            bossManager = GetComponent<BossManager>();
         }
 
 
@@ -26,51 +24,9 @@ namespace sg {
             Vector3 velocity = deltaPosition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
 
-            if (enemyManager.isRotatingWithRootMotion) {
-                enemyManager.transform.rotation *= anim.deltaRotation;
+            if (characterManager.isRotatingWithRootMotion) {
+                characterManager.transform.rotation *= anim.deltaRotation;
             }
-        }
-
-        public override void TakeCriticalDamageAnimationEvent() {
-            enemyStats.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
-            enemyManager.pendingCriticalDamage = 0;
-        }
-
-        public void CanRotate() {
-            anim.SetBool("canRotate", true);
-        }
-        public void StopRotation() {
-            anim.SetBool("canRotate", false);
-        }
-        public void EnableCombo() {
-            anim.SetBool("canDoCombo", true);
-        }
-        public void DisableCombo() {
-            anim.SetBool("canDoCombo", false);
-        }
-
-        public void EnableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", true);
-        }
-
-        public void DisableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", false);
-        }
-
-        public void EnableIsParrying() {
-            enemyManager.isParrying = true;
-        }
-
-        public void DisableIsParrying() {
-            enemyManager.isParrying = false;
-        }
-
-        public void EnableCanBeRiposted() {
-            enemyManager.canBeRiposted = true;
-        }
-
-        public void DisableCanBeRiposted() {
-            enemyManager.canBeRiposted = false;
         }
 
         public void InstantiateBossParticleFX() {
@@ -84,7 +40,7 @@ namespace sg {
             SoulCountBar soulCountBar = FindObjectOfType<SoulCountBar>();
 
             if (playerStats != null) {
-                playerStats.AddSouls(enemyStats.soulsAwardedOnDeath);
+                playerStats.AddSouls(characterStatsManager.soulsAwardedOnDeath);
                 if (soulCountBar != null) {
                     soulCountBar.SetSoulCountText(playerStats.soulCount);
                 }

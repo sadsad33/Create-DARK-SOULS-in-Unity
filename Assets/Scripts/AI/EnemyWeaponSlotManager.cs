@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class EnemyWeaponSlotManager : MonoBehaviour {
+    public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
         public WeaponItem rightHandWeapon, leftHandWeapon;
-        public WeaponHolderSlot rightHandSlot, leftHandSlot;
-        public DamageCollider leftHandDamageCollider, rightHandDamageCollider;
-        EnemyStats enemyStats;
+        EnemyStatsManager enemyStatsManager;
         private void Awake() {
-            enemyStats = GetComponentInParent<EnemyStats>();
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
             LoadWeaponHolderSlots();
         }
 
@@ -78,11 +76,11 @@ namespace sg {
         #region Handle Weapon's Poise Bonus
         public void GrantWeaponAttackingPoiseBonus() { // (특)대형무기 공격 도중 강인도 보너스 합산
             // 적의 경우 무기를 교체하는 상황이 흔하지 않으므로 공격시 강인도 보너스를 스탯으로 가짐
-            enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense + enemyStats.offensivePoiseBonus;
+            enemyStatsManager.totalPoiseDefense = enemyStatsManager.totalPoiseDefense + enemyStatsManager.offensivePoiseBonus;
         }
 
         public void ResetWeaponAttackingPoiseBonus() { // 공격이 끝나면 강인도 보너스 초기화
-            enemyStats.totalPoiseDefense = enemyStats.armorPoiseBonus;
+            enemyStatsManager.totalPoiseDefense = enemyStatsManager.armorPoiseBonus;
         }
         #endregion
     }

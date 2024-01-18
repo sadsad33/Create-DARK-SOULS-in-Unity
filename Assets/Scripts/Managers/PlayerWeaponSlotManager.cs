@@ -3,23 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class PlayerWeaponSlotManager : MonoBehaviour {
+    public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
         PlayerInventoryManager playerInventoryManager;
 
         [Header("Attacking Weapon")]
         public WeaponItem attackingWeapon;
-
-        [Header("Unarmed Weapon")]
-        public WeaponItem unarmedWeapon;
-
-        [Header("Weapon Slots")]
-        public WeaponHolderSlot leftHandSlot;
-        public WeaponHolderSlot rightHandSlot;
-        public WeaponHolderSlot backSlot;
-
-        [Header("Damage Collider")]
-        public DamageCollider leftHandDamageCollider;
-        public DamageCollider rightHandDamageCollider;
 
         Animator animator;
         QuickSlots quickSlots;

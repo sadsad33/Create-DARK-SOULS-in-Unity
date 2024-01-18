@@ -9,16 +9,8 @@ namespace sg {
     public class PlayerManager : CharacterManager {
         InputHandler inputHandler;
         Animator anim;
-        public bool isInteracting;
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지
-
-        [Header("Player Flags")]
-        public bool isSprinting;
-        public bool isInAir;
-        public bool isGrounded;
-        public bool canDoCombo;
-        public bool isUsingRightHand, isUsingLeftHand;
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;

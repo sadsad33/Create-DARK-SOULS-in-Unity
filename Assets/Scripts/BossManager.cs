@@ -6,7 +6,7 @@ namespace sg {
     public class BossManager : MonoBehaviour {
         BossHealthBar bossHealthBar;
         public string bossName;
-        EnemyStats enemyStats;
+        EnemyStatsManager enemyStats;
         EnemyAnimatorManager enemyAnimatorManager;
         BossCombatStanceState bossCombatStanceState;
 
@@ -15,9 +15,9 @@ namespace sg {
 
         private void Awake() {
             bossHealthBar = FindObjectOfType<BossHealthBar>();
-            enemyStats = GetComponent<EnemyStats>();
-            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
-            bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
+            enemyStats = GetComponent<EnemyStatsManager>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+            bossCombatStanceState = GetComponent<BossCombatStanceState>();
         }
 
         private void Start() {
