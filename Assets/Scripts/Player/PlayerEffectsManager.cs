@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class PlayerEffectsManager : MonoBehaviour {
+    public class PlayerEffectsManager : CharacterEffectsManager {
         PlayerStatsManager playerStatsManager;
         PlayerWeaponSlotManager playerWeaponSlotManager;
         public GameObject currentParticleFX; // 현재 플레이어의 상태에 따른 오라(?) 효과

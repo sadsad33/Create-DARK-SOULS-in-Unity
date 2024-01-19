@@ -12,6 +12,7 @@ namespace sg {
         PlayerInventoryManager playerInventoryManager;
         PlayerWeaponSlotManager playerWeaponSlotManager;
         PlayerStatsManager playerStatsManager;
+        //PlayerEffectsManager playerEffectsManager;
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
@@ -24,6 +25,7 @@ namespace sg {
             playerManager = GetComponent<PlayerManager>();
             inputHandler = GetComponent<InputHandler>();
             playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
+            //playerEffectsManager = GetComponent<PlayerEffectsManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
@@ -94,7 +96,7 @@ namespace sg {
         #endregion
 
         #region Attack Actions
-        // 근접 공격
+        // 근접 공격 수행
         private void PerformRBMeleeAction() {
             if (playerManager.canDoCombo) {
                 inputHandler.comboFlag = true;
@@ -110,6 +112,7 @@ namespace sg {
                     HandleUnarmedAttack(playerInventoryManager.rightWeapon);
                 }
             }
+            //playerEffectsManager.PlayWeaponFX(false); // 오른쪽 무기의 공격 이펙트를 재생한다
         }
 
         // 영창 공격

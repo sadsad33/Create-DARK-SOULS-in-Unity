@@ -5,11 +5,13 @@ using UnityEngine;
 namespace sg {
     public class EnemyAnimatorManager : AnimatorManager {
         BossManager bossManager;
+        //EnemyEffectsManager enemyEffectsManager;
         EnemyManager enemyManager;
         protected override void Awake() {
             base.Awake();
             enemyManager = GetComponent<EnemyManager>();
             anim = GetComponent<Animator>();
+            //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             bossManager = GetComponent<BossManager>();
         }
 
@@ -33,6 +35,10 @@ namespace sg {
             BossFXTransform bossFXTransform = GetComponentInChildren<BossFXTransform>();
             GameObject phaseFX = Instantiate(bossManager.particleFX, bossFXTransform.transform);
         }
+
+        //public void PlayWeaponTrailFX() {
+        //    enemyEffectsManager.PlayWeaponFX(false);
+        //}
 
         public void AwardSoulsOnDeath() {
             // 씬 내의 모든 플레이어에게 소울을 줌

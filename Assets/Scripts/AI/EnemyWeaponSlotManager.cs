@@ -6,8 +6,10 @@ namespace sg {
     public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
         public WeaponItem rightHandWeapon, leftHandWeapon;
         EnemyStatsManager enemyStatsManager;
+        EnemyEffectsManager enemyEffectsManager;
         private void Awake() {
             enemyStatsManager = GetComponent<EnemyStatsManager>();
+            enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             LoadWeaponHolderSlots();
         }
 
@@ -39,9 +41,11 @@ namespace sg {
             if (isLeft) {
                 leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
                 leftHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                enemyEffectsManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             } else {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
                 rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                enemyEffectsManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             }
         }
         
@@ -55,10 +59,12 @@ namespace sg {
         }
 
         public void OpenDamageCollider() {
+            enemyEffectsManager.PlayWeaponFX(false);
             rightHandDamageCollider.EnableDamageCollider();
         }
 
         public void CloseDamageCollider() {
+            enemyEffectsManager.StopWeaponFX(false);
             rightHandDamageCollider.DisableDamageCollider();
         }
 
