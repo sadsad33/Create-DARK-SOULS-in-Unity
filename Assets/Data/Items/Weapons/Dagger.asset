@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
   itemName: Dagger
-  modelPrefab: {fileID: 6093130883132485781, guid: 21375eb3e670c844797314db17dd7120, type: 3}
+  modelPrefab: {fileID: 15128329762310512, guid: 21375eb3e670c844797314db17dd7120, type: 3}
   isUnarmed: 0
   baseDamage: 25
   criticalDamageMultiplier: 4

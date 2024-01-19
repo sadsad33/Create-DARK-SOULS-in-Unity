@@ -45,6 +45,7 @@ namespace sg {
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
             //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            //enemyAnimatorManager.PlayWeaponTrailFX();
             hasPerformedAttack = true;
             RollForComboChance(enemyManager);
             if (!willDoComboOnNextAttack) {
@@ -58,6 +59,7 @@ namespace sg {
             willDoComboOnNextAttack = false;
             //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            //enemyAnimatorManager.PlayWeaponTrailFX();
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // 대기시간 설정
             currentAttack = null;
         }

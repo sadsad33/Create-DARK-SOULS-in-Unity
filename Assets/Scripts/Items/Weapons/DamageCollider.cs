@@ -7,16 +7,17 @@ namespace sg {
     public class DamageCollider : MonoBehaviour {
         public CharacterManager characterManager;
         public bool enabledDamageColliderOnStartUp = false;
+        //public WeaponFX weaponFX;
         Collider damageCollider;
 
         [Header("PoiseDamage")]
         public float poiseBreak;
         public float offensivePoiseBonus;
 
-
         [Header("Damage")]
         public float currentWeaponDamage;
         private void Awake() {
+           // weaponFX = gameObject.GetComponentInChildren<WeaponFX>();
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.enabled = false; // Collider ¸¸ ²ô±â

@@ -25,7 +25,7 @@ namespace sg {
         public float totalPoiseDefense; // 데미지 계산에서의 총 강인도
         public float offensivePoiseBonus; // 공격모션중 강인도 보너스
         public float armorPoiseBonus; // 갑옷을 입음으로써 얻는 강인도
-        public float totalPoiseResetTime = 15; // 강인도 초기화 시간
+        public float totalPoiseResetTime; // 강인도 초기화 시간
         public float poiseResetTimer = 0; // 강인도 초기화 타이머
         
 

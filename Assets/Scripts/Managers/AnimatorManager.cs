@@ -31,12 +31,15 @@ namespace sg {
         public virtual void CanRotate() {
             anim.SetBool("canRotate", true);
         }
+        
         public virtual void StopRotation() {
             anim.SetBool("canRotate", false);
         }
+        
         public virtual void EnableCombo() {
             anim.SetBool("canDoCombo", true);
         }
+
         public virtual void DisableCombo() {
             anim.SetBool("canDoCombo", false);
         }

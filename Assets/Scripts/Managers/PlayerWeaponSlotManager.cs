@@ -14,11 +14,13 @@ namespace sg {
         PlayerStatsManager playerStatsManager;
         InputHandler inputHandler;
         PlayerManager playerManager;
+        PlayerEffectsManager playerEffectsManager;
         private void Awake() {
             playerManager = GetComponent<PlayerManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             inputHandler = GetComponent<InputHandler>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerEffectsManager = GetComponent<PlayerEffectsManager>();
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
             LoadWeaponHolderSlots();
@@ -98,6 +100,8 @@ namespace sg {
             leftHandDamageCollider.currentWeaponDamage = playerInventoryManager.leftWeapon.baseDamage;
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
             leftHandDamageCollider.poiseBreak = playerInventoryManager.leftWeapon.poiseBreak;
+            // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
+            playerEffectsManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
         }
 
         private void LoadRightWeaponDamageCollider() {
@@ -105,19 +109,29 @@ namespace sg {
             rightHandDamageCollider.currentWeaponDamage = playerInventoryManager.rightWeapon.baseDamage;
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
             rightHandDamageCollider.poiseBreak = playerInventoryManager.rightWeapon.poiseBreak;
+            // 현재 오른쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
+            playerEffectsManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
         }
 
         public void OpenDamageCollider() {
             if (playerManager.isUsingRightHand) {
+                playerEffectsManager.PlayWeaponFX(false);
                 rightHandDamageCollider.EnableDamageCollider();
             } else if (playerManager.isUsingLeftHand) {
+                playerEffectsManager.PlayWeaponFX(true);
                 leftHandDamageCollider.EnableDamageCollider();
             }
         }
 
         public void CloseDamageCollider() {
-            if (rightHandDamageCollider != null) rightHandDamageCollider.DisableDamageCollider();
-            if (leftHandDamageCollider != null) leftHandDamageCollider.DisableDamageCollider();
+            if (rightHandDamageCollider != null) {
+                playerEffectsManager.StopWeaponFX(false);
+                rightHandDamageCollider.DisableDamageCollider();
+            }
+            if (leftHandDamageCollider != null) {
+                playerEffectsManager.StopWeaponFX(true);
+                leftHandDamageCollider.DisableDamageCollider();
+            }
         }
 
         #endregion

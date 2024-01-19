@@ -17,7 +17,7 @@ namespace sg {
             bossHealthBar = FindObjectOfType<BossHealthBar>();
             enemyStats = GetComponent<EnemyStatsManager>();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
-            bossCombatStanceState = GetComponent<BossCombatStanceState>();
+            bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
         }
 
         private void Start() {
