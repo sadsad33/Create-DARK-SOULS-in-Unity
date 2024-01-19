@@ -223,7 +223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   enabledDamageColliderOnStartUp: 0
-  weaponFX: {fileID: 0}
   poiseBreak: 0
   offensivePoiseBonus: 0
   currentWeaponDamage: 25
@@ -284,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
       propertyPath: looping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
       propertyPath: lengthInSec

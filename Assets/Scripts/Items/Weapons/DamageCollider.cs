@@ -36,13 +36,14 @@ namespace sg {
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
                 PlayerStatsManager playerStats = other.GetComponent<PlayerStatsManager>();
-                CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
+                CharacterManager playerCharacterManager = other.GetComponent<CharacterManager>();
+                CharacterEffectsManager playerEffectsManager = other.GetComponent<CharacterEffectsManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                if (enemyCharacterManager != null) {
-                    if (enemyCharacterManager.isParrying) {
+                if (playerCharacterManager != null) {
+                    if (playerCharacterManager.isParrying) {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
-                    } else if (shield != null && enemyCharacterManager.isBlocking) {
+                    } else if (shield != null && playerCharacterManager.isBlocking) {
                         float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
                         if (playerStats != null) {
                             playerStats.TakeDamage(physicalDamageAfterBlock, "Block Impact");
@@ -53,10 +54,13 @@ namespace sg {
                 if (playerStats != null) {
                     playerStats.poiseResetTimer = playerStats.totalPoiseResetTime;
                     playerStats.totalPoiseDefense = playerStats.totalPoiseDefense - poiseBreak;
-                    Debug.Log("Player's Poise is currently " + playerStats.totalPoiseDefense);
+                    
+                    // 타격 지점
+                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    playerEffectsManager.PlayBloodSplatterFX(contactPoint);
+
                     if (playerStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
                         playerStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        Debug.Log("Enemy Poise is currently " + playerStats.totalPoiseDefense);
                     } else {
                         playerStats.TakeDamage(currentWeaponDamage);
                     }
@@ -66,6 +70,7 @@ namespace sg {
             if (other.tag == "Enemy") {
                 EnemyStatsManager enemyStats = other.GetComponent<EnemyStatsManager>();
                 CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
+                CharacterEffectsManager enemyEffectsManager = other.GetComponent<CharacterEffectsManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 if (enemyCharacterManager != null) {
                     if (enemyCharacterManager.isParrying) {
@@ -82,7 +87,9 @@ namespace sg {
                 if (enemyStats != null) {
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
-                    //Debug.Log("Enemy's Poise is currently " + enemyStats.totalPoiseDefense);
+
+                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
 
                     if (enemyStats.isBoss) {
                         if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
@@ -94,7 +101,6 @@ namespace sg {
                     } else {
                         if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
                             enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                            //Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
                         } else {
                             enemyStats.TakeDamage(currentWeaponDamage);
                         }

@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace sg {
     public class CharacterEffectsManager : MonoBehaviour {
+        [Header("Weapon FX")]
         public WeaponFX rightWeaponFX;
         public WeaponFX leftWeaponFX;
+
+        [Header("Damage FX")]
+        public GameObject bloodSplatterFX;
+
         public virtual void PlayWeaponFX(bool isLeft) {
             if (!isLeft) {
                 if (rightWeaponFX != null) {
@@ -28,6 +33,10 @@ namespace sg {
                     leftWeaponFX.PlayWeaponFX();
                 }
             }
+        }
+
+        public virtual void PlayBloodSplatterFX(Vector3 bloodSplatterLocation) {
+            GameObject blood = Instantiate(bloodSplatterFX, bloodSplatterLocation, Quaternion.identity);
         }
     }
 }
