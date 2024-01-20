@@ -30,7 +30,8 @@ namespace sg {
         float minimumDistanceNeededToBeginFall = 1f; // 플레이어가 떨어지는 최소 높이
         [SerializeField]
         float groundDirectionRayDistance = 0.2f; // 레이캐스트시작 지점 오프셋
-        LayerMask ignoreForGroundCheck;
+        //LayerMask ignoreForGroundCheck;
+        LayerMask groundCheck;
         public float inAirTimer;
 
         [Header("Movement Stats")]
@@ -67,7 +68,8 @@ namespace sg {
             myTransform = transform;
 
             playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
-            ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
+            //ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
+            groundCheck = (1 << 8 | 1 << 1);
             Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
         }
 
@@ -206,7 +208,7 @@ namespace sg {
 
         // 낙하
         public void HandleFalling(float delta, Vector3 moveDirection) {
-            playerManager.isGrounded = false;
+            //playerManager.isGrounded = false;
             RaycastHit hit;
             Vector3 origin = myTransform.position; // 낙하 시작지점
             origin.y += groundDetectionRayStartPoint; // 레이캐스트 시작 지점 설정
@@ -225,30 +227,31 @@ namespace sg {
             origin += dir * groundDirectionRayDistance;
             targetPosition = myTransform.position;
             Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.05f, false);
-            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
+            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
                 normalVector = hit.normal; // 아래쪽으로 레이를 쏴서 부딪힌 지점의 법선 벡터
                 Vector3 tp = hit.point; // 착지할 곳의 좌표
-                playerManager.isGrounded = true;
                 targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
-                if (playerManager.isInAir) { // 플레이어가 공중에 있다면
+                if (playerManager.isInAir) { // 플레이어가 공중에 있었다면
                     if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
                         Debug.Log("You were in the air for" + inAirTimer);
                         playerAnimationManager.PlayTargetAnimation("Land", true);
                         playerManager.isInteracting = true;
                     } else {
                         Debug.Log("You were in the air for" + inAirTimer);
-                        playerAnimationManager.PlayTargetAnimation("Empty", false);
+                        playerAnimationManager.anim.SetTrigger("doEmpty");
+                        //playerAnimationManager.PlayTargetAnimation("Empty", false);
                     }
-                    inAirTimer = 0;
-                    playerManager.isInAir = false;
                 }
+                playerManager.isGrounded = true;
+                inAirTimer = 0;
+                playerManager.isInAir = false;
             } else { // 현재 땅과의 거리가 최소 낙하거리보다 크다면
                 if (playerManager.isGrounded) {
                     playerManager.isGrounded = false; // flag 변경
                 }
                 if (!playerManager.isInAir) {
                     playerManager.isInAir = true; // flag 변경
-                    if (playerManager.isInAir && !playerManager.isInteracting) {
+                    if (playerManager.isInAir && !playerManager.isInteracting && !playerManager.isGrounded) {
                         playerAnimationManager.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
                     }
                     Vector3 vel = rigidbody.velocity;
@@ -257,13 +260,6 @@ namespace sg {
                 }
             }
 
-            //if (playerManager.isGrounded) {
-            //    if (playerManager.isInteracting || inputHandler.moveAmount > 0) {
-            //        myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, Time.deltaTime);
-            //    } else {
-            //        myTransform.position = targetPosition;
-            //    }
-            //}
             if (playerManager.isGrounded) {
                 if (playerManager.isInteracting || inputHandler.moveAmount > 0)
                     myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
