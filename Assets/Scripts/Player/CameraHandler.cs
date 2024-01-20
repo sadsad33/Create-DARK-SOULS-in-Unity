@@ -10,7 +10,8 @@ namespace sg {
         public Transform cameraTransform;
         // 카메라의 회전 중심 위치
         public Transform cameraPivotTransform;
-        public LayerMask ignoreLayer, environmentLayer;
+        public LayerMask ignoreLayer; // 플레이어와 카메라 사이에 오브젝트가 존재할 경우 카메라를 플레이어에게 가깝게 밀착시키기 위해 충돌 체크를 하고 싶은 레이어
+        public LayerMask environmentLayer;
 
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
         private Vector3 cameraTransformPosition;
@@ -39,10 +40,10 @@ namespace sg {
         public float unlockedPivotPosition = 1.65f;
 
         public CharacterManager currentLockOnTarget;
-        
+
         List<CharacterManager> availableTargets = new List<CharacterManager>();
         public CharacterManager nearestLockOnTarget;
-        public float maximumLockOnDistance = 30f;
+        public float maximumLockOnDistance = 10f;
         public CharacterManager leftLockTarget, rightLockTarget;
 
         InputHandler inputHandler;
@@ -51,14 +52,14 @@ namespace sg {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayer = ~(1 << 8 | 1 << 9 | 1 << 10 | 1 << 11 | 1 << 12 | 1 << 13);
+            ignoreLayer = 1 << 8;
             targetTransform = FindObjectOfType<PlayerManager>().transform;
             inputHandler = FindObjectOfType<InputHandler>();
             playerManager = FindObjectOfType<PlayerManager>();
         }
 
         private void Start() {
-            environmentLayer = LayerMask.NameToLayer("Environment");
+            environmentLayer = 1 << 8;
         }
 
         // 카메라가 대상을 따라가도록 하는 함수
@@ -66,7 +67,6 @@ namespace sg {
 
             // 목표 지점까지 부드럽게 이동한다
             //Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
-
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
 
@@ -133,7 +133,7 @@ namespace sg {
             Vector3 direction = cameraTransform.position - cameraPivotTransform.position; // 플레이어의 좌표로부터 카메라까지의 방향
             direction.Normalize();
 
-            //Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
+            Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
 
             if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayer)) {
                 // 플레이어의 좌표로부터 카메라의 방향으로 ray를 발사하여 카메라를 제외한 무언가와 충돌했을 경우 충돌한 좌표까지의 거리
@@ -146,7 +146,6 @@ namespace sg {
 
             // 물체와 플레이어 사이의 거리가 너무 가깝다면 최소치로 맞춰줌
             if (Mathf.Abs(targetPosition) < minimumCollisionOffset) {
-                //Debug.Log(hit.collider.gameObject.layer);
                 targetPosition = -minimumCollisionOffset;
             }
 
@@ -159,10 +158,10 @@ namespace sg {
 
             float shortestDistance = Mathf.Infinity;
             // 자기 자신을 원점으로 왼쪽은 -무한대 오른쪽은 +무한대
-            float shortestDistanceOfLeftTarget = -Mathf.Infinity; 
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
 
-            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 26);
+            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 25);
 
             // 감지한 Collider들로부터 CharacterManager 스크립트를 가져온다.
             for (int i = 0; i < colliders.Length; i++) {
@@ -179,11 +178,10 @@ namespace sg {
                     RaycastHit hit;
                     // 자기 자신에게는 록온이 안되도록 한다.
                     if (character.transform.root != targetTransform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
-                        // 두 지점 사이에 레이를 쏜다.
                         if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit)) {
-                            Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
+                            Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position, Color.green, 10000000);
                             if (hit.transform.gameObject.layer == environmentLayer) {
-                                // 대상과 플레이어 사이에 장애물이 있을경우 록온이 안되도록 함
+                                // 대상과 플레이어 사이에 장애물이 있을경우 록온이 안되도록 함 -> ?
                             } else {
                                 availableTargets.Add(character);
                             }
@@ -204,7 +202,7 @@ namespace sg {
                     Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);
                     var distanceFromLeftTarget = relativeEnemyPosition.x; // 왼쪽 타겟의 좌표
                     var distanceFromRightTarget = relativeEnemyPosition.x; // 오른쪽 타겟의 좌표
-                    
+
                     // 만약 x 좌표가 음수라면 자신을 기준으로 왼쪽에 있는 것
                     // 왼쪽에 있는 타겟들은 x 좌표의 값이 - 이므로 멀수록 값이 작아지고 가까울수록 값이 커짐
                     // 해당 좌표의 타겟이 현재 록온된 타겟이 아니라면
