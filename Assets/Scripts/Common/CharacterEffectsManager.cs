@@ -13,10 +13,13 @@ namespace sg {
         public GameObject bloodSplatterFX;
 
         [Header("Poison")]
+        public GameObject defaultPoisonedParticleFX; // 플레이어가 기본적으로 가지고 있는 독 상태이상 이펙트
+        public GameObject currentPoisonedParticleFX; // 독 상태이상에 걸렸다면 사용, 상태이상이 해제되면 파괴
+        public Transform buildUpTransform; // 축적 이펙트가 생성될 위치
         public bool isPoisoned;
         public float poisonBuildUp = 0; // 독 축적을 위한 수치, 이 수치가 100이 되면 독 상태이상에 걸린다
         public float poisonAmount = 100; // 독 상태에서 독 상태이상이 해제되기 위해 필요한 수치
-        public float defaultPoisonAmount; // 독 상태이상에 걸렸을 경우 설정될 독 수치
+        public float defaultPoisonAmount = 100; // 독 상태이상에 걸렸을 경우 설정될 독 수치
         public float poisonDamage;
         public float poisonTimer = 2; // 매 2초마다 독 피해
         float timer;
@@ -61,6 +64,12 @@ namespace sg {
             } else if (poisonBuildUp >= 100) { // 독 축적치가 100 이상이라면
                 isPoisoned = true; // 독 상태이상
                 poisonBuildUp = 0;
+                
+                if (buildUpTransform != null) {
+                    currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, buildUpTransform.transform);
+                } else {
+                    currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, characterStatsManager.transform);
+                }
             }
         }
 
@@ -78,10 +87,12 @@ namespace sg {
                 } else {
                     isPoisoned = false;
                     poisonAmount = defaultPoisonAmount;
+                    Destroy(currentPoisonedParticleFX);
                 }
             }
         }
 
+        // 모든 축적/상태이상 적용
         public virtual void HandleAllBuildUpEffects() {
             if (characterStatsManager.isDead) return;
             HandlePoisonBuildUp();
