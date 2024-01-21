@@ -45,6 +45,7 @@ namespace sg {
             EquipAllEquipmentModelsOnStart();
         }
 
+        // 시작할때 플레이어에게 설정된 장비를 모두 장착한다
         private void EquipAllEquipmentModelsOnStart() {
             helmetModelChanger.UnEquipAllHelmetModels();
             if (playerInventoryManager.currentHelmetEquipment != null) {
@@ -60,6 +61,7 @@ namespace sg {
 
             torsoModelChanger.UnEquipAllTorsoModels();
             capeModelChanger.UnEquipAllCapeModels();
+            
             if (playerInventoryManager.currentTorsoEquipment != null) {
                 torsoModelChanger.EquipTorsoModelByName(playerInventoryManager.currentTorsoEquipment.torsoModelName);
                 capeModelChanger.EquipCapeModelByName(playerInventoryManager.currentTorsoEquipment.capeModelName);

@@ -4,6 +4,5 @@ using UnityEngine;
 
 namespace sg {
     public class EnemyEffectsManager : CharacterEffectsManager {
-        
     }
 }

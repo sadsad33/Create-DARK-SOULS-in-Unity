@@ -35,6 +35,21 @@ namespace sg {
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
         }
 
+        public override void TakePoisonDamage(float damage) {
+            base.TakePoisonDamage(damage);
+            
+            if (!isBoss)
+                enemyHealthBar.SetHealth(currentHealth);
+            else if (isBoss && bossManager != null)
+                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+                enemyAnimatorManager.PlayTargetAnimation("PoisonedDeath", true);
+            }
+        }
+
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {
 
             base.TakeDamage(damage, damageAnimation = "Damage");

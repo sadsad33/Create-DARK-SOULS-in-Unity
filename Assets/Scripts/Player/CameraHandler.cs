@@ -179,7 +179,7 @@ namespace sg {
                     // 자기 자신에게는 록온이 안되도록 한다.
                     if (character.transform.root != targetTransform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
                         if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit)) {
-                            Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position, Color.green, 10000000);
+                            //Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
                             if (hit.transform.gameObject.layer == environmentLayer) {
                                 // 대상과 플레이어 사이에 장애물이 있을경우 록온이 안되도록 함 -> ?
                             } else {

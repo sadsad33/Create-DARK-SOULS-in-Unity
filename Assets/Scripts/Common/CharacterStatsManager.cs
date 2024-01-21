@@ -68,6 +68,13 @@ namespace sg {
                 isDead = true;
             }
         }
+        public virtual void TakePoisonDamage(float damage) {
+            currentHealth -= damage;
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+            }
+        }
 
         public virtual void HandlePoiseResetTimer() {
             if (poiseResetTimer > 0) {
