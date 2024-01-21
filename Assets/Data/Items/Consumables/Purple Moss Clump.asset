@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd8ebe33537ca84c9797cebe7a9f97f, type: 3}
+  m_Name: Purple Moss Clump
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 21300000, guid: 8e1f416c7d68f5f4494ad45eee82af26, type: 3}
+  itemName: Purple Moss Clump
+  maxItemAmount: 30
+  currentItemAmount: 30
+  itemModel: {fileID: 7901377779386641241, guid: 32425e96cf0bd2e41a4737a3d5e665d5, type: 3}
+  consumeAnimation: Drink
+  isInteracting: 0
+  clumpConsumeFX: {fileID: 6145626962278858117, guid: 67b21af7ace8fc749b441858e42ce8bf, type: 3}
+  curePoison: 1
