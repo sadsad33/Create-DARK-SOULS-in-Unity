@@ -8,12 +8,12 @@ namespace sg {
         public StaminaBar staminaBar;
         public FocusBar focusBar;
         PlayerManager playerManager;
-        PlayerAnimatorManager playerAnimationManager;
+        PlayerAnimatorManager playerAnimatorManager;
 
         public float staminaRegenerationAmount = 20;
         public float staminaRegenerationTimer = 0;
         private void Awake() {
-            playerAnimationManager = GetComponent<PlayerAnimatorManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerManager = GetComponent<PlayerManager>();
         }
         private void Start() {
@@ -57,18 +57,28 @@ namespace sg {
             healthBar.SetCurrentHealth(currentHealth);
         }
 
+        public override void TakePoisonDamage(float damage) {
+            base.TakePoisonDamage(damage);
+            healthBar.SetCurrentHealth(currentHealth);
+            if (currentHealth <= 0) {
+                currentHealth = 0;
+                isDead = true;
+                playerAnimatorManager.PlayTargetAnimation("PoisonedDeath", true);
+            }
+        }
+
         public override void TakeDamage(float damage, string damageAnimation = "Damage") {
             if (playerManager.isInvulnerable) return;
 
             base.TakeDamage(damage, damageAnimation = "Damage");
            
             healthBar.SetCurrentHealth(currentHealth);
-            playerAnimationManager.PlayTargetAnimation(damageAnimation, true);
+            playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
-                playerAnimationManager.PlayTargetAnimation("Dead", true);
+                playerAnimatorManager.PlayTargetAnimation("Dead", true);
                 // Dead 애니메이션은 Transition으로 Empty에 연결해놓지 않았다.
                 // Empty 에서 isInteracting 항목을 초기화 함으로써 다음 애니메이션으로 넘어갈수 있게끔 해주는데 플레이어가 죽는다면 그럴필요 없음
             }

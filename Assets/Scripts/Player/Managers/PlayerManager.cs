@@ -14,6 +14,7 @@ namespace sg {
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
+        PlayerEffectsManager playerEffectsManager;
         PlayerLocomotionManager playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
@@ -27,6 +28,7 @@ namespace sg {
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
+            playerEffectsManager = GetComponent<PlayerEffectsManager>();
         }
 
         void Update() {
@@ -65,6 +67,7 @@ namespace sg {
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleRotation(delta);
+            playerEffectsManager.HandleAllBuildUpEffects();
         }
 
         private void LateUpdate() {

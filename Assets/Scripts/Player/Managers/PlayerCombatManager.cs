@@ -169,7 +169,7 @@ namespace sg {
         #endregion
         // 뒤잡, 앞잡 시도
         public void AttemptBackStabOrRiposte() {
-            if (playerStatsManager.currentStamina <= 0) return;
+            if (playerStatsManager.currentStamina <= 0 || playerManager.isInteracting) return;
             RaycastHit hit; // Riposte Collider 와 BackStab Collider 감지
             if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();

@@ -6,6 +6,7 @@ namespace sg {
     public class EnemyManager : CharacterManager {
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
+        EnemyEffectsManager enemyEffectsManager;
 
         public bool isPerformingAction;
         public State currentState;
@@ -30,6 +31,7 @@ namespace sg {
         private void Awake() {
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
+            enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             navmeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
             navmeshAgent.enabled = false;
@@ -56,6 +58,10 @@ namespace sg {
         private void LateUpdate() {
             navmeshAgent.transform.localPosition = Vector3.zero;
             navmeshAgent.transform.localRotation = Quaternion.identity;
+        }
+
+        private void FixedUpdate() {
+            enemyEffectsManager.HandleAllBuildUpEffects();
         }
 
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
