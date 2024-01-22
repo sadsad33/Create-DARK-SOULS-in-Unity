@@ -15,6 +15,7 @@ namespace sg {
         InputHandler inputHandler;
         PlayerManager playerManager;
         PlayerEffectsManager playerEffectsManager;
+        CameraHandler cameraHandler;
         private void Awake() {
             playerManager = GetComponent<PlayerManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
@@ -23,6 +24,7 @@ namespace sg {
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
             animator = GetComponent<Animator>();
             quickSlots = FindObjectOfType<QuickSlots>();
+            cameraHandler = FindObjectOfType<CameraHandler>();
             LoadWeaponHolderSlots();
         }
 
@@ -92,6 +94,15 @@ namespace sg {
             }
         }
 
+
+        public void SuccessfullyThrowFireBomb() {
+            Destroy(playerEffectsManager.instantiatedFXModel);
+            BombConsumableItem fireBombItem = playerInventoryManager.currentConsumable as BombConsumableItem;
+            // Instantiate메서드에 에 카메라의 회전값을 넘겨주는 이유는 어떤 경우에라도 플레이어의 정면 방향에서 화염병이 스폰되어야 하기 때문
+            GameObject activeModelBomb = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
+            // 화염병의 회전값은 카메라의 회전값과 맞춰 플레이어가 바라보는 방향으로 날아가게 한다
+            activeModelBomb.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
+        }
 
         #region Handle Weapon's Damage Collider
         // 애니메이션 내의 event로 다음의 함수들을 사용할 것

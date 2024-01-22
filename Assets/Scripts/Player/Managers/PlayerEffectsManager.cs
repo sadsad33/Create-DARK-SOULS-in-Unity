@@ -27,7 +27,7 @@ namespace sg {
             Destroy(healParticles, 2f);
         }
 
-        public void UnLoadFlask() {
+        public void UnloadFlask() {
             Destroy(instantiatedFXModel.gameObject); // 에스트병 제거
         }
 

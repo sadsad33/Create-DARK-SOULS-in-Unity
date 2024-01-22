@@ -134,6 +134,7 @@ namespace sg {
             playerAnimatorManager.PlayTargetAnimation("Open Chest", true);
         }
 
+        // 안개벽 통과 상호작용
         public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
             playerLocomotion.rigidbody.velocity = Vector3.zero;
             Vector3 rotationDirection = fogWallEntrance.transform.forward;
