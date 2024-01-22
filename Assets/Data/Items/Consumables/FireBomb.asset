@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b394195bc432fc348b288095c5e4987d, type: 3}
+  m_Name: FireBomb
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  itemName: 
+  maxItemAmount: 20
+  currentItemAmount: 20
+  itemModel: {fileID: 7718585223797566845, guid: 9f84e2ee8daaabd45a1c0ac420a96b47, type: 3}
+  consumeAnimation: Throw
+  isInteracting: 0
+  upwardVelocity: 50
+  forwardVelocity: 50
+  bombMass: 1
+  liveBombModel: {fileID: 0}
+  baseDamage: 200
