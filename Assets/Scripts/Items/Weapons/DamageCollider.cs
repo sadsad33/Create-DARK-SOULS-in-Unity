@@ -10,6 +10,9 @@ namespace sg {
         //public WeaponFX weaponFX;
         protected Collider damageCollider;
 
+        [Header("Team I.D")]
+        public int teamIDNumber; // 피아식별에 사용할 ID
+
         [Header("PoiseDamage")]
         public float poiseBreak;
         public float offensivePoiseBonus;
@@ -41,6 +44,7 @@ namespace sg {
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
 
                 if (enemyManager != null) {
+                    if (enemyStats.teamIDNumber == teamIDNumber) return; 
                     if (enemyManager.isParrying) {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
@@ -55,6 +59,8 @@ namespace sg {
                     }
                 }
                 if (enemyStats != null) {
+                    if (enemyStats.teamIDNumber == teamIDNumber) return;
+
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
                     

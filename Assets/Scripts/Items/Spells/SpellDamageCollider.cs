@@ -31,11 +31,12 @@ namespace sg {
         private void OnCollisionEnter(Collision collision) {
             if (!hasCollided) {
                 spellTarget = collision.transform.GetComponent<CharacterStatsManager>();
-                if (spellTarget != null) {
+                if (spellTarget != null && spellTarget.teamIDNumber != teamIDNumber) {
                     spellTarget.TakeDamage(0, fireDamage);
                 }
                 hasCollided = true;
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전
+                
                 Destroy(projectileParticles);
                 Destroy(impactParticles, 2f);
                 Destroy(gameObject, 5f);

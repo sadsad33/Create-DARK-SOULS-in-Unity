@@ -7,6 +7,7 @@ namespace sg {
     public class UIManager : MonoBehaviour {
         public PlayerInventoryManager playerInventory;
         public EquipmentWindowUI equipmentWindowUI;
+        private QuickSlots quickSlots;
 
         [Header("UI Windows")]
         public GameObject hudWindow;
@@ -27,10 +28,13 @@ namespace sg {
         WeaponInventorySlot[] weaponInventorySlots; // 인벤토리 슬롯 배열
 
         private void Awake() {
+            quickSlots = GetComponentInChildren<QuickSlots>();
         }
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
             equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
+            quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
+            quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
         }
         public void UpdateUI() {
             #region Weapon Inventory Slots
