@@ -11,7 +11,8 @@ namespace sg {
         public bool isUnarmed;
 
         [Header("Damage")]
-        public float baseDamage = 25;
+        public float physicalDamage = 25;
+        public float fireDamage;
         public int criticalDamageMultiplier = 4;
 
         [Header("Poise")]

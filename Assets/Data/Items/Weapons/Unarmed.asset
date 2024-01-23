@@ -16,8 +16,9 @@ MonoBehaviour:
   itemName: Unarmed
   modelPrefab: {fileID: 4095508314949055592, guid: 18121f172404aa7479f3e1867d451eef, type: 3}
   isUnarmed: 1
-  baseDamage: 25
-  criticalDamageMultiplier: 4
+  physicalDamage: 5
+  fireDamage: 0
+  criticalDamageMultiplier: 2
   poiseBreak: 3
   offensivePoiseBonus: 0
   physicalDamageAbsorption: 0

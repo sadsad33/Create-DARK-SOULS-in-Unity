@@ -4079,7 +4079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1804018008
 Transform:
   m_ObjectHideFlags: 0
@@ -5409,7 +5409,7 @@ GameObject:
   - component: {fileID: 6777079784069156019}
   m_Layer: 9
   m_Name: Boss
-  m_TagString: Enemy
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10047,7 +10047,7 @@ GameObject:
   - component: {fileID: 6353349341563976078}
   m_Layer: 11
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16766,6 +16766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockingCollider: {fileID: 0}
   blockingPhysicalDamageAbsorption: 0
+  blockingFireDamageAbsorption: 0
 --- !u!1 &3364704305282569702
 GameObject:
   m_ObjectHideFlags: 0
@@ -23275,7 +23276,7 @@ GameObject:
   - component: {fileID: 9058321785823695559}
   m_Layer: 9
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25215,6 +25216,7 @@ MonoBehaviour:
   maxFocus: 0
   currentFocus: 0
   soulCount: 0
+  isBoss: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 0
@@ -25224,11 +25226,15 @@ MonoBehaviour:
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
   physicalDamageAbsorptionHands: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
   isDead: 0
   healthBar: {fileID: 5249675476891279726}
   staminaBar: {fileID: 2442384755271884258}
   focusBar: {fileID: 2974136226448954750}
-  staminaRegenerationAmount: 20
+  staminaRegenerationAmount: 50
   staminaRegenerationTimer: 0
 --- !u!114 &6353349341563976086
 MonoBehaviour:
@@ -26089,6 +26095,7 @@ MonoBehaviour:
   maxFocus: 0
   currentFocus: 0
   soulCount: 0
+  isBoss: 1
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 100
@@ -26098,9 +26105,12 @@ MonoBehaviour:
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
   physicalDamageAbsorptionHands: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
   isDead: 0
   enemyHealthBar: {fileID: 0}
-  isBoss: 1
 --- !u!114 &6777079784069156014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29463,6 +29473,7 @@ MonoBehaviour:
   maxFocus: 0
   currentFocus: 0
   soulCount: 0
+  isBoss: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 0
@@ -29472,9 +29483,12 @@ MonoBehaviour:
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
   physicalDamageAbsorptionHands: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
   isDead: 0
   enemyHealthBar: {fileID: 2853968160581961308}
-  isBoss: 0
 --- !u!114 &9058321785823695559
 MonoBehaviour:
   m_ObjectHideFlags: 0

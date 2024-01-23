@@ -52,8 +52,8 @@ namespace sg {
             return maxStamina;
         }
 
-        public override void TakeDamageNoAnimation(float damage) {
-            base.TakeDamageNoAnimation(damage);
+        public override void TakeDamageNoAnimation(float damage, float fireDamage) {
+            base.TakeDamageNoAnimation(damage, fireDamage);
             healthBar.SetCurrentHealth(currentHealth);
         }
 
@@ -67,10 +67,10 @@ namespace sg {
             }
         }
 
-        public override void TakeDamage(float damage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation = "Damage") {
             if (playerManager.isInvulnerable) return;
 
-            base.TakeDamage(damage, damageAnimation = "Damage");
+            base.TakeDamage(damage, fireDamage, damageAnimation = "Damage");
            
             healthBar.SetCurrentHealth(currentHealth);
             playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);

@@ -20,6 +20,8 @@ namespace sg {
 
         public int soulCount = 0;
 
+        public bool isBoss;
+
         // 강인도 : 슈퍼아머 유지를 위한 필요 수치
         [Header("Poise")]
         public float totalPoiseDefense; // 데미지 계산에서의 총 강인도
@@ -35,6 +37,11 @@ namespace sg {
         public float physicalDamageAbsorptionLegs;
         public float physicalDamageAbsorptionHands;
 
+        public float fireDamageAbsorptionHead;
+        public float fireDamageAbsorptionBody;
+        public float fireDamageAbsorptionLegs;
+        public float fireDamageAbsorptionHands;
+
         public bool isDead;
 
         protected virtual void Update() {
@@ -45,15 +52,17 @@ namespace sg {
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(float physicalDamage, string damageAnimation = "Damage") {
+        public virtual void TakeDamage(float physicalDamage, float fireDamage = 0, string damageAnimation = "Damage") {
             if (isDead) return;
 
             float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
-            //Debug.Log("Total Physical Damage Absorption is " + totalPhysicalDamageAbsorption + "%");
-            float finalDamage = physicalDamage;
+
+            float totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
+            fireDamage -= (fireDamage * totalFireDamageAbsorption);
+
+            float finalDamage = physicalDamage + fireDamage;
             currentHealth -= finalDamage;
-            //Debug.Log("Total Damage Dealt is " + finalDamage);
 
             if (currentHealth <= 0) {
                 currentHealth = 0;
@@ -61,8 +70,18 @@ namespace sg {
             }
         }
 
-        public virtual void TakeDamageNoAnimation(float damage) {
-            currentHealth -= damage;
+        public virtual void TakeDamageNoAnimation(float physicalDamage, float fireDamage = 0) {
+            if (isDead) return;
+
+            float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
+            physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
+
+            float totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
+            fireDamage -= (fireDamage * totalFireDamageAbsorption);
+
+            float finalDamage = physicalDamage + fireDamage;
+            currentHealth -= finalDamage;
+
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;

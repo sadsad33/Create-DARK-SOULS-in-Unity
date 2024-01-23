@@ -32,7 +32,7 @@ namespace sg {
             if (!hasCollided) {
                 spellTarget = collision.transform.GetComponent<CharacterStatsManager>();
                 if (spellTarget != null) {
-                    spellTarget.TakeDamage(currentWeaponDamage);
+                    spellTarget.TakeDamage(0, fireDamage);
                 }
                 hasCollided = true;
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전

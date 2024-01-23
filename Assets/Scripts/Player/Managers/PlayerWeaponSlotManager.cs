@@ -94,21 +94,31 @@ namespace sg {
             }
         }
 
-
         public void SuccessfullyThrowFireBomb() {
             Destroy(playerEffectsManager.instantiatedFXModel);
             BombConsumableItem fireBombItem = playerInventoryManager.currentConsumable as BombConsumableItem;
             // Instantiate메서드에 에 카메라의 회전값을 넘겨주는 이유는 어떤 경우에라도 플레이어의 정면 방향에서 화염병이 스폰되어야 하기 때문
-            GameObject activeModelBomb = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
+            GameObject activeBombModel = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
             // 화염병의 회전값은 카메라의 회전값과 맞춰 플레이어가 바라보는 방향으로 날아가게 한다
-            activeModelBomb.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
+            activeBombModel.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
+            
+            // 화염병 속도 설정
+            BombDamageCollider damageCollider = activeBombModel.GetComponentInChildren<BombDamageCollider>();
+            damageCollider.contactDamage = fireBombItem.baseDamage;
+            damageCollider.fireExplosionDamage = fireBombItem.explosiveDamage;
+            damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);
+            damageCollider.bombRigidbody.AddForce(activeBombModel.transform.up * fireBombItem.upwardVelocity);
+            // LoadWeaponSlot(playerInventory.rightWeapon, false);
+            
         }
 
         #region Handle Weapon's Damage Collider
         // 애니메이션 내의 event로 다음의 함수들을 사용할 것
         private void LoadLeftWeaponDamageCollider() {
             leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-            leftHandDamageCollider.currentWeaponDamage = playerInventoryManager.leftWeapon.baseDamage;
+            leftHandDamageCollider.physicalDamage = playerInventoryManager.leftWeapon.physicalDamage;
+            leftHandDamageCollider.fireDamage = playerInventoryManager.leftWeapon.fireDamage;
+
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
             leftHandDamageCollider.poiseBreak = playerInventoryManager.leftWeapon.poiseBreak;
             // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
@@ -117,7 +127,9 @@ namespace sg {
 
         private void LoadRightWeaponDamageCollider() {
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-            rightHandDamageCollider.currentWeaponDamage = playerInventoryManager.rightWeapon.baseDamage;
+            rightHandDamageCollider.physicalDamage = playerInventoryManager.rightWeapon.physicalDamage;
+            rightHandDamageCollider.fireDamage = playerInventoryManager.rightWeapon.fireDamage;
+
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
             rightHandDamageCollider.poiseBreak = playerInventoryManager.rightWeapon.poiseBreak;
             // 현재 오른쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
