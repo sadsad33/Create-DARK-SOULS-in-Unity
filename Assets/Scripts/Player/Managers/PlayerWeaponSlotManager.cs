@@ -108,6 +108,7 @@ namespace sg {
             damageCollider.fireExplosionDamage = fireBombItem.explosiveDamage;
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.up * fireBombItem.upwardVelocity);
+            damageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // 피아식별을 위한 팀ID 설정
             // LoadWeaponSlot(playerInventory.rightWeapon, false);
             
         }
@@ -118,7 +119,8 @@ namespace sg {
             leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             leftHandDamageCollider.physicalDamage = playerInventoryManager.leftWeapon.physicalDamage;
             leftHandDamageCollider.fireDamage = playerInventoryManager.leftWeapon.fireDamage;
-
+            leftHandDamageCollider.teamIDNumber = playerStatsManager.teamIDNumber;
+            
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
             leftHandDamageCollider.poiseBreak = playerInventoryManager.leftWeapon.poiseBreak;
             // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
@@ -129,6 +131,7 @@ namespace sg {
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             rightHandDamageCollider.physicalDamage = playerInventoryManager.rightWeapon.physicalDamage;
             rightHandDamageCollider.fireDamage = playerInventoryManager.rightWeapon.fireDamage;
+            rightHandDamageCollider.teamIDNumber = playerStatsManager.teamIDNumber;
 
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
             rightHandDamageCollider.poiseBreak = playerInventoryManager.rightWeapon.poiseBreak;

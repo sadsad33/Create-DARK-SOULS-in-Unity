@@ -19,7 +19,7 @@ namespace sg {
                 CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
 
                 // 해당 오브젝트에 CharacterStats이 존재한다면
-                if (characterStats != null) {
+                if (characterStats != null && characterStats.teamIDNumber != enemyStats.teamIDNumber) {
                     Vector3 targetDirection = characterStats.transform.position - enemyManager.transform.position;
                     float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
 

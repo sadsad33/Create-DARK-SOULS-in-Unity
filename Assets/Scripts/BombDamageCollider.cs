@@ -25,8 +25,7 @@ namespace sg {
 
                 CharacterStatsManager character = collision.transform.GetComponent<CharacterStatsManager>();
 
-                if (character != null) {
-                    // 피아 식별 필요
+                if (character != null && character.teamIDNumber != teamIDNumber) {
                     character.TakeDamage(0, contactDamage);
                 }
                 Destroy(impactParticles, 5f);
@@ -38,7 +37,7 @@ namespace sg {
             Collider[] characters = Physics.OverlapSphere(transform.position, explosiveRadius);
             foreach (Collider character in characters) {
                 CharacterStatsManager characterStats = character.GetComponent<CharacterStatsManager>();
-                if (characterStats != null) {
+                if (characterStats != null && characterStats.teamIDNumber != teamIDNumber) {
                     characterStats.TakeDamage(0, fireExplosionDamage);
                 }
             }

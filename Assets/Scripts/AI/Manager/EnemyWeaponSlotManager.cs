@@ -43,12 +43,14 @@ namespace sg {
                 leftHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 leftHandDamageCollider.physicalDamage = leftHandWeapon.physicalDamage;
                 leftHandDamageCollider.fireDamage = leftHandWeapon.fireDamage;
+                leftHandDamageCollider.teamIDNumber = enemyStatsManager.teamIDNumber;
                 enemyEffectsManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             } else {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
                 rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 rightHandDamageCollider.physicalDamage = rightHandWeapon.physicalDamage;
                 rightHandDamageCollider.fireDamage = rightHandWeapon.fireDamage;
+                rightHandDamageCollider.teamIDNumber = enemyStatsManager.teamIDNumber;
                 enemyEffectsManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             }
         }

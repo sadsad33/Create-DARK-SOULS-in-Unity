@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace sg {
     public class CharacterStatsManager : MonoBehaviour {
+        [Header("Team I.D")]
+        public int teamIDNumber;
+        
         public int soulsAwardedOnDeath;
 
         public int healthLevel = 10;
