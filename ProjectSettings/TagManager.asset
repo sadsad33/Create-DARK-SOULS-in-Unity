@@ -9,6 +9,7 @@ TagManager:
   - Interactable
   - Collide
   - IllusionaryWall
+  - Character
   layers:
   - Default
   - TransparentFX

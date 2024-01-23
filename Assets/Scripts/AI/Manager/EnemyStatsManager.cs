@@ -8,7 +8,6 @@ namespace sg {
         BossManager bossManager;
         public UIEnemyHealthBar enemyHealthBar;
 
-        public bool isBoss;
         private void Awake() {
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             bossManager = GetComponent<BossManager>();
@@ -27,8 +26,8 @@ namespace sg {
         }
 
         // 뒤잡이나 앞잡등 애니메이션을 강제해야 하는 경우 사용
-        public override void TakeDamageNoAnimation(float damage) {
-            base.TakeDamageNoAnimation(damage);
+        public override void TakeDamageNoAnimation(float damage, float fireDamage) {
+            base.TakeDamageNoAnimation(damage, fireDamage);
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);
             else if (isBoss && bossManager != null)
@@ -50,9 +49,9 @@ namespace sg {
             }
         }
 
-        public override void TakeDamage(float damage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation = "Damage") {
 
-            base.TakeDamage(damage, damageAnimation = "Damage");
+            base.TakeDamage(damage, fireDamage, damageAnimation = "Damage");
 
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);

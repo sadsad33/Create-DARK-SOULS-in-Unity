@@ -8,19 +8,19 @@ namespace sg {
         public CharacterManager characterManager;
         public bool enabledDamageColliderOnStartUp = false;
         //public WeaponFX weaponFX;
-        Collider damageCollider;
+        protected Collider damageCollider;
 
         [Header("PoiseDamage")]
         public float poiseBreak;
         public float offensivePoiseBonus;
 
         [Header("Damage")]
-        public float currentWeaponDamage;
-        private void Awake() {
-           // weaponFX = gameObject.GetComponentInChildren<WeaponFX>();
+        public float physicalDamage;
+        public float fireDamage;
+
+        protected virtual void Awake() {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
-            damageCollider.enabled = false; // Collider 만 끄기
             damageCollider.isTrigger = true;
             damageCollider.enabled = enabledDamageColliderOnStartUp;
         }
@@ -34,52 +34,22 @@ namespace sg {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (other.tag == "Player") {
-                PlayerStatsManager playerStats = other.GetComponent<PlayerStatsManager>();
-                CharacterManager playerCharacterManager = other.GetComponent<CharacterManager>();
-                CharacterEffectsManager playerEffectsManager = other.GetComponent<CharacterEffectsManager>();
-                BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                if (playerCharacterManager != null) {
-                    if (playerCharacterManager.isParrying) {
-                        characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
-                        return;
-                    } else if (shield != null && playerCharacterManager.isBlocking) {
-                        float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
-                        if (playerStats != null) {
-                            playerStats.TakeDamage(physicalDamageAfterBlock, "Block Impact");
-                            return;
-                        }
-                    }
-                }
-                if (playerStats != null) {
-                    playerStats.poiseResetTimer = playerStats.totalPoiseResetTime;
-                    playerStats.totalPoiseDefense = playerStats.totalPoiseDefense - poiseBreak;
-                    
-                    // 타격 지점
-                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    playerEffectsManager.PlayBloodSplatterFX(contactPoint);
-
-                    if (playerStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
-                        playerStats.TakeDamageNoAnimation(currentWeaponDamage);
-                    } else {
-                        playerStats.TakeDamage(currentWeaponDamage);
-                    }
-                }
-            }
-
-            if (other.tag == "Enemy") {
-                EnemyStatsManager enemyStats = other.GetComponent<EnemyStatsManager>();
-                CharacterManager enemyCharacterManager = other.GetComponent<CharacterManager>();
+            if (other.CompareTag("Character")) {
+                CharacterStatsManager enemyStats = other.GetComponent<CharacterStatsManager>();
+                CharacterManager enemyManager = other.GetComponent<CharacterManager>();
                 CharacterEffectsManager enemyEffectsManager = other.GetComponent<CharacterEffectsManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                if (enemyCharacterManager != null) {
-                    if (enemyCharacterManager.isParrying) {
+
+                if (enemyManager != null) {
+                    if (enemyManager.isParrying) {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
-                    } else if (shield != null && enemyCharacterManager.isBlocking) {
-                        float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
+                    } else if (shield != null && enemyManager.isBlocking) {
+                        float physicalDamageAfterBlock = physicalDamage - (physicalDamage * shield.blockingPhysicalDamageAbsorption) / 100;
+                        float fireDamageAfterBlock = fireDamage - (fireDamage * shield.blockingFireDamageAbsorption) / 100;
+
                         if (enemyStats != null) {
-                            enemyStats.TakeDamage(physicalDamageAfterBlock, "Block Impact");
+                            enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact");
                             return;
                         }
                     }
@@ -87,23 +57,14 @@ namespace sg {
                 if (enemyStats != null) {
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
-
+                    
+                    // 타격 지점
                     Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
                     enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
-
-                    if (enemyStats.isBoss) {
-                        if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
-                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        } else {
-                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                            enemyStats.BreakGuard();
-                        }
+                    if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
+                        enemyStats.TakeDamageNoAnimation(physicalDamage);
                     } else {
-                        if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
-                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        } else {
-                            enemyStats.TakeDamage(currentWeaponDamage);
-                        }
+                        enemyStats.TakeDamage(physicalDamage);
                     }
                 }
             }

@@ -6,6 +6,7 @@ namespace sg {
     public class BlockingCollider : MonoBehaviour {
         public BoxCollider blockingCollider; // 방어할때 사용할 collider
         public float blockingPhysicalDamageAbsorption;
+        public float blockingFireDamageAbsorption;
 
         private void Awake() {
             blockingCollider = GetComponent<BoxCollider>();

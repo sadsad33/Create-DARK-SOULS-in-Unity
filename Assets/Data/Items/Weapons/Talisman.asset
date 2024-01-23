@@ -16,8 +16,9 @@ MonoBehaviour:
   itemName: Talisman
   modelPrefab: {fileID: 3369392048246929232, guid: d04a868860d690241a3c165b2feac5a4, type: 3}
   isUnarmed: 0
-  baseDamage: 25
-  criticalDamageMultiplier: 4
+  physicalDamage: 1
+  fireDamage: 0
+  criticalDamageMultiplier: 1
   poiseBreak: 3
   offensivePoiseBonus: 0
   physicalDamageAbsorption: 0
