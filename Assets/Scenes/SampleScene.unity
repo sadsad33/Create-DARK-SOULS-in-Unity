@@ -29620,7 +29620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ed6b924acef144097847a59bee8a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamIDNumber: 0
+  teamIDNumber: 1
   soulsAwardedOnDeath: 0
   healthLevel: 10
   maxHealth: 0
