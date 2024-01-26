@@ -25,13 +25,11 @@ MonoBehaviour:
   Right_Hand_Idle: OH_Right_GreatSwordIdle
   Left_Hand_Idle: Left_Arm_Idle_1
   th_idle: TH_GreatSwordIdle
-  UnarmedAttack1: 
-  UnarmedAttack2: 
-  OH_Light_Attack_1: OH_Light_Attack_1
-  OH_Light_Attack_2: OH_Light_Attack_2
+  OH_Light_Attack_1: OH_Light_Sword_Attack_1
+  OH_Light_Attack_2: OH_Light_Sword_Attack_2
   OH_Heavy_Attack_1: OH_Heavy_Attack_1
-  TH_Light_Sword_Attack_1: TH_Light_Sword_Attack_1
-  TH_Light_Sword_Attack_2: TH_Light_Sword_Attack_2
+  TH_Light_Attack_1: TH_Light_Sword_Attack_1
+  TH_Light_Attack_2: TH_Light_Sword_Attack_2
   weaponArt: 
   baseStamina: 40
   lightAttackMultiplier: 1

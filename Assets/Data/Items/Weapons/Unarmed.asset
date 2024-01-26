@@ -25,13 +25,11 @@ MonoBehaviour:
   Right_Hand_Idle: RightArmEmpty
   Left_Hand_Idle: LeftArmEmpty
   th_idle: 
-  UnarmedAttack1: UnarmedAttack1
-  UnarmedAttack2: UnarmedAttack2
-  OH_Light_Attack_1: 
-  OH_Light_Attack_2: 
+  OH_Light_Attack_1: Unarmed_Light_Attack_1
+  OH_Light_Attack_2: Unarmed_Light_Attack_2
   OH_Heavy_Attack_1: 
-  TH_Light_Sword_Attack_1: 
-  TH_Light_Sword_Attack_2: 
+  TH_Light_Attack_1: 
+  TH_Light_Attack_2: 
   weaponArt: 
   baseStamina: 10
   lightAttackMultiplier: 1

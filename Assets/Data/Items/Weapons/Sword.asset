@@ -16,7 +16,8 @@ MonoBehaviour:
   itemName: Sword
   modelPrefab: {fileID: 9172609376268836479, guid: d5fb25c7ffd5e5e408d12b0dc639213b, type: 3}
   isUnarmed: 0
-  baseDamage: 25
+  physicalDamage: 25
+  fireDamage: 0
   criticalDamageMultiplier: 4
   poiseBreak: 20
   offensivePoiseBonus: 0
@@ -26,8 +27,8 @@ MonoBehaviour:
   th_idle: Two_Hand_Idle_1
   UnarmedAttack1: 
   UnarmedAttack2: 
-  OH_Light_Attack_1: OH_Light_Attack_1
-  OH_Light_Attack_2: OH_Light_Attack_2
+  OH_Light_Attack_1: OH_Light_Sword_Attack_1
+  OH_Light_Attack_2: OH_Light_Sword_Attack_2
   OH_Heavy_Attack_1: OH_Heavy_Attack_1
   TH_Light_Sword_Attack_1: TH_Light_Sword_Attack_1
   TH_Light_Sword_Attack_2: TH_Light_Sword_Attack_2
