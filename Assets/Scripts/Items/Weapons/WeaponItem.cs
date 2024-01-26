@@ -28,9 +28,9 @@ namespace sg {
         public string Left_Hand_Idle;
         public string th_idle;
 
-        [Header("Unarmed Animations")]
-        public string UnarmedAttack1;
-        public string UnarmedAttack2;
+        //[Header("Unarmed Animations")]
+        //public string UnarmedAttack1;
+        //public string UnarmedAttack2;
 
         [Header("One Handed Attack Animations")]
         public string OH_Light_Attack_1;
@@ -38,8 +38,8 @@ namespace sg {
         public string OH_Heavy_Attack_1;
 
         [Header("Two Handed Attack Animtaions")]
-        public string TH_Light_Sword_Attack_1;
-        public string TH_Light_Sword_Attack_2;
+        public string TH_Light_Attack_1;
+        public string TH_Light_Attack_2;
 
         [Header("Weapon Art")]
         public string weaponArt;

@@ -16,7 +16,8 @@ MonoBehaviour:
   itemName: Axe
   modelPrefab: {fileID: 6286975738734905360, guid: cdddfa5d5ff0e6149bce57e9f379242c, type: 3}
   isUnarmed: 0
-  baseDamage: 25
+  physicalDamage: 25
+  fireDamage: 0
   criticalDamageMultiplier: 4
   poiseBreak: 35
   offensivePoiseBonus: 0
@@ -26,8 +27,8 @@ MonoBehaviour:
   th_idle: Two_Hand_Idle_1
   UnarmedAttack1: 
   UnarmedAttack2: 
-  OH_Light_Attack_1: OH_Light_Attack_1
-  OH_Light_Attack_2: OH_Light_Attack_2
+  OH_Light_Attack_1: OH_Light_Sword_Attack_1
+  OH_Light_Attack_2: OH_Light_Sword_Attack_2
   OH_Heavy_Attack_1: OH_Heavy_Attack_1
   TH_Light_Sword_Attack_1: 
   TH_Light_Sword_Attack_2: 

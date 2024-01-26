@@ -25306,7 +25306,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   weaponsInRightHandSlots:
-  - {fileID: 11400000, guid: afec93e198cf13042ba1053339d24b29, type: 2}
+  - {fileID: 11400000, guid: 5b39c446a406e4c41b9b3b2a233306f3, type: 2}
   - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
   - {fileID: 11400000, guid: b61b5ecad97f8f842857785ee3715272, type: 2}
   currentHelmetEquipment: {fileID: 11400000, guid: fc1e36634f4ce4540be04eb96bc679c0, type: 2}

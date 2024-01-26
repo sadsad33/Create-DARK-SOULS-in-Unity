@@ -16,7 +16,8 @@ MonoBehaviour:
   itemName: Dagger
   modelPrefab: {fileID: 15128329762310512, guid: 21375eb3e670c844797314db17dd7120, type: 3}
   isUnarmed: 0
-  baseDamage: 25
+  physicalDamage: 25
+  fireDamage: 0
   criticalDamageMultiplier: 4
   poiseBreak: 10
   offensivePoiseBonus: 0
@@ -26,8 +27,8 @@ MonoBehaviour:
   th_idle: Two_Hand_Idle_1
   UnarmedAttack1: 
   UnarmedAttack2: 
-  OH_Light_Attack_1: DaggerAttack1
-  OH_Light_Attack_2: DaggerAttack2
+  OH_Light_Attack_1: OH_Light_Dagger_Attack_1
+  OH_Light_Attack_2: OH_Light_Dagger_Attack_2
   OH_Heavy_Attack_1: 
   TH_Light_Sword_Attack_1: 
   TH_Light_Sword_Attack_2: 

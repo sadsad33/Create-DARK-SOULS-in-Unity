@@ -273,6 +273,7 @@ namespace sg {
 
         private void HandleUseConsumableInput() {
             if (x_Input) {
+                if (playerManager.isInteracting) return;
                 x_Input = false;
                 // 현재 소비 아이템을 사용한다.
                 playerInventoryManager.currentConsumable.AttemptToConsumeItem(playerAnimatiorManager, weaponSlotManager, playerEffectsManager);

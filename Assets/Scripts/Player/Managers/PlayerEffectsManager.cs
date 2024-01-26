@@ -21,6 +21,7 @@ namespace sg {
             poisonBuildUpBar = FindObjectOfType<PoisonBuildUpBar>();
             poisonAmountBar = FindObjectOfType<PoisonAmountBar>();
         }
+
         public void HealPlayerFromEffect() {
             playerStatsManager.HealPlayer(amountToBeHealed);
             GameObject healParticles = Instantiate(currentParticleFX, playerStatsManager.transform); // »∏∫π ¿Ã∆Â∆Æ
