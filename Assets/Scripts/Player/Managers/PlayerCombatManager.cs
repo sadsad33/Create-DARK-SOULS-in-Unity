@@ -35,20 +35,10 @@ namespace sg {
                 if (lastAttack == weapon.OH_Light_Attack_1) {
                     //Debug.Log("콤보 공격 실행");
                     playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
-                } else if (lastAttack == weapon.TH_Light_Sword_Attack_1) {
-                    playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_2, true);
-                } else if (lastAttack == weapon.UnarmedAttack1) {
-                    playerAnimatorManager.PlayTargetAnimation(weapon.UnarmedAttack2, true);
+                } else if (lastAttack == weapon.TH_Light_Attack_1) {
+                    playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_2, true);
                 }
             }
-        }
-
-        public void HandleUnarmedAttack(WeaponItem weapon) {
-            if (playerStatsManager.currentStamina <= 0) return;
-            //Debug.Log("맨주먹 공격");
-            playerWeaponSlotManager.attackingWeapon = weapon;
-            playerAnimatorManager.PlayTargetAnimation(weapon.UnarmedAttack1, true);
-            lastAttack = weapon.UnarmedAttack1;
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
@@ -56,8 +46,8 @@ namespace sg {
             //Debug.Log("한손 약공");
             playerWeaponSlotManager.attackingWeapon = weapon;
             if (inputHandler.twoHandFlag) {
-                playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Sword_Attack_1, true);
-                lastAttack = weapon.TH_Light_Sword_Attack_1;
+                playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_1, true);
+                lastAttack = weapon.TH_Light_Attack_1;
             } else {
                 playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
                 lastAttack = weapon.OH_Light_Attack_1;
@@ -106,13 +96,8 @@ namespace sg {
                 if (playerManager.isInteracting) return;
                 if (playerManager.canDoCombo) return;
                 playerAnimatorManager.anim.SetBool("isUsingRightHand", true);
-                if (playerInventoryManager.currentRightWeaponIndex != -1) {
-                    HandleLightAttack(playerInventoryManager.rightWeapon);
-                } else if (playerInventoryManager.currentRightWeaponIndex == -1) {
-                    HandleUnarmedAttack(playerInventoryManager.rightWeapon);
-                }
+                HandleLightAttack(playerInventoryManager.rightWeapon);
             }
-            //playerEffectsManager.PlayWeaponFX(false); // 오른쪽 무기의 공격 이펙트를 재생한다
         }
 
         // 영창 공격
