@@ -36,6 +36,7 @@ namespace sg {
                     //Debug.Log("콤보 공격 실행");
                     playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
                 } else if (lastAttack == weapon.TH_Light_Attack_1) {
+                    //Debug.Log("양손 콤보 공격 실행");
                     playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_2, true);
                 }
             }
