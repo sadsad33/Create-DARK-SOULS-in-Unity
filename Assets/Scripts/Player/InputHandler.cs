@@ -256,10 +256,14 @@ namespace sg {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
                 if (twoHandFlag) { // 양잡
+                    playerManager.isTwoHandingWeapon = true;
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
+                    weaponSlotManager.LoadTwoHandIKTargets(true);
                 } else { // 양잡 해제
+                    playerManager.isTwoHandingWeapon = false;
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.leftWeapon, true);
+                    weaponSlotManager.LoadTwoHandIKTargets(false);
                 }
             }
         }

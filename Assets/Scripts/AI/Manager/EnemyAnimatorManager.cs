@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace sg {
-    public class EnemyAnimatorManager : AnimatorManager {
+    public class EnemyAnimatorManager : CharacterAnimatorManager {
         BossManager bossManager;
         //EnemyEffectsManager enemyEffectsManager;
         EnemyManager enemyManager;

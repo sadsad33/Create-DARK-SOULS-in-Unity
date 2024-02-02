@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8061560435527541267}
   - component: {fileID: 738678756875670557}
   m_Layer: 0
-  m_Name: Weapon FX
+  m_Name: WeaponFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,9 +223,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   enabledDamageColliderOnStartUp: 0
+  teamIDNumber: 0
   poiseBreak: 0
   offensivePoiseBonus: 0
-  currentWeaponDamage: 25
+  physicalDamage: 0
+  fireDamage: 0
 --- !u!1001 &4283288364385789616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1730045521208406952, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.231
+      value: 0.301
       objectReference: {fileID: 0}
     - target: {fileID: 1730045521208406952, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -308,6 +310,26 @@ PrefabInstance:
     - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366319326136312539, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f97bbc24e33cfab48b776e3c4830d28a, type: 3}

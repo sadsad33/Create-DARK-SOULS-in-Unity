@@ -46,7 +46,7 @@ namespace sg {
                 if (enemyManager != null) {
                     if (enemyStats.teamIDNumber == teamIDNumber) return; 
                     if (enemyManager.isParrying) {
-                        characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
+                        characterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
                     } else if (shield != null && enemyManager.isBlocking) {
                         float physicalDamageAfterBlock = physicalDamage - (physicalDamage * shield.blockingPhysicalDamageAbsorption) / 100;

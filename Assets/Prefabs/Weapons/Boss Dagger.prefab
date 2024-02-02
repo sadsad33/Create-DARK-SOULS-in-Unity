@@ -157,10 +157,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   enabledDamageColliderOnStartUp: 0
-  weaponFX: {fileID: 0}
+  teamIDNumber: 0
   poiseBreak: 0
   offensivePoiseBonus: 0
-  currentWeaponDamage: 25
+  physicalDamage: 0
+  fireDamage: 0
 --- !u!1 &6540428604315627310
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +238,7 @@ GameObject:
   - component: {fileID: 5956799547945595630}
   - component: {fileID: 4452446529639668772}
   m_Layer: 0
-  m_Name: Weapon FX
+  m_Name: WeaponFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
