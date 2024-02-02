@@ -45,6 +45,8 @@ namespace sg {
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isUsingLeftHand = enemyAnimatorManager.anim.GetBool("isUsingLeftHand");
+            isUsingRightHand = enemyAnimatorManager.anim.GetBool("isUsingRightHand");
             isPhaseShifting = enemyAnimatorManager.anim.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = enemyAnimatorManager.anim.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");

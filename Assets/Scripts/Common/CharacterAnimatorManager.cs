@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 namespace sg {
-    public class AnimatorManager : MonoBehaviour {
+    public class CharacterAnimatorManager : MonoBehaviour {
         public Animator anim;
         protected CharacterManager characterManager;
         protected CharacterStatsManager characterStatsManager;
         public bool canRotate;
 
+        protected RigBuilder rigBuilder;
+        public TwoBoneIKConstraint leftHandConstraint;
+        public TwoBoneIKConstraint rightHandConstraint;
+
         protected virtual void Awake() {
             characterManager = GetComponent<CharacterManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
+            rigBuilder = GetComponent<RigBuilder>();
         }
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
@@ -31,11 +37,11 @@ namespace sg {
         public virtual void CanRotate() {
             anim.SetBool("canRotate", true);
         }
-        
+
         public virtual void StopRotation() {
             anim.SetBool("canRotate", false);
         }
-        
+
         public virtual void EnableCombo() {
             anim.SetBool("canDoCombo", true);
         }
@@ -71,6 +77,36 @@ namespace sg {
         public virtual void TakeCriticalDamageAnimationEvent() {
             characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage);
             characterManager.pendingCriticalDamage = 0;
+        }
+
+        public virtual void SetHandIKForWeapon(HandIKTarget rightHandTarget, HandIKTarget leftHandTarget, bool isTwoHandingWeapon) {
+            // 양손잡기 상태 확인
+            if (isTwoHandingWeapon) {
+
+                // 양손잡기 상태라면 Hand IK 기능필요시 적용
+                // 양 손의 위치에 Hand IK 할당
+                rightHandConstraint.data.target = rightHandTarget.transform;
+                rightHandConstraint.data.targetPositionWeight = 1; // 0 ~ 1 사이의 원하는 값 할당
+                rightHandConstraint.data.targetRotationWeight = 1;
+
+                leftHandConstraint.data.target = leftHandTarget.transform;
+                leftHandConstraint.data.targetPositionWeight = 1;
+                leftHandConstraint.data.targetRotationWeight = 1;
+
+            } else {
+                // 아니라면 해제
+                rightHandConstraint.data.target = null;
+                leftHandConstraint.data.target = null;
+            }
+            rigBuilder.Build();
+        }
+
+        public virtual void EraseHandIKForWeapon() {
+            // Hand IK 가중치값을 모두 0으로 리셋
+            rightHandConstraint.data.targetPositionWeight = 0;
+            rightHandConstraint.data.targetRotationWeight = 0;
+            leftHandConstraint.data.targetPositionWeight = 0;
+            leftHandConstraint.data.targetRotationWeight = 0;
         }
     }
 }

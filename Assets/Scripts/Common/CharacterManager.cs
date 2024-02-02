@@ -30,6 +30,7 @@ namespace sg {
         public bool isSprinting;
         public bool isInAir;
         public bool isGrounded;
+        public bool isTwoHandingWeapon;
 
         [Header("Spells")]
         public bool isFiringSpell;

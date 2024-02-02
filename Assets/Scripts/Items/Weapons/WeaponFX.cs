@@ -11,11 +11,15 @@ namespace sg {
             normalWeaponTrail.Stop();
         }
 
+        // 彼利 犁积
         public void PlayWeaponFX() {
+            Debug.Log("彼利 犁积");
             normalWeaponTrail.Play();
         }
 
+        // 彼利 犁积 吝瘤
         public void StopWeaponFX() {
+            Debug.Log("彼利 犁积 吝瘤");
             normalWeaponTrail.Stop();
         }
     }

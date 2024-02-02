@@ -47,7 +47,7 @@ namespace sg {
                 }
             } else {
                 if (leftWeaponFX != null) {
-                    leftWeaponFX.PlayWeaponFX();
+                    leftWeaponFX.StopWeaponFX();
                 }
             }
         }
