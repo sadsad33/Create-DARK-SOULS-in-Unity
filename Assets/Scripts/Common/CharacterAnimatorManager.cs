@@ -14,11 +14,13 @@ namespace sg {
         public TwoBoneIKConstraint leftHandConstraint;
         public TwoBoneIKConstraint rightHandConstraint;
 
+        bool handIKWeightReset = false;
         protected virtual void Awake() {
             characterManager = GetComponent<CharacterManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             rigBuilder = GetComponent<RigBuilder>();
         }
+        
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
             anim.applyRootMotion = isInteracting;
@@ -27,6 +29,7 @@ namespace sg {
             anim.CrossFade(targetAnim, 0.2f);
         }
 
+        // 애니메이션의 회전을 따라감
         public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting) {
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isRotatingWithRootMotion", true);
@@ -34,6 +37,7 @@ namespace sg {
             anim.CrossFade(targetAnim, 0.2f);
         }
 
+        #region 애니메이션 이벤트
         public virtual void CanRotate() {
             anim.SetBool("canRotate", true);
         }
@@ -78,12 +82,12 @@ namespace sg {
             characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage);
             characterManager.pendingCriticalDamage = 0;
         }
+        #endregion
 
+        // 무기의 HandIK 설정
         public virtual void SetHandIKForWeapon(HandIKTarget rightHandTarget, HandIKTarget leftHandTarget, bool isTwoHandingWeapon) {
-            // 양손잡기 상태 확인
             if (isTwoHandingWeapon) {
-
-                // 양손잡기 상태라면 Hand IK 기능필요시 적용
+                // 양손잡기 상태라면 Hand IK 기능 필요시 적용
                 // 양 손의 위치에 Hand IK 할당
                 rightHandConstraint.data.target = rightHandTarget.transform;
                 rightHandConstraint.data.targetPositionWeight = 1; // 0 ~ 1 사이의 원하는 값 할당
@@ -101,12 +105,35 @@ namespace sg {
             rigBuilder.Build();
         }
 
+        public virtual void CheckHandIKWeight(HandIKTarget rightHandIK, HandIKTarget leftHandIK, bool isTwoHandingWeapon) {
+            if (characterManager.isInteracting) return;
+
+            if (handIKWeightReset) {
+                handIKWeightReset = !handIKWeightReset;
+                if (rightHandConstraint.data.target != null) {
+                    rightHandConstraint.data.target = rightHandIK.transform;
+                    rightHandConstraint.data.targetPositionWeight = 1;
+                    rightHandConstraint.data.targetRotationWeight = 1;
+                }
+                if (leftHandConstraint.data.target != null) {
+                    leftHandConstraint.data.target = leftHandIK.transform;
+                    leftHandConstraint.data.targetPositionWeight = 1;
+                    leftHandConstraint.data.targetRotationWeight = 1;
+                }
+            }
+        }
+
         public virtual void EraseHandIKForWeapon() {
             // Hand IK 가중치값을 모두 0으로 리셋
-            rightHandConstraint.data.targetPositionWeight = 0;
-            rightHandConstraint.data.targetRotationWeight = 0;
-            leftHandConstraint.data.targetPositionWeight = 0;
-            leftHandConstraint.data.targetRotationWeight = 0;
+            handIKWeightReset = true;
+            if (rightHandConstraint.data.target != null) {
+                rightHandConstraint.data.targetPositionWeight = 0;
+                rightHandConstraint.data.targetRotationWeight = 0;
+            }
+            if (leftHandConstraint.data.target != null) {
+                leftHandConstraint.data.targetPositionWeight = 0;
+                leftHandConstraint.data.targetRotationWeight = 0;
+            }
         }
     }
 }

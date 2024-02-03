@@ -12,7 +12,8 @@ namespace sg {
 
         public float staminaRegenerationAmount = 20;
         public float staminaRegenerationTimer = 0;
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerManager = GetComponent<PlayerManager>();
         }

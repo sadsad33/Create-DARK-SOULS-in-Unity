@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace sg {
     public class CharacterStatsManager : MonoBehaviour {
+        CharacterAnimatorManager characterAnimatorManager;
         [Header("Team I.D")]
         public int teamIDNumber;
         
@@ -24,6 +25,10 @@ namespace sg {
         public int soulCount = 0;
 
         public bool isBoss;
+
+        protected virtual void Awake() {
+            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        }
 
         // 강인도 : 슈퍼아머 유지를 위한 필요 수치
         [Header("Poise")]
@@ -58,6 +63,7 @@ namespace sg {
         public virtual void TakeDamage(float physicalDamage, float fireDamage = 0, string damageAnimation = "Damage") {
             if (isDead) return;
 
+            characterAnimatorManager.EraseHandIKForWeapon();
             float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
 

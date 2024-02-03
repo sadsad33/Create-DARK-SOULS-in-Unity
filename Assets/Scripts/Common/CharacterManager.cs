@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace sg {
     public class CharacterManager : MonoBehaviour {
+        CharacterAnimatorManager characterAnimatorManager;
+        CharacterWeaponSlotManager characterWeaponSlotManager;
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -37,5 +39,14 @@ namespace sg {
 
         // 데미지는 애니메이션 이벤트로 가해질 것
         public float pendingCriticalDamage;
+
+        protected virtual void Awake() {
+            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
+        }
+
+        protected virtual void FixedUpdate() {
+            characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHandingWeapon);
+        }
     }
 }

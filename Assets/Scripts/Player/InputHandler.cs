@@ -111,6 +111,8 @@ namespace sg {
 
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
+            if (playerStatsManager.isDead) return;
+
             HandleMoveInput();
             HandleRollInput(delta);
             HandleCombatInput();

@@ -14,7 +14,7 @@ namespace sg {
         [HideInInspector]
         public Transform myTransform;
         [HideInInspector]
-        public PlayerAnimatorManager playerAnimationManager;
+        public PlayerAnimatorManager playerAnimatorManager;
 
         public CapsuleCollider characterCollider;
         public CapsuleCollider characterColliderBlocker;
@@ -60,7 +60,7 @@ namespace sg {
             playerStatsManager = GetComponent<PlayerStatsManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
-            playerAnimationManager = GetComponent<PlayerAnimatorManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         }
 
         void Start() {
@@ -81,7 +81,7 @@ namespace sg {
 
         // 캐릭터 회전
         public void HandleRotation(float delta) {
-            if (playerAnimationManager.canRotate) {
+            if (playerAnimatorManager.canRotate) {
                 if (inputHandler.lockOnFlag) {
                     // 록온을 해도 달리거나 구를때는, 이동하던 방향으로 행동
                     if (inputHandler.sprintFlag || inputHandler.rollFlag) {
@@ -171,15 +171,15 @@ namespace sg {
 
             // 록온 상태의경우 수평이동 입력값과 수직이동 입력값을 모두 사용한다.
             if (inputHandler.lockOnFlag && !inputHandler.sprintFlag) {
-                playerAnimationManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
-                playerAnimationManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
             }
         }
 
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
-            if (playerAnimationManager.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
+            if (playerAnimatorManager.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
                 return;
 
             if (playerStatsManager.currentStamina <= 0) return;
@@ -190,7 +190,8 @@ namespace sg {
 
                 if (inputHandler.moveAmount > 0) { // 이동중이라면 구르기
                     //Debug.Log("구르기!!!");
-                    playerAnimationManager.PlayTargetAnimation("Rolling", true);
+                    playerAnimatorManager.PlayTargetAnimation("Rolling", true);
+                    playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
@@ -198,7 +199,8 @@ namespace sg {
                 } else { // 이동중이 아니라면 백스텝
                     //Debug.Log("백스텝!!!");
                     if (inputHandler.backstepDelay > 0.3f) {
-                        playerAnimationManager.PlayTargetAnimation("Backstep", true);
+                        playerAnimatorManager.PlayTargetAnimation("Backstep", true);
+                        playerAnimatorManager.EraseHandIKForWeapon();
                         rigidbody.AddForce(-myTransform.forward * 20, ForceMode.Impulse);
                         playerStatsManager.TakeStaminaDamage(backstepStaminaCost);
                     }
@@ -234,11 +236,12 @@ namespace sg {
                 if (playerManager.isInAir) { // 플레이어가 공중에 있었다면
                     if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
                         Debug.Log("You were in the air for" + inAirTimer);
-                        playerAnimationManager.PlayTargetAnimation("Land", true);
+                        playerAnimatorManager.PlayTargetAnimation("Land", true);
+                        playerAnimatorManager.EraseHandIKForWeapon();
                         playerManager.isInteracting = true;
                     } else {
                         Debug.Log("You were in the air for" + inAirTimer);
-                        playerAnimationManager.anim.SetTrigger("doEmpty");
+                        playerAnimatorManager.anim.SetTrigger("doEmpty");
                         //playerAnimationManager.PlayTargetAnimation("Empty", false);
                     }
                 }
@@ -252,7 +255,8 @@ namespace sg {
                 if (!playerManager.isInAir) {
                     playerManager.isInAir = true; // flag 변경
                     if (playerManager.isInAir && !playerManager.isInteracting && !playerManager.isGrounded) {
-                        playerAnimationManager.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
+                        playerAnimatorManager.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
+                        playerAnimatorManager.EraseHandIKForWeapon();
                     }
                     Vector3 vel = rigidbody.velocity;
                     vel.Normalize();
@@ -277,7 +281,8 @@ namespace sg {
                     moveDirection = cameraObject.forward * inputHandler.vertical;
                     moveDirection += cameraObject.right * inputHandler.horizontal;
                     StartCoroutine(JumpBooster());
-                    playerAnimationManager.PlayTargetAnimation("Jump", true);
+                    playerAnimatorManager.PlayTargetAnimation("Jump", true);
+                    playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = jumpRotation;

@@ -86,8 +86,8 @@ namespace sg {
             // 록온을 하지 않았을 경우
             if (!inputHandler.lockOnFlag && currentLockOnTarget == null) {
                 // 시간에 따른 각각의 회전값 변화량을 대입
-                lookAngle += (mouseXInput * lookSpeed) / delta; // 좌우 앵글
-                pivotAngle -= (mouseYInput * pivotSpeed) / delta; // 상하 앵글
+                lookAngle += (mouseXInput * lookSpeed) * delta; // 좌우 앵글
+                pivotAngle -= (mouseYInput * pivotSpeed) * delta; // 상하 앵글
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
                 Vector3 rotation = Vector3.zero; // Euler Angle 값을 저장할 변수 생성
