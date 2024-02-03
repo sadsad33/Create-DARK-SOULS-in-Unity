@@ -8,7 +8,8 @@ namespace sg {
         BossManager bossManager;
         public UIEnemyHealthBar enemyHealthBar;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함

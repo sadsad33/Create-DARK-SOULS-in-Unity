@@ -28,7 +28,8 @@ namespace sg {
         public bool isPhaseShifting; // 페이즈 전환을 수행했는지 여부
         public float comboLikelyHood;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
             enemyEffectsManager = GetComponent<EnemyEffectsManager>();
@@ -62,7 +63,8 @@ namespace sg {
             navmeshAgent.transform.localRotation = Quaternion.identity;
         }
 
-        private void FixedUpdate() {
+        protected override void FixedUpdate() {
+            base.FixedUpdate();
             enemyEffectsManager.HandleAllBuildUpEffects();
         }
 

@@ -19,7 +19,8 @@ namespace sg {
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
@@ -61,7 +62,8 @@ namespace sg {
             }
         }
 
-        private void FixedUpdate() {
+        protected override void FixedUpdate() {
+            base.FixedUpdate();
             float delta = Time.fixedDeltaTime;
 
             // Rigidbody를 통해 처리되는 움직임은 FixedUpdate에서 처리되는것이 좋음
