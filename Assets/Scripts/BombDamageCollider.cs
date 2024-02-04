@@ -26,7 +26,7 @@ namespace sg {
                 CharacterStatsManager character = collision.transform.GetComponent<CharacterStatsManager>();
 
                 if (character != null && character.teamIDNumber != teamIDNumber) {
-                    character.TakeDamage(0, contactDamage);
+                    character.TakeDamage(0, contactDamage, currentDamageAnimation);
                 }
                 Destroy(impactParticles, 5f);
                 Destroy(transform.parent.parent.gameObject);
@@ -38,7 +38,7 @@ namespace sg {
             foreach (Collider character in characters) {
                 CharacterStatsManager characterStats = character.GetComponent<CharacterStatsManager>();
                 if (characterStats != null && characterStats.teamIDNumber != teamIDNumber) {
-                    characterStats.TakeDamage(0, fireExplosionDamage);
+                    characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation);
                 }
             }
         }
