@@ -60,7 +60,7 @@ namespace sg {
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(float physicalDamage, float fireDamage = 0, string damageAnimation = "Damage") {
+        public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation) {
             if (isDead) return;
 
             characterAnimatorManager.EraseHandIKForWeapon();

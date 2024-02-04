@@ -68,10 +68,10 @@ namespace sg {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
             if (playerManager.isInvulnerable) return;
 
-            base.TakeDamage(damage, fireDamage, damageAnimation = "Damage");
+            base.TakeDamage(damage, fireDamage, damageAnimation);
            
             healthBar.SetCurrentHealth(currentHealth);
             playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);

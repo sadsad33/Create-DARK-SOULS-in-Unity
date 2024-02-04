@@ -50,9 +50,9 @@ namespace sg {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation = "Damage") {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
 
-            base.TakeDamage(damage, fireDamage, damageAnimation = "Damage");
+            base.TakeDamage(damage, fireDamage, damageAnimation);
 
             if (!isBoss)
                 enemyHealthBar.SetHealth(currentHealth);

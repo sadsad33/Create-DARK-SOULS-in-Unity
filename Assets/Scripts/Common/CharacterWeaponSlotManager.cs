@@ -126,6 +126,7 @@ namespace sg {
             leftHandDamageCollider.fireDamage = characterInventoryManager.leftWeapon.fireDamage;
             leftHandDamageCollider.teamIDNumber = characterStatsManager.teamIDNumber;
 
+            leftHandDamageCollider.characterManager = characterManager;
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
             leftHandDamageCollider.poiseBreak = characterInventoryManager.leftWeapon.poiseBreak;
             // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
@@ -138,6 +139,7 @@ namespace sg {
             rightHandDamageCollider.fireDamage = characterInventoryManager.rightWeapon.fireDamage;
             rightHandDamageCollider.teamIDNumber = characterStatsManager.teamIDNumber;
 
+            rightHandDamageCollider.characterManager = characterManager;
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
             rightHandDamageCollider.poiseBreak = characterInventoryManager.rightWeapon.poiseBreak;
             // 현재 오른쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
