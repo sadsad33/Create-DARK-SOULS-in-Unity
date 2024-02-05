@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace sg {
     public class CameraHandler : MonoBehaviour {
+
         // 카메라가 포착할 타겟의 위치
         public Transform targetTransform;
         // 카메라의 위치
         public Transform cameraTransform;
         // 카메라의 회전 중심 위치
         public Transform cameraPivotTransform;
-        public LayerMask ignoreLayer; // 플레이어와 카메라 사이에 오브젝트가 존재할 경우 카메라를 플레이어에게 가깝게 밀착시키기 위해 충돌 체크를 하고 싶은 레이어
-        public LayerMask environmentLayer;
+        public LayerMask obstacleLayer; // 플레이어와 카메라 사이에 오브젝트가 존재할 경우 카메라를 플레이어에게 가깝게 밀착시키기 위해 충돌 체크를 하고 싶은 레이어
 
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
         private Vector3 cameraTransformPosition;
-        private Vector3 cameraFollowVelocity = Vector3.zero;
+        //private Vector3 cameraFollowVelocity = Vector3.zero;
 
         public static CameraHandler singleton;
 
@@ -43,7 +43,7 @@ namespace sg {
 
         List<CharacterManager> availableTargets = new List<CharacterManager>();
         public CharacterManager nearestLockOnTarget;
-        public float maximumLockOnDistance = 10f;
+        public float maximumLockOnDistance;
         public CharacterManager leftLockTarget, rightLockTarget;
 
         InputHandler inputHandler;
@@ -52,14 +52,10 @@ namespace sg {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayer = 1 << 8;
+            obstacleLayer = 1 << 8;
             targetTransform = FindObjectOfType<PlayerManager>().transform;
             inputHandler = FindObjectOfType<InputHandler>();
             playerManager = FindObjectOfType<PlayerManager>();
-        }
-
-        private void Start() {
-            environmentLayer = 1 << 8;
         }
 
         // 카메라가 대상을 따라가도록 하는 함수
@@ -77,7 +73,7 @@ namespace sg {
         }
 
         /*
-         * 카메라 회전(구면 좌표계인듯?)
+         * 카메라 회전(구면 좌표계)
          * @delta - FixeddeltaTime
          * @mousXInput - 마우스 좌우 회전값
          * @mouseYInput - 마우스 상하 회전값
@@ -134,11 +130,10 @@ namespace sg {
             direction.Normalize();
 
             Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
-
-            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayer)) {
+            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), obstacleLayer)) {
                 // 플레이어의 좌표로부터 카메라의 방향으로 ray를 발사하여 카메라를 제외한 무언가와 충돌했을 경우 충돌한 좌표까지의 거리
                 float dist = Vector3.Distance(cameraPivotTransform.position, hit.point);
-
+                Debug.Log(hit.transform.gameObject.name);
                 // 카메라가 이동해야할 z 좌표를 설정한다.
                 // 카메라는 pivot보다 항상 뒤에(z 좌표가 음수)있어야 하므로 음수 값이 되어야 한다.
                 targetPosition = -(dist - cameraCollisionOffset);
@@ -161,7 +156,7 @@ namespace sg {
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
 
-            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 25);
+            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, maximumLockOnDistance);
 
             // 감지한 Collider들로부터 CharacterManager 스크립트를 가져온다.
             for (int i = 0; i < colliders.Length; i++) {
@@ -178,15 +173,14 @@ namespace sg {
                     RaycastHit hit;
                     // 자기 자신에게는 록온이 안되도록 한다.
                     if (character.transform.root != targetTransform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
-                        if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit)) {
-                            //Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
-                            if (hit.transform.gameObject.layer == environmentLayer) {
-                                // 대상과 플레이어 사이에 장애물이 있을경우 록온이 안되도록 함 -> ?
-                            } else {
-                                availableTargets.Add(character);
-                            }
-                        }
+                        Vector3 startPosition = targetTransform.GetComponentInChildren<LockOnTransform>().transform.position;
+                        Vector3 endPosition = character.GetComponentInChildren<LockOnTransform>().transform.position;
+                        Vector3 direction = endPosition - startPosition;
+                        
+                        if (Physics.Linecast(startPosition, endPosition, out hit, obstacleLayer)) return;
+                        availableTargets.Add(character);
                     }
+
                 }
             }
 

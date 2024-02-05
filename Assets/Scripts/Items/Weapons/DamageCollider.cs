@@ -7,7 +7,6 @@ namespace sg {
     public class DamageCollider : MonoBehaviour {
         public CharacterManager characterManager;
         public bool enabledDamageColliderOnStartUp = false;
-        //public WeaponFX weaponFX;
         protected Collider damageCollider;
 
         [Header("Team I.D")]

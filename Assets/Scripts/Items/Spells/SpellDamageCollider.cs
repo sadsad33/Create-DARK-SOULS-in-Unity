@@ -10,11 +10,11 @@ namespace sg {
 
         bool hasCollided = false;
         Rigidbody rigidBody;
-        SphereCollider collider;
+        new SphereCollider collider;
         CharacterStatsManager spellTarget; // 목표물의 Stat
         Vector3 impactNormal; // impactParticles 회전축
 
-        private void Awake() {
+        private new void Awake() {
             rigidBody = GetComponent<Rigidbody>();
             collider = GetComponent<SphereCollider>();
         }
