@@ -98,12 +98,12 @@ namespace sg {
             }
         }
 
-        #region Player Interactions
+        #region 플레이어 상호작용
 
         public void CheckForInteractableObject() {
             if (isInteracting) return;
             RaycastHit hit;
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayer)) {
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.obstacleLayer)) {
                 if (hit.collider.tag == "Interactable") {
                     Interactable interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null) {

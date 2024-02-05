@@ -775,10 +775,7 @@ MonoBehaviour:
   targetTransform: {fileID: 0}
   cameraTransform: {fileID: 963194228}
   cameraPivotTransform: {fileID: 1596796455}
-  ignoreLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  environmentLayer:
+  obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
   lookSpeed: 150
@@ -3469,7 +3466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1348730537
 Transform:
   m_ObjectHideFlags: 0
@@ -3479,7 +3476,7 @@ Transform:
   m_GameObject: {fileID: 1348730536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.5, y: 1.4613, z: -3.94}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 5.1548, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 590593802}
@@ -12669,6 +12666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2173030236879191317}
+  - component: {fileID: 2173030236879191319}
   m_Layer: 9
   m_Name: Lock On Transform
   m_TagString: Untagged
@@ -12676,6 +12674,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2173030236879191319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2173030236879191318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eaffa227fc0d94d8161de7ed9e274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2173030236879224993
 Transform:
   m_ObjectHideFlags: 0
@@ -14630,6 +14640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2853968160758623337}
+  - component: {fileID: 2853968160758623339}
   m_Layer: 9
   m_Name: Lock On Transform
   m_TagString: Untagged
@@ -14637,6 +14648,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2853968160758623339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2853968160758623338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eaffa227fc0d94d8161de7ed9e274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &2853968160939175723
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14741,7 +14764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &2853968161313786094
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16356,6 +16379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3287602051577551959}
+  - component: {fileID: 3287602051577551960}
   m_Layer: 11
   m_Name: Lock OnTransform
   m_TagString: Untagged
@@ -16378,6 +16402,18 @@ Transform:
   m_Father: {fileID: 1066101060144997367}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3287602051577551960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3287602051577551956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eaffa227fc0d94d8161de7ed9e274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3287602051615997956
 Transform:
   m_ObjectHideFlags: 0
