@@ -11,6 +11,8 @@ namespace sg {
             base.Interact(playerManager); // 부모의 Interact함수를 호출한다.
             PickUpItem(playerManager);
         }
+        
+        // 아이템 줍기
         private void PickUpItem(PlayerManager playerManager) {
             PlayerInventoryManager playerInventory;
             PlayerLocomotionManager playerLocomotion;

@@ -14,6 +14,8 @@ namespace sg {
             animator = GetComponent<Animator>();
             openChest = GetComponent<OpenChest>();
         }
+
+        // 상자 열기
         public override void Interact(PlayerManager playerManager) {
             // 플레이어가 상자를 바라보도록 회전을 강제한다.
             //Vector3 rotationDirection = transform.position - playerManager.transform.position;
