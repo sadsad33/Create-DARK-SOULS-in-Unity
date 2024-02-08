@@ -18,6 +18,7 @@ namespace sg {
         PlayerLocomotionManager playerLocomotion;
         CameraHandler cameraHandler;
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
+        LayerMask interactableLayer;
 
         protected override void Awake() {
             base.Awake();
@@ -30,6 +31,7 @@ namespace sg {
             playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
+            interactableLayer = 1 << 0;
         }
 
         void Update() {
@@ -99,21 +101,20 @@ namespace sg {
         }
 
         #region 플레이어 상호작용
-
         public void CheckForInteractableObject() {
             if (isInteracting) return;
             RaycastHit hit;
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.obstacleLayer)) {
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, interactableLayer)) {
                 if (hit.collider.tag == "Interactable") {
                     Interactable interactableObject = hit.collider.GetComponent<Interactable>();
-                    if (interactableObject != null) {
+                    if (interactableObject != null) { // 주변에 상호작용 가능한 물체가 있다면
                         string interactableText = interactableObject.interactableText;
                         interactableUI.interactableText.text = interactableText;
                         interactableUIGameObject.SetActive(true);
 
                         if (inputHandler.a_Input) {
                             interactableUIGameObject.SetActive(false);
-                            hit.collider.GetComponent<Interactable>().Interact(this);
+                            hit.collider.GetComponent<Interactable>().Interact(this); // 해당 오브젝트의 Interact 를 수행
                         }
                     }
                 }

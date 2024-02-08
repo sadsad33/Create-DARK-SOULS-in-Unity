@@ -10,6 +10,7 @@ namespace sg {
             worldEventManager = FindObjectOfType<WorldEventManager>();
         }
 
+        // 안개의 벽 통과하기
         public override void Interact(PlayerManager playerManager) {
             base.Interact(playerManager);
             playerManager.PassThroughFogWallInteraction(transform);
