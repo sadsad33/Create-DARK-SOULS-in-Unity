@@ -40,7 +40,7 @@ namespace sg {
                         leftHandSlot.UnloadWeaponAndDestroy();
                         animator.CrossFade(weaponItem.th_idle, 0.2f);
                     } else {
-                        animator.CrossFade("Both Arms Empty", 0.2f);
+                        animator.CrossFade("BothArmsEmpty", 0.2f);
                         backSlot.UnloadWeaponAndDestroy();
                         animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
@@ -54,14 +54,14 @@ namespace sg {
             } else {
                 weaponItem = unarmedWeapon;
                 if (isLeft) {
-                    animator.CrossFade("Left Arm Empty", 0.2f);
+                    animator.CrossFade("LeftArmEmpty", 0.2f);
                     playerInventoryManager.leftWeapon = unarmedWeapon;
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
                     quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
                 } else {
-                    animator.CrossFade("Right Arm Empty", 0.2f);
+                    animator.CrossFade("RightArmEmpty", 0.2f);
                     playerInventoryManager.rightWeapon = unarmedWeapon;
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);

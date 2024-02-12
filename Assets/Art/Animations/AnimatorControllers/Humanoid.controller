@@ -354,7 +354,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Damage_Left_1
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -730537308477903762}
@@ -944,7 +944,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PickingUp
-  m_Speed: 7
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3573703933466924791}
@@ -1489,7 +1489,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rolling
-  m_Speed: 1
+  m_Speed: 1.25
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1728138082165927826}
@@ -2096,7 +2096,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Both Arms Empty
+  m_Name: BothArmsEmpty
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2399,7 +2399,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Damage_Right_1
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6566378878911802338}

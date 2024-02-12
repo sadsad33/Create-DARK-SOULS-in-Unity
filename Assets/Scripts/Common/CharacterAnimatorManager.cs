@@ -82,6 +82,13 @@ namespace sg {
             characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage);
             characterManager.pendingCriticalDamage = 0;
         }
+
+        // 보스 혹은 엘리트 몬스터의 강인도 초기화 이벤트
+        public virtual void ResetPoiseValue() {
+            characterStatsManager.isStuned = false;
+            characterStatsManager.totalPoiseDefense = characterStatsManager.armorPoiseBonus;
+            characterStatsManager.poiseResetTimer = 0;
+        }
         #endregion
 
         // 무기의 HandIK 설정
