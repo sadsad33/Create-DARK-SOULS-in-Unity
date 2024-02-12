@@ -42,7 +42,6 @@ namespace sg {
             if (other.CompareTag("Character")) {
                 shieldHasBeenHit = false;
                 hasBeenParried = false;
-
                 CharacterStatsManager enemyStats = other.GetComponent<CharacterStatsManager>();
                 CharacterManager enemyManager = other.GetComponent<CharacterManager>();
                 CharacterEffectsManager enemyEffectsManager = other.GetComponent<CharacterEffectsManager>();
@@ -57,23 +56,32 @@ namespace sg {
                     if (enemyStats.teamIDNumber == teamIDNumber) return;
                     if (hasBeenParried) return;
                     if (shieldHasBeenHit) return;
-                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
-                    enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
+                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime; // 강인도 리셋 시간 설정
 
                     // 타격 지점
                     Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
                     float directionHitFrom = (Vector3.SignedAngle(characterManager.transform.forward, enemyManager.transform.forward, Vector3.up));
                     ChooseWhichDirectionDamageCameFrom(directionHitFrom);
                     enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
-                    if (enemyStats.totalPoiseDefense > poiseBreak) { // 보스일경우 피격시 애니메이션 재생 X
+                    if (enemyStats.isBoss) {
+                        if (enemyStats.totalPoiseDefense <= 0 && !enemyStats.isStuned) {
+                            enemyStats.isStuned = true;
+                            enemyStats.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
+                        }
                         enemyStats.TakeDamageNoAnimation(physicalDamage);
                     } else {
-                        enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation);
+                        if (enemyStats.totalPoiseDefense > poiseBreak) {
+                            enemyStats.TakeDamageNoAnimation(physicalDamage);
+                        } else {
+                            //enemyStats.isStuned = true;
+                            enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation);
+                        }
                     }
+                    enemyStats.totalPoiseDefense -= poiseBreak;
                 }
             }
 
-            if (other.tag == "IllusionaryWall") {
+            if (other.CompareTag("IllusionaryWall")) {
                 IllusionaryWall illusionaryWall = other.GetComponent<IllusionaryWall>();
                 illusionaryWall.illusionaryWallHealthPoint -= 1;
             }
@@ -81,13 +89,14 @@ namespace sg {
 
         protected virtual void CheckForParry(CharacterManager enemyManager) {
             if (enemyManager.isParrying) {
-                characterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Parried", true);
+                //Debug.Log("패리 성공");
+                characterManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("Parried", true);
                 hasBeenParried = true;
             }
         }
 
         protected virtual void CheckForBlock(CharacterManager enemyManager, BlockingCollider shield, CharacterStatsManager enemyStats) {
-             if (shield != null && enemyManager.isBlocking) {
+            if (shield != null && enemyManager.isBlocking) {
                 float physicalDamageAfterBlock = physicalDamage - (physicalDamage * shield.blockingPhysicalDamageAbsorption) / 100;
                 float fireDamageAfterBlock = fireDamage - (fireDamage * shield.blockingFireDamageAbsorption) / 100;
 

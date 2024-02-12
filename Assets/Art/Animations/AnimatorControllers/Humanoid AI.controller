@@ -207,7 +207,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OH_Light_Attack_1
-  m_Speed: 1.5
+  m_Speed: 1.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 813152847783356133}
@@ -459,7 +459,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Break Guard
+  m_Name: BreakGuard
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -473,7 +473,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8768d67816911b540bc08e32c1cd4f88, type: 2}
+  m_Motion: {fileID: 7400000, guid: a086076985f49ce468d0d85cc8fe63e9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2013,9 +2013,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.90625
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2077,7 +2077,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Both Arms Empty
+  m_Name: BothArmsEmpty
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2795,16 +2795,19 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isInvulnerable
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4561258091624907548}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.075791955
   m_TransitionOffset: 0
-  m_ExitTime: 0.8369565
+  m_ExitTime: 0.9505704
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2965,7 +2968,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OH_Light_Attack_2
-  m_Speed: 1.5
+  m_Speed: 1.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7795849081213341546}
@@ -3020,7 +3023,7 @@ AnimatorStateMachine:
     m_Position: {x: 350, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6404699382290321208}
-    m_Position: {x: -150, y: -270, z: 0}
+    m_Position: {x: -120, y: -270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7614952085033397074}
     m_Position: {x: 100, y: -160, z: 0}
@@ -3044,7 +3047,7 @@ AnimatorStateMachine:
     m_Position: {x: 90, y: -420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2413881424679774082}
-    m_Position: {x: -150, y: -320, z: 0}
+    m_Position: {x: -120, y: -320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8471091968650047159}
     m_Position: {x: 580, y: -270, z: 0}
@@ -3164,7 +3167,7 @@ AnimatorStateMachine:
     m_Position: {x: 100, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6368072507653884521}
-    m_Position: {x: -150, y: -370, z: 0}
+    m_Position: {x: -120, y: -370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -436662021827669501}
     m_Position: {x: 90, y: -520, z: 0}

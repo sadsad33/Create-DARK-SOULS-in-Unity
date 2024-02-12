@@ -133,7 +133,7 @@ namespace sg {
             if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), obstacleLayer)) {
                 // 플레이어의 좌표로부터 카메라의 방향으로 ray를 발사하여 카메라를 제외한 무언가와 충돌했을 경우 충돌한 좌표까지의 거리
                 float dist = Vector3.Distance(cameraPivotTransform.position, hit.point);
-                Debug.Log(hit.transform.gameObject.name);
+                //Debug.Log(hit.transform.gameObject.name);
                 // 카메라가 이동해야할 z 좌표를 설정한다.
                 // 카메라는 pivot보다 항상 뒤에(z 좌표가 음수)있어야 하므로 음수 값이 되어야 한다.
                 targetPosition = -(dist - cameraCollisionOffset);

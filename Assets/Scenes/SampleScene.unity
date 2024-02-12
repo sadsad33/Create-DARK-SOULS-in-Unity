@@ -6175,7 +6175,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 180280064918615323, guid: 149b3944685fe904dbecc8bbece03fb2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 149b3944685fe904dbecc8bbece03fb2, type: 3}
 --- !u!4 &192770539632372640
 Transform:
@@ -14256,7 +14257,7 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 2048
-  pursueTargetState: {fileID: 0}
+  pursueTargetState: {fileID: 2853968159566657456}
 --- !u!4 &2853968160368746654
 Transform:
   m_ObjectHideFlags: 0
@@ -18664,7 +18665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3364704305478033166}
   m_LocalRotation: {x: 0.47718596, y: -0.5181612, z: -0.4785273, w: 0.52422726}
-  m_LocalPosition: {x: 0.0025138855, y: 1.0252151, z: -0.01518631}
+  m_LocalPosition: {x: 0.0025138855, y: 1.0252148, z: -0.01518631}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26114,8 +26115,9 @@ MonoBehaviour:
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 0
-  totalPoiseResetTime: 15
+  totalPoiseResetTime: 0
   poiseResetTimer: 0
+  isStuned: 0
   physicalDamageAbsorptionHead: 0
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
@@ -26996,7 +26998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 1
   soulsAwardedOnDeath: 0
-  healthLevel: 20
+  healthLevel: 50
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
@@ -27012,6 +27014,7 @@ MonoBehaviour:
   armorPoiseBonus: 100
   totalPoiseResetTime: 3
   poiseResetTimer: 0
+  isStuned: 0
   physicalDamageAbsorptionHead: 0
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
@@ -30436,9 +30439,10 @@ MonoBehaviour:
   isBoss: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
-  armorPoiseBonus: 0
-  totalPoiseResetTime: 15
+  armorPoiseBonus: 40
+  totalPoiseResetTime: 3
   poiseResetTimer: 0
+  isStuned: 0
   physicalDamageAbsorptionHead: 0
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
