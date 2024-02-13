@@ -24,6 +24,7 @@ public class ResetAnimatorBool : StateMachineBehaviour {
 
     public string isRotatingWithRootMotion = "isRotatingWithRootMotion";
     public bool isRotatingWithRootMotionStatus = false;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         animator.SetBool(isInteractingBool, isInteractingStatus);
         animator.SetBool(isFiringSpellBool, isFiringSpellStatus);

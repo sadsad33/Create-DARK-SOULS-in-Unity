@@ -64,7 +64,7 @@ namespace sg {
                     ChooseWhichDirectionDamageCameFrom(directionHitFrom);
                     enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
                     if (enemyStats.isBoss) {
-                        if (enemyStats.totalPoiseDefense <= 0 && !enemyStats.isStuned) {
+                        if (enemyStats.totalPoiseDefense < 0 && !enemyStats.isStuned) {
                             enemyStats.isStuned = true;
                             enemyStats.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
                         }

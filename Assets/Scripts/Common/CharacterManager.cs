@@ -25,6 +25,7 @@ namespace sg {
         public bool canDoCombo;
         public bool isUsingRightHand;
         public bool isUsingLeftHand;
+        public bool isGrabbed;
 
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;

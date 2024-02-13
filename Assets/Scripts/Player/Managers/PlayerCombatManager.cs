@@ -183,6 +183,7 @@ namespace sg {
                     // 애니메이션 재생
                     playerAnimatorManager.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Back Stabbed", true);
+                    enemyCharacterManager.isGrabbed = true;
                 }
             } else if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
@@ -203,6 +204,8 @@ namespace sg {
 
                     playerAnimatorManager.PlayTargetAnimation("Riposte", true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Riposted", true);
+                    enemyCharacterManager.canBeRiposted = false;
+                    enemyCharacterManager.isGrabbed = true;
                 }
             }
         }

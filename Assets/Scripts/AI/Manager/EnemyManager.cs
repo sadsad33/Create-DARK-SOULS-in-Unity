@@ -55,7 +55,7 @@ namespace sg {
             canRotate = enemyAnimatorManager.anim.GetBool("canRotate");
             isInvulnerable = enemyAnimatorManager.anim.GetBool("isInvulnerable");
             enemyAnimatorManager.anim.SetBool("isDead", enemyStatsManager.isDead);
-
+            enemyAnimatorManager.anim.SetBool("isGrabbed", isGrabbed);
         }
 
         private void LateUpdate() {
