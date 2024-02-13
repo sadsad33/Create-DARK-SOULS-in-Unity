@@ -36,6 +36,9 @@ namespace sg {
                 enemyHealthBar.SetHealth(currentHealth);
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+            if (isDead && !enemyManager.isGrabbed) {
+                HandleDeath("Dead");
+            }
         }
 
         public override void TakePoisonDamage(float damage) {
@@ -45,7 +48,7 @@ namespace sg {
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             
-            if (currentHealth <= 0) {
+            if (isDead && !enemyManager.isGrabbed) {
                 HandleDeath("PoisonedDeath");
             }
         }
@@ -59,7 +62,7 @@ namespace sg {
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
 
             enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
-            if (isDead) {
+            if (isDead && !enemyManager.isGrabbed) {
                 HandleDeath("Dead");
             }
         }

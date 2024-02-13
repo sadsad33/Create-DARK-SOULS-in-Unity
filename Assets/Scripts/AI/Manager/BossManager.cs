@@ -28,6 +28,7 @@ namespace sg {
         public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
             bossHealthBar.SetBossCurrentHealth(currentHealth);
             if (currentHealth <= maxHealth / 2 && !bossCombatStanceState.hasPhaseShifted) {
+                if (enemyStats.isStuned) return;
                 //Debug.Log("2페이즈 진입");
                 bossCombatStanceState.hasPhaseShifted = true;
                 ShiftToSecondPhase();

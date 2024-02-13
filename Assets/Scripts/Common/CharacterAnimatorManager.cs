@@ -79,8 +79,8 @@ namespace sg {
         }
 
         public virtual void TakeCriticalDamageAnimationEvent() {
-            characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage);
-            characterManager.pendingCriticalDamage = 0;
+            characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage); // 잡기 대상에게 데미지
+            characterManager.pendingCriticalDamage = 0; // 잡기 데미지 초기화
         }
 
         // 보스 혹은 엘리트 몬스터의 강인도 초기화 이벤트
@@ -89,6 +89,12 @@ namespace sg {
             characterStatsManager.totalPoiseDefense = characterStatsManager.armorPoiseBonus;
             characterStatsManager.poiseResetTimer = 0;
         }
+
+        public virtual void ReleaseFromGrab() {
+            if (characterStatsManager.isDead) return;
+            characterManager.isGrabbed = false;
+        }
+
         #endregion
 
         // 무기의 HandIK 설정
