@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sg {
-    public class PoisonAmountBar : MonoBehaviour {
+namespace SoulsLike {
+    public class PoisonBuildUpBar : MonoBehaviour {
         public Slider slider;
         private void Start() {
             slider = GetComponent<Slider>();
             slider.maxValue = 100;
-            slider.value = 100;
+            slider.value = 0;
             gameObject.SetActive(false);
         }
 
-        public void SetPoisonAmount(float poisonAmount) {
-            slider.value = poisonAmount;
+        public void SetPoisonBuildUpAmount(float currentPoisonBuildUp) {
+            slider.value = currentPoisonBuildUp;
         }
     }
 }

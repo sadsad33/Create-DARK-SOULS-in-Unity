@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class WeaponHolderSlot : MonoBehaviour {
         public Transform parentOverride; // 무기 prefab을 하나만 쓰기위해 필요
         public bool isLeftHandSlot;

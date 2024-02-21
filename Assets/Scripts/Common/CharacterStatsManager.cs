@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class CharacterStatsManager : MonoBehaviour {
         CharacterAnimatorManager characterAnimatorManager;
         [Header("Team I.D")]

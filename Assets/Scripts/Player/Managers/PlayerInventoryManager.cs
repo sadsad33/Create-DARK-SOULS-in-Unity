@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class PlayerInventoryManager : CharacterInventoryManager {
         public List<WeaponItem> weaponsInventory; // 플레이어의 인벤토리
 

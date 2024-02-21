@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class CharacterWeaponSlotManager : MonoBehaviour {
         protected CharacterManager characterManager;
         protected CharacterStatsManager characterStatsManager;
@@ -44,6 +44,7 @@ namespace sg {
             LoadWeaponOnSlot(characterInventoryManager.leftWeapon, true);
         }
 
+        // 대상에게 피해를 주기 위해 무기의 DamageCollider를 활성화
         public virtual void OpenDamageCollider() {
             if (characterManager.isUsingRightHand) {
                 characterEffectsManager.PlayWeaponFX(false);
@@ -54,6 +55,7 @@ namespace sg {
             }
         }
 
+        // 공격 모션중(혹은 끝나고) 무기의 DamageCollider 비활성화
         public virtual void CloseDamageCollider() {
             if (rightHandDamageCollider != null) {
                 characterEffectsManager.StopWeaponFX(false);
@@ -65,6 +67,9 @@ namespace sg {
             }
         }
 
+        // 각 손에 Componenet로 추가되어있는 WeaponHolderSlot 스크립트를 참조
+        // 만약 왼손의 스크립트라면 왼손에 , 오른손의 스크립트라면 오른손에 할당
+        // 할당된 각 손의 WeaponHolderSlot 스크립트는 현재 무기를 로드하기 위해 사용될 것
         protected virtual void LoadWeaponHolderSlots() {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
@@ -78,6 +83,7 @@ namespace sg {
             }
         }
 
+        // 현재 각 손의 WeaponHolderSlot 스크립트를 참조하여 현재 들려있는 무기를 로드
         public virtual void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {
                 if (isLeft) {

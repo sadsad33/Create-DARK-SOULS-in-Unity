@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
-    public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
+namespace SoulsLike {
+    public class NPCWeaponSlotManager : CharacterWeaponSlotManager {
         public override void GrantWeaponAttackingPoiseBonus() {
             characterStatsManager.totalPoiseDefense += characterStatsManager.totalPoiseDefense + characterStatsManager.offensivePoiseBonus;
         }

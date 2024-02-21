@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     [CreateAssetMenu(menuName = "Items/Consumables/Flask")]
     public class FlaskItem : ConsumableItem {
         [Header("Flask Type")]

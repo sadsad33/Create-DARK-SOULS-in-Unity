@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class PoisonSurface : MonoBehaviour {
         public float poisonBuildUpAmount = 7; // 독 축적 수치
         public List<CharacterEffectsManager> charactersInsidePoisonSurface; // 독늪 혹은 독 상태이상 발생지 내의 Character들을 담을 리스트

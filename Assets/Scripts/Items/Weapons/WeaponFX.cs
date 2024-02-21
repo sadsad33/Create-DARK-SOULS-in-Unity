@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class WeaponFX : MonoBehaviour {
         [Header("Weapon FX")]
         public ParticleSystem normalWeaponTrail;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 모든 무기가 가지고 있을 클래스
-namespace sg {
+namespace SoulsLike {
     public class DamageCollider : MonoBehaviour {
         public CharacterManager characterManager;
         public bool enabledDamageColliderOnStartUp = false;

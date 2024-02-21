@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace sg {
+namespace SoulsLike {
     public class EnemyLocomotionManager : MonoBehaviour {
         EnemyManager enemyManager;
         EnemyAnimatorManager enemyAnimatorManager;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     [CreateAssetMenu(menuName = "Spells/Projectile Spell")]
     public class ProjectileSpell : SpellItem {
         [Header("Projectile Damage")]

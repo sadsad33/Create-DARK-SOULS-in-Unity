@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     // 보스전 이벤트 트리거
     public class EventColliderBeginBossFight : MonoBehaviour {
         WorldEventManager worldEventManager;

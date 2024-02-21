@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class CameraHandler : MonoBehaviour {
 
         // 카메라가 포착할 타겟의 위치
