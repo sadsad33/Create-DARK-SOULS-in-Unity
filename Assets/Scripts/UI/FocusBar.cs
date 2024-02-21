@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
     
-namespace sg {
+namespace SoulsLike {
     public class FocusBar : MonoBehaviour {
         public Slider slider;
         private void Awake() {

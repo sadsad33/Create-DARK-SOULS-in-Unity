@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
+    // 스탯 관리(방어력, 강인도, HP, FP, 스태미나, 받는 피해 등)
     public class EnemyStatsManager : CharacterStatsManager {
         EnemyAnimatorManager enemyAnimatorManager;
         BossManager bossManager;
@@ -33,7 +34,7 @@ namespace sg {
             if (enemyManager.isInvulnerable) return;
             base.TakeDamageNoAnimation(damage, fireDamage);
             if (!isBoss)
-                enemyHealthBar.SetHealth(currentHealth);
+                enemyHealthBar.UpdateHealth(currentHealth);
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             if (isDead && !enemyManager.isGrabbed) {
@@ -44,7 +45,7 @@ namespace sg {
         public override void TakePoisonDamage(float damage) {
             base.TakePoisonDamage(damage);
             if (!isBoss)
-                enemyHealthBar.SetHealth(currentHealth);
+                enemyHealthBar.UpdateHealth(currentHealth);
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             
@@ -57,7 +58,7 @@ namespace sg {
             if (enemyManager.isInvulnerable) return;
             base.TakeDamage(damage, fireDamage, damageAnimation);
             if (!isBoss)
-                enemyHealthBar.SetHealth(currentHealth);
+                enemyHealthBar.UpdateHealth(currentHealth);
             else if (isBoss && bossManager != null)
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
 

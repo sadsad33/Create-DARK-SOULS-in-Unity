@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
 

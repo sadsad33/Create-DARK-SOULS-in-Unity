@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace sg {
+namespace SoulsLike {
     public class HealthBar : MonoBehaviour {
         [SerializeField]
         Slider slider;

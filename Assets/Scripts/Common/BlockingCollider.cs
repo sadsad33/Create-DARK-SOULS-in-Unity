@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class BlockingCollider : MonoBehaviour {
         public BoxCollider blockingCollider; // 방어할때 사용할 collider
         public float blockingPhysicalDamageAbsorption;

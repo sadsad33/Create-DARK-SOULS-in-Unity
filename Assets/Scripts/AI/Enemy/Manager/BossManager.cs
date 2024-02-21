@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class BossManager : MonoBehaviour {
         BossHealthBar bossHealthBar;
         public string bossName;

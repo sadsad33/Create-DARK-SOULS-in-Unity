@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sg {
+namespace SoulsLike {
     public class BossHealthBar : MonoBehaviour {
         public Text bossName; // 화면에 표시할 이름을 받아올 변수
         Slider slider; // 체력바를 관리할 변수

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-namespace sg {
+namespace SoulsLike {
     public class CharacterAnimatorManager : MonoBehaviour {
         public Animator anim;
         protected CharacterManager characterManager;

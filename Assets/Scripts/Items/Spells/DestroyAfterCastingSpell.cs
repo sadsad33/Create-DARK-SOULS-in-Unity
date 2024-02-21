@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class DestroyAfterCastingSpell : MonoBehaviour {
         CharacterManager characterCastingSpell;
         private void Awake() {

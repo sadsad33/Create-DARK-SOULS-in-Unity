@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class EquipmentWindowUI : MonoBehaviour {
         public bool rightHandSlot1, rightHandSlot2;
         public bool leftHandSlot1, leftHandSlot2;

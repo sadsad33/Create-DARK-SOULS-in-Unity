@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-namespace sg {
+namespace SoulsLike {
     public class EnemyManager : CharacterManager {
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
@@ -11,7 +11,7 @@ namespace sg {
         public bool isPerformingAction;
         public State currentState;
         public CharacterStatsManager currentTarget;
-        public NavMeshAgent navmeshAgent;
+        public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidbody;
 
         public float rotationSpeed = 15;
@@ -33,9 +33,9 @@ namespace sg {
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
             enemyEffectsManager = GetComponent<EnemyEffectsManager>();
-            navmeshAgent = GetComponentInChildren<NavMeshAgent>();
+            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
-            navmeshAgent.enabled = false;
+            navMeshAgent.enabled = false;
         }
 
         private void Start() {
@@ -59,8 +59,8 @@ namespace sg {
         }
 
         private void LateUpdate() {
-            navmeshAgent.transform.localPosition = Vector3.zero;
-            navmeshAgent.transform.localRotation = Quaternion.identity;
+            navMeshAgent.transform.localPosition = Vector3.zero;
+            navMeshAgent.transform.localRotation = Quaternion.identity;
         }
 
         protected override void FixedUpdate() {

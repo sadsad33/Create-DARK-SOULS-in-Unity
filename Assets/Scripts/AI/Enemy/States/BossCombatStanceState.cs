@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class BossCombatStanceState : CombatStanceState {
         [Header("Second Phase Attacks")]
         public bool hasPhaseShifted; // 페이즈 전환 여부를 저장할 변수

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     public class EnemyAnimatorManager : CharacterAnimatorManager {
         BossManager bossManager;
         //EnemyEffectsManager enemyEffectsManager;
@@ -16,7 +16,7 @@ namespace sg {
         }
 
 
-        // RootMotion이 적용된 애니메이션이 재생중에 RootPosition이 이동되면 호출
+        // Root Motion이 적용된 애니메이션이 재생중에 Root Transform이 이동되면 호출
         // OnAnimatorMove 함수를 구현하게 되면 Animator 컴포넌트의 ApplyRootMotion이 HandledByScript가 되어 OnAnimatorMove 함수내에서 이동 관련 로직을 구현해 주어야 함
         private void OnAnimatorMove() {
             float delta = Time.deltaTime;
@@ -35,10 +35,6 @@ namespace sg {
             BossFXTransform bossFXTransform = GetComponentInChildren<BossFXTransform>();
             GameObject phaseFX = Instantiate(bossManager.particleFX, bossFXTransform.transform);
         }
-
-        //public void PlayWeaponTrailFX() {
-        //    enemyEffectsManager.PlayWeaponFX(false);
-        //}
 
         public void AwardSoulsOnDeath() {
             // 씬 내의 모든 플레이어에게 소울을 줌

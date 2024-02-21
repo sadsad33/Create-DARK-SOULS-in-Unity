@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace sg {
+namespace SoulsLike {
     [CreateAssetMenu(menuName = "Spells/Healing Spell")]
     public class HealingSpell : SpellItem {
         public float healAmount;

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace sg {
-    public class UIEnemyHealthBar : MonoBehaviour {
+namespace SoulsLike {
+    public class UINPCHealthBar : MonoBehaviour {
         Slider slider;
         float timeUntilBarIsHidden;
         public CameraHandler mainCamera;
+
         private void Awake() {
             slider = GetComponentInChildren<Slider>();
         }
@@ -17,18 +18,18 @@ namespace sg {
             }
         }
 
-        public void SetHealth(float health) {
+        public void UpdateHealth(float health) {
             slider.value = health;
             timeUntilBarIsHidden = 3;
         }
 
         public void SetMaxHealth(float maxHealth) {
             slider.maxValue = maxHealth;
-            slider.value = maxHealth;
+            slider.value = slider.maxValue;
         }
 
         private void Update() {
-            timeUntilBarIsHidden = timeUntilBarIsHidden - Time.deltaTime;
+            timeUntilBarIsHidden -= Time.deltaTime;
             if (slider != null) {
                 if (timeUntilBarIsHidden < 0) {
                     timeUntilBarIsHidden = 0;
@@ -39,7 +40,7 @@ namespace sg {
                     }
                 }
                 if (slider.value <= 0) {
-                    Destroy(slider.gameObject);
+                    Destroy(slider.gameObject, 1.5f);
                 }
             }
         }

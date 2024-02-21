@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sg {
+namespace SoulsLike {
     public class WeaponPickUp : Interactable {
         public WeaponItem weapon;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace sg {
+namespace SoulsLike {
     public class QuickSlots : MonoBehaviour {
         public Image leftWeaponIcon, rightWeaponIcon;
         public Image currentSpellIcon, currentConsumableIcon;
