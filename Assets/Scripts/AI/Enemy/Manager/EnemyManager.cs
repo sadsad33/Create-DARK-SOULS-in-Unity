@@ -8,14 +8,14 @@ namespace SoulsLike {
         EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
 
-        public bool isPerformingAction;
+        //public bool isPerformingAction;
         public State currentState;
         public CharacterStatsManager currentTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidbody;
 
         public float rotationSpeed = 15;
-        public float maximumAggroRadius = 1.5f;
+        public float maximumAggroRadius = 1.5f; // 공격 가능 사거리
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
@@ -71,6 +71,8 @@ namespace SoulsLike {
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
         private void HandleStateMachine() {
             if (currentState != null) {
+                if (!enemyStatsManager.isBoss)
+                    Debug.Log(currentState);
                 State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
                 if (nextState != null) {
                     SwitchToNextState(nextState);
@@ -86,11 +88,6 @@ namespace SoulsLike {
         private void HandleRecoveryTimer() {
             if (currentRecoveryTime > 0) {
                 currentRecoveryTime -= Time.deltaTime;
-            }
-            if (isPerformingAction) {
-                if (currentRecoveryTime <= 0) {
-                    isPerformingAction = false;
-                }
             }
         }
     }

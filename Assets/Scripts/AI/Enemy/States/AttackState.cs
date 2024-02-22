@@ -11,11 +11,11 @@ namespace SoulsLike {
         public EnemyAttackActions currentAttack;
 
         bool willDoComboOnNextAttack = false;
-        public bool hasPerformedAttack = false;
+        public bool hasPerformedAttack = false; // 공격 수행 여부
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
-            RotateTowardsTargetWhileAttacking(enemyManager);
+            RotateTowardsTargetWhileAttacking(enemyManager); // 공격 도중 일부 구간에서 회전 가능
             
             if (distanceFromTarget > enemyManager.maximumAggroRadius) { // 공격 사거리를 벗어나면 추적 상태로 전이
                 return pursueTargetState;
@@ -28,13 +28,11 @@ namespace SoulsLike {
 
             //Debug.Log(hasPerformedAttack);
             if (!hasPerformedAttack) {
-                // 공격
                 //Debug.Log("공격?");
                 AttackTarget(enemyAnimatorManager, enemyManager);
-                // 콤보 공격 여부 결정
-                //RollForComboChance(enemyManager);
             }
 
+            // 콤보 공격 플래그가 공격 이후 결정되기 때문에, 공격이 끝난후 콤보 공격 플래그가 true라면 다시 현재 상태를 반환하여 콤보 공격을 수행할수 있도록
             if (willDoComboOnNextAttack && hasPerformedAttack) {
                 return this;
             }
@@ -42,6 +40,7 @@ namespace SoulsLike {
             return rotateTowardsTargetState;
         }
 
+        // 공격 수행
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
             //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
@@ -86,13 +85,15 @@ namespace SoulsLike {
             }
         }
 
+
+        // 콤보 공격을 위한 시행
         private void RollForComboChance(EnemyManager enemyManager) {
             float comboChance = Random.Range(0, 100);
             
             if (enemyManager.allowAIToPerformCombos && comboChance <= enemyManager.comboLikelyHood) {
                 if (currentAttack.canCombo) {
                     willDoComboOnNextAttack = true;
-                    currentAttack = currentAttack.comboAction;
+                    currentAttack = currentAttack.comboAction; 
                 } else {
                     willDoComboOnNextAttack = false;
                     //currentAttack = null;

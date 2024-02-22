@@ -9,7 +9,6 @@ namespace SoulsLike {
         NPCStatsManager npcStatsManager;
         NPCEffectsManager npcEffectsManager;
 
-        public bool isPerformingAction;
         public State currentState;
         public Rigidbody npcRigidbody;
 
