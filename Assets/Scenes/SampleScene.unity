@@ -145,6 +145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 18244972}
+  - component: {fileID: 18244973}
   m_Layer: 9
   m_Name: Idle State
   m_TagString: Untagged
@@ -167,6 +168,22 @@ Transform:
   m_Father: {fileID: 741671802}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18244973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18244971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4da985b6209e9418bdec8ce0602eff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pursueTargetState: {fileID: 0}
 --- !u!1 &74697091
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 2173030236896224891}
+  pursueTargetState: {fileID: 2173030237530089164}
 --- !u!4 &74697093
 Transform:
   m_ObjectHideFlags: 0
@@ -1208,6 +1226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 2853968160677623556}
+  pursueTargetState: {fileID: 0}
 --- !u!1 &466861573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,7 +1932,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 677814065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9ce449097e85004f86c64bd92d551f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 307058f48fb8a9448b4494f3e2b3509f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 227297293}
@@ -26667,8 +26686,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   canRotate: 0
-  leftHandConstraint: {fileID: 0}
-  rightHandConstraint: {fileID: 0}
+  leftHandConstraint: {fileID: 1165792849}
+  rightHandConstraint: {fileID: 1048734311}
 --- !u!114 &4086121375643061407
 MonoBehaviour:
   m_ObjectHideFlags: 0

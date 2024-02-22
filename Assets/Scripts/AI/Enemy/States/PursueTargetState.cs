@@ -10,55 +10,33 @@ namespace SoulsLike {
 
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨
-            // 타겟이 공격 사거리 밖으로 나가면 Pursue Target State를 유지한채 추적
-
+            // 타겟이 공격 사거리 밖으로 나가면 Pursue Target State
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
-
             HandleRotateTowardsTarget(enemyManager);
 
-            if (enemyManager.isInteracting) return this;
-            
-            if (enemyManager.isPerformingAction) { // 행동중이라면
-                enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 정지
+            // 행동 중이라면
+            if (enemyManager.isInteracting) {
+                enemyAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 제자리에 정지
                 return this;
             }
 
-            if (distanceFromTarget > enemyManager.maximumAggroRadius) {
-                enemyAnimatorManager.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
-            }
-
-
-
-            if (distanceFromTarget <= enemyManager.maximumAggroRadius) {
+            if (distanceFromTarget <= enemyManager.maximumAggroRadius) { 
                 return combatStanceState;
             } else {
+                enemyAnimatorManager.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
                 return this;
             }
         }
 
         // 목표 방향으로 회전
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager) {
-            // 특정 행동을 하고있다면 단순히 대상을 바라보도록 회전
-            if (enemyManager.isPerformingAction) {
-                Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-                direction.y = 0;
-                direction.Normalize();
-
-                if (direction == Vector3.zero) // 타겟이 없을경우 정면을 바라봄
-                    direction = enemyManager.transform.forward;
-
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
-            } else { // NavMeshAgent를 이용한 회전
-                //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
-                enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.enemyRigidbody.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
-            }
+        private void HandleRotateTowardsTarget(EnemyManager enemyManager) { // 회전 제어
+            //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity); // 월드 좌표계 -> 로컬 좌표계
+            Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
+            enemyManager.navMeshAgent.enabled = true;
+            enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
+            enemyManager.enemyRigidbody.velocity = targetVelocity;
+            enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
         }
     }
 }
