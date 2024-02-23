@@ -1779,7 +1779,6 @@ MonoBehaviour:
   isTwoHandingWeapon: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
-  isPerformingAction: 0
   currentState: {fileID: 0}
   npcRigidbody: {fileID: 0}
   currentTarget: {fileID: 0}
@@ -16755,7 +16754,6 @@ MonoBehaviour:
   isTwoHandingWeapon: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
-  isPerformingAction: 0
   currentState: {fileID: 2853968160368746653}
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
@@ -26730,7 +26728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f738cf051ab14614bb4b365990318168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamIDNumber: 2
+  teamIDNumber: 0
   soulsAwardedOnDeath: 5
   healthLevel: 10
   maxHealth: 0
@@ -29049,7 +29047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d978634805ad16b43948ae384e6a93a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamIDNumber: 0
+  teamIDNumber: 2
   soulsAwardedOnDeath: 0
   healthLevel: 10
   maxHealth: 0
@@ -30086,7 +30084,6 @@ MonoBehaviour:
   isTwoHandingWeapon: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
-  isPerformingAction: 0
   currentState: {fileID: 2173030237260673505}
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
