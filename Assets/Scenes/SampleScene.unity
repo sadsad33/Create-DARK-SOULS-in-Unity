@@ -1021,6 +1021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 297395740}
+  - component: {fileID: 297395741}
   m_Layer: 9
   m_Name: Pursue Target State
   m_TagString: Untagged
@@ -1043,6 +1044,20 @@ Transform:
   m_Father: {fileID: 741671802}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &297395741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297395739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f70d865be1e7440a7e8ed2c9ba22e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcPursueTargetState: {fileID: 0}
+  npcSelectTargetState: {fileID: 0}
 --- !u!1 &327473466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,18 +1794,30 @@ MonoBehaviour:
   isTwoHandingWeapon: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
+  hostileLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentHostile:
+    serializedVersion: 2
+    m_Bits: 0
   currentState: {fileID: 0}
   npcRigidbody: {fileID: 0}
+  targets: []
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 1.5
+  changeTargetTime: 8
+  changeTargetTimer: 5
+  changeTargetDistance: 2
   detectionRadius: 20
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
   currentRecoveryTime: 0
   allowAIToPerformCombos: 0
   comboLikelyHood: 0
+  aggravationToEnemy: 0
+  aggravationToPlayer: 0
 --- !u!114 &591270342
 MonoBehaviour:
   m_ObjectHideFlags: 0

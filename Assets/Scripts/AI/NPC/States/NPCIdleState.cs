@@ -9,11 +9,7 @@ namespace SoulsLike {
         Collider[] colliders;
         int teamCode;
 
-        public override void Enter(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            Execute(npcManager, npcStatsManager, npcAnimatorManager);
-        }
-
-        public override void Execute(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
+        public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             colliders = Physics.OverlapSphere(npcManager.transform.position, npcManager.detectionRadius, npcManager.hostileLayer);
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterStatsManager character = colliders[i].transform.GetComponent<CharacterStatsManager>();
@@ -29,10 +25,6 @@ namespace SoulsLike {
                     npcManager.targets.Add(character);
                 }
             }
-            Exit(npcManager, npcStatsManager, npcAnimatorManager);
-        }
-
-        public override NPCState Exit(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             if (npcManager.targets.Count > 0) {
                 if (npcManager.targets.Count == 1) return npcPursueTargetState;
                 return npcSelectTargetState;
