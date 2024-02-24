@@ -21,7 +21,7 @@ namespace SoulsLike {
             if (enemyManager.isInteracting) { // 행동중이라면 
                 enemyAnimatorManager.anim.SetFloat("Vertical", 0);
                 enemyAnimatorManager.anim.SetFloat("Horizontal", 0);
-                return pursueTargetState;
+                return this;
             }
 
             HandleRotateTowardsTarget(enemyManager);

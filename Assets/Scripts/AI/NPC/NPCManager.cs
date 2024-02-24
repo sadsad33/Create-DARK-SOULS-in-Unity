@@ -11,7 +11,7 @@ namespace SoulsLike {
 
         public LayerMask hostileLayer;
         public LayerMask currentHostile;
-        public State currentState;
+        public NPCState currentState;
         public Rigidbody npcRigidbody;
 
         // 적대상태 혹은 전투상태가 됐을시 필요
@@ -51,6 +51,9 @@ namespace SoulsLike {
         }
 
         private void Update() {
+            HandleStateMachine();
+            HandleChangeTargetTimer();
+
             isUsingLeftHand = npcAnimatorManager.anim.GetBool("isUsingLeftHand");
             isUsingRightHand = npcAnimatorManager.anim.GetBool("isUsingRightHand");
             isRotatingWithRootMotion = npcAnimatorManager.anim.GetBool("isRotatingWithRootMotion");
@@ -79,19 +82,18 @@ namespace SoulsLike {
         }
 
         #region 캐릭터 상태제어
-        //private void HandleStateMachine() {
-        //    if (currentState != null) {
-        //        State nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
-        //        if (nextState != null) {
-        //            SwitchToNextState(nextState);
-        //        }
-        //    }
-        //}
+        private void HandleStateMachine() {
+            if (currentState != null) {
+                NPCState nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
+                if (nextState != null) {
+                    SwitchToNextState(nextState);
+                }
+            }
+        }
 
-        //private void SwitchToNextState(State state) {
-        //    currentState = state;
-        //}
-
+        private void SwitchToNextState(NPCState state) {
+            currentState = state;
+        }
         #endregion
     }
 }
