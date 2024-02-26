@@ -71,8 +71,8 @@ namespace SoulsLike {
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
         private void HandleStateMachine() {
             if (currentState != null) {
-                if (!enemyStatsManager.isBoss)
-                    Debug.Log(currentState);
+                //if (!enemyStatsManager.isBoss)
+                    //Debug.Log(currentState);
                 State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
                 if (nextState != null) {
                     SwitchToNextState(nextState);
