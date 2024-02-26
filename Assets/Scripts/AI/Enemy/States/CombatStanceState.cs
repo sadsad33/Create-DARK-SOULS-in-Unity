@@ -80,6 +80,7 @@ namespace SoulsLike {
 
         // 공격 선택
         // 거리, 각도 판단
+        // 각 공격들의 점수를 설정할때, 어떤 상황에라도 가능한 공격일수록 높은 점수로 설정하는 것이 좋을듯
         protected virtual void GetNewAttack(EnemyManager enemyManager) {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
@@ -87,9 +88,12 @@ namespace SoulsLike {
 
             int maxScore = 0;
 
+            // Enemy가 수행할수 있는 모든 공격을 순회
             for (int i = 0; i < enemyAttacks.Length; i++) {
                 EnemyAttackActions enemyAttackAction = enemyAttacks[i];
-
+                
+                // 공격에따라 사거리, 각도, 점수가 다르다고 가정
+                // 특정 공격이 가능한 상황이라면 점수를 누적
                 if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
                     distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) { // 현재 목표가 공격 사거리 내에 있고
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) { // 공격 가능한 시야각내에 있다면
@@ -98,21 +102,22 @@ namespace SoulsLike {
                 }
             }
 
+            // 위에서 구한 누적 점수와 0 사이 임의의 값을 추출
             int randomValue = Random.Range(0, maxScore);
             int temporaryScore = 0;
             for (int i = 0; i < enemyAttacks.Length; i++) {
                 EnemyAttackActions enemyAttackAction = enemyAttacks[i];
 
+                // 특정 공격이 가능한 상황이라면 점수를 누적
                 if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
                     distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) {
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) {
                         if (attackState.currentAttack != null) return; // 이미 공격중이라면
                         temporaryScore += enemyAttackAction.attackScore;
 
+                        // 현재 검사하는 공격의 점수를 합산했을때, randomValue 보다 크다면 해당 공격을 선택
                         if (temporaryScore > randomValue) {
                             attackState.currentAttack = enemyAttackAction;
-                            //Debug.Log(attackState.hasPerformedAttack);
-                            //Debug.Log(attackState.currentAttack);
                         }
                     }
                 }

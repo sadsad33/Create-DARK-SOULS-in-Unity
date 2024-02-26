@@ -14,7 +14,7 @@ namespace SoulsLike {
         protected float horizontalMovementValue = 0;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             if (npcManager.changeTargetTimer <= 0) return npcSelectTargetState;
-            
+
             npcAnimatorManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
             npcAnimatorManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
 
@@ -25,7 +25,7 @@ namespace SoulsLike {
             }
 
             HandleRotateTowardsTarget(npcManager);
-            
+
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
             if (distance > npcManager.maximumAggroRadius) return npcPursueTargetState;
 
@@ -61,6 +61,28 @@ namespace SoulsLike {
             Vector3 targetDirection = npcManager.currentTarget.transform.position - npcManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
             float distanceFromTarget = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
+
+            int maxScore = 0;
+
+            for (int i = 0; i < npcAttacks.Length; i++) {
+                maxScore += npcAttacks[i].attackScore;
+            }
+
+            int randomValue = Random.Range(0, maxScore);
+            int temporaryScore = 0;
+            for (int i = 0; i < npcAttacks.Length; i++) {
+                EnemyAttackActions npcAttackAction = npcAttacks[i];
+
+                if (distanceFromTarget <= npcAttackAction.maximumDistanceNeededToAttack &&
+                    distanceFromTarget >= npcAttackAction.minimumDistanceNeededToAttack) {
+                    if (viewableAngle <= npcAttackAction.maximumAttackAngle && viewableAngle >= npcAttackAction.minimumAttackAngle) {
+                        temporaryScore += npcAttackAction.attackScore;
+                    }
+                    if (temporaryScore > randomValue) {
+                        npcAttackState.currentAttack = npcAttackAction;
+                    }
+                }
+            }
         }
     }
 }
