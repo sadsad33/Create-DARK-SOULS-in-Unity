@@ -77,6 +77,14 @@ namespace SoulsLike {
                             enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation);
                         }
                     }
+                    if (enemyStats.teamIDNumber == 0) {
+                        NPCManager npcManager = other.GetComponent<NPCManager>();
+                        if (teamIDNumber == 1) {
+                            npcManager.aggravationToEnemy += 10;
+                        } else if (teamIDNumber == 2) {
+                            npcManager.aggravationToPlayer += 10;
+                        }
+                    }
                     enemyStats.totalPoiseDefense -= poiseBreak;
                 }
             }

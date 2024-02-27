@@ -36,14 +36,18 @@ namespace SoulsLike {
 
             float angle = Vector3.SignedAngle(enemyManager.transform.forward, targetDirection, Vector3.up);
             //Debug.Log(angle);
-            if (angle > 0 && angle <= 120 && !enemyManager.isInteracting) {
+            if (angle >= 30 && angle <= 120 && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Right", true);
+                //Debug.Log("Turn_Right");
             } else if (angle > 120 && angle <= 180 && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Right", true);
-            } else if (angle >= -120 && angle < 0 && !enemyManager.isInteracting) {
+                //Debug.Log("Turn_Behind_Right");
+            } else if (angle >= -120 && angle <= -30 && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Left", true);
+                //Debug.Log("Turn_Left");
             } else if (angle > -180 && angle < -120 && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Left", true);
+                //Debug.Log("Turn_Behind_Left");
             }
             return combatStanceState;
         }

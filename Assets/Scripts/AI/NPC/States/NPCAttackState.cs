@@ -38,6 +38,7 @@ namespace SoulsLike {
             npcAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             npcAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             hasPerformedAttack = true;
+            npcManager.changeTargetTimer = npcManager.changeTargetTime;
             RollForComboChance(npcManager);
             if (!willDoComboOnNextAttack) {
                 npcManager.currentRecoveryTime = currentAttack.recoveryTime;
@@ -49,6 +50,7 @@ namespace SoulsLike {
             npcAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             npcAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            npcManager.changeTargetTimer = npcManager.changeTargetTime;
             npcManager.currentRecoveryTime = currentAttack.recoveryTime;
             currentAttack = null;
         }

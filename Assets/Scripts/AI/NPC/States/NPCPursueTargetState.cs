@@ -12,6 +12,9 @@ namespace SoulsLike {
                 return this;
             }
 
+            if (npcManager.changeTargetTimer <= 0)
+                npcManager.changeTargetTimer = npcManager.changeTargetTime;
+
             if (npcManager.changeTargetTimer <= 0) {
                 return npcSelectTargetState;
             }

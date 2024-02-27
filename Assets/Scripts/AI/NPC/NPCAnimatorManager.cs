@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class NPCAnimatorManager : CharacterAnimatorManager {
+        public NPCInventoryManager npcInventory;
+        public NPCWeaponSlotManager npcWeaponSlotManager;
         NPCManager npcManager;
         protected override void Awake() {
             base.Awake();
@@ -34,6 +36,12 @@ namespace SoulsLike {
                     soulCountBar.SetSoulCountText(playerStats.soulCount);
                 }
             }
+        }
+
+        public void EquipWeapon() {
+            npcInventory.currentRightWeaponIndex += 1;
+            npcInventory.rightWeapon = npcInventory.weaponsInRightHandSlots[npcInventory.currentRightWeaponIndex];
+            npcWeaponSlotManager.LoadBothWeaponsOnSlots();
         }
     }
 }
