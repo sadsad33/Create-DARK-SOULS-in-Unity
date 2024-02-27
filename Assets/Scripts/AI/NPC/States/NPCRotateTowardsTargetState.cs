@@ -14,14 +14,18 @@ namespace SoulsLike {
             if (npcManager.isInteracting)
                 return this;
             float angle = Vector3.SignedAngle(npcManager.transform.forward, targetDirection, Vector3.up);
-            if (angle > 0 && angle <= 120 && !npcManager.isInteracting) {
+            if (angle >= 30 && angle <= 120 && !npcManager.isInteracting) {
                 npcAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Right", true);
+                //Debug.Log("Turn_Right");
             } else if (angle > 120 && angle <= 180 && !npcManager.isInteracting) {
                 npcAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Right", true);
-            } else if (angle >= -120 && angle < 0 && !npcManager.isInteracting) {
+                //Debug.Log("Turn_Behind_Right");
+            } else if (angle >= -120 && angle <= -30 && !npcManager.isInteracting) {
                 npcAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Left", true);
+                //Debug.Log("Turn_Left");
             } else if (angle > -180 && angle < -120 && !npcManager.isInteracting) {
                 npcAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Left", true);
+                //Debug.Log("Turn_Behind_Left");
             }
             return npcCombatStanceState;
         }

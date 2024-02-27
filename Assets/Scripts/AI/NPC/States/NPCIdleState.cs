@@ -16,17 +16,24 @@ namespace SoulsLike {
                 if (character != null)
                     teamCode = character.teamIDNumber;
 
-                if (teamCode % 2 == 1 && npcManager.aggravationToEnemy >= 30) {
+                if (teamCode == 1 && npcManager.aggravationToEnemy >= 30) {
                     npcManager.currentHostile |= LayerMask.GetMask("Character");
                     npcManager.targets.Add(character);
                 }
-                if (teamCode % 2 == 0 && npcManager.aggravationToPlayer >= 30) {
+                if (teamCode == 2 && npcManager.aggravationToPlayer >= 30) {
                     npcManager.currentHostile |= LayerMask.GetMask("Player");
                     npcManager.targets.Add(character);
                 }
             }
             if (npcManager.targets.Count > 0) {
-                if (npcManager.targets.Count == 1) return npcPursueTargetState;
+                if (!npcManager.drawnWeapon) {
+                    npcManager.drawnWeapon = true;
+                    npcAnimatorManager.PlayTargetAnimation("Equip", true);
+                }
+                if (npcManager.targets.Count == 1) {
+                    npcManager.currentTarget = npcManager.targets[0];
+                    return npcPursueTargetState;
+                }
                 return npcSelectTargetState;
             }
             return this;

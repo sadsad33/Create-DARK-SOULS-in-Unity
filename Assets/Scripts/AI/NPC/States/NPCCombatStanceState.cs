@@ -9,32 +9,38 @@ namespace SoulsLike {
         public NPCPursueTargetState npcPursueTargetState;
         public EnemyAttackActions[] npcAttacks;
 
-        protected bool randomDestinationSet = false;
+        protected bool randomDestinationSet;
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
+            randomDestinationSet = false;
+            npcAttackState.hasPerformedAttack = false;
             if (npcManager.changeTargetTimer <= 0) return npcSelectTargetState;
-
-            npcAnimatorManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
-            npcAnimatorManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
-
+            
             if (npcManager.isInteracting) {
                 npcAnimatorManager.anim.SetFloat("Vertical", 0);
                 npcAnimatorManager.anim.SetFloat("Horizontal", 0);
                 return this;
             }
 
+            npcAnimatorManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
+            npcAnimatorManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
             HandleRotateTowardsTarget(npcManager);
 
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
             if (distance > npcManager.maximumAggroRadius) return npcPursueTargetState;
 
-            if (!randomDestinationSet) {
-                randomDestinationSet = true;
-                DecideCirclingAction(npcAnimatorManager);
-            }
+            GetNewAttack(npcManager);
+            //if (!randomDestinationSet) {
+            //    randomDestinationSet = true;
+            //    DecideCirclingAction(npcAnimatorManager);
+            //}
+
+            if (npcAttackState.currentAttack != null)
+                return npcAttackState;
             return this;
         }
+
         private void HandleRotateTowardsTarget(NPCManager npcManager) {
             Vector3 targetVelocity = npcManager.npcRigidbody.velocity;
             npcManager.navMeshAgent.enabled = true;
@@ -44,11 +50,15 @@ namespace SoulsLike {
         }
 
         protected void DecideCirclingAction(NPCAnimatorManager npcAnimatorManager) {
-            WalkAroundTarget(npcAnimatorManager);
+            int randNum = Random.Range(0, 11);
+            if (randNum <= 3)
+                WalkToTarget(npcAnimatorManager);
+            else
+                WalkSideway(npcAnimatorManager);
         }
 
-        protected void WalkAroundTarget(NPCAnimatorManager npcAnimatorManager) {
-            verticalMovementValue = Random.Range(0, 0.5f);
+        protected void WalkToTarget(NPCAnimatorManager npcAnimatorManager) {
+            verticalMovementValue = 0.5f;
             horizontalMovementValue = Random.Range(-1, 1);
             if (horizontalMovementValue >= 0) {
                 horizontalMovementValue = 0.5f;
@@ -57,6 +67,15 @@ namespace SoulsLike {
             }
         }
 
+        protected void WalkSideway(NPCAnimatorManager npcAnimatorManager) {
+            verticalMovementValue = 0;
+            horizontalMovementValue = Random.Range(-1, 1);
+            if (horizontalMovementValue >= 0) {
+                horizontalMovementValue = 0.5f;
+            } else {
+                horizontalMovementValue = -0.5f;
+            }
+        }
         protected virtual void GetNewAttack(NPCManager npcManager) {
             Vector3 targetDirection = npcManager.currentTarget.transform.position - npcManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
@@ -65,7 +84,12 @@ namespace SoulsLike {
             int maxScore = 0;
 
             for (int i = 0; i < npcAttacks.Length; i++) {
-                maxScore += npcAttacks[i].attackScore;
+                EnemyAttackActions npcAttackAction = npcAttacks[i];
+                if (distanceFromTarget <= npcAttackAction.maximumDistanceNeededToAttack &&
+                   distanceFromTarget >= npcAttackAction.minimumDistanceNeededToAttack) {
+                    if (viewableAngle <= npcAttackAction.maximumAttackAngle && viewableAngle >= npcAttackAction.minimumAttackAngle)
+                        maxScore += npcAttacks[i].attackScore;
+                }
             }
 
             int randomValue = Random.Range(0, maxScore);

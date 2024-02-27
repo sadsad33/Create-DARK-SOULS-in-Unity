@@ -20,9 +20,8 @@ namespace SoulsLike {
         public NavMeshAgent navMeshAgent;
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 1.5f;
-
         [Header("AI Settings")]
-        public float changeTargetTime = 8;
+        public float changeTargetTime = 10;
         public float changeTargetTimer;
         public float changeTargetDistance = 2;
         public float detectionRadius = 5;
@@ -32,6 +31,7 @@ namespace SoulsLike {
 
         [Header("AI CombatSettings")]
         public bool allowAIToPerformCombos;
+        public bool drawnWeapon;
         public float comboLikelyHood;
 
         public float aggravationToEnemy;
@@ -51,6 +51,7 @@ namespace SoulsLike {
         }
 
         private void Update() {
+
             HandleStateMachine();
             HandleChangeTargetTimer();
 
@@ -77,8 +78,10 @@ namespace SoulsLike {
         private void HandleChangeTargetTimer() {
             if (changeTargetTimer <= 0)
                 changeTargetTimer = 0;
-            else
+            else {
+                //Debug.Log(changeTargetTimer);
                 changeTargetTimer -= Time.deltaTime;
+            }
         }
 
         #region 캐릭터 상태제어
@@ -91,9 +94,10 @@ namespace SoulsLike {
             }
         }
 
-        private void SwitchToNextState(NPCState state) {
+        public void SwitchToNextState(NPCState state) {
             currentState = state;
         }
+
         #endregion
     }
 }
