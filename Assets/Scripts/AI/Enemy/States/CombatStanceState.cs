@@ -44,16 +44,22 @@ namespace SoulsLike {
                 GetNewAttack(enemyManager);
             }
 
-            return pursueTargetState;
+            return this;
         }
 
         // 목표 방향으로 회전
         private void HandleRotateTowardsTarget(EnemyManager enemyManager) { // 회전 제어
-            Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
+            //Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
+            //enemyManager.navMeshAgent.enabled = true;
+            //enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
+            //enemyManager.enemyRigidbody.velocity = targetVelocity;
+            //enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
             enemyManager.navMeshAgent.enabled = true;
             enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-            enemyManager.enemyRigidbody.velocity = targetVelocity;
-            enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
+            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            Quaternion tr = Quaternion.LookRotation(targetDirection);
+            Quaternion targetRotation = Quaternion.Slerp(enemyManager.transform.rotation, tr, enemyManager.rotationSpeed * Time.deltaTime);
+            enemyManager.transform.rotation = targetRotation;
         }
 
         // 원을 그리며 이동할때 어떤식으로 움직일지 결정

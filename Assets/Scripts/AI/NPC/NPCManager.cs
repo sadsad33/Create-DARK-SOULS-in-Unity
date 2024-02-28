@@ -13,18 +13,18 @@ namespace SoulsLike {
         public LayerMask currentHostile;
         public NPCState currentState;
         public Rigidbody npcRigidbody;
+        public NavMeshAgent navMeshAgent;
 
-        // Àû´ë»óÅÂ È¤Àº ÀüÅõ»óÅÂ°¡ µÆÀ»½Ã ÇÊ¿ä
+        // ì ëŒ€ ìƒíƒœê°€ ëì„ì‹œ í•„ìš”
         public List<CharacterStatsManager> targets = new List<CharacterStatsManager>();
         public CharacterStatsManager currentTarget;
-        public NavMeshAgent navMeshAgent;
         public float rotationSpeed = 15;
-        public float maximumAggroRadius = 1.5f;
+        public float maximumAggroRadius = 3f;
+        public float attackDistance = 1.5f;
         [Header("AI Settings")]
         public float changeTargetTime = 10;
         public float changeTargetTimer;
-        public float changeTargetDistance = 2;
-        public float detectionRadius = 5;
+        public float detectionRadius = 10;
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
         public float currentRecoveryTime = 0;
@@ -41,9 +41,10 @@ namespace SoulsLike {
             base.Awake();
             npcAnimatorManager = GetComponent<NPCAnimatorManager>();
             npcStatsManager = GetComponent<NPCStatsManager>();
+            npcRigidbody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             navMeshAgent.enabled = false;
-            npcRigidbody = GetComponent<Rigidbody>();
+            navMeshAgent.updateRotation = false;
         }
 
         private void Start() {
@@ -51,9 +52,9 @@ namespace SoulsLike {
         }
 
         private void Update() {
-
             HandleStateMachine();
             HandleChangeTargetTimer();
+            HandleRecoveryTimer();
 
             isUsingLeftHand = npcAnimatorManager.anim.GetBool("isUsingLeftHand");
             isUsingRightHand = npcAnimatorManager.anim.GetBool("isUsingRightHand");
@@ -76,15 +77,15 @@ namespace SoulsLike {
         }
 
         private void HandleChangeTargetTimer() {
-            if (changeTargetTimer <= 0)
+            if (changeTargetTimer <= 0) {
+                currentTarget = null;
                 changeTargetTimer = 0;
-            else {
+            } else {
                 //Debug.Log(changeTargetTimer);
                 changeTargetTimer -= Time.deltaTime;
             }
         }
 
-        #region Ä³¸¯ÅÍ »óÅÂÁ¦¾î
         private void HandleStateMachine() {
             if (currentState != null) {
                 NPCState nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
@@ -95,9 +96,15 @@ namespace SoulsLike {
         }
 
         public void SwitchToNextState(NPCState state) {
+            //if (currentState != state)
+            //    Debug.Log("ìƒíƒœ ì „ì´ : " + currentState + " -> " + state);
             currentState = state;
         }
 
-        #endregion
+        private void HandleRecoveryTimer() {
+            if (currentRecoveryTime > 0) {
+                currentRecoveryTime -= Time.deltaTime;
+            } else currentRecoveryTime = 0;
+        }
     }
 }

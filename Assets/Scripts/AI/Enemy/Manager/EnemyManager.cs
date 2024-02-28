@@ -36,6 +36,7 @@ namespace SoulsLike {
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
             navMeshAgent.enabled = false;
+            navMeshAgent.updateRotation = false;
         }
 
         private void Start() {
@@ -88,7 +89,7 @@ namespace SoulsLike {
         private void HandleRecoveryTimer() {
             if (currentRecoveryTime > 0) {
                 currentRecoveryTime -= Time.deltaTime;
-            }
+            } else currentRecoveryTime = 0;
         }
     }
 }

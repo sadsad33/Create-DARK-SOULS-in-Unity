@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class NPCIdleState : NPCState {
-        public NPCPursueTargetState npcPursueTargetState;
+        //public NPCPursueTargetState npcPursueTargetState;
         public NPCSelectTargetState npcSelectTargetState;
         Collider[] colliders;
         int teamCode;
@@ -29,10 +29,6 @@ namespace SoulsLike {
                 if (!npcManager.drawnWeapon) {
                     npcManager.drawnWeapon = true;
                     npcAnimatorManager.PlayTargetAnimation("Equip", true);
-                }
-                if (npcManager.targets.Count == 1) {
-                    npcManager.currentTarget = npcManager.targets[0];
-                    return npcPursueTargetState;
                 }
                 return npcSelectTargetState;
             }
