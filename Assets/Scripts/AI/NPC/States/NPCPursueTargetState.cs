@@ -12,15 +12,11 @@ namespace SoulsLike {
                 return this;
             }
 
-            if (npcManager.changeTargetTimer <= 0)
-                npcManager.changeTargetTimer = npcManager.changeTargetTime;
-
             if (npcManager.changeTargetTimer <= 0) {
                 return npcSelectTargetState;
             }
 
             HandleRotateTowardsTarget(npcManager);
-
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
             if (distance <= npcManager.maximumAggroRadius) return npcCombatStanceState;
             else {
@@ -29,11 +25,14 @@ namespace SoulsLike {
             }
         }
         private void HandleRotateTowardsTarget(NPCManager npcManager) {
-            Vector3 targetVelocity = npcManager.npcRigidbody.velocity;
+            Vector3 targetDirection = npcManager.currentTarget.transform.position - npcManager.transform.position;
+
+            Quaternion tr = Quaternion.LookRotation(targetDirection);
+            Quaternion targetRotation = Quaternion.Slerp(npcManager.transform.rotation, tr, npcManager.rotationSpeed * Time.deltaTime);
+            npcManager.transform.rotation = targetRotation;
+
             npcManager.navMeshAgent.enabled = true;
             npcManager.navMeshAgent.SetDestination(npcManager.currentTarget.transform.position);
-            npcManager.npcRigidbody.velocity = targetVelocity;
-            npcManager.transform.rotation = Quaternion.Slerp(npcManager.transform.rotation, npcManager.navMeshAgent.transform.rotation, npcManager.rotationSpeed / Time.deltaTime);
         }
     }
 }

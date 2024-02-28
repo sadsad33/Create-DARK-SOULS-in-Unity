@@ -17,6 +17,7 @@ namespace SoulsLike {
 
             if (npcManager.changeTargetTimer <= 0) return npcSelectTargetState;
             RotateTowardsTargetWhileAttacking(npcManager);
+
             if (distanceFromTarget > npcManager.maximumAggroRadius) return npcPursueTargetState;
 
             if (willDoComboOnNextAttack && npcManager.canDoCombo) {
@@ -30,6 +31,8 @@ namespace SoulsLike {
             if (willDoComboOnNextAttack && hasPerformedAttack) {
                 return this;
             }
+
+            hasPerformedAttack = false;
             return npcRotateTowardsTargetState;
         }
 
