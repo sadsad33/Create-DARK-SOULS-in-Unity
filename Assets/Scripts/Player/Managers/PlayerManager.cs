@@ -17,6 +17,8 @@ namespace SoulsLike {
         PlayerEffectsManager playerEffectsManager;
         PlayerLocomotionManager playerLocomotion;
         CameraHandler cameraHandler;
+
+        [SerializeField]
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
         LayerMask interactableLayer;
 
@@ -31,7 +33,7 @@ namespace SoulsLike {
             playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
-            interactableLayer = 1 << 0;
+            interactableLayer = 1 << 0 | 1 << 9;
         }
 
         void Update() {
@@ -101,12 +103,14 @@ namespace SoulsLike {
         }
 
         #region 플레이어 상호작용
+
         public void CheckForInteractableObject() {
             if (isInteracting) return;
-            RaycastHit hit;
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, interactableLayer)) {
-                if (hit.collider.tag == "Interactable") {
-                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+            Interactable interactableObject; // 주변 상호작용 가능한 object
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
+                if (hit.collider.CompareTag("Interactable")) {
+                    interactableObject = hit.collider.GetComponent<Interactable>();
+                    
                     if (interactableObject != null) { // 주변에 상호작용 가능한 물체가 있다면
                         string interactableText = interactableObject.interactableText;
                         interactableUI.interactableText.text = interactableText;
@@ -115,6 +119,23 @@ namespace SoulsLike {
                         if (inputHandler.a_Input) {
                             interactableUIGameObject.SetActive(false);
                             hit.collider.GetComponent<Interactable>().Interact(this); // 해당 오브젝트의 Interact 를 수행
+                        }
+                    }
+                }
+                else if (hit.collider.CompareTag("Character")) {
+                    interactableObject = hit.collider.GetComponent<Interactable>();
+                    CharacterManager character = hit.collider.GetComponent<CharacterManager>();
+                    if (character.canTalk) {
+                        Debug.Log(interactableObject);
+                        if (interactableObject != null) {
+                            string interactableText = interactableObject.interactableText;
+                            interactableUI.interactableText.text = interactableText;
+                            interactableUIGameObject.SetActive(true);
+
+                            if (inputHandler.a_Input) {
+                                interactableUIGameObject.SetActive(false);
+                                hit.collider.GetComponent<Interactable>().Interact(this);
+                            }
                         }
                     }
                 }

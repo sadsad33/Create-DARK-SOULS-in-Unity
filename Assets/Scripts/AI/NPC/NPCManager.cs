@@ -21,6 +21,7 @@ namespace SoulsLike {
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 3f;
         public float attackDistance = 1.5f;
+
         [Header("AI Settings")]
         public float changeTargetTime = 10;
         public float changeTargetTimer;
@@ -34,11 +35,13 @@ namespace SoulsLike {
         public bool drawnWeapon;
         public float comboLikelyHood;
 
+        public bool hadMetBefore = false;
         public float aggravationToEnemy;
         public float aggravationToPlayer;
 
         protected override void Awake() {
             base.Awake();
+            canTalk = true;
             npcAnimatorManager = GetComponent<NPCAnimatorManager>();
             npcStatsManager = GetComponent<NPCStatsManager>();
             npcRigidbody = GetComponent<Rigidbody>();

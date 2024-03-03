@@ -30,12 +30,14 @@ namespace SoulsLike {
         private void Awake() {
             quickSlots = GetComponentInChildren<QuickSlots>();
         }
+
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
             equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
             quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
             quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
         }
+
         public void UpdateUI() {
             #region Weapon Inventory Slots
             for (int i = 0; i < weaponInventorySlots.Length; i++) {
@@ -50,9 +52,9 @@ namespace SoulsLike {
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
             }
-
             #endregion
         }
+
         public void OpenSelectWindow() {
             selectWindow.SetActive(true);
         }
