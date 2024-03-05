@@ -74,7 +74,9 @@ namespace SoulsLike {
         protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager) {
             // 앞으로 이동하는 모션만 사용하기 위함
             // 뒷걸음질을 구현하고 싶다면 verticalMovementValue 변수값 범위에 음수를 포함시키면 됨
-            verticalMovementValue = 0.5f;
+            verticalMovementValue = Random.Range(-1f, 1f);
+            if (verticalMovementValue < 0f) verticalMovementValue = 0f;
+            else verticalMovementValue = 0.5f;
 
             horizontalMovementValue = Random.Range(-1, 1);
             if (horizontalMovementValue <= 1 && horizontalMovementValue >= 0) {
