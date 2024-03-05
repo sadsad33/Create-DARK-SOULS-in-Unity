@@ -11,11 +11,16 @@ namespace SoulsLike {
         Animator anim;
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지
+        public GameObject dialogUI; // NPC의 대사를 출력할 창
+
+        // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
+        public bool isInConversation;
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
         PlayerEffectsManager playerEffectsManager;
         PlayerLocomotionManager playerLocomotion;
+        public NPCScript[] currentDialog;
         CameraHandler cameraHandler;
 
         [SerializeField]
@@ -36,6 +41,7 @@ namespace SoulsLike {
             interactableLayer = 1 << 0 | 1 << 9;
         }
 
+
         void Update() {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
@@ -49,6 +55,7 @@ namespace SoulsLike {
             isInvulnerable = anim.GetBool("isInvulnerable");
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
+
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
@@ -98,7 +105,7 @@ namespace SoulsLike {
             }
 
             if (isInAir) { // 플레이어가 허공에 있다면
-                playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+                playerLocomotion.inAirTimer += Time.deltaTime;
             }
         }
 
@@ -126,15 +133,15 @@ namespace SoulsLike {
                     interactableObject = hit.collider.GetComponent<Interactable>();
                     CharacterManager character = hit.collider.GetComponent<CharacterManager>();
                     if (character.canTalk) {
-                        Debug.Log(interactableObject);
                         if (interactableObject != null) {
                             string interactableText = interactableObject.interactableText;
                             interactableUI.interactableText.text = interactableText;
                             interactableUIGameObject.SetActive(true);
 
-                            if (inputHandler.a_Input) {
-                                interactableUIGameObject.SetActive(false);
-                                hit.collider.GetComponent<Interactable>().Interact(this);
+                            if (inputHandler.a_Input) { // 엔터키를 누르면
+                                interactableUIGameObject.SetActive(false); // 상호작용 창이 닫히고
+                                hit.collider.GetComponent<Interactable>().Interact(this); // 상호작용 실행(NPC의 대사집을 받아옴)
+                                PrintDialog(); // 대사 출력
                             }
                         }
                     }
@@ -152,6 +159,13 @@ namespace SoulsLike {
             }
         }
 
+      
+        private void PrintDialog() {
+            dialogUI.SetActive(true);
+            for (int i = 0; i < currentDialog.Length; i++) {
+            }
+            
+        }
         public void OpenChestInteraction(Transform playerStandingPosition) {
             // 달리다가 상호작용을 할 경우 미끄러지는것을 방지
             playerLocomotion.rigidbody.velocity = Vector3.zero;

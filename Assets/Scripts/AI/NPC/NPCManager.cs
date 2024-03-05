@@ -35,7 +35,7 @@ namespace SoulsLike {
         public bool drawnWeapon;
         public float comboLikelyHood;
 
-        public bool hadMetBefore = false;
+        public int interactCount = 0;
         public float aggravationToEnemy;
         public float aggravationToPlayer;
 

@@ -8,5 +8,6 @@ namespace SoulsLike {
         public Text interactableText;
         public Text itemText;
         public RawImage itemImage;
+        public Text dialogText;
     }
 }
