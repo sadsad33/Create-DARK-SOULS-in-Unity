@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 플레이어를 위한 Update 함수를 처리
 // 플레이어의 각종 Flag를 처리한다.
@@ -12,6 +13,7 @@ namespace SoulsLike {
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지
         public GameObject dialogUI; // NPC의 대사를 출력할 창
+        int pageIndex = 0;
 
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
         public bool isInConversation;
@@ -56,6 +58,8 @@ namespace SoulsLike {
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
 
+            if (isInConversation) PrintDialog(); // 대화 중이라면 대사 출력
+
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
@@ -94,6 +98,7 @@ namespace SoulsLike {
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.d_Pad_Right = false;
+            if (inputHandler.a_Input) Debug.Log("엔터 버튼 초기화");
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
@@ -112,12 +117,12 @@ namespace SoulsLike {
         #region 플레이어 상호작용
 
         public void CheckForInteractableObject() {
-            if (isInteracting) return;
+            if (isInteracting || isInConversation) return;
             Interactable interactableObject; // 주변 상호작용 가능한 object
             if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
                 if (hit.collider.CompareTag("Interactable")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
-                    
+
                     if (interactableObject != null) { // 주변에 상호작용 가능한 물체가 있다면
                         string interactableText = interactableObject.interactableText;
                         interactableUI.interactableText.text = interactableText;
@@ -128,8 +133,7 @@ namespace SoulsLike {
                             hit.collider.GetComponent<Interactable>().Interact(this); // 해당 오브젝트의 Interact 를 수행
                         }
                     }
-                }
-                else if (hit.collider.CompareTag("Character")) {
+                } else if (hit.collider.CompareTag("Character")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
                     CharacterManager character = hit.collider.GetComponent<CharacterManager>();
                     if (character.canTalk) {
@@ -141,7 +145,6 @@ namespace SoulsLike {
                             if (inputHandler.a_Input) { // 엔터키를 누르면
                                 interactableUIGameObject.SetActive(false); // 상호작용 창이 닫히고
                                 hit.collider.GetComponent<Interactable>().Interact(this); // 상호작용 실행(NPC의 대사집을 받아옴)
-                                PrintDialog(); // 대사 출력
                             }
                         }
                     }
@@ -159,13 +162,23 @@ namespace SoulsLike {
             }
         }
 
-      
-        private void PrintDialog() {
-            dialogUI.SetActive(true);
-            for (int i = 0; i < currentDialog.Length; i++) {
-            }
-            
+        IEnumerator SetDelay() {
+            inputHandler.a_Input = false;
+            yield return null;
         }
+
+        private void PrintDialog() {
+            if (!isInConversation) isInConversation = true;
+            interactableUI.dialogText.text = currentDialog[pageIndex].ToString();
+            if (!dialogUI.activeSelf) dialogUI.SetActive(true);
+            if (pageIndex >= currentDialog.Length - 1) { // 마지막 대사라면
+                isInConversation = false;
+                pageIndex = 0;
+                return;
+            }
+            pageIndex++;
+        }
+
         public void OpenChestInteraction(Transform playerStandingPosition) {
             // 달리다가 상호작용을 할 경우 미끄러지는것을 방지
             playerLocomotion.rigidbody.velocity = Vector3.zero;
