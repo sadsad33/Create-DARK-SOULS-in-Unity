@@ -81,19 +81,20 @@ namespace SoulsLike {
                 // 버튼의 입력을 매 프레임마다 감지하게 되면 GarbageCollector에게 부담을 주게 된다.
                 inputActions.PlayerActions.RB.performed += i => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
-                inputActions.PlayerActions.LB.performed += i => lb_Input = true;
-                inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
-                inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
                 inputActions.PlayerActions.Xbutton.performed += i => x_Input = true;
 
                 // 버튼이 눌리면 이벤트 호출
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
+                inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
+                inputActions.PlayerActions.LB.performed += i => lb_Input = true;
                 
                 // 버튼을 눌렀다 바로 뗄떼 이벤트가 호출되는듯
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
+                inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
+
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;

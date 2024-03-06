@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: FirstEncounter_A
   m_EditorClassIdentifier: 
   questCode: 0
+  isStart: 1
+  isEnd: 0
   isQuest: 0
   script: "\uCCAB \uC870\uC6B0 \uB300\uD654-A"
