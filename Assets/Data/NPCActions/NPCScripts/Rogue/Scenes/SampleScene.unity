@@ -29463,7 +29463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 2
   soulsAwardedOnDeath: 0
-  healthLevel: 10
+  healthLevel: 999
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 1000

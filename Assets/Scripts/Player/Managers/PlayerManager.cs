@@ -11,8 +11,8 @@ namespace SoulsLike {
     public class PlayerManager : CharacterManager {
         InputHandler inputHandler;
         Animator anim;
-        public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
-        public GameObject itemInteractableGameObject; // 아이템 획득 메세지
+        public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등) : InteractionPopUp
+        public GameObject itemInteractableGameObject; // 아이템 획득 메세지 : ItemPopup
         public GameObject dialogUI; // NPC의 대사를 출력할 창
 
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
@@ -99,7 +99,6 @@ namespace SoulsLike {
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.d_Pad_Right = false;
-            if (inputHandler.a_Input) Debug.Log("엔터 버튼 초기화");
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;

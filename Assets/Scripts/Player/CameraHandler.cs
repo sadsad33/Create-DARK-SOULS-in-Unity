@@ -7,14 +7,16 @@ namespace SoulsLike {
 
         // 카메라가 포착할 타겟의 위치
         public Transform targetTransform;
-        // 카메라의 위치
+        // 카메라의 위치(중심 기준)
         public Transform cameraTransform;
-        // 카메라의 회전 중심 위치
+        // 카메라를 움직일때 사용할 깡통 변수
+        private Vector3 cameraTransformPosition;
+        // 카메라의 중심 위치
         public Transform cameraPivotTransform;
+        
         public LayerMask obstacleLayer; // 플레이어와 카메라 사이에 오브젝트가 존재할 경우 카메라를 플레이어에게 가깝게 밀착시키기 위해 충돌 체크를 하고 싶은 레이어
 
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
-        private Vector3 cameraTransformPosition;
         //private Vector3 cameraFollowVelocity = Vector3.zero;
 
         public static CameraHandler singleton;
@@ -24,7 +26,7 @@ namespace SoulsLike {
         public float pivotSpeed = 0.03f;
 
         private float targetPosition;
-        private float defaultPosition;
+        private float defaultPosition; // 평소 카메라의 z좌표를 저장할 변수
 
         // Euler Angle을 사용하기 위한 변수
         private float lookAngle;
@@ -66,6 +68,7 @@ namespace SoulsLike {
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
 
+            ZoomForInteraction(delta);
             HandleCameraCollision(delta);
 
             //Debug.Log("플레이어 Position : " + targetTransform.position);
@@ -176,7 +179,7 @@ namespace SoulsLike {
                         Vector3 startPosition = targetTransform.GetComponentInChildren<LockOnTransform>().transform.position;
                         Vector3 endPosition = character.GetComponentInChildren<LockOnTransform>().transform.position;
                         Vector3 direction = endPosition - startPosition;
-                        
+
                         if (Physics.Linecast(startPosition, endPosition, out hit, obstacleLayer)) return;
                         availableTargets.Add(character);
                     }
@@ -231,6 +234,18 @@ namespace SoulsLike {
                 cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockedPosition, ref velocity, Time.deltaTime);
             } else {
                 cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
+            }
+        }
+
+        public void ZoomForInteraction(float delta) {
+            if (playerManager.isInConversation) {
+                //Debug.Log("줌 인");
+                cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, cameraTransform.localPosition.z + 5, delta);
+                cameraTransform.localPosition = cameraTransformPosition;
+            } else {
+                //Debug.Log("줌 아웃");
+                cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, defaultPosition, delta);
+                cameraTransform.localPosition = cameraTransformPosition;
             }
         }
     }

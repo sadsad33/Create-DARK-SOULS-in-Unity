@@ -51,7 +51,7 @@ namespace SoulsLike {
         private void StartConverstation(PlayerManager playerManager) {
             Debug.Log("NPC와 대화 시작");
             playerManager.isInConversation = true;
-
+            
             // 첫 조우시 출력할 다이얼로그 전달
             if (npcManager.interactCount == 0) {
                 CopyScript(startIndex[0]);
