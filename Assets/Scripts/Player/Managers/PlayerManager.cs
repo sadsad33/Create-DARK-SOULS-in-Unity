@@ -6,6 +6,7 @@ using UnityEngine.UI;
 // 플레이어를 위한 Update 함수를 처리
 // 플레이어의 각종 Flag를 처리한다.
 // 플레이어의 각종 기능들을 연결한다.
+
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
         InputHandler inputHandler;
@@ -13,10 +14,12 @@ namespace SoulsLike {
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등)
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지
         public GameObject dialogUI; // NPC의 대사를 출력할 창
-        int pageIndex = 0;
 
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
         public bool isInConversation;
+        private float turnPageTimer;
+        private readonly float turnPageTime = 10f;
+        private int currentPageIndex;
 
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
@@ -43,7 +46,6 @@ namespace SoulsLike {
             interactableLayer = 1 << 0 | 1 << 9;
         }
 
-
         void Update() {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
@@ -57,8 +59,7 @@ namespace SoulsLike {
             isInvulnerable = anim.GetBool("isInvulnerable");
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
-
-            if (isInConversation) PrintDialog(); // 대화 중이라면 대사 출력
+            HandleConversation();
 
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
@@ -76,7 +77,7 @@ namespace SoulsLike {
                 inputHandler.backstepDelay = 0;
             }
         }
-
+        
         protected override void FixedUpdate() {
             base.FixedUpdate();
             float delta = Time.fixedDeltaTime;
@@ -145,6 +146,7 @@ namespace SoulsLike {
                             if (inputHandler.a_Input) { // 엔터키를 누르면
                                 interactableUIGameObject.SetActive(false); // 상호작용 창이 닫히고
                                 hit.collider.GetComponent<Interactable>().Interact(this); // 상호작용 실행(NPC의 대사집을 받아옴)
+                                currentPageIndex = 0;
                             }
                         }
                     }
@@ -155,28 +157,48 @@ namespace SoulsLike {
                     interactableUIGameObject.SetActive(false);
                 }
 
-                // 아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
+                //아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
                     itemInteractableGameObject.SetActive(false);
                 }
             }
         }
 
-        IEnumerator SetDelay() {
-            inputHandler.a_Input = false;
-            yield return null;
+        private void HandleConversation() {
+            if (isInConversation) { // 현재 대화중이고
+                if (currentPageIndex <= currentDialog.Length - 1) // 대사를 모두 출력하지 않았다면
+                    PrintDialog();
+                else if (turnPageTimer <= 0) {
+                    FinishConversation();
+                }
+            }
         }
 
+        private void FinishConversation() {
+            isInConversation = false;
+            currentPageIndex = 0;
+            dialogUI.SetActive(false);
+        }
+
+        // 대사 출력
         private void PrintDialog() {
-            if (!isInConversation) isInConversation = true;
-            interactableUI.dialogText.text = currentDialog[pageIndex].ToString();
             if (!dialogUI.activeSelf) dialogUI.SetActive(true);
-            if (pageIndex >= currentDialog.Length - 1) { // 마지막 대사라면
-                isInConversation = false;
-                pageIndex = 0;
-                return;
+            if (turnPageTimer == 0)
+                turnPageTimer = turnPageTime;
+            interactableUI.dialogText.text = currentDialog[currentPageIndex].script;
+            HandleTurnPageTimer();
+            if (turnPageTimer == 0 && currentPageIndex < currentDialog.Length) {
+                currentPageIndex++;
             }
-            pageIndex++;
+        }
+
+        // 다음 대사 출력 타이머
+        private void HandleTurnPageTimer() {
+            if (turnPageTimer <= 0) turnPageTimer = 0;
+            else {
+                turnPageTimer -= Time.deltaTime;
+                if (inputHandler.a_Input) turnPageTimer -= turnPageTime;
+            }
         }
 
         public void OpenChestInteraction(Transform playerStandingPosition) {
