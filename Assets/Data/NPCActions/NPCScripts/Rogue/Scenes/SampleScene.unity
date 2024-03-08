@@ -26956,7 +26956,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4086121375643061403}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.26, y: 0, z: -17.37}
+  m_LocalPosition: {x: -1.51, y: 0, z: -17.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27011,7 +27011,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2b751478e844a594f9cce1859ca021c6, type: 3}
   m_Controller: {fileID: 9100000, guid: 8614f27ef2a866645aa6fdfd08ce7377, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -34445,7 +34445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 1
   soulsAwardedOnDeath: 0
-  healthLevel: 10
+  healthLevel: 100
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
