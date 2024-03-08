@@ -97,6 +97,7 @@ namespace SoulsLike {
                 isDead = true;
             }
         }
+
         public virtual void TakePoisonDamage(float damage) {
             currentHealth -= damage;
             if (currentHealth <= 0) {
