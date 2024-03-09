@@ -6,6 +6,7 @@ namespace SoulsLike {
     // 스탯 관리(방어력, 강인도, HP, FP, 스태미나, 받는 피해 등)
     public class EnemyStatsManager : CharacterStatsManager {
         EnemyAnimatorManager enemyAnimatorManager;
+        EnemyLocomotionManager enemyLocomotionManager;
         BossManager bossManager;
         EnemyManager enemyManager;
         public UIEnemyHealthBar enemyHealthBar;
@@ -14,6 +15,7 @@ namespace SoulsLike {
             base.Awake();
             enemyManager = GetComponent<EnemyManager>();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
             maxHealth = SetMaxHealthFromHealthLevel();
@@ -71,7 +73,21 @@ namespace SoulsLike {
         private void HandleDeath(string deathAnimation) {
             //currentHealth = 0;
             enemyAnimatorManager.PlayTargetAnimation(deathAnimation, true);
+            enemyManager.enemyRigidbody.isKinematic = false;
+            enemyManager.enemyRigidbody.useGravity = false;
+            enemyLocomotionManager.characterCollider.enabled = false;
+            enemyManager.navMeshAgent.enabled = false;
+            
+            ChangeLayerIncludingAllChilds(transform.gameObject);
+            //Destroy(gameObject, 3.0f);
             //isDead = true;
+        }
+
+        private void ChangeLayerIncludingAllChilds(GameObject obj) {
+            foreach (Transform child in obj.transform) {
+                ChangeLayerIncludingAllChilds(child.gameObject);
+                child.gameObject.layer = 7;
+            }
         }
     }
 }

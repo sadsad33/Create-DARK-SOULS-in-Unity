@@ -12,7 +12,8 @@ namespace SoulsLike {
                 return this;
             }
 
-            if (npcManager.changeTargetTimer <= 0) {
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
+                Debug.Log("Å¸°Ù Àç¼³Á¤");
                 return npcSelectTargetState;
             }
 

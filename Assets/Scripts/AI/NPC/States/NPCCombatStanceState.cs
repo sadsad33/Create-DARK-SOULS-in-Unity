@@ -26,8 +26,11 @@ namespace SoulsLike {
             HandleRotateTowardsTarget(npcManager);
             if (distance > npcManager.maximumAggroRadius) return npcPursueTargetState;
 
-            if (npcManager.changeTargetTimer <= 0) return npcSelectTargetState;
-
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
+                Debug.Log("Å¸°Ù Àç¼³Á¤");
+                return npcSelectTargetState;
+            }
+            
             if (!randomDestinationSet) {
                 randomDestinationSet = true;
                 DecideCirclingAction(npcAnimatorManager);

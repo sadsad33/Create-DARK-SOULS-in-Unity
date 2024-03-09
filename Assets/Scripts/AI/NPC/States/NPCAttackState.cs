@@ -15,7 +15,11 @@ namespace SoulsLike {
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             float distanceFromTarget = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
 
-            if (npcManager.changeTargetTimer <= 0) return npcSelectTargetState;
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
+                Debug.Log("Å¸°Ù Àç¼³Á¤");
+                return npcSelectTargetState;
+            }
+
             RotateTowardsTargetWhileAttacking(npcManager);
 
             if (distanceFromTarget > npcManager.maximumAggroRadius) return npcPursueTargetState;

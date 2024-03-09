@@ -46,7 +46,7 @@ namespace SoulsLike {
                 CharacterManager enemyManager = other.GetComponent<CharacterManager>();
                 CharacterEffectsManager enemyEffectsManager = other.GetComponent<CharacterEffectsManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-
+                if (enemyStats.isDead) return;
                 if (enemyManager != null) {
                     if (enemyStats.teamIDNumber == teamIDNumber) return;
                     CheckForParry(enemyManager);
@@ -80,9 +80,13 @@ namespace SoulsLike {
                     if (enemyStats.teamIDNumber == 0) {
                         NPCManager npcManager = other.GetComponent<NPCManager>();
                         if (teamIDNumber == 1) {
-                            npcManager.aggravationToEnemy += 10;
+                            npcManager.aggravationToEnemy += 30;
                         } else if (teamIDNumber == 2) {
                             npcManager.aggravationToPlayer += 10;
+                        }
+                        if (npcManager.currentTarget != characterManager.transform.GetComponent<CharacterStatsManager>()) {
+                            Debug.Log("타겟 설정 시간 감소");
+                            npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2.5f);
                         }
                     }
                     enemyStats.totalPoiseDefense -= poiseBreak;
