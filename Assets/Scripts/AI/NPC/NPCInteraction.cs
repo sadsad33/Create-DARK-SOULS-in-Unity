@@ -64,7 +64,6 @@ namespace SoulsLike {
             else {
                 CopyScript(startIndex[npcManager.interactCount]);
             }
-            npcManager.interactCount++;
             playerManager.currentDialog = currentDialog;
         }
 
