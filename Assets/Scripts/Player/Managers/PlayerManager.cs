@@ -59,6 +59,7 @@ namespace SoulsLike {
             isInvulnerable = anim.GetBool("isInvulnerable");
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
+
             HandleConversation();
 
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
@@ -77,7 +78,7 @@ namespace SoulsLike {
                 inputHandler.backstepDelay = 0;
             }
         }
-        
+
         protected override void FixedUpdate() {
             base.FixedUpdate();
             float delta = Time.fixedDeltaTime;
@@ -115,7 +116,7 @@ namespace SoulsLike {
         }
 
         #region 플레이어 상호작용
-
+        CharacterManager character;
         public void CheckForInteractableObject() {
             if (isInteracting || isInConversation) return;
             Interactable interactableObject; // 주변 상호작용 가능한 object
@@ -135,7 +136,7 @@ namespace SoulsLike {
                     }
                 } else if (hit.collider.CompareTag("Character")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
-                    CharacterManager character = hit.collider.GetComponent<CharacterManager>();
+                    character = hit.collider.GetComponent<CharacterManager>();
                     if (character.canTalk) {
                         if (interactableObject != null) {
                             string interactableText = interactableObject.interactableText;
@@ -163,16 +164,23 @@ namespace SoulsLike {
             }
         }
 
+        // 대화 지속
         private void HandleConversation() {
             if (isInConversation) { // 현재 대화중이고
-                if (currentPageIndex <= currentDialog.Length - 1) // 대사를 모두 출력하지 않았다면
+                float distance = Vector3.Distance(character.transform.position, transform.position);
+                // 대사를 모두 출력하지 않았다면
+                if (currentPageIndex <= currentDialog.Length - 1) {
                     PrintDialog();
-                else if (turnPageTimer <= 0) {
+                    if (distance >= 3f) FinishConversation();
+                } else if (turnPageTimer <= 0) {
+                    NPCManager npc = character.GetComponent<NPCManager>();
+                    npc.interactCount++; // 대사의 마지막페이지까지 읽었다면 상호작용 횟수를 증가시켜 다음 상호작용시 다른 대사를 출력하게 함
                     FinishConversation();
                 }
             }
         }
 
+        // 대화 종료
         private void FinishConversation() {
             isInConversation = false;
             currentPageIndex = 0;
