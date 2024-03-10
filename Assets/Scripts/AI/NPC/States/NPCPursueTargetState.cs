@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class NPCPursueTargetState : NPCState {
+        public NPCIdleState npcIdleState;
         public NPCSelectTargetState npcSelectTargetState;
         public NPCCombatStanceState npcCombatStanceState;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
@@ -14,7 +15,8 @@ namespace SoulsLike {
 
             if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
                 Debug.Log("Å¸°Ù Àç¼³Á¤");
-                return npcSelectTargetState;
+                //return npcSelectTargetState;
+                return npcIdleState;
             }
 
             HandleRotateTowardsTarget(npcManager);

@@ -1084,6 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36634ccf62441945bb3d26f983d1f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcIdleState: {fileID: 18244973}
   npcSelectTargetState: {fileID: 1332119274}
   npcCombatStanceState: {fileID: 2048813013}
 --- !u!1 &327473466
@@ -2612,6 +2613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64e344ed1e1fcc49a4163a33d046463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcIdleState: {fileID: 18244973}
   npcSelectTargetState: {fileID: 1332119274}
   npcPursueTargetState: {fileID: 297395741}
   npcRotateTowardsTargetState: {fileID: 1401452283}
@@ -6889,6 +6891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9812d92ac8df7314f8742752bf95c98e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcIdleState: {fileID: 18244973}
   npcSelectTargetState: {fileID: 1332119274}
   npcAttackState: {fileID: 835948648}
   npcPursueTargetState: {fileID: 297395741}
@@ -27053,7 +27056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 0
   soulsAwardedOnDeath: 5
-  healthLevel: 30
+  healthLevel: 100
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
@@ -34399,7 +34402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 1
   soulsAwardedOnDeath: 0
-  healthLevel: 10
+  healthLevel: 100
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
