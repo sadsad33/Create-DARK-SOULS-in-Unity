@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class NPCCombatStanceState : NPCState {
+        public NPCIdleState npcIdleState;
         public NPCSelectTargetState npcSelectTargetState;
         public NPCAttackState npcAttackState;
         public NPCPursueTargetState npcPursueTargetState;
@@ -28,7 +29,8 @@ namespace SoulsLike {
 
             if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
                 Debug.Log("Å¸°Ù Àç¼³Á¤");
-                return npcSelectTargetState;
+                //return npcSelectTargetState;
+                return npcIdleState;
             }
             
             if (!randomDestinationSet) {

@@ -13,6 +13,7 @@ namespace SoulsLike {
             colliders = Physics.OverlapSphere(npcManager.transform.position, npcManager.detectionRadius, npcManager.hostileLayer);
             npcAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             npcAnimatorManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterStatsManager character = colliders[i].transform.GetComponent<CharacterStatsManager>();
                 if (character != null && !character.isDead) {
@@ -28,6 +29,7 @@ namespace SoulsLike {
                     }
                 }
             }
+
             if (npcManager.targets.Count > 0) {
                 if (!npcManager.drawnWeapon) {
                     npcManager.drawnWeapon = true;
