@@ -1834,7 +1834,7 @@ MonoBehaviour:
   npcRigidbody: {fileID: 0}
   navMeshAgent: {fileID: 0}
   targets: []
-  currentTarget: {fileID: 9058321785823695558}
+  currentTarget: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 1.5
   attackDistance: 1.5

@@ -81,7 +81,7 @@ namespace SoulsLike {
 
         private void HandleChangeTargetTimer() {
             if (changeTargetTimer <= 0) {
-                currentTarget = null;
+                //currentTarget = null;
                 changeTargetTimer = 0;
             } else {
                 //Debug.Log(changeTargetTimer);

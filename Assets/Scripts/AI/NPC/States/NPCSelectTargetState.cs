@@ -9,6 +9,8 @@ namespace SoulsLike {
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
 
             if (npcManager.currentTarget == null) {
+                if (npcManager.targets.Count <= 0) return npcIdleState;
+
                 // 현재 주변 적대 관계 오브젝트들과의 거리를 구함
                 // 최소 거리에 있는 오브젝트를 목표로 설정
                 float shortestPath = Mathf.Infinity;
@@ -26,18 +28,15 @@ namespace SoulsLike {
                 }
             }
             if (npcManager.currentTarget != null) {
-                if (npcManager.currentTarget.isDead) {
+                if (!npcManager.currentTarget.isDead) {
+                    if (npcManager.changeTargetTimer <= 0) npcManager.changeTargetTimer = npcManager.changeTargetTime;
+                    return npcPursueTargetState;
+                } else {
                     npcManager.targets.Remove(npcManager.currentTarget);
                     npcManager.currentTarget = null;
-                    return npcIdleState;
                 }
-                
-                if (npcManager.changeTargetTimer <= 0)
-                    npcManager.changeTargetTimer = npcManager.changeTargetTime;
-                return npcPursueTargetState;
-            } else {
-                return npcIdleState;
             }
+            return npcIdleState;
         }
     }
 }
