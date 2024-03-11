@@ -10,6 +10,7 @@ namespace SoulsLike {
         int teamCode;
 
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
+            if (npcManager.targets.Count > 0) npcManager.targets.Clear();
             colliders = Physics.OverlapSphere(npcManager.transform.position, npcManager.detectionRadius, npcManager.hostileLayer);
             npcAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             npcAnimatorManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);

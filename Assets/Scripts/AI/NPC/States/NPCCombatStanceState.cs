@@ -29,7 +29,7 @@ namespace SoulsLike {
 
             if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
                 Debug.Log("Å¸°Ù Àç¼³Á¤");
-                //return npcSelectTargetState;
+                npcManager.currentTarget = null;
                 return npcIdleState;
             }
             
@@ -95,14 +95,17 @@ namespace SoulsLike {
         }
 
         protected void WalkAroundTarget(NPCAnimatorManager npcAnimatorManager) {
-            verticalMovementValue = 0.5f;
+            //verticalMovementValue = 0.5f;
+
+            verticalMovementValue = Random.Range(-1, 1);
+            if (verticalMovementValue < 0) verticalMovementValue = 0f;
+            else verticalMovementValue = 0.5f;
 
             horizontalMovementValue = Random.Range(-1, 1);
-            if (horizontalMovementValue <= 1 && horizontalMovementValue >= 0) {
+            if (horizontalMovementValue >= 0)
                 horizontalMovementValue = 0.5f;
-            } else if (horizontalMovementValue >= -1 && horizontalMovementValue < 0) {
+            else
                 horizontalMovementValue = -0.5f;
-            }
         }
     }
 }

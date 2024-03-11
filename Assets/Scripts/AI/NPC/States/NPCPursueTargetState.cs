@@ -15,11 +15,12 @@ namespace SoulsLike {
 
             if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
                 Debug.Log("Å¸°Ù Àç¼³Á¤");
-                //return npcSelectTargetState;
+                npcManager.currentTarget = null;
                 return npcIdleState;
             }
 
             HandleRotateTowardsTarget(npcManager);
+            
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
             if (distance <= npcManager.maximumAggroRadius) return npcCombatStanceState;
             else {
