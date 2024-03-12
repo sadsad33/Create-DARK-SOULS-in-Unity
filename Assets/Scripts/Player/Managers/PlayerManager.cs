@@ -59,7 +59,6 @@ namespace SoulsLike {
             isInvulnerable = anim.GetBool("isInvulnerable");
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
-
             HandleConversation();
 
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
@@ -116,22 +115,20 @@ namespace SoulsLike {
         }
 
         #region 플레이어 상호작용
+
         CharacterManager character;
         public void CheckForInteractableObject() {
-            if (isInteracting || isInConversation) return;
-            Interactable interactableObject; // 주변 상호작용 가능한 object
+            if (isInteracting || isInConversation) return; // 행동 중이거나 대화중이라면 다른 오브젝트나 NPC와 상호작용 불가
+
+            Interactable interactableObject; // 주변 상호작용 가능한 오브젝트를 담을 변수
             if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
                 if (hit.collider.CompareTag("Interactable")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
-
                     if (interactableObject != null) { // 주변에 상호작용 가능한 물체가 있다면
-                        string interactableText = interactableObject.interactableText;
-                        interactableUI.interactableText.text = interactableText;
-                        interactableUIGameObject.SetActive(true);
-
-                        if (inputHandler.a_Input) {
-                            interactableUIGameObject.SetActive(false);
-                            hit.collider.GetComponent<Interactable>().Interact(this); // 해당 오브젝트의 Interact 를 수행
+                        if (!itemInteractableGameObject.activeSelf) {
+                            StartInteraction(interactableObject, hit, false);
+                        } else if (inputHandler.a_Input) {
+                            itemInteractableGameObject.SetActive(false);
                         }
                     }
                 } else if (hit.collider.CompareTag("Character")) {
@@ -139,14 +136,10 @@ namespace SoulsLike {
                     character = hit.collider.GetComponent<CharacterManager>();
                     if (character.canTalk) {
                         if (interactableObject != null) {
-                            string interactableText = interactableObject.interactableText;
-                            interactableUI.interactableText.text = interactableText;
-                            interactableUIGameObject.SetActive(true);
-
-                            if (inputHandler.a_Input) { // 엔터키를 누르면
-                                interactableUIGameObject.SetActive(false); // 상호작용 창이 닫히고
-                                hit.collider.GetComponent<Interactable>().Interact(this); // 상호작용 실행(NPC의 대사집을 받아옴)
-                                currentPageIndex = 0;
+                            if (!itemInteractableGameObject.activeSelf) {
+                                StartInteraction(interactableObject, hit, false);
+                            } else if (inputHandler.a_Input) {
+                                itemInteractableGameObject.SetActive(false);
                             }
                         }
                     }
@@ -156,11 +149,22 @@ namespace SoulsLike {
                 if (interactableUIGameObject != null) {
                     interactableUIGameObject.SetActive(false);
                 }
-
                 //아이템을 수집하고 나서 수집키를 한번 더 누르면 메시지창이 닫힌다.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
                     itemInteractableGameObject.SetActive(false);
                 }
+            }
+        }
+
+        private void StartInteraction(Interactable interactableObject, RaycastHit hit, bool withCharacter) {
+            string interactableText = interactableObject.interactableText;
+            interactableUI.interactableText.text = interactableText;
+            interactableUIGameObject.SetActive(true);
+
+            if (inputHandler.a_Input) {
+                interactableUIGameObject.SetActive(false);
+                hit.collider.GetComponent<Interactable>().Interact(this); // 해당 오브젝트의 Interact 를 수행
+                if (withCharacter) currentPageIndex = 0;
             }
         }
 

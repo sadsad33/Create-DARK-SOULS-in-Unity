@@ -68,6 +68,7 @@ namespace SoulsLike {
             isInvulnerable = npcAnimatorManager.anim.GetBool("isInvulnerable");
             npcAnimatorManager.anim.SetBool("isDead", npcStatsManager.isDead);
             npcAnimatorManager.anim.SetBool("isGrabbed", isGrabbed);
+            if (aggravationToPlayer >= 30 && canTalk) canTalk = false;
         }
 
         private void LateUpdate() {
