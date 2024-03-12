@@ -86,7 +86,7 @@ namespace SoulsLike {
                         }
                         if (npcManager.currentTarget != characterManager.transform.GetComponent<CharacterStatsManager>()) {
                             Debug.Log("타겟 설정 시간 감소");
-                            npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2.5f);
+                            npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
                         }
                     }
                     enemyStats.totalPoiseDefense -= poiseBreak;
