@@ -20,7 +20,7 @@ namespace SoulsLike {
             characterStatsManager = GetComponent<CharacterStatsManager>();
             rigBuilder = GetComponent<RigBuilder>();
         }
-        
+
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
             anim.applyRootMotion = isInteracting;
@@ -94,7 +94,7 @@ namespace SoulsLike {
             if (characterStatsManager.isDead) return;
             characterManager.isGrabbed = false;
         }
-
+        
         #endregion
 
         // 무기의 HandIK 설정

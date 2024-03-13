@@ -9,7 +9,7 @@ namespace SoulsLike {
 
         int vertical;
         int horizontal;
-        
+
         protected override void Awake() {
             base.Awake();
             anim = GetComponentInChildren<Animator>();
@@ -23,7 +23,6 @@ namespace SoulsLike {
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting) {
             #region Vertical
             float v = 0;
-
             if (verticalMovement > 0 && verticalMovement < 0.55f) v = 0.5f;
             else if (verticalMovement > 0.55f) v = 1;
             else if (verticalMovement < 0 && verticalMovement > -0.55f) v = -0.5f;
@@ -49,7 +48,7 @@ namespace SoulsLike {
         }
 
         private void OnAnimatorMove() {
-            if(!characterManager.isInteracting) return;
+            if (!characterManager.isInteracting) return;
 
             float delta = Time.deltaTime;
             playerLocomotionManager.rigidbody.drag = 0;
@@ -67,6 +66,11 @@ namespace SoulsLike {
         public void EnableCollision() {
             playerLocomotionManager.characterCollider.enabled = true;
             playerLocomotionManager.characterColliderBlocker.enabled = true;
+        }
+
+        public void FinishJump() {
+            if (playerLocomotionManager.isJumping)
+                playerLocomotionManager.isJumping = false;
         }
     }
 }
