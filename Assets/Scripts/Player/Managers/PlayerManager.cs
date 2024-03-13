@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 // 플레이어를 위한 Update 함수를 처리
 // 플레이어의 각종 Flag를 처리한다.
@@ -20,7 +19,7 @@ namespace SoulsLike {
         private float turnPageTimer;
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
-
+        
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
         PlayerEffectsManager playerEffectsManager;
@@ -60,10 +59,12 @@ namespace SoulsLike {
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
             HandleConversation();
-
+            
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
+            playerLocomotion.MaintainVelocity();
+            
             playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
 
@@ -102,7 +103,6 @@ namespace SoulsLike {
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
-
             float delta = Time.deltaTime;
             if (cameraHandler != null) {
                 cameraHandler.FollowTarget(delta);

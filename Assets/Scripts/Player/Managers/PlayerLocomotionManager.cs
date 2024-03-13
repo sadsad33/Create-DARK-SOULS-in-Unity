@@ -10,6 +10,7 @@ namespace SoulsLike {
         PlayerManager playerManager;
         PlayerStatsManager playerStatsManager;
         public Vector3 moveDirection;
+        public bool isJumping = false;
 
         [HideInInspector]
         public Transform myTransform;
@@ -66,7 +67,6 @@ namespace SoulsLike {
         void Start() {
             cameraObject = Camera.main.transform;
             myTransform = transform;
-
             playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
             //ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
             groundCheck = (1 << 8 | 1 << 1);
@@ -131,10 +131,12 @@ namespace SoulsLike {
             }
         }
 
+        Vector3 jumpDirection;
         // 캐릭터 이동
         public void HandleMovement(float delta) {
             if (inputHandler.rollFlag) return;
             if (playerManager.isInteracting) return;
+
             // 이동방향에 입력을 반영한다.
             moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
             moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
@@ -147,15 +149,15 @@ namespace SoulsLike {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed; // 이동속도 반영
+                jumpDirection = moveDirection;
                 playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
             } else {
                 if (inputHandler.moveAmount < 0.5f) {
                     moveDirection *= walkingSpeed;
-                    playerManager.isSprinting = false;
                 } else {
                     moveDirection *= speed;
-                    playerManager.isSprinting = false;
                 }
+                playerManager.isSprinting = false;
             }
 
             /*
@@ -179,8 +181,8 @@ namespace SoulsLike {
 
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
-            if (playerAnimatorManager.anim.GetBool("isInteracting")) // 다른 행동을하고 있다면
-                return;
+            // 다른 행동을하고 있다면
+            if (playerAnimatorManager.anim.GetBool("isInteracting")) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -278,9 +280,10 @@ namespace SoulsLike {
 
             if (inputHandler.jump_Input) {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
-                    moveDirection = cameraObject.forward * inputHandler.vertical;
-                    moveDirection += cameraObject.right * inputHandler.horizontal;
-                    StartCoroutine(JumpBooster());
+                    //moveDirection = cameraObject.forward * inputHandler.vertical;
+                    //moveDirection += cameraObject.right * inputHandler.horizontal;
+                    //StartCoroutine(JumpBooster());
+                    isJumping = true;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
@@ -289,11 +292,11 @@ namespace SoulsLike {
                 }
             }
         }
-        #endregion
-        IEnumerator JumpBooster() {
-            jumpCollider.enabled = true;
-            yield return new WaitForSeconds(0.75f);
-            jumpCollider.enabled = false;
+
+        public void MaintainVelocity() {
+            if (!isJumping) return;
+            transform.Translate(jumpDirection * Time.deltaTime, Space.World);
         }
+        #endregion
     }
 }
