@@ -63,7 +63,6 @@ namespace SoulsLike {
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
-            playerLocomotion.MaintainVelocity();
             
             playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
@@ -87,6 +86,7 @@ namespace SoulsLike {
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleRotation(delta);
+            playerLocomotion.MaintainVelocity();
             playerEffectsManager.HandleAllBuildUpEffects();
         }
 
