@@ -297,6 +297,7 @@ namespace SoulsLike {
         public void MaintainVelocity() {
             if (!isJumping) return;
             rigidbody.velocity = jumpDirection;
+            
             // rigidbody.MovePosition : 충돌연산의 영향을 받으며 물체를 이동시키는 메서드
             // 중력이나 가속, 감속같은 연속적인 물리효과에 대해서 영향을 받지는 않으면서 부드럽게 물체를 이동시킴
             //rigidbody.MovePosition(transform.position + jumpDirection * Time.deltaTime);
