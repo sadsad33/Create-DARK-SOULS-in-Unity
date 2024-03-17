@@ -28,7 +28,7 @@ namespace SoulsLike {
             playerManager.transform.rotation = targetRotation;
 
             // 플레이어가 상자를 열때 적절한 위치에 오도록 좌표를 강제한다.
-            playerManager.OpenChestInteraction(playerStandingPosition);
+            playerManager.InteractionAtPosition("Open Chest", playerStandingPosition);
             
             // 상자 여는 애니메이션 실행
             animator.Play("ChestOpen");
@@ -44,7 +44,7 @@ namespace SoulsLike {
         private IEnumerator SpawnItemInChest() {
             yield return new WaitForSeconds(3f);
             Instantiate(itemSpawner, transform);
-            // 상자와 상호작용을 끝낸 후에는 아이템 파괴
+            // 상자와 상호작용을 끝낸 후에는 더이상 상호작용이 되지 않도록
             Destroy(openChest);
         }
     }

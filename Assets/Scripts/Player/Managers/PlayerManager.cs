@@ -19,7 +19,7 @@ namespace SoulsLike {
         private float turnPageTimer;
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
-        
+
         PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
         PlayerEffectsManager playerEffectsManager;
@@ -59,11 +59,11 @@ namespace SoulsLike {
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
             HandleConversation();
-            
+
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
-            
+
             playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
 
@@ -212,11 +212,11 @@ namespace SoulsLike {
             }
         }
 
-        public void OpenChestInteraction(Transform playerStandingPosition) {
+        public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
             // 달리다가 상호작용을 할 경우 미끄러지는것을 방지
             playerLocomotion.rigidbody.velocity = Vector3.zero;
             transform.position = playerStandingPosition.transform.position;
-            playerAnimatorManager.PlayTargetAnimation("Open Chest", true);
+            playerAnimatorManager.PlayTargetAnimation(animation, true);
         }
 
         // 안개벽 통과 상호작용
