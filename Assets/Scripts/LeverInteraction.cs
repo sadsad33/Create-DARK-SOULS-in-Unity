@@ -6,9 +6,7 @@ namespace SoulsLike {
     public class LeverInteraction : Interactable {
         public Transform playerStandingPosition;
         public Animator animator;
-        // 레버 상호작용을 통해 제어할 오브젝트
-        // public Transform connectedObject;
-
+        public GameObject activatableObject;
         private void Awake() {
             animator = GetComponent<Animator>();
         }
@@ -25,12 +23,13 @@ namespace SoulsLike {
 
             playerManager.InteractionAtPosition("Pull Lever", playerStandingPosition);
             animator.Play("Lever Pulled");
-            Destroy(this);
-            ActivateObject();
+            StartCoroutine(Delay());
         }
 
-        // 레버를 작동시켰을때 일어날 일
-        private void ActivateObject() {
+        IEnumerator Delay() {
+            yield return new WaitForSeconds(1.5f);
+            activatableObject.GetComponent<ActivatableObject>().active = true;
+            Destroy(this);
         }
     }
 }
