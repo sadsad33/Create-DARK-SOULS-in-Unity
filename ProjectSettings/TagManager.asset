@@ -10,6 +10,8 @@ TagManager:
   - Collide
   - IllusionaryWall
   - Character
+  - LadderTopEnd
+  - LadderBottomEnd
   layers:
   - Default
   - TransparentFX

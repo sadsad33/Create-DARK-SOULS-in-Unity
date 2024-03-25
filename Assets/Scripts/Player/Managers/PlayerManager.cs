@@ -13,9 +13,14 @@ namespace SoulsLike {
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등) : InteractionPopUp
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지 : ItemPopup
         public GameObject dialogUI; // NPC의 대사를 출력할 창
+        public Transform leftFoot, rightFoot;
+        public LadderEndPositionDetection ladderEndPositionDetector;
 
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
         public bool isInConversation;
+        public bool isJumping = false;
+        public bool rightFootUp;
+        public bool isLadderTop;
         private float turnPageTimer;
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
@@ -33,6 +38,8 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
+            ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
+            if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
@@ -46,6 +53,13 @@ namespace SoulsLike {
         }
 
         void Update() {
+            if (isClimbing) {
+                if (leftFoot.position.y > rightFoot.position.y) {
+                    rightFootUp = false;
+                } else if (leftFoot.position.y < rightFoot.position.y) {
+                    rightFootUp = true;
+                }
+            }
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
             isFiringSpell = anim.GetBool("isFiringSpell");
@@ -58,6 +72,11 @@ namespace SoulsLike {
             isInvulnerable = anim.GetBool("isInvulnerable");
             anim.SetBool("isDead", playerStatsManager.isDead);
             anim.SetBool("isBlocking", isBlocking);
+
+            // 사다리 관련
+            anim.SetBool("isClimbing", isClimbing);
+            anim.SetBool("isLadderTop", isLadderTop);
+            anim.SetBool("rightFootUp", rightFootUp);
             HandleConversation();
 
             // Rigidbody가 이동되는 움직임이 아니라면 일반적인 Update함수에서 호출해도 괜찮다.
@@ -87,6 +106,8 @@ namespace SoulsLike {
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleRotation(delta);
             playerLocomotion.MaintainVelocity();
+            if (isClimbing)
+                playerLocomotion.HandleClimbing();
             playerEffectsManager.HandleAllBuildUpEffects();
         }
 
@@ -103,6 +124,18 @@ namespace SoulsLike {
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
+
+            // 사다리 상호작용 애니메이션이 끝난후 Animator의 레이어5 에서는 Empty 애니메이션으로 전이가 일어남
+            // 사다리의 꼭대기 부분에서 상호작용 애니메이션이 실행될 경우 애니메이션이 끝나도 Rigidbody 의 velocity 가 0이 되지않아 특정 방향으로 끊임없이 밀려나가는데
+            // 이는 PlayerAnimatorManager 클래스내의 OnAnimatorMove 메서드 때문인것으로 추정
+            // 해당 메서드는 애니메이션이 실행될 때 마지막 프레임까지 호출되며, 애니메이션이 실행되는동안
+            // 아바타가 움직인 좌표의 변화량을 측정하고 애니메이션 실행된 시간으로 나눠 속도를 구한후 플레이어의 rigidbody 에 대입하여 자연스럽게보이도록 속도를 대입함
+            // 애니메이션의 전이가 모든 애니메이션의 마지막 프레임 이후 실행되는 거라면 상관없지만 자연스러운 전이를 위해 대부분 그러지 않으므로 Rigidbody의 velocity 가 0이 되었다가 마지막 프레임에서
+            // 다시 OnAnimatorMove 메서드가 호출되면서 Rigidbody 의 velocity 값이 변화하는 듯
+            if (playerAnimatorManager.anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // 한 프레임마다 5번 레이어의 현재 애니메이션이 Empty 라면 rigidbody 의 속도를 0으로 만듬
+                playerLocomotion.rigidbody.velocity = Vector3.zero;
+            }
+
             float delta = Time.deltaTime;
             if (cameraHandler != null) {
                 cameraHandler.FollowTarget(delta);
@@ -213,10 +246,9 @@ namespace SoulsLike {
         }
 
         public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
-            // 달리다가 상호작용을 할 경우 미끄러지는것을 방지
             playerLocomotion.rigidbody.velocity = Vector3.zero;
-            transform.position = playerStandingPosition.transform.position;
             playerAnimatorManager.PlayTargetAnimation(animation, true);
+            transform.position = playerStandingPosition.position;
         }
 
         // 안개벽 통과 상호작용

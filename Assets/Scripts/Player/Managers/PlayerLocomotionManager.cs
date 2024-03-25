@@ -10,7 +10,6 @@ namespace SoulsLike {
         PlayerManager playerManager;
         PlayerStatsManager playerStatsManager;
         public Vector3 moveDirection;
-        public bool isJumping = false;
 
         [HideInInspector]
         public Transform myTransform;
@@ -22,15 +21,15 @@ namespace SoulsLike {
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
-        // ÇÃ·¹ÀÌ¾îÀÇ Collider¸¦ »ìÂ¦ À§·Î µé¾î¿Ã·È±â ¶§¹®¿¡ ÇÃ·¹ÀÌ¾îÀÇ ´Ù¸® ºÎºĞÀÌ ¹¯È÷°Ô µÈ´Ù.
-        // µû¶ó¼­ ColliderÀÇ ³¡ ºÎºĞ¿¡¼­ ·¹ÀÌÄ³½ºÆ®¸¦ ¹Ù´ÚÀ¸·Î ½÷¼­ ÂøÁö, ³«ÇÏ¸¦ °¨ÁöÇÔ
+        // í”Œë ˆì´ì–´ì˜ Colliderë¥¼ ì‚´ì§ ìœ„ë¡œ ë“¤ì–´ì˜¬ë ¸ê¸° ë•Œë¬¸ì— í”Œë ˆì´ì–´ì˜ ë‹¤ë¦¬ ë¶€ë¶„ì´ ë¬»íˆê²Œ ëœë‹¤.
+        // ë”°ë¼ì„œ Colliderì˜ ë ë¶€ë¶„ì—ì„œ ë ˆì´ìºìŠ¤íŠ¸ë¥¼ ë°”ë‹¥ìœ¼ë¡œ ì´ì„œ ì°©ì§€, ë‚™í•˜ë¥¼ ê°ì§€í•¨
         [Header("Ground & Air Detection Stats")]
         [SerializeField]
-        float groundDetectionRayStartPoint = 0.5f; // ÇÃ·¹ÀÌ¾î·ÎºÎÅÍ »¸¾î³ª°¡´Â ·¹ÀÌÄ³½ºÆ® ½ÃÀÛ ÁöÁ¡
+        float groundDetectionRayStartPoint = 0.5f; // í”Œë ˆì´ì–´ë¡œë¶€í„° ë»—ì–´ë‚˜ê°€ëŠ” ë ˆì´ìºìŠ¤íŠ¸ ì‹œì‘ ì§€ì 
         [SerializeField]
-        float minimumDistanceNeededToBeginFall = 1f; // ÇÃ·¹ÀÌ¾î°¡ ¶³¾îÁö´Â ÃÖ¼Ò ³ôÀÌ
+        float minimumDistanceNeededToBeginFall = 1f; // í”Œë ˆì´ì–´ê°€ ë–¨ì–´ì§€ëŠ” ìµœì†Œ ë†’ì´
         [SerializeField]
-        float groundDirectionRayDistance = 0.2f; // ·¹ÀÌÄ³½ºÆ®½ÃÀÛ ÁöÁ¡ ¿ÀÇÁ¼Â
+        float groundDirectionRayDistance = 0.2f; // ë ˆì´ìºìŠ¤íŠ¸ì‹œì‘ ì§€ì  ì˜¤í”„ì…‹
         //LayerMask ignoreForGroundCheck;
         LayerMask groundCheck;
         public float inAirTimer;
@@ -53,9 +52,7 @@ namespace SoulsLike {
         float backstepStaminaCost = 12;
         float sprintStaminaCost = 1;
 
-        public BoxCollider jumpCollider;
         private void Awake() {
-            jumpCollider.enabled = false;
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerManager = GetComponent<PlayerManager>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
@@ -67,23 +64,23 @@ namespace SoulsLike {
         void Start() {
             cameraObject = Camera.main.transform;
             myTransform = transform;
-            playerManager.isGrounded = true; // ½ÃÀÛÇÒ¶§´Â ¶¥¿¡ ÂøÁöÇØÀÖ´Ù.
-            //ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // ÂøÁö¸¦ ÆÇ´ÜÇÒ¶§ ¹«½ÃÇÒ ·¹ÀÌ¾î
+            playerManager.isGrounded = true; // ì‹œì‘í• ë•ŒëŠ” ë•…ì— ì°©ì§€í•´ìˆë‹¤.
+            //ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // ì°©ì§€ë¥¼ íŒë‹¨í• ë•Œ ë¬´ì‹œí•  ë ˆì´ì–´
             groundCheck = (1 << 8 | 1 << 1);
             Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
         }
-
 
         #region Movement
 
         Vector3 normalVector;
         Vector3 targetPosition;
 
-        // Ä³¸¯ÅÍ È¸Àü
+        // ìºë¦­í„° íšŒì „
         public void HandleRotation(float delta) {
+            if (playerManager.isClimbing) return;
             if (playerAnimatorManager.canRotate) {
                 if (inputHandler.lockOnFlag) {
-                    // ·Ï¿ÂÀ» ÇØµµ ´Ş¸®°Å³ª ±¸¸¦¶§´Â, ÀÌµ¿ÇÏ´ø ¹æÇâÀ¸·Î Çàµ¿
+                    // ë¡ì˜¨ì„ í•´ë„ ë‹¬ë¦¬ê±°ë‚˜ êµ¬ë¥¼ë•ŒëŠ”, ì´ë™í•˜ë˜ ë°©í–¥ìœ¼ë¡œ í–‰ë™
                     if (inputHandler.sprintFlag || inputHandler.rollFlag) {
                         Vector3 targetDirection = Vector3.zero;
                         targetDirection = cameraHandler.cameraTransform.forward * inputHandler.vertical;
@@ -106,40 +103,41 @@ namespace SoulsLike {
                         transform.rotation = targetRotation;
                     }
                 } else {
-                    // ¹Ù¶óº¼ ¹æÇâ
+                    // ë°”ë¼ë³¼ ë°©í–¥
                     Vector3 targetDir = Vector3.zero;
-                    // WASD ¹æÇâÅ° °ªÀ» ¹İ¿µÇÑ´Ù.
+                    // WASD ë°©í–¥í‚¤ ê°’ì„ ë°˜ì˜í•œë‹¤.
                     targetDir = cameraObject.forward * inputHandler.vertical;
                     targetDir += cameraObject.right * inputHandler.horizontal;
                     targetDir.Normalize();
-                    // À§¾Æ·¡·Î´Â È¸ÀüÇÏÁö ¾ÊÀ» °Í
+                    // ìœ„ì•„ë˜ë¡œëŠ” íšŒì „í•˜ì§€ ì•Šì„ ê²ƒ
                     targetDir.y = 0;
 
-                    // ¹æÇâ Á¶ÀÛÀÌ ¾ø´Ù¸é Ä³¸¯ÅÍÀÇ ÇöÀçÁÂÇ¥¿¡¼­ Á¤¸éÀ» ¹Ù¶óº½
+                    // ë°©í–¥ ì¡°ì‘ì´ ì—†ë‹¤ë©´ ìºë¦­í„°ì˜ í˜„ì¬ì¢Œí‘œì—ì„œ ì •ë©´ì„ ë°”ë¼ë´„
                     if (targetDir == Vector3.zero)
                         targetDir = myTransform.forward;
 
                     float moveOverride = inputHandler.moveAmount;
 
-                    // ½ºÅ©¸³Æ®¿¡¼­ È¸Àü Ã³¸®¸¦ ´Ù·ç´Â °æ¿ì Quaternion Å¬·¡½º¿Í ÀÌ Å¬·¡½ºÀÇ ÇÔ¼ö¸¦ »ç¿ëÇÏ¿© È¸Àü °ªÀ» ¸¸µé°í ¼öÁ¤ÇØ¾ß ÇÑ´Ù.
-                    // ÀÏºÎÀÇ °æ¿ì ½ºÅ©¸³Æ®¿¡¼­ ¿ÀÀÏ·¯ °¢À» »ç¿ëÇÏ´Â °ÍÀÌ ´õ ÁÁ´Ù. ÀÌ °æ¿ì °¢À» º¯¼ö·Î À¯ÁöÇÏ°í È¸Àü¿¡ ¿ÀÀÏ·¯ °¢À¸·Î Àû¿ëÇÏ´Â µ¥¸¸ »ç¿ëÇØ¾ß ÇÏ°í ±Ã±ØÀûÀ¸·Î Quaterion À¸·Î ÀúÀåµÇ¾î¾ß ÇÑ´Ù.
+                    // ìŠ¤í¬ë¦½íŠ¸ì—ì„œ íšŒì „ ì²˜ë¦¬ë¥¼ ë‹¤ë£¨ëŠ” ê²½ìš° Quaternion í´ë˜ìŠ¤ì™€ ì´ í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ íšŒì „ ê°’ì„ ë§Œë“¤ê³  ìˆ˜ì •í•´ì•¼ í•œë‹¤.
+                    // ì¼ë¶€ì˜ ê²½ìš° ìŠ¤í¬ë¦½íŠ¸ì—ì„œ ì˜¤ì¼ëŸ¬ ê°ì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ë” ì¢‹ë‹¤. ì´ ê²½ìš° ê°ì„ ë³€ìˆ˜ë¡œ ìœ ì§€í•˜ê³  íšŒì „ì— ì˜¤ì¼ëŸ¬ ê°ìœ¼ë¡œ ì ìš©í•˜ëŠ” ë°ë§Œ ì‚¬ìš©í•´ì•¼ í•˜ê³  ê¶ê·¹ì ìœ¼ë¡œ Quaterion ìœ¼ë¡œ ì €ì¥ë˜ì–´ì•¼ í•œë‹¤.
                     float rs = rotationSpeed;
-                    Quaternion tr = Quaternion.LookRotation(targetDir); // È¸Àü
-                    Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta); // È¸ÀüÀÌ ºÎµå·´°Ô ÀÌ¾îÁöµµ·ÏÇÑ´Ù
-                    myTransform.rotation = targetRotation; // È¸Àü°ªÀ» QuaternionÀ¸·Î ÀúÀåÇÑ´Ù.
+                    Quaternion tr = Quaternion.LookRotation(targetDir); // íšŒì „
+                    Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta); // íšŒì „ì´ ë¶€ë“œëŸ½ê²Œ ì´ì–´ì§€ë„ë¡í•œë‹¤
+                    myTransform.rotation = targetRotation; // íšŒì „ê°’ì„ Quaternionìœ¼ë¡œ ì €ì¥í•œë‹¤.
                 }
             }
         }
 
         Vector3 jumpDirection;
-        // Ä³¸¯ÅÍ ÀÌµ¿
+        // ìºë¦­í„° ì´ë™
         public void HandleMovement(float delta) {
             if (inputHandler.rollFlag) return;
-            if (playerManager.isInteracting) return;
+            if (playerManager.isInteracting || playerManager.isClimbing) return;
 
-            // ÀÌµ¿¹æÇâ¿¡ ÀÔ·ÂÀ» ¹İ¿µÇÑ´Ù.
-            moveDirection = cameraObject.forward * inputHandler.vertical; // ÁÖµÈ ¹æÇâ
-            moveDirection += cameraObject.right * inputHandler.horizontal; // ºÎ°¡ÀûÀÎ ¹æÇâ
+            #region ì´ë™í• ë•Œ í•„ìš”í•œ ë²¡í„° ìƒì„±
+            // ì´ë™ë°©í–¥ì— ì…ë ¥ì„ ë°˜ì˜í•œë‹¤.
+            moveDirection = cameraObject.forward * inputHandler.vertical; // ì£¼ëœ ë°©í–¥
+            moveDirection += cameraObject.right * inputHandler.horizontal; // ë¶€ê°€ì ì¸ ë°©í–¥
             moveDirection.Normalize();
             moveDirection.y = 0;
 
@@ -148,9 +146,9 @@ namespace SoulsLike {
             if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
-                moveDirection *= speed; // ÀÌµ¿¼Óµµ ¹İ¿µ
-                jumpDirection = moveDirection; // Á¡ÇÁ´Â ´Ş¸®±â »óÅÂ¿¡¼­¸¸ °¡´ÉÇÏ¹Ç·Î ´Ş¸®±â »óÅÂ¿¡¼­ÀÇ º¤ÅÍ¸¦ ±â¾ï
-                //Debug.Log("Á¡ÇÁ Àü : " + jumpDirection);
+                moveDirection *= speed; // ì´ë™ì†ë„ ë°˜ì˜
+                jumpDirection = moveDirection; // ì í”„ëŠ” ë‹¬ë¦¬ê¸° ìƒíƒœì—ì„œë§Œ ê°€ëŠ¥í•˜ë¯€ë¡œ ë‹¬ë¦¬ê¸° ìƒíƒœì—ì„œì˜ ë²¡í„°ë¥¼ ê¸°ì–µ
+                //Debug.Log("ì í”„ ì „ : " + jumpDirection);
                 playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
             } else {
                 if (inputHandler.moveAmount < 0.5f) {
@@ -163,27 +161,30 @@ namespace SoulsLike {
 
             /*
              * Vector3.ProjectOnPlane(Vector3 vector, Vector3 normalVector)
-             * @vector - Á¤»ç¿µÇÏ°íÀÚ ÇÏ´Â º¤ÅÍ
-             * @normalVector - ¸éÀÇ ¹ı¼± º¤ÅÍ
-             * vector¸¦ normalVector¿¡ ¼öÁ÷ÀÎ ¹æÇâÀ¸·Î Åõ¿µµÈ º¤ÅÍ¸¦ ¹İÈ¯ÇÑ´Ù.
-             * ÇÃ·¹ÀÌ¾î°¡ ÀÌµ¿ÇÏ´Â ¹æÇâÀ» ¹Ù´Ú¸éÀÇ ¹ı¼±º¤ÅÍ¿¡ ´ëÇØ Á¤»ç¿µÇÏ¿© ¹Ù´Ú¸é¿¡ ¼öÁ÷ÀÎ ¹æÇâÀ» ±¸ÇÔ
-             * ±â¿ï¾îÁø ¹Ù´ÚÀ» µû¶ó ÀÌµ¿ÇÒ ¶§, ¼öÁ÷¹æÇâÀ» À¯ÁöÇÏ¸ç ÀÌµ¿ÇÒ ¼ö ÀÖ´Ù.
+             * @vector - ì •ì‚¬ì˜í•˜ê³ ì í•˜ëŠ” ë²¡í„°
+             * @normalVector - ë©´ì˜ ë²•ì„  ë²¡í„°
+             * vectorë¥¼ normalVectorì— ìˆ˜ì§ì¸ ë°©í–¥ìœ¼ë¡œ íˆ¬ì˜ëœ ë²¡í„°ë¥¼ ë°˜í™˜í•œë‹¤.
+             * í”Œë ˆì´ì–´ê°€ ì´ë™í•˜ëŠ” ë°©í–¥ì„ ë°”ë‹¥ë©´ì˜ ë²•ì„ ë²¡í„°ì— ëŒ€í•´ ì •ì‚¬ì˜í•˜ì—¬ ë°”ë‹¥ë©´ì— ìˆ˜ì§ì¸ ë°©í–¥ì„ êµ¬í•¨
+             * ê¸°ìš¸ì–´ì§„ ë°”ë‹¥ì„ ë”°ë¼ ì´ë™í•  ë•Œ, ìˆ˜ì§ë°©í–¥ì„ ìœ ì§€í•˜ë©° ì´ë™í•  ìˆ˜ ìˆë‹¤.
              */
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            #endregion
+
+            // ìœ„ì—ì„œ ë§Œë“  ë²¡í„°ë¥¼ rigidbody ì— ì ìš©
             rigidbody.velocity = projectedVelocity;
 
-            // ·Ï¿Â »óÅÂÀÇ°æ¿ì ¼öÆòÀÌµ¿ ÀÔ·Â°ª°ú ¼öÁ÷ÀÌµ¿ ÀÔ·Â°ªÀ» ¸ğµÎ »ç¿ëÇÑ´Ù.
+            // ë¡ì˜¨ ìƒíƒœì˜ê²½ìš° ìˆ˜í‰ì´ë™ ì…ë ¥ê°’ê³¼ ìˆ˜ì§ì´ë™ ì…ë ¥ê°’ì„ ëª¨ë‘ ì‚¬ìš©í•œë‹¤.
             if (inputHandler.lockOnFlag && !inputHandler.sprintFlag) {
                 playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
-            } else { // ¾Æ´Ò°æ¿ì Á¤¸é¹æÇâÀ¸·Î ¿òÁ÷ÀÌ¸é µÇ¹Ç·Î ¼öÁ÷ÀÌµ¿°ª¸¸ »ç¿ë
+            } else { // ì•„ë‹ê²½ìš° ì •ë©´ë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ë©´ ë˜ë¯€ë¡œ ìˆ˜ì§ì´ë™ê°’ë§Œ ì‚¬ìš©
                 playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
             }
         }
 
-        // ÁúÁÖ,È¸ÇÇ
+        // ì§ˆì£¼,íšŒí”¼
         public void HandleRollingAndSprinting(float delta) {
-            // ´Ù¸¥ Çàµ¿À»ÇÏ°í ÀÖ´Ù¸é
-            if (playerAnimatorManager.anim.GetBool("isInteracting")) return;
+            // ë‹¤ë¥¸ í–‰ë™ì„í•˜ê³  ìˆë‹¤ë©´
+            if (playerAnimatorManager.anim.GetBool("isInteracting") || playerManager.isClimbing) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -191,16 +192,16 @@ namespace SoulsLike {
                 moveDirection = cameraObject.forward * inputHandler.vertical;
                 moveDirection += cameraObject.right * inputHandler.horizontal;
 
-                if (inputHandler.moveAmount > 0) { // ÀÌµ¿ÁßÀÌ¶ó¸é ±¸¸£±â
-                    //Debug.Log("±¸¸£±â!!!");
+                if (inputHandler.moveAmount > 0) { // ì´ë™ì¤‘ì´ë¼ë©´ êµ¬ë¥´ê¸°
+                    //Debug.Log("êµ¬ë¥´ê¸°!!!");
                     playerAnimatorManager.PlayTargetAnimation("Rolling", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
                     playerStatsManager.TakeStaminaDamage(rollStaminaCost);
-                } else { // ÀÌµ¿ÁßÀÌ ¾Æ´Ï¶ó¸é ¹é½ºÅÜ
-                    //Debug.Log("¹é½ºÅÜ!!!");
+                } else { // ì´ë™ì¤‘ì´ ì•„ë‹ˆë¼ë©´ ë°±ìŠ¤í…
+                    //Debug.Log("ë°±ìŠ¤í…!!!");
                     if (inputHandler.backstepDelay > 0.3f) {
                         playerAnimatorManager.PlayTargetAnimation("Backstep", true);
                         playerAnimatorManager.EraseHandIKForWeapon();
@@ -211,20 +212,21 @@ namespace SoulsLike {
             }
         }
 
-        // ³«ÇÏ
+        // ë‚™í•˜
         public void HandleFalling(float delta, Vector3 moveDirection) {
+            if (playerManager.isClimbing) return;
             //playerManager.isGrounded = false;
             RaycastHit hit;
-            Vector3 origin = myTransform.position; // ³«ÇÏ ½ÃÀÛÁöÁ¡
-            origin.y += groundDetectionRayStartPoint; // ·¹ÀÌÄ³½ºÆ® ½ÃÀÛ ÁöÁ¡ ¼³Á¤
+            Vector3 origin = myTransform.position; // ë‚™í•˜ ì‹œì‘ì§€ì 
+            origin.y += groundDetectionRayStartPoint; // ë ˆì´ìºìŠ¤íŠ¸ ì‹œì‘ ì§€ì  ì„¤ì •
 
             if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f)) {
                 moveDirection = Vector3.zero;
             }
 
             if (playerManager.isInAir) {
-                rigidbody.AddForce(-Vector3.up * fallingSpeed); // ¾Æ·¡ÂÊÀ¸·Î ÈûÀ» ¹Ş´Â´Ù.
-                rigidbody.AddForce(moveDirection * fallingSpeed / 12); // ÇÃ·¹ÀÌ¾î°¡ ³­°£¿¡¼­ ¹ßÀ» ¶¼¸é ³­°£¿¡ °É¸®Áö ¾Ê°í ¶³¾îÁú ¼ö ÀÖµµ·Ï ¹Ğ¾îÁÜ, ÈûÀÇ Å©±â°¡ ÀÛ¾Æ¾ß ÀÚ¿¬½º·¯¿ò
+                rigidbody.AddForce(-Vector3.up * fallingSpeed); // ì•„ë˜ìª½ìœ¼ë¡œ í˜ì„ ë°›ëŠ”ë‹¤.
+                rigidbody.AddForce(moveDirection * fallingSpeed / 12); // í”Œë ˆì´ì–´ê°€ ë‚œê°„ì—ì„œ ë°œì„ ë–¼ë©´ ë‚œê°„ì— ê±¸ë¦¬ì§€ ì•Šê³  ë–¨ì–´ì§ˆ ìˆ˜ ìˆë„ë¡ ë°€ì–´ì¤Œ, í˜ì˜ í¬ê¸°ê°€ ì‘ì•„ì•¼ ìì—°ìŠ¤ëŸ¬ì›€
             }
 
             Vector3 dir = moveDirection;
@@ -232,12 +234,12 @@ namespace SoulsLike {
             origin += dir * groundDirectionRayDistance;
             targetPosition = myTransform.position;
             Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.05f, false);
-            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheck)) { // ÃÖ¼Ò ³«ÇÏ°Å¸® ÀÌ³»¿¡ ¶¥ÀÌ Á¸ÀçÇÑ´Ù¸é
-                normalVector = hit.normal; // ¾Æ·¡ÂÊÀ¸·Î ·¹ÀÌ¸¦ ½÷¼­ ºÎµúÈù ÁöÁ¡ÀÇ ¹ı¼± º¤ÅÍ
-                Vector3 tp = hit.point; // ÂøÁöÇÒ °÷ÀÇ ÁÂÇ¥
-                targetPosition.y = tp.y; // µµÂøÁöÁ¡ÀÇ yÁÂÇ¥´Â hit.pointÀÇ yÁÂÇ¥°¡ µÈ´Ù.
-                if (playerManager.isInAir) { // ÇÃ·¹ÀÌ¾î°¡ °øÁß¿¡ ÀÖ¾ú´Ù¸é
-                    if (inAirTimer > 0.5f) { // °øÁß¿¡ ÀÖ´Â ½Ã°£ÀÌ 0.5ÃÊº¸´Ù ±æ´Ù¸é
+            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheck)) { // ìµœì†Œ ë‚™í•˜ê±°ë¦¬ ì´ë‚´ì— ë•…ì´ ì¡´ì¬í•œë‹¤ë©´
+                normalVector = hit.normal; // ì•„ë˜ìª½ìœ¼ë¡œ ë ˆì´ë¥¼ ì´ì„œ ë¶€ë”ªíŒ ì§€ì ì˜ ë²•ì„  ë²¡í„°
+                Vector3 tp = hit.point; // ì°©ì§€í•  ê³³ì˜ ì¢Œí‘œ
+                targetPosition.y = tp.y; // ë„ì°©ì§€ì ì˜ yì¢Œí‘œëŠ” hit.pointì˜ yì¢Œí‘œê°€ ëœë‹¤.
+                if (playerManager.isInAir) { // í”Œë ˆì´ì–´ê°€ ê³µì¤‘ì— ìˆì—ˆë‹¤ë©´
+                    if (inAirTimer > 0.5f) { // ê³µì¤‘ì— ìˆëŠ” ì‹œê°„ì´ 0.5ì´ˆë³´ë‹¤ ê¸¸ë‹¤ë©´
                         Debug.Log("You were in the air for" + inAirTimer);
                         playerAnimatorManager.PlayTargetAnimation("Land", true);
                         playerAnimatorManager.EraseHandIKForWeapon();
@@ -251,14 +253,14 @@ namespace SoulsLike {
                 playerManager.isGrounded = true;
                 inAirTimer = 0;
                 playerManager.isInAir = false;
-            } else { // ÇöÀç ¶¥°úÀÇ °Å¸®°¡ ÃÖ¼Ò ³«ÇÏ°Å¸®º¸´Ù Å©´Ù¸é
+            } else { // í˜„ì¬ ë•…ê³¼ì˜ ê±°ë¦¬ê°€ ìµœì†Œ ë‚™í•˜ê±°ë¦¬ë³´ë‹¤ í¬ë‹¤ë©´
                 if (playerManager.isGrounded) {
-                    playerManager.isGrounded = false; // flag º¯°æ
+                    playerManager.isGrounded = false; // flag ë³€ê²½
                 }
                 if (!playerManager.isInAir) {
-                    playerManager.isInAir = true; // flag º¯°æ
+                    playerManager.isInAir = true; // flag ë³€ê²½
                     if (playerManager.isInAir && !playerManager.isInteracting && !playerManager.isGrounded) {
-                        playerAnimatorManager.PlayTargetAnimation("Falling", true); // ³«ÇÏ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+                        playerAnimatorManager.PlayTargetAnimation("Falling", true); // ë‚™í•˜ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
                         playerAnimatorManager.EraseHandIKForWeapon();
                     }
                     Vector3 vel = rigidbody.velocity;
@@ -284,7 +286,7 @@ namespace SoulsLike {
                     //moveDirection = cameraObject.forward * inputHandler.vertical;
                     //moveDirection += cameraObject.right * inputHandler.horizontal;
                     //StartCoroutine(JumpBooster());
-                    isJumping = true;
+                    playerManager.isJumping = true;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
@@ -294,12 +296,33 @@ namespace SoulsLike {
             }
         }
 
+        public void HandleClimbing() {
+            if (playerManager.ladderEndPositionDetector.isTopEnd && inputHandler.vertical >= 1) {
+                if (playerManager.rightFootUp) {
+                    playerManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform);
+                } else {
+                    playerManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform);
+                }
+                playerManager.isClimbing = false;
+            } else if (playerManager.ladderEndPositionDetector.isBottomEnd && inputHandler.vertical <= -1) {
+                if (playerManager.rightFootUp) {
+                    playerManager.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", playerManager.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                } else {
+                    playerManager.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", playerManager.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                }
+                playerManager.isClimbing = false;
+            } else {
+                playerAnimatorManager.anim.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
+                rigidbody.velocity = new Vector3(0, inputHandler.vertical, 0);
+            }
+        }
+
         public void MaintainVelocity() {
-            if (!isJumping) return;
+            if (!playerManager.isJumping) return;
             rigidbody.velocity = jumpDirection;
-            
-            // rigidbody.MovePosition : Ãæµ¹¿¬»êÀÇ ¿µÇâÀ» ¹ŞÀ¸¸ç ¹°Ã¼¸¦ ÀÌµ¿½ÃÅ°´Â ¸Ş¼­µå
-            // Áß·ÂÀÌ³ª °¡¼Ó, °¨¼Ó°°Àº ¿¬¼ÓÀûÀÎ ¹°¸®È¿°ú¿¡ ´ëÇØ¼­ ¿µÇâÀ» ¹ŞÁö´Â ¾ÊÀ¸¸é¼­ ºÎµå·´°Ô ¹°Ã¼¸¦ ÀÌµ¿½ÃÅ´
+
+            // rigidbody.MovePosition : ì¶©ëŒì—°ì‚°ì˜ ì˜í–¥ì„ ë°›ìœ¼ë©° ë¬¼ì²´ë¥¼ ì´ë™ì‹œí‚¤ëŠ” ë©”ì„œë“œ
+            // ì¤‘ë ¥ì´ë‚˜ ê°€ì†, ê°ì†ê°™ì€ ì—°ì†ì ì¸ ë¬¼ë¦¬íš¨ê³¼ì— ëŒ€í•´ì„œ ì˜í–¥ì„ ë°›ì§€ëŠ” ì•Šìœ¼ë©´ì„œ ë¶€ë“œëŸ½ê²Œ ë¬¼ì²´ë¥¼ ì´ë™ì‹œí‚´
             //rigidbody.MovePosition(transform.position + jumpDirection * Time.deltaTime);
         }
         #endregion
