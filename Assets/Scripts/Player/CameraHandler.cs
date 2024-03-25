@@ -43,7 +43,7 @@ namespace SoulsLike {
 
         public CharacterManager currentLockOnTarget;
 
-        List<CharacterManager> availableTargets = new List<CharacterManager>();
+        List<CharacterManager> availableTargets = new();
         public CharacterManager nearestLockOnTarget;
         public float maximumLockOnDistance;
         public CharacterManager leftLockTarget, rightLockTarget;

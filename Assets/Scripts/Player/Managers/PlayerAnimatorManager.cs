@@ -6,13 +6,14 @@ namespace SoulsLike {
     public class PlayerAnimatorManager : CharacterAnimatorManager {
         InputHandler inputHandler;
         PlayerLocomotionManager playerLocomotionManager;
-
+        PlayerManager playerManager;
         int vertical;
         int horizontal;
 
         protected override void Awake() {
             base.Awake();
-            anim = GetComponentInChildren<Animator>();
+            playerManager = GetComponent<PlayerManager>();
+            anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotionManager = GetComponentInParent<PlayerLocomotionManager>();
             vertical = Animator.StringToHash("Vertical");
@@ -49,12 +50,12 @@ namespace SoulsLike {
 
         private void OnAnimatorMove() {
             if (!characterManager.isInteracting) return;
-
+            
             float delta = Time.deltaTime;
             playerLocomotionManager.rigidbody.drag = 0;
-            Vector3 deltaPosition = anim.deltaPosition; // 애니메이션의 마지막 프레임때 아바타의 좌표를 가져옴
+            Vector3 deltaPosition = anim.deltaPosition; // 현재 마지막으로 계산된 프레임에서 아바타의 좌표 변화량
             deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta; // 이동한 거리를 이동한 시간으로 나눠 속도를 구한다.
+            Vector3 velocity = deltaPosition / delta; // 거리의 변화량을 시간으로 나눠 속도를 구한다.
             playerLocomotionManager.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
         }
 
@@ -69,8 +70,8 @@ namespace SoulsLike {
         }
 
         public void FinishJump() {
-            if (playerLocomotionManager.isJumping)
-                playerLocomotionManager.isJumping = false;
+            if (playerManager.isJumping)
+                playerManager.isJumping = false;
         }
     }
 }
