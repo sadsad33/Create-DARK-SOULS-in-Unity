@@ -60,6 +60,7 @@ namespace SoulsLike {
                     rightFootUp = true;
                 }
             }
+
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
             isFiringSpell = anim.GetBool("isFiringSpell");
