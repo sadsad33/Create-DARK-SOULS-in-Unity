@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class CharacterManager : MonoBehaviour {
         CharacterAnimatorManager characterAnimatorManager;
-        CharacterWeaponSlotManager characterWeaponSlotManager;
+        public CharacterWeaponSlotManager characterWeaponSlotManager;
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
