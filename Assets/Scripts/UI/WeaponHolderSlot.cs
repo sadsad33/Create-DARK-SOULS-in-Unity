@@ -8,8 +8,10 @@ namespace SoulsLike {
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
         public bool isBackSlot;
+
+        // 무기를 설정하는 것과, 무기의 모델을 설정하는 것은 별개
         public WeaponItem currentWeapon; // 양잡시 등에 멜 무기를 저장하기 위해 WeaponItem 형 변수를 만들어 현재 왼쪽/오른쪽 손의 무기를 저장한다.
-        public GameObject currentWeaponModel;
+        public GameObject currentWeaponModel; // 저장된 무기의 모델
 
         public void UnloadWeapon() {
             if (currentWeaponModel != null) // 현재 무기가 null이 아니라면

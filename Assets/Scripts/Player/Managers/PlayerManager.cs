@@ -247,6 +247,8 @@ namespace SoulsLike {
         }
 
         public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
+            characterWeaponSlotManager.rightHandSlot.UnloadWeapon();
+            characterWeaponSlotManager.leftHandSlot.UnloadWeapon();
             playerLocomotion.rigidbody.velocity = Vector3.zero;
             playerAnimatorManager.PlayTargetAnimation(animation, true);
             transform.position = playerStandingPosition.position;
