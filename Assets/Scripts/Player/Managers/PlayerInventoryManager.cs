@@ -39,5 +39,13 @@ namespace SoulsLike {
             }
         }
 
+        public void ChangeSpell() {
+        
+        }
+
+        public void ChangeConsumableItem(){
+
+        }
+
     }
 }

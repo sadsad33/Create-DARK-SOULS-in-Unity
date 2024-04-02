@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class LadderInteraction : Interactable {
         public bool isTop;
+        public Transform ladderTransform;
 
         [Header("Ladder Top Positions")]
         public Transform topStartingPosition;
