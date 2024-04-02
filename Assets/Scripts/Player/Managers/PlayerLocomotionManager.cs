@@ -65,7 +65,6 @@ namespace SoulsLike {
             cameraObject = Camera.main.transform;
             myTransform = transform;
             playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
-            //ignoreForGroundCheck = ~(1 << 8 | 1 << 11); // 착지를 판단할때 무시할 레이어
             groundCheck = (1 << 8 | 1 << 1);
             Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
         }
@@ -184,7 +183,7 @@ namespace SoulsLike {
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             // 다른 행동을하고 있다면
-            if (playerAnimatorManager.anim.GetBool("isInteracting") || playerManager.isClimbing) return;
+            if (playerManager.isInteracting || playerManager.isClimbing) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -202,7 +201,7 @@ namespace SoulsLike {
                     playerStatsManager.TakeStaminaDamage(rollStaminaCost);
                 } else { // 이동중이 아니라면 백스텝
                     //Debug.Log("백스텝!!!");
-                    if (inputHandler.backstepDelay > 0.3f) {
+                    if (inputHandler.backstepDelay > 1f) {
                         playerAnimatorManager.PlayTargetAnimation("Backstep", true);
                         playerAnimatorManager.EraseHandIKForWeapon();
                         rigidbody.AddForce(-myTransform.forward * 20, ForceMode.Impulse);
@@ -283,9 +282,6 @@ namespace SoulsLike {
 
             if (inputHandler.jump_Input) {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
-                    //moveDirection = cameraObject.forward * inputHandler.vertical;
-                    //moveDirection += cameraObject.right * inputHandler.horizontal;
-                    //StartCoroutine(JumpBooster());
                     playerManager.isJumping = true;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
