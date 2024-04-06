@@ -19,8 +19,7 @@ namespace SoulsLike {
             base.Interact(playerManager);
 
             Vector3 rotationDirection;
-            rotationDirection = -transform.forward;
-            rotationDirection.y = 0;
+            rotationDirection = transform.InverseTransformDirection(-transform.forward);
             rotationDirection.Normalize();
 
             Quaternion tr = Quaternion.LookRotation(rotationDirection);
