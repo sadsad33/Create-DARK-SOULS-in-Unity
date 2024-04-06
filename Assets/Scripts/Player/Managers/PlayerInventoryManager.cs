@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerInventoryManager : CharacterInventoryManager {
         public List<WeaponItem> weaponsInventory; // 플레이어의 인벤토리
-
+        
         public void ChangeRightWeapon() {
             currentRightWeaponIndex += 1; // 다음인덱스로 넘어간다.
             // 배열의 인덱스가 범위를 벗어나면 무장해제 한다.
@@ -18,7 +18,7 @@ namespace SoulsLike {
                     rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
                     characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
                 } else {
-                    currentRightWeaponIndex += 1;
+                    currentRightWeaponIndex = -1;
                 }
             }
         }
@@ -34,13 +34,19 @@ namespace SoulsLike {
                     leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
                     characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
                 } else {
-                    currentLeftWeaponIndex += 1;
+                    currentLeftWeaponIndex = -1;
                 }
             }
         }
 
         public void ChangeSpell() {
-        
+            currentSpellIndex += 1;
+            if (memorizedSpells[currentSpellIndex] == null || currentSpellIndex >= memorizedSpells.Length) {
+                currentSpellIndex = 0;
+                currentSpell = memorizedSpells[currentSpellIndex];
+            } else {
+                currentSpell = memorizedSpells[currentSpellIndex];
+            }
         }
 
         public void ChangeConsumableItem(){

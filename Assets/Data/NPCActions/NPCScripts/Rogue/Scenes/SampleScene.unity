@@ -3040,6 +3040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e5615f2aad1cda4c8887da5febff222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterWeaponSlotManager: {fileID: 0}
   lockOnTransform: {fileID: 685245562}
   backStabCollider: {fileID: 229186707128828869}
   riposteCollider: {fileID: 229186708005005756}
@@ -10448,6 +10449,18 @@ MonoBehaviour:
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
   currentConsumable: {fileID: 0}
+  memorizedSpells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -10462,6 +10475,8 @@ MonoBehaviour:
   currentGuntletEquipment: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
+  currentSpellIndex: 0
+  currentConsumableIndex: 0
 --- !u!114 &1920339679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10515,6 +10530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9236ad839a2af418234fdcfc9cbad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterWeaponSlotManager: {fileID: 0}
   lockOnTransform: {fileID: 841875962}
   backStabCollider: {fileID: 1892301564}
   riposteCollider: {fileID: 1144917034}
@@ -20607,6 +20623,7 @@ MonoBehaviour:
   radius: 0
   interactableText: Climb
   isTop: 0
+  ladderTransform: {fileID: 716617325}
   topStartingPosition: {fileID: 2663636849635100700}
   topFinishingPosition: {fileID: 1447419569}
   bottomStartingPosition: {fileID: 1536641732}
@@ -20733,6 +20750,7 @@ MonoBehaviour:
   radius: 0
   interactableText: Descend
   isTop: 1
+  ladderTransform: {fileID: 716617325}
   topStartingPosition: {fileID: 2663636849635100700}
   topFinishingPosition: {fileID: 1447419569}
   bottomStartingPosition: {fileID: 1536641732}
@@ -21943,6 +21961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9236ad839a2af418234fdcfc9cbad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterWeaponSlotManager: {fileID: 0}
   lockOnTransform: {fileID: 2853968160758623337}
   backStabCollider: {fileID: 1876851043999527145}
   riposteCollider: {fileID: 1876851045426936032}
@@ -31873,6 +31892,18 @@ MonoBehaviour:
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
   currentConsumable: {fileID: 0}
+  memorizedSpells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -31887,6 +31918,8 @@ MonoBehaviour:
   currentGuntletEquipment: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
+  currentSpellIndex: 0
+  currentConsumableIndex: 0
 --- !u!114 &4086121375643061408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34192,10 +34225,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac0d32779b1a7347b63368d35c61561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpell: {fileID: 11400000, guid: 4e111f3902d017345b6d5edbbde327a1, type: 2}
+  currentSpell: {fileID: 0}
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
-  currentConsumable: {fileID: 11400000, guid: 4df38d6861926e340a975dcf4ccbc478, type: 2}
+  currentConsumable: {fileID: 0}
+  memorizedSpells:
+  - {fileID: 11400000, guid: 4e111f3902d017345b6d5edbbde327a1, type: 2}
+  - {fileID: 11400000, guid: f3b84f19fd13e2548a205efbbc7a1796, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedConsumables:
+  - {fileID: 11400000, guid: 4df38d6861926e340a975dcf4ccbc478, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 8b308fd9bb65d8e44b55ed88c725a975, type: 2}
   - {fileID: 0}
@@ -34203,13 +34248,15 @@ MonoBehaviour:
   weaponsInRightHandSlots:
   - {fileID: 11400000, guid: 5b39c446a406e4c41b9b3b2a233306f3, type: 2}
   - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
-  - {fileID: 11400000, guid: b61b5ecad97f8f842857785ee3715272, type: 2}
+  - {fileID: 11400000, guid: ce7fac139c06bfc4390db328c045d28c, type: 2}
   currentHelmetEquipment: {fileID: 11400000, guid: fc1e36634f4ce4540be04eb96bc679c0, type: 2}
   currentTorsoEquipment: {fileID: 11400000, guid: e67d82a93443a204090643a8bbdec9d8, type: 2}
   currentLegEquipment: {fileID: 11400000, guid: d4d8bac998410a84594783304bc4a1f9, type: 2}
   currentGuntletEquipment: {fileID: 11400000, guid: 47a41915e5ae5494591a6021240b8c1d, type: 2}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
+  currentSpellIndex: 0
+  currentConsumableIndex: 0
   weaponsInventory: []
 --- !u!114 &6353349341563976084
 MonoBehaviour:
@@ -34223,6 +34270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386cfc514c1b10749b80654dadb8cd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterWeaponSlotManager: {fileID: 0}
   lockOnTransform: {fileID: 3287602051577551959}
   backStabCollider: {fileID: 3364704305345977320}
   riposteCollider: {fileID: 3364704305542672785}
@@ -35316,6 +35364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9236ad839a2af418234fdcfc9cbad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterWeaponSlotManager: {fileID: 0}
   lockOnTransform: {fileID: 2173030236879191317}
   backStabCollider: {fileID: 2573975979005223317}
   riposteCollider: {fileID: 2573975977644861852}
@@ -35422,6 +35471,18 @@ MonoBehaviour:
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
   currentConsumable: {fileID: 0}
+  memorizedSpells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -35436,6 +35497,8 @@ MonoBehaviour:
   currentGuntletEquipment: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
+  currentSpellIndex: 0
+  currentConsumableIndex: 0
 --- !u!114 &6777079784069156021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37559,7 +37622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8201319159962625296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37859,7 +37922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8201319160160450548
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39386,6 +39449,18 @@ MonoBehaviour:
   rightWeapon: {fileID: 0}
   leftWeapon: {fileID: 0}
   currentConsumable: {fileID: 0}
+  memorizedSpells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -39400,6 +39475,8 @@ MonoBehaviour:
   currentGuntletEquipment: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
+  currentSpellIndex: 0
+  currentConsumableIndex: 0
 --- !u!114 &9058321785823695561
 MonoBehaviour:
   m_ObjectHideFlags: 0
