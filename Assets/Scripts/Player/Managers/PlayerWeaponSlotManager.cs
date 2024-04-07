@@ -25,6 +25,10 @@ namespace SoulsLike {
             cameraHandler = FindObjectOfType<CameraHandler>();
         }
 
+        public override void LoadSpellOnSlot(SpellItem spellItem) {
+            quickSlots.UpdateCurrentSpellIcon(spellItem);
+        }
+
         public override void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {
                 if (isLeft) {

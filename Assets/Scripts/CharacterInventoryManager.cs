@@ -27,10 +27,6 @@ namespace SoulsLike {
         public int currentLeftWeaponIndex;
         public int currentSpellIndex;
         public int currentConsumableIndex;
-        protected int rightWeaponUsedSize = 0;
-        protected int leftWeaponUsedSize = 0;
-        protected int spellUsedSize = 0;
-        protected int consumableUsedSize = 0;
 
         private void Awake() {
             characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
@@ -42,14 +38,6 @@ namespace SoulsLike {
 
         private void Start() {
             characterWeaponSlotManager.LoadBothWeaponsOnSlots();
-            for (int i = 0; i < weaponsInRightHandSlots.Length; i++) {
-                if (weaponsInLeftHandSlots[i] != null) leftWeaponUsedSize++;
-                if (weaponsInRightHandSlots[i] != null) rightWeaponUsedSize++;
-            }
-            for (int i = 0; i < memorizedSpells.Length; i++) {
-                if (memorizedSpells[i] != null) spellUsedSize++;
-                if (selectedConsumables[i] != null) consumableUsedSize++;
-            }
         }
     }
 }

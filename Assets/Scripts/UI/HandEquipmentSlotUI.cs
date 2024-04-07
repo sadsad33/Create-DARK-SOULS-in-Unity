@@ -12,8 +12,10 @@ namespace SoulsLike {
 
         public bool rightHandSlot1;
         public bool rightHandSlot2;
+        public bool rightHandSlot3;
         public bool leftHandSlot1;
         public bool leftHandSlot2;
+        public bool leftHandSlot3;
 
         private void Awake() {
             uiManager = FindObjectOfType<UIManager>();
@@ -42,10 +44,14 @@ namespace SoulsLike {
                 uiManager.rightHandSlot1Selected = true;
             } else if (rightHandSlot2) {
                 uiManager.rightHandSlot2Selected = true;
+            } else if (rightHandSlot3) {
+                uiManager.rightHandSlot3Selected = true;
             } else if (leftHandSlot1) {
                 uiManager.leftHandSlot1Selected = true;
-            } else {
+            }else if(leftHandSlot2){
                 uiManager.leftHandSlot2Selected = true;
+            } else {
+                uiManager.leftHandSlot3Selected = true;
             }
         }
     }
