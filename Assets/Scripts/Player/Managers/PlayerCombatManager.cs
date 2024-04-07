@@ -67,7 +67,7 @@ namespace SoulsLike {
         #region Input Actions
         public void HandleRBAction() {
             playerAnimatorManager.EraseHandIKForWeapon();
-            
+
             if (playerInventoryManager.rightWeapon.isMeleeWeapon) {
                 PerformRBMeleeAction();
             } else if (playerInventoryManager.rightWeapon.isMagicCaster || playerInventoryManager.rightWeapon.isFaithCaster || playerInventoryManager.rightWeapon.isPyroCaster) {
@@ -107,16 +107,20 @@ namespace SoulsLike {
         private void PerformRBSpellAction(WeaponItem weapon) {
             if (playerManager.isInteracting) return;
             if (weapon.isFaithCaster) {
-                if (playerInventoryManager.currentSpell != null && playerInventoryManager.currentSpell.isFaithSpell) {
+                if (playerInventoryManager.currentSpell.isFaithSpell) {
                     if (playerStatsManager.currentFocus >= playerInventoryManager.currentSpell.focusCost)
                         playerInventoryManager.currentSpell.AttemptToCastSpell(playerAnimatorManager, playerStatsManager, playerWeaponSlotManager);
                     else playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                } else {
+                    playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             } else if (weapon.isPyroCaster) {
-                if (playerInventoryManager.currentSpell != null && playerInventoryManager.currentSpell.isPyroSpell) {
+                if (playerInventoryManager.currentSpell.isPyroSpell) {
                     if (playerStatsManager.currentFocus >= playerInventoryManager.currentSpell.focusCost)
                         playerInventoryManager.currentSpell.AttemptToCastSpell(playerAnimatorManager, playerStatsManager, playerWeaponSlotManager);
                     else playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                } else {
+                    playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             }
         }

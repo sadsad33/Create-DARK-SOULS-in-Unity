@@ -19,8 +19,10 @@ namespace SoulsLike {
         [Header("Equipment Window Slots Selected")]
         public bool rightHandSlot1Selected;
         public bool rightHandSlot2Selected;
+        public bool rightHandSlot3Selected;
         public bool leftHandSlot1Selected; 
         public bool leftHandSlot2Selected;
+        public bool leftHandSlot3Selected;
 
         [Header("Weapon Inventory")]
         public GameObject weaponInventorySlotPrefab; // ½½·Ô prefab
