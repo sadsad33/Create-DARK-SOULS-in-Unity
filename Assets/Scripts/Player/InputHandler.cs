@@ -85,6 +85,7 @@ namespace SoulsLike {
                 inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
                 inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.DpadUp.performed += i => d_Pad_Up = true;
+                inputActions.PlayerActions.DpadDown.performed += i => d_Pad_Down = true;
                 inputActions.PlayerActions.Xbutton.performed += i => x_Input = true;
 
                 // 버튼이 눌리면 이벤트 호출
@@ -192,16 +193,16 @@ namespace SoulsLike {
         }
 
         private void HandleQuickSlotInput() {
-
             if (d_Pad_Right) {
                 playerInventoryManager.ChangeRightWeapon();
             } else if (d_Pad_Left) {
                 playerInventoryManager.ChangeLeftWeapon();
             } else if (d_Pad_Up) {
                 playerInventoryManager.ChangeSpell();
+            } else if (d_Pad_Down) {
+                playerInventoryManager.ChangeConsumableItem();
             }
         }
-
 
         private void HandleInventoryInput() {
             if (inventory_Input) {

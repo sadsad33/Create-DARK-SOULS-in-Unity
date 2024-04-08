@@ -35,7 +35,7 @@ namespace SoulsLike {
             rightHandSlot2 = true;
         }
 
-        public void SelectRightHandSlt3() {
+        public void SelectRightHandSlot3() {
             rightHandSlot3 = true;
         }
 
@@ -47,7 +47,7 @@ namespace SoulsLike {
             leftHandSlot2 = true;
         }
 
-        public void SelecteLeftHandSlot3() {
+        public void SelectLeftHandSlot3() {
             leftHandSlot3 = true;
         }
     }

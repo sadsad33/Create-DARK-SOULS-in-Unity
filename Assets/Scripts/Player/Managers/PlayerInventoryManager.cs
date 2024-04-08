@@ -7,35 +7,24 @@ namespace SoulsLike {
         public List<WeaponItem> weaponsInventory; // 플레이어의 인벤토리
         public void ChangeRightWeapon() {
             currentRightWeaponIndex += 1; // 다음인덱스로 넘어간다.
-            // 배열의 인덱스가 범위를 벗어나면 무장해제 한다.
-            if (currentRightWeaponIndex >= weaponsInRightHandSlots.Length) {
+            if (currentRightWeaponIndex >= weaponsInRightHandSlots.Length || weaponsInRightHandSlots[currentRightWeaponIndex] == null) {
                 currentRightWeaponIndex = -1;
                 rightWeapon = characterWeaponSlotManager.unarmedWeapon;
-                characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
             } else {
-                if (weaponsInRightHandSlots[currentRightWeaponIndex] != null) {
-                    rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
-                    characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-                } else {
-                    currentRightWeaponIndex = -1;
-                }
+                rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
             }
+            characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
         }
 
         public void ChangeLeftWeapon() {
             currentLeftWeaponIndex += 1;
-            if (currentLeftWeaponIndex >= weaponsInLeftHandSlots.Length) {
+            if (currentLeftWeaponIndex >= weaponsInLeftHandSlots.Length || weaponsInLeftHandSlots[currentLeftWeaponIndex] == null) {
                 currentLeftWeaponIndex = -1;
                 leftWeapon = characterWeaponSlotManager.unarmedWeapon;
-                characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
             } else {
-                if (weaponsInLeftHandSlots[currentLeftWeaponIndex] != null) {
-                    leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
-                    characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
-                } else {
-                    currentLeftWeaponIndex = -1;
-                }
+                leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
             }
+            characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         }
 
         public void ChangeSpell() {
@@ -57,7 +46,7 @@ namespace SoulsLike {
             } else {
                 currentConsumable = selectedConsumables[currentConsumableIndex];
             }
+            characterWeaponSlotManager.LoadConsumableOnSlot(currentConsumable);
         }
-
     }
 }

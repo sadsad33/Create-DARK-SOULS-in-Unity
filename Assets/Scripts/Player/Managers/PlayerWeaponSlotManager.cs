@@ -29,6 +29,10 @@ namespace SoulsLike {
             quickSlots.UpdateCurrentSpellIcon(spellItem);
         }
 
+        public override void LoadConsumableOnSlot(ConsumableItem consumableItem) {
+            quickSlots.UpdateCurrentConsumableIcon(consumableItem);
+        }
+
         public override void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {
                 if (isLeft) {
