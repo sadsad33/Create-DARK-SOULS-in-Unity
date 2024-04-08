@@ -52,7 +52,7 @@ namespace SoulsLike {
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentRightWeaponIndex == 1) changeNow = true;
             } else if (uiManager.rightHandSlot3Selected) {
-                playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[1]);
+                playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[2]);
                 playerInventory.weaponsInRightHandSlots[2] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentRightWeaponIndex == 2) changeNow = true;
@@ -67,7 +67,7 @@ namespace SoulsLike {
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentLeftWeaponIndex == 1) changeNow = true;
             } else if (uiManager.leftHandSlot3Selected){
-                playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[1]);
+                playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[2]);
                 playerInventory.weaponsInLeftHandSlots[2] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentLeftWeaponIndex == 2) changeNow = true;

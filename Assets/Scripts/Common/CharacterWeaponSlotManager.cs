@@ -86,6 +86,9 @@ namespace SoulsLike {
         public virtual void LoadSpellOnSlot(SpellItem spellItem) {
         }
 
+        public virtual void LoadConsumableOnSlot(ConsumableItem consumableItem) {
+        }
+
         // 현재 각 손의 WeaponHolderSlot 스크립트를 참조하여 현재 들려있는 무기를 로드
         public virtual void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {

@@ -8,6 +8,7 @@ namespace SoulsLike {
         public PlayerInventoryManager playerInventory;
         public EquipmentWindowUI equipmentWindowUI;
         private QuickSlots quickSlots;
+        public Stack uiStack = new();
 
         [Header("UI Windows")]
         public GameObject hudWindow;
@@ -75,8 +76,10 @@ namespace SoulsLike {
         public void ResetAllSelectedSlots() {
             rightHandSlot1Selected = false;
             rightHandSlot2Selected = false;
+            rightHandSlot3Selected = false;
             leftHandSlot1Selected = false;
             leftHandSlot2Selected = false;
+            leftHandSlot3Selected = false;
         }
     }
 }

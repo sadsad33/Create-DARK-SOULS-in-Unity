@@ -2108,8 +2108,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8201319159029467312}
-        m_TargetAssemblyTypeName: sg.EquipmentWindowUI, Assembly-CSharp
-        m_MethodName: SelectRightHandSlot2
+        m_TargetAssemblyTypeName: SoulsLike.EquipmentWindowUI, Assembly-CSharp
+        m_MethodName: SelectRightHandSlot3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7752,8 +7752,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8201319159029467312}
-        m_TargetAssemblyTypeName: sg.EquipmentWindowUI, Assembly-CSharp
-        m_MethodName: SelectLeftHandSlot2
+        m_TargetAssemblyTypeName: SoulsLike.EquipmentWindowUI, Assembly-CSharp
+        m_MethodName: SelectLeftHandSlot3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34935,8 +34935,8 @@ MonoBehaviour:
   - {fileID: 0}
   selectedConsumables:
   - {fileID: 11400000, guid: 4df38d6861926e340a975dcf4ccbc478, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: eceaaefbafc49b641bdff45ef958b539, type: 2}
+  - {fileID: 11400000, guid: 47a463d742b80b34f9e4e29c3e610162, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   weaponsInLeftHandSlots:
