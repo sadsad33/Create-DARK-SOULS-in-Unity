@@ -33,7 +33,7 @@ namespace SoulsLike {
         public bool sprintFlag;
         public bool comboFlag;
         public bool lockOnFlag;
-        public bool inventoryFlag;
+        //public bool inventoryFlag;
 
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
         public float backstepDelay;
@@ -205,16 +205,24 @@ namespace SoulsLike {
         }
 
         private void HandleInventoryInput() {
+            //if (inventory_Input) {
+            //    inventoryFlag = !inventoryFlag;
+            //    if (inventoryFlag) {
+            //        uiManager.OpenSelectWindow();
+            //        uiManager.UpdateUI(); // 인벤토리 업데이트
+            //        uiManager.hudWindow.SetActive(false); // 인벤토리가 열리면 HUD를 끈다.
+            //    } else {
+            //        uiManager.CloseSelectWindow();
+            //        uiManager.CloseAllInventoryWindows();
+            //        uiManager.hudWindow.SetActive(true); // 인벤토리가 닫히면 HUD를 킨다.
+            //    }
+            //}
             if (inventory_Input) {
-                inventoryFlag = !inventoryFlag;
-                if (inventoryFlag) {
-                    uiManager.OpenSelectWindow();
-                    uiManager.UpdateUI(); // 인벤토리 업데이트
-                    uiManager.hudWindow.SetActive(false); // 인벤토리가 열리면 HUD를 끈다.
+                if (uiManager.uiStack.Count <= 1) {
+                    uiManager.OpenSelectedWindow(0);
+                    uiManager.UpdateUI();
                 } else {
-                    uiManager.CloseSelectWindow();
-                    uiManager.CloseAllInventoryWindows();
-                    uiManager.hudWindow.SetActive(true); // 인벤토리가 닫히면 HUD를 킨다.
+                    uiManager.CloseWindow();
                 }
             }
         }
