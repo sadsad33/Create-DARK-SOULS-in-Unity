@@ -35,11 +35,13 @@ namespace SoulsLike {
         }
 
         bool changeNow = false;
+        WeaponItem mem;
         public void EquipThisItem() {
             // 만약 오른쪽손 슬롯1을 선택하여 플레이어 무기 인벤토리로 들어갔다면
             if (uiManager.rightHandSlot1Selected) {
                 // 무기 인벤토리에 현재 오른쪽손 슬롯1에 장착된 무기를 추가
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[0]);
+                mem = playerInventory.weaponsInRightHandSlots[0];
                 // 오른쪽손 슬롯1에는 무기 인벤토리에서 선택된 아이템을 추가
                 playerInventory.weaponsInRightHandSlots[0] = item;
                 // 무기 인벤토리에서 선택된 아이템은 무기 인벤토리에서 제거
@@ -48,32 +50,40 @@ namespace SoulsLike {
                 if (playerInventory.currentRightWeaponIndex == 0) changeNow = true; // 바로 바꿔줘야함
             } else if (uiManager.rightHandSlot2Selected) {
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[1]);
+                mem = playerInventory.weaponsInRightHandSlots[1];
                 playerInventory.weaponsInRightHandSlots[1] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentRightWeaponIndex == 1) changeNow = true;
             } else if (uiManager.rightHandSlot3Selected) {
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[2]);
+                mem = playerInventory.weaponsInRightHandSlots[2];
                 playerInventory.weaponsInRightHandSlots[2] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentRightWeaponIndex == 2) changeNow = true;
             } else if (uiManager.leftHandSlot1Selected) {
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[0]);
+                mem = playerInventory.weaponsInLeftHandSlots[0];
                 playerInventory.weaponsInLeftHandSlots[0] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentLeftWeaponIndex == 0) changeNow = true;
             } else if (uiManager.leftHandSlot2Selected) {
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[1]);
+                mem = playerInventory.weaponsInLeftHandSlots[1];
                 playerInventory.weaponsInLeftHandSlots[1] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentLeftWeaponIndex == 1) changeNow = true;
             } else if (uiManager.leftHandSlot3Selected){
                 playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[2]);
+                mem = playerInventory.weaponsInLeftHandSlots[2];
                 playerInventory.weaponsInLeftHandSlots[2] = item;
                 playerInventory.weaponsInventory.Remove(item);
                 if (playerInventory.currentLeftWeaponIndex == 2) changeNow = true;
             } else {
                 return;
             }
+
+            item = mem;
+            icon.sprite = mem.itemIcon;
 
             if (changeNow) {
                 playerInventory.rightWeapon = playerInventory.weaponsInRightHandSlots[playerInventory.currentRightWeaponIndex];
