@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SoulsLike {
     // Item이라는 ScriptableObject의 하위항목으로 WeaponItem이라는 ScriptableObject를 만든다.
@@ -9,6 +10,7 @@ namespace SoulsLike {
     public class WeaponItem : Item {
         public GameObject modelPrefab;
         public bool isUnarmed;
+        public string flavorText;
 
         [Header("Damage")]
         public float physicalDamage = 25;

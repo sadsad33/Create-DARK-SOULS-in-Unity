@@ -53,6 +53,8 @@ namespace SoulsLike {
             } else {
                 uiManager.leftHandSlot3Selected = true;
             }
+
+            uiManager.handSlotIsSelected = true;
         }
     }
 }
