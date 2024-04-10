@@ -7,8 +7,10 @@ namespace SoulsLike {
     public class WeaponInventorySlot : MonoBehaviour {
         PlayerInventoryManager playerInventory;
         PlayerWeaponSlotManager weaponSlotManager;
-        UIManager uiManager; 
-
+        UIManager uiManager;
+        
+        public ItemInfoWindowUI itemInfoWindowUI;
+        
         // 슬롯은 아이콘과 아이템을 갖는다.
         public Image icon;
         WeaponItem item;
@@ -81,7 +83,7 @@ namespace SoulsLike {
             } else {
                 return;
             }
-
+            Debug.Log(mem);
             item = mem;
             icon.sprite = mem.itemIcon;
 
@@ -96,7 +98,19 @@ namespace SoulsLike {
             weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
 
             uiManager.equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
+        }
+        
+        public void OnClickButton() {
+            if (uiManager.handSlotIsSelected) uiManager.CloseWindow();
+            else ShowItemInfo();
             uiManager.ResetAllSelectedSlots();
         }
+
+        public void ShowItemInfo() {
+            Debug.Log(item);
+            uiManager.OpenSelectedWindow(3);
+            itemInfoWindowUI.SetItemInfo(item);
+        }
+
     }
 }

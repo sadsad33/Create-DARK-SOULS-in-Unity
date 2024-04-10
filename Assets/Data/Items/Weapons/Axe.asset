@@ -16,6 +16,7 @@ MonoBehaviour:
   itemName: Axe
   modelPrefab: {fileID: 6286975738734905360, guid: cdddfa5d5ff0e6149bce57e9f379242c, type: 3}
   isUnarmed: 0
+  flavorText: "\uD3C9\uBC94\uD55C \uC1E0\uB3C4\uB07C."
   physicalDamage: 25
   fireDamage: 0
   criticalDamageMultiplier: 4

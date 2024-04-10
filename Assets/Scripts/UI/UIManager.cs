@@ -15,6 +15,7 @@ namespace SoulsLike {
         public GameObject selectMenuWindow;
         public GameObject equipmentScreenWindow;
         public GameObject weaponInventoryWindow;
+        public GameObject ItemInfoWindow;
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
         [Header("Equipment Window Slots Selected")]
@@ -24,6 +25,8 @@ namespace SoulsLike {
         public bool leftHandSlot1Selected;
         public bool leftHandSlot2Selected;
         public bool leftHandSlot3Selected;
+
+        public bool handSlotIsSelected = false;
 
         [Header("Weapon Inventory")]
         public GameObject weaponInventorySlotPrefab; // 슬롯 prefab
@@ -75,9 +78,13 @@ namespace SoulsLike {
                     equipmentScreenWindow.SetActive(true);
                     uiStack.Push(equipmentScreenWindow);
                     break;
+                case 3:
+                    ItemInfoWindow.SetActive(true);
+                    uiStack.Push(ItemInfoWindow);
+                    break;
             }
         }
-        
+
         public void CloseWindow() {
             uiStack.Peek().SetActive(false); // 가장 위에 열려있던 창을 닫는다
             uiStack.Pop();
@@ -92,6 +99,8 @@ namespace SoulsLike {
             leftHandSlot1Selected = false;
             leftHandSlot2Selected = false;
             leftHandSlot3Selected = false;
+
+            handSlotIsSelected = false;
         }
     }
 }
