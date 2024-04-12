@@ -86,6 +86,7 @@ namespace SoulsLike {
         }
 
         public void CloseWindow() {
+            if (uiStack.Peek() == weaponInventoryWindow) ResetAllSelectedSlots();
             uiStack.Peek().SetActive(false); // 가장 위에 열려있던 창을 닫는다
             uiStack.Pop();
             uiStack.Peek().SetActive(true); // 바로 다음 창을 다시 표시
