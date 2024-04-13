@@ -131,7 +131,7 @@ namespace SoulsLike {
         // 캐릭터 이동
         public void HandleMovement(float delta) {
             if (inputHandler.rollFlag) return;
-            if (playerManager.isInteracting || playerManager.isClimbing) return;
+            if (playerManager.isInteracting || playerManager.isClimbing || playerManager.isAtBonefire) return;
 
             #region 이동할때 필요한 벡터 생성
             // 이동방향에 입력을 반영한다.
@@ -183,7 +183,7 @@ namespace SoulsLike {
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             // 다른 행동을하고 있다면
-            if (playerManager.isInteracting || playerManager.isClimbing) return;
+            if (playerManager.isInteracting || playerManager.isClimbing || playerManager.isAtBonefire) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
