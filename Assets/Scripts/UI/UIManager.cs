@@ -15,7 +15,8 @@ namespace SoulsLike {
         public GameObject selectMenuWindow;
         public GameObject equipmentScreenWindow;
         public GameObject weaponInventoryWindow;
-        public GameObject ItemInfoWindow;
+        public GameObject itemInfoWindow;
+        public GameObject bonfireWindow;
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
         [Header("Equipment Window Slots Selected")]
@@ -79,8 +80,12 @@ namespace SoulsLike {
                     uiStack.Push(equipmentScreenWindow);
                     break;
                 case 3:
-                    ItemInfoWindow.SetActive(true);
-                    uiStack.Push(ItemInfoWindow);
+                    itemInfoWindow.SetActive(true);
+                    uiStack.Push(itemInfoWindow);
+                    break;
+                case 4:
+                    bonfireWindow.SetActive(true);
+                    uiStack.Push(bonfireWindow);
                     break;
             }
         }

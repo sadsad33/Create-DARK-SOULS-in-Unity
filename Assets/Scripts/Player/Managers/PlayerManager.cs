@@ -21,7 +21,7 @@ namespace SoulsLike {
         public bool isJumping = false;
         public bool rightFootUp;
         public bool isLadderTop;
-        public bool isAtBonefire;
+        public bool isAtBonfire;
         private float turnPageTimer;
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
@@ -76,7 +76,7 @@ namespace SoulsLike {
             anim.SetBool("isBlocking", isBlocking);
 
             // 화톳불
-            anim.SetBool("isAtBonefire", isAtBonefire);
+            anim.SetBool("isAtBonefire", isAtBonfire);
 
             // 사다리 관련
             anim.SetBool("isClimbing", isClimbing);
@@ -137,7 +137,7 @@ namespace SoulsLike {
             // 아바타가 움직인 좌표의 변화량을 측정하고 애니메이션 실행된 시간으로 나눠 속도를 구한후 플레이어의 rigidbody 에 대입하여 자연스럽게보이도록 속도를 대입함
             // 애니메이션의 전이가 모든 애니메이션의 마지막 프레임 이후 실행되는 거라면 상관없지만 자연스러운 전이를 위해 대부분 그러지 않으므로 Rigidbody의 velocity 가 0이 되었다가 마지막 프레임에서
             // 다시 OnAnimatorMove 메서드가 호출되면서 Rigidbody 의 velocity 값이 변화하는 듯
-            if ((isClimbing || isAtBonefire) && playerAnimatorManager.anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // 한 프레임마다 5번 레이어의 현재 애니메이션이 Empty 라면 rigidbody 의 속도를 0으로 만듬
+            if ((isClimbing || isAtBonfire) && playerAnimatorManager.anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // 한 프레임마다 5번 레이어의 현재 애니메이션이 Empty 라면 rigidbody 의 속도를 0으로 만듬
                 playerLocomotion.rigidbody.velocity = Vector3.zero;
             }
 
@@ -156,7 +156,7 @@ namespace SoulsLike {
 
         CharacterManager character;
         public void CheckForInteractableObject() {
-            if (isInteracting || isInConversation || isClimbing || isAtBonefire ) return; // 행동 중이거나 대화중이라면 다른 오브젝트나 NPC와 상호작용 불가
+            if (isInteracting || isInConversation || isClimbing || isAtBonfire) return; // 행동 중이거나 대화중이라면 다른 오브젝트나 NPC와 상호작용 불가
 
             Interactable interactableObject; // 주변 상호작용 가능한 오브젝트를 담을 변수
             if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
@@ -220,6 +220,11 @@ namespace SoulsLike {
                     FinishConversation();
                 }
             }
+        }
+
+        public void FinsihRest() {
+            isAtBonfire = false;
+            playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
         }
 
         // 대화 종료
