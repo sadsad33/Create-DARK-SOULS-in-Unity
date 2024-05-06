@@ -45,11 +45,13 @@ namespace SoulsLike {
         public float physicalDamageAbsorptionBody;
         public float physicalDamageAbsorptionLegs;
         public float physicalDamageAbsorptionHands;
+        public float totalPhysicalDamageAbsorption;
 
         public float fireDamageAbsorptionHead;
         public float fireDamageAbsorptionBody;
         public float fireDamageAbsorptionLegs;
         public float fireDamageAbsorptionHands;
+        public float totalFireDamageAbsorption;
 
         public bool isDead;
 
@@ -63,12 +65,8 @@ namespace SoulsLike {
 
         public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation) {
             if (isDead) return;
-
             characterAnimatorManager.EraseHandIKForWeapon();
-            float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
-
-            float totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
             fireDamage -= (fireDamage * totalFireDamageAbsorption);
 
             float finalDamage = physicalDamage + fireDamage;
