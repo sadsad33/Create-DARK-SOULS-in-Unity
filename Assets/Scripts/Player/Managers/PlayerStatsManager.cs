@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerStatsManager : CharacterStatsManager {
+        public int level;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
         public FocusBar focusBar;
@@ -29,6 +30,14 @@ namespace SoulsLike {
             maxFocus = SetMaxFocusFromFocusLevel();
             currentFocus = maxFocus;
             focusBar.SetMaxFocus(currentFocus);
+            GetTotalDefense();
+        }
+
+        private void GetTotalDefense() {
+            totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
+            Debug.Log(totalPhysicalDamageAbsorption);
+            totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
+            Debug.Log(totalFireDamageAbsorption);
         }
 
         public override void HandlePoiseResetTimer() {
@@ -124,5 +133,6 @@ namespace SoulsLike {
         public void AddSouls(int souls) {
             soulCount += souls;
         }
+
     }
 }

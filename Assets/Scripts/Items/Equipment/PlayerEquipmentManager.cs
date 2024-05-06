@@ -40,7 +40,6 @@ namespace SoulsLike {
             capeModelChanger = GetComponentInChildren<CapeModelChanger>();
         }
 
-
         private void Start() {
             EquipAllEquipmentModelsOnStart();
         }
