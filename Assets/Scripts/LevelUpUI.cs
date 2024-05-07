@@ -11,11 +11,12 @@ namespace SoulsLike {
         public GameObject statSelectBackground;
         public Text[] currentStats;
         public Text[] statSelectTexts;
-        public Text requiredSouls;
+        public Text requiredSoulsText;
 
-        private float[] initStats = new float[3];
+        private float[] initStats = new float[8];
 
         private void OnEnable() {
+            
             currentStats = new Text[currentStatsBackground.transform.childCount];
             Transform curStatsWindow = transform.GetChild(0);
             for (int i = 0; i < currentStats.Length; i++) {
@@ -33,6 +34,7 @@ namespace SoulsLike {
             for (int i = 0; i < 3; i++) {
                 PrintCurrentStatPoints(i);
             }
+            PrintCurrentStatPoints(7);
 
             for (int i = 0; i < currentStats.Length; i++) {
                 PrintCurrentStats(i);
@@ -44,6 +46,8 @@ namespace SoulsLike {
             initStats[0] = playerStatsManager.maxHealth;
             initStats[1] = playerStatsManager.maxFocus;
             initStats[2] = playerStatsManager.maxStamina;
+            initStats[6] = playerStatsManager.level;
+            initStats[7] = playerStatsManager.soulCount;
         }
 
         // 스탯 포인트에따른 현재 능력치들을 UI에 출력한다
@@ -83,10 +87,14 @@ namespace SoulsLike {
                 case 6:
                     currentStats[index].text = "Current Level : ";
                     currentStats[6].text += playerStatsManager.level.ToString();
+                    if (initStats[index] != playerStatsManager.level) currentStats[index].color = Color.red;
+                    else currentStats[index].color = Color.white;
                     break;
                 case 7:
                     currentStats[index].text = "Current Souls : ";
                     currentStats[7].text += playerStatsManager.soulCount.ToString();
+                    if (initStats[index] != playerStatsManager.soulCount) currentStats[index].color = Color.red;
+                    else currentStats[index].color = Color.white;
                     break;
             }
         }
@@ -103,26 +111,40 @@ namespace SoulsLike {
                 case 2:
                     statSelectTexts[index].text = playerStatsManager.staminaLevel.ToString();
                     break;
+                case 7:
+                    requiredSoulsText.text = "Required Souls : ";
+                    requiredSoulsText.text += (playerStatsManager.level * 65).ToString();
+                    if (initStats[6] * 65 != float.Parse(requiredSoulsText.text)) requiredSoulsText.color = Color.red;
+                    else requiredSoulsText.color = Color.white;
+                    break;
             }
         }
 
         // 해당 인덱스의 능력치값에 변경된 포인트값을 적용한다
         public void ChangeSelectedStat(int index, int value) {
+            int delta = value;
             switch (index) {
                 case 0:
+                    delta -= playerStatsManager.healthLevel;
                     playerStatsManager.maxHealth = value * 10;
                     playerStatsManager.healthLevel = value;
                     break;
                 case 1:
+                    delta -= playerStatsManager.focusLevel;
                     playerStatsManager.maxFocus = value * 10;
                     playerStatsManager.focusLevel = value;
                     break;
                 case 2:
+                    delta -= playerStatsManager.staminaLevel;
                     playerStatsManager.maxStamina = value * 10;
                     playerStatsManager.staminaLevel = value;
                     break;
             }
+            playerStatsManager.level += delta;
             PrintCurrentStats(index);
+            PrintCurrentStats(6);
+            PrintCurrentStats(7);
+            PrintCurrentStatPoints(7);
         }
 
         public void SaveChange() {
