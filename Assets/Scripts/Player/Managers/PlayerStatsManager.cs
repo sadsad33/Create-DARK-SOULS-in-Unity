@@ -13,8 +13,12 @@ namespace SoulsLike {
 
         public float staminaRegenerationAmount = 20;
         public float staminaRegenerationTimer = 0;
+
+        //public int requriedSoulsToLevelUp;
+        
         protected override void Awake() {
             base.Awake();
+            //requriedSoulsToLevelUp = level * 65 * (level / 10 > 0 ? level / 10 : 1);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerManager = GetComponent<PlayerManager>();
         }

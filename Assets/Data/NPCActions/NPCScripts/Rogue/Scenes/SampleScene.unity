@@ -23237,7 +23237,7 @@ MonoBehaviour:
   statSelectBackground: {fileID: 1458849314}
   currentStats: []
   statSelectTexts: []
-  requiredSouls: {fileID: 1322622639}
+  requiredSoulsText: {fileID: 1322622639}
 --- !u!1 &2123646316
 GameObject:
   m_ObjectHideFlags: 0
@@ -46189,16 +46189,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIDNumber: 2
   soulsAwardedOnDeath: 0
-  healthLevel: 999
+  healthLevel: 10
   maxHealth: 0
   currentHealth: 0
-  staminaLevel: 1000
+  staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
   focusLevel: 10
   maxFocus: 0
   currentFocus: 0
-  soulCount: 0
+  soulCount: 100000
   isBoss: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0

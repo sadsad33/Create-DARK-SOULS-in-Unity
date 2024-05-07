@@ -17,14 +17,19 @@ namespace SoulsLike {
         }
 
         int value = 0;
+        int usedSouls = 0;
+
+        // 레벨업
         // 스탯 수치 증가/감소
         // 스탯 텍스트 색깔 변경
         public void OnClickButton() {
             value = int.Parse(stat.text);
-            if (isUpperDirection) {
+            if (isUpperDirection && levelUpUI.playerStatsManager.soulCount >= levelUpUI.playerStatsManager.level * 65) {
                 value += 1;
-            } else if (value > initValue) {
+                levelUpUI.playerStatsManager.soulCount -= levelUpUI.playerStatsManager.level * 65;
+            } else if (value > initValue) { // 기존 스탯포인트보다 적어질수는 없음
                 value -= 1;
+                levelUpUI.playerStatsManager.soulCount += (levelUpUI.playerStatsManager.level-1) * 65;
             }
 
             levelUpUI.ChangeSelectedStat(btnIndex, value);
