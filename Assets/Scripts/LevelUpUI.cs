@@ -10,11 +10,13 @@ namespace SoulsLike {
         public GameObject currentStatsBackground;
         public GameObject statSelectBackground;
         public Text[] currentStats;
-        public Text[] statSelectTexts;
+        public Text[] currentStatPoints;
         public Text requiredSoulsText;
 
+        // 인덱스 6은 레벨, 7은 소지 소울
         private float[] initStats = new float[8];
 
+        // 화톳불에서 레벨업을 선택하여 UI가 활성화 되면
         private void OnEnable() {
             
             currentStats = new Text[currentStatsBackground.transform.childCount];
@@ -24,13 +26,14 @@ namespace SoulsLike {
             }
 
             Transform statSelectWindowTextSpace = transform.GetChild(1).GetChild(0).GetChild(2);
-            statSelectTexts = new Text[statSelectWindowTextSpace.childCount];
-            for (int i = 0; i < statSelectTexts.Length; i++) {
-                statSelectTexts[i] = statSelectWindowTextSpace.GetChild(i).GetComponent<Text>();
+            currentStatPoints = new Text[statSelectWindowTextSpace.childCount];
+            for (int i = 0; i < currentStatPoints.Length; i++) {
+                currentStatPoints[i] = statSelectWindowTextSpace.GetChild(i).GetComponent<Text>();
             }
 
             GetCurrentStatPoints();
 
+            // 플레이어의 스탯 포인트들을 UI에 출력
             for (int i = 0; i < 3; i++) {
                 PrintCurrentStatPoints(i);
             }
@@ -46,7 +49,10 @@ namespace SoulsLike {
             initStats[0] = playerStatsManager.maxHealth;
             initStats[1] = playerStatsManager.maxFocus;
             initStats[2] = playerStatsManager.maxStamina;
-            initStats[6] = playerStatsManager.level;
+            //initStats[3] = playerStatsManager.maxStrength;
+            //initStats[4] = playerStatsManager.maxAttunement;
+            //initStats[5] = playerStatsManager.maxFaith;
+            initStats[6] = (float)playerStatsManager.level;
             initStats[7] = playerStatsManager.soulCount;
         }
 
@@ -103,18 +109,18 @@ namespace SoulsLike {
         private void PrintCurrentStatPoints(int index) {
             switch (index) {
                 case 0:
-                    statSelectTexts[index].text = playerStatsManager.healthLevel.ToString();
+                    currentStatPoints[index].text = playerStatsManager.healthLevel.ToString();
                     break;
                 case 1:
-                    statSelectTexts[index].text = playerStatsManager.focusLevel.ToString();
+                    currentStatPoints[index].text = playerStatsManager.focusLevel.ToString();
                     break;
                 case 2:
-                    statSelectTexts[index].text = playerStatsManager.staminaLevel.ToString();
+                    currentStatPoints[index].text = playerStatsManager.staminaLevel.ToString();
                     break;
                 case 7:
                     requiredSoulsText.text = "Required Souls : ";
                     requiredSoulsText.text += (playerStatsManager.level * 65).ToString();
-                    if (initStats[6] * 65 != float.Parse(requiredSoulsText.text)) requiredSoulsText.color = Color.red;
+                    if (initStats[6] * 65 != playerStatsManager.level * 65) requiredSoulsText.color = Color.red;
                     else requiredSoulsText.color = Color.white;
                     break;
             }
@@ -148,8 +154,8 @@ namespace SoulsLike {
         }
 
         public void SaveChange() {
-            for (int i = 0; i < statSelectTexts.Length; i++) {
-                statSelectTexts[i].color = Color.white;
+            for (int i = 0; i < currentStatPoints.Length; i++) {
+                currentStatPoints[i].color = Color.white;
             }
         }
     }
