@@ -23236,7 +23236,7 @@ MonoBehaviour:
   currentStatsBackground: {fileID: 1049051994}
   statSelectBackground: {fileID: 1458849314}
   currentStats: []
-  statSelectTexts: []
+  currentStatPoints: []
   requiredSoulsText: {fileID: 1322622639}
 --- !u!1 &2123646316
 GameObject:
