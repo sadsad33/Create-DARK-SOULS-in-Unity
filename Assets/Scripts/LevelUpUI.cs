@@ -7,6 +7,7 @@ namespace SoulsLike {
     public class LevelUpUI : MonoBehaviour {
         public PlayerStatsManager playerStatsManager;
         public PlayerWeaponSlotManager playerWeaponSlotManager;
+        public StatSelectUI statSelectUI;
         public GameObject currentStatsBackground;
         public GameObject statSelectBackground;
         public Text[] currentStats;
@@ -156,6 +157,10 @@ namespace SoulsLike {
         public void SaveChange() {
             for (int i = 0; i < currentStatPoints.Length; i++) {
                 currentStatPoints[i].color = Color.white;
+            }
+            for (int i = 0; i < statSelectUI.upButtonSet.Length; i++) {
+                statSelectUI.upButtonSet[i].GetComponent<LevelUpButton>().initValue = int.Parse(currentStatPoints[i].text);
+                statSelectUI.downButtonSet[i].GetComponent<LevelUpButton>().initValue = int.Parse(currentStatPoints[i].text);
             }
         }
     }

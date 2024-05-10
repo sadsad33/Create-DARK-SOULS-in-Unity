@@ -23233,6 +23233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatsManager: {fileID: 6353349341563976085}
   playerWeaponSlotManager: {fileID: 6353349341563976082}
+  statSelectUI: {fileID: 1994364943}
   currentStatsBackground: {fileID: 1049051994}
   statSelectBackground: {fileID: 1458849314}
   currentStats: []

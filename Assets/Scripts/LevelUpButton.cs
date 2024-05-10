@@ -27,9 +27,9 @@ namespace SoulsLike {
             if (isUpperDirection && levelUpUI.playerStatsManager.soulCount >= levelUpUI.playerStatsManager.level * 65) {
                 value += 1;
                 levelUpUI.playerStatsManager.soulCount -= levelUpUI.playerStatsManager.level * 65;
-            } else if (value > initValue) { // 기존 스탯포인트보다 적어질수는 없음
+            } else if (!isUpperDirection && value > initValue) { // 기존 스탯포인트보다 적어질수는 없음
                 value -= 1;
-                levelUpUI.playerStatsManager.soulCount += (levelUpUI.playerStatsManager.level-1) * 65;
+                levelUpUI.playerStatsManager.soulCount += (levelUpUI.playerStatsManager.level - 1) * 65;
             }
 
             levelUpUI.ChangeSelectedStat(btnIndex, value);
