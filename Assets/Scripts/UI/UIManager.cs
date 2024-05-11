@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace SoulsLike {
     public class UIManager : MonoBehaviour {
         public PlayerInventoryManager playerInventory;
+        public PlayerStatsManager playerStatsManager;
         public EquipmentWindowUI equipmentWindowUI;
         private QuickSlots quickSlots;
         public Stack<GameObject> uiStack = new();
@@ -46,6 +47,7 @@ namespace SoulsLike {
             equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
             quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
             quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
+            hudWindow.transform.GetChild(3).GetComponent<SoulCountBar>().SetSoulCountText(playerStatsManager.soulCount);
         }
 
         public void UpdateUI() {

@@ -10,7 +10,7 @@ namespace SoulsLike {
         BossManager bossManager;
         EnemyManager enemyManager;
         public UIEnemyHealthBar enemyHealthBar;
-
+        public WorldEventManager worldEventManager;
         protected override void Awake() {
             base.Awake();
             enemyManager = GetComponent<EnemyManager>();
@@ -41,6 +41,8 @@ namespace SoulsLike {
                 bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             if (isDead && !enemyManager.isGrabbed) {
                 HandleDeath("Dead");
+            } else if (isDead && enemyManager.isGrabbed) {
+                HandleDeathWithNoAnimation();
             }
         }
 
@@ -72,15 +74,27 @@ namespace SoulsLike {
 
         private void HandleDeath(string deathAnimation) {
             //currentHealth = 0;
+            Debug.Log("Dead");
             enemyAnimatorManager.PlayTargetAnimation(deathAnimation, true);
             enemyManager.enemyRigidbody.isKinematic = false;
             enemyManager.enemyRigidbody.useGravity = false;
             enemyLocomotionManager.characterCollider.enabled = false;
             enemyManager.navMeshAgent.enabled = false;
-            
+
+            if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);
             //Destroy(gameObject, 3.0f);
             //isDead = true;
+        }
+
+        private void HandleDeathWithNoAnimation() {
+            Debug.Log("DeadWithNoAnimation");
+            enemyManager.enemyRigidbody.isKinematic = false;
+            enemyManager.enemyRigidbody.useGravity = false;
+            enemyLocomotionManager.characterCollider.enabled = false;
+            enemyManager.navMeshAgent.enabled = false;
+            if (isBoss) worldEventManager.BossHasBeenDefeated();
+            ChangeLayerIncludingAllChilds(transform.gameObject);
         }
 
         private void ChangeLayerIncludingAllChilds(GameObject obj) {

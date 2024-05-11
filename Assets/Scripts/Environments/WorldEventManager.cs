@@ -6,7 +6,8 @@ namespace SoulsLike {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
 
-        public List<FogWall> fogWalls;
+        public FogWall outsideFogWall;
+        public List<FogWall> insideFogWalls;
         public BossHealthBar bossHealthBar;
         public BossManager boss;
 
@@ -24,7 +25,8 @@ namespace SoulsLike {
             bossHealthBar.SetUIHealthBarToActive();
             // 안개벽 생성
 
-            foreach (var fogWall in fogWalls) {
+            outsideFogWall.DeactivateFogWall();
+            foreach (var fogWall in insideFogWalls) {
                 fogWall.ActivateFogWall();
             }
         }
@@ -32,9 +34,10 @@ namespace SoulsLike {
         public void BossHasBeenDefeated() {
             bossHasBeenDefeated = true;
             bossFightIsActive = false;
+            bossHealthBar.SetHealthBarToInactive();
+            Debug.Log("BossFightisEnded");
             // 안개벽 소멸
-
-            foreach (var fogWall in fogWalls) {
+            foreach (var fogWall in insideFogWalls) {
                 fogWall.DeactivateFogWall();
             }
         }
