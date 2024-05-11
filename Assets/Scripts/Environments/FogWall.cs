@@ -13,6 +13,6 @@ public class FogWall : MonoBehaviour
     }
 
     public void DeactivateFogWall() { // 안개벽 비활성화
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
