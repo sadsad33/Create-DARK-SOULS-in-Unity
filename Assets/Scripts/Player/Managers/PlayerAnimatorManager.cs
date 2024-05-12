@@ -50,7 +50,7 @@ namespace SoulsLike {
 
         private void OnAnimatorMove() {
             if (!characterManager.isInteracting) return;
-            
+
             float delta = Time.deltaTime;
             playerLocomotionManager.rigidbody.drag = 0;
             Vector3 deltaPosition = anim.deltaPosition; // 현재 마지막으로 계산된 프레임에서 아바타의 좌표 변화량
@@ -72,6 +72,10 @@ namespace SoulsLike {
         public void FinishJump() {
             if (playerManager.isJumping)
                 playerManager.isJumping = false;
+        }
+
+        public void FinishLadderInteractionAtTop() {
+            playerManager.isMoving = false;
         }
     }
 }

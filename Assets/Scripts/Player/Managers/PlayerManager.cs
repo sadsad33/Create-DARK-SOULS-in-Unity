@@ -102,6 +102,7 @@ namespace SoulsLike {
             }
         }
 
+        public Transform interactionTargetPosition;
         protected override void FixedUpdate() {
             base.FixedUpdate();
             float delta = Time.fixedDeltaTime;
@@ -113,6 +114,8 @@ namespace SoulsLike {
             playerLocomotion.MaintainVelocity();
             if (isClimbing)
                 playerLocomotion.HandleClimbing();
+            if (isMoving)
+                transform.position = Vector3.Slerp(transform.position, interactionTargetPosition.position, Time.deltaTime);
             playerEffectsManager.HandleAllBuildUpEffects();
         }
 
