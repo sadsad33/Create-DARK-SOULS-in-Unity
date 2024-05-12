@@ -213,7 +213,7 @@ namespace SoulsLike {
 
         // 낙하
         public void HandleFalling(float delta, Vector3 moveDirection) {
-            if (playerManager.isClimbing) return;
+            if (playerManager.isClimbing|| playerManager.isMoving) return;
             //playerManager.isGrounded = false;
             RaycastHit hit;
             Vector3 origin = myTransform.position; // 낙하 시작지점
@@ -294,10 +294,13 @@ namespace SoulsLike {
 
         public void HandleClimbing() {
             if (playerManager.ladderEndPositionDetector.isTopEnd && inputHandler.vertical >= 1) {
+                Debug.Log(playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
+                playerManager.interactionTargetPosition = playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
+                playerManager.isMoving = true;
                 if (playerManager.rightFootUp) {
-                    playerManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform);
+                    playerManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", playerManager.transform);
                 } else {
-                    playerManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform);
+                    playerManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", playerManager.transform);
                 }
                 playerManager.isClimbing = false;
             } else if (playerManager.ladderEndPositionDetector.isBottomEnd && inputHandler.vertical <= -1) {

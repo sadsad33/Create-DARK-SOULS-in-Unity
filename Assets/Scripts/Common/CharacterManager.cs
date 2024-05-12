@@ -36,6 +36,7 @@ namespace SoulsLike {
         public bool isGrounded;
         public bool isTwoHandingWeapon;
         public bool isClimbing;
+        public bool isMoving;
 
         [Header("Spells")]
         public bool isFiringSpell;
