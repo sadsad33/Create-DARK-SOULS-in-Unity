@@ -10,7 +10,6 @@ namespace SoulsLike {
     public class WeaponItem : Item {
         public GameObject modelPrefab;
         public bool isUnarmed;
-        public string flavorText;
 
         [Header("Damage")]
         public float physicalDamage = 25;

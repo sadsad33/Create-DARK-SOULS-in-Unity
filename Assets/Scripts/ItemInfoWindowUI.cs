@@ -7,9 +7,9 @@ namespace SoulsLike {
         public Image itemImage;
         public Text itemText;
 
-        public void SetItemInfo(WeaponItem weaponItem) {
-            itemImage.sprite = weaponItem.itemIcon;
-            itemText.text = weaponItem.flavorText;
+        public void SetItemInfo(Item item) {
+            itemImage.sprite = item.itemIcon;
+            itemText.text = item.flavorText;
         }
     }
 }

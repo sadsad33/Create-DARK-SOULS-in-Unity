@@ -15,7 +15,7 @@ namespace SoulsLike {
         public GameObject hudWindow;
         public GameObject selectMenuWindow;
         public GameObject equipmentScreenWindow;
-        public GameObject weaponInventoryWindow;
+        public GameObject inventoryWindow;
         public GameObject itemInfoWindow;
         public GameObject bonfireWindow;
         public GameObject levelUpWindow;
@@ -59,7 +59,9 @@ namespace SoulsLike {
                         Instantiate(weaponInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
                         weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
                     }
-                    weaponInventorySlots[i].AddItem(playerInventory.weaponsInventory[i]);
+                    Debug.Log(playerInventory.weaponsInventory[i]);
+                    if (playerInventory.weaponsInventory[i] != null)
+                        weaponInventorySlots[i].AddItem(playerInventory.weaponsInventory[i]);
                 } else { // 필요없는 곳은 비운다.
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
@@ -75,8 +77,9 @@ namespace SoulsLike {
                     uiStack.Push(selectMenuWindow);
                     break;
                 case 1:
-                    weaponInventoryWindow.SetActive(true);
-                    uiStack.Push(weaponInventoryWindow);
+                    inventoryWindow.SetActive(true);
+                    inventoryWindow.GetComponent<InventoryWindow>().PrintInventoryWindow();
+                    uiStack.Push(inventoryWindow);
                     break;
                 case 2:
                     equipmentScreenWindow.SetActive(true);
@@ -98,7 +101,7 @@ namespace SoulsLike {
         }
 
         public void CloseWindow() {
-            if (uiStack.Peek() == weaponInventoryWindow) ResetAllSelectedSlots();
+            if (uiStack.Peek() == inventoryWindow) ResetAllSelectedSlots();
             uiStack.Peek().SetActive(false); // 가장 위에 열려있던 창을 닫는다
             uiStack.Pop();
             uiStack.Peek().SetActive(true); // 바로 다음 창을 다시 표시
