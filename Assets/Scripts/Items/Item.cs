@@ -9,5 +9,6 @@ namespace SoulsLike {
         [Header("Item Information")]
         public Sprite itemIcon;
         public string itemName;
+        public string flavorText;
     }
 }
