@@ -8,8 +8,8 @@ namespace SoulsLike {
         [SerializeField]OpenChest openChest;
         public Transform playerStandingPosition;
         public GameObject itemSpawner;
-        public WeaponItem itemInChest;
-
+        //public WeaponItem itemInChest;
+        public Item itemInChest;
         private void Awake() {
             animator = GetComponent<Animator>();
             openChest = GetComponent<OpenChest>();
@@ -35,9 +35,10 @@ namespace SoulsLike {
             
             // 상자에 아이템을 스폰시켜 플레이어가 루팅할 수 있도록 한다.
             StartCoroutine(SpawnItemInChest());
-            WeaponPickUp weaponPickUp = itemSpawner.GetComponent<WeaponPickUp>();
-            if (weaponPickUp != null) {
-                weaponPickUp.weapon = itemInChest;
+            ItemPickUp itemPickUp = itemSpawner.GetComponent<ItemPickUp>();
+            if (itemPickUp != null) {
+                //weaponPickUp.weapon = itemInChest;
+                itemPickUp.item = itemInChest;
             }
         }
 

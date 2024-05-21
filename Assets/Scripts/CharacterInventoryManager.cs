@@ -13,7 +13,7 @@ namespace SoulsLike {
         public ConsumableItem currentConsumable;
 
         public SpellItem[] memorizedSpells = new SpellItem[5];
-        public ConsumableItem[] selectedConsumables = new ConsumableItem[5];
+        public ConsumableItem[] selectedConsumables = new ConsumableItem[3];
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3]; // ¿Þ¼Õ ¹«±â½½·Ô
         public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3]; // ¿À¸¥¼Õ ¹«±â½½·Ô
 

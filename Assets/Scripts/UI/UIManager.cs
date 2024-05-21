@@ -21,7 +21,7 @@ namespace SoulsLike {
         public GameObject levelUpWindow;
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
-        [Header("Equipment Window Slots Selected")]
+        [Header("Equipment Window Weapon Slots Selected")]
         public bool rightHandSlot1Selected;
         public bool rightHandSlot2Selected;
         public bool rightHandSlot3Selected;
@@ -31,10 +31,19 @@ namespace SoulsLike {
 
         public bool handSlotIsSelected = false;
 
+        [Header("Equipment Window Consumable Slots Selected")]
+        public bool consumableSlot1Selected;
+        public bool consumableSlot2Selected;
+        public bool consumableSlot3Selected;
+
+        public bool consumableSlotSelected = false;
+
         [Header("Weapon Inventory")]
-        public GameObject weaponInventorySlotPrefab; // 슬롯 prefab
-        public Transform weaponInventorySlotsParent; // 인벤토리의 부모 오브젝트
-        WeaponInventorySlot[] weaponInventorySlots; // 인벤토리 슬롯 배열
+        public GameObject itemInventorySlotPrefab; // 슬롯 prefab
+        public Transform weaponInventorySlotsParent; // 무기 인벤토리의 부모 오브젝트 instantiate로 추가 슬롯을 생성할때 어디에 놓일지 알기 위함
+        public Transform consumableInventorySlotsParent; // 소모품 인벤토리의 부모 오브젝트
+        ItemInventorySlot[] weaponInventorySlots; // 무기 인벤토리 슬롯 배열
+        ItemInventorySlot[] consumableInventorySlots;
 
         private void Awake() {
             // 게임이 시작되면 Player 의 HUD를 UI 관리를 위한 스택에 제일 먼저 추가
@@ -43,21 +52,23 @@ namespace SoulsLike {
         }
 
         private void Start() {
-            weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
-            equipmentWindowUI.LoadWeaponOnEquipmentScreen(playerInventory);
+            weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+            consumableInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+            equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventory);
             quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
             quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
             hudWindow.transform.GetChild(3).GetComponent<SoulCountBar>().SetSoulCountText(playerStatsManager.soulCount);
         }
 
+        // UI창 하나가 열릴때마다 호출됨
         public void UpdateUI() {
             #region Weapon Inventory Slots
             for (int i = 0; i < weaponInventorySlots.Length; i++) {
                 if (i < playerInventory.weaponsInventory.Count) {
                     // 무기를 저장할 인벤토리의 슬롯수가 부족하다면
                     if (weaponInventorySlots.Length < playerInventory.weaponsInventory.Count) {
-                        Instantiate(weaponInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
-                        weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
+                        Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
+                        weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
                     }
                     Debug.Log(playerInventory.weaponsInventory[i]);
                     if (playerInventory.weaponsInventory[i] != null)
@@ -65,6 +76,21 @@ namespace SoulsLike {
                 } else { // 필요없는 곳은 비운다.
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
+            }
+            #endregion
+
+            #region Consumable Inventory Slots
+            for (int i = 0; i < consumableInventorySlots.Length; i++) {
+                if (i < playerInventory.consumablesInventory.Count) {
+                    if (consumableInventorySlots.Length < playerInventory.consumablesInventory.Count) {
+                        Instantiate(itemInventorySlotPrefab, consumableInventorySlotsParent);
+                        consumableInventorySlots = consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+                    }
+                    if (playerInventory.consumablesInventory[i] != null)
+                        consumableInventorySlots[i].AddItem(playerInventory.consumablesInventory[i]);
+                } else
+                    consumableInventorySlots[i].ClearInventorySlot();
+
             }
             #endregion
         }
@@ -101,14 +127,14 @@ namespace SoulsLike {
         }
 
         public void CloseWindow() {
-            if (uiStack.Peek() == inventoryWindow) ResetAllSelectedSlots();
+            if (uiStack.Peek() == inventoryWindow) ResetAllSelectedWeaponSlots();
             uiStack.Peek().SetActive(false); // 가장 위에 열려있던 창을 닫는다
             uiStack.Pop();
             uiStack.Peek().SetActive(true); // 바로 다음 창을 다시 표시
         }
 
         // 이전에 선택됐던 장비창의 슬롯을 초기화한다.
-        public void ResetAllSelectedSlots() {
+        public void ResetAllSelectedWeaponSlots() {
             rightHandSlot1Selected = false;
             rightHandSlot2Selected = false;
             rightHandSlot3Selected = false;
