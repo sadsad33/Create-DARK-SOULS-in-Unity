@@ -7,12 +7,13 @@ public class InventoryWindow : MonoBehaviour
     public GameObject[] allInventoryWindows;
     public int currentIndex = 0;
     private void Awake() {
-        for (int i = 0; i < allInventoryWindows.Length; i++) {
-            allInventoryWindows[i].SetActive(false);
-        }
+        PrintInventoryWindow();
     }
 
     public void PrintInventoryWindow() {
+        for (int i = 0; i < allInventoryWindows.Length; i++) {
+            allInventoryWindows[i].SetActive(false);
+        }
         allInventoryWindows[currentIndex].SetActive(true);
     }
 

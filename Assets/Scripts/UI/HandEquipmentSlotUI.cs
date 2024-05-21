@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 namespace SoulsLike {
+    // 플레이어 장비창 UI의 슬롯
     public class HandEquipmentSlotUI : MonoBehaviour {
 
         UIManager uiManager;
-
         public Image icon;
-        WeaponItem weapon;
+        Item item;
 
         public bool rightHandSlot1;
         public bool rightHandSlot2;
@@ -17,15 +17,19 @@ namespace SoulsLike {
         public bool leftHandSlot2;
         public bool leftHandSlot3;
 
+        public bool consumableSlot1;
+        public bool consumableSlot2;
+        public bool consumableSlot3;
+
         private void Awake() {
             uiManager = FindObjectOfType<UIManager>();
         }
 
         // 슬롯에 아이템 추가
-        public void AddItem(WeaponItem newWeapon) {
-            if (newWeapon != null) {
-                weapon = newWeapon;
-                icon.sprite = newWeapon.itemIcon;
+        public void AddItem(Item newItem) {
+            if (newItem != null) {
+                item = newItem;
+                icon.sprite = newItem.itemIcon;
                 icon.enabled = true;
                 gameObject.SetActive(true);
             }
@@ -33,13 +37,13 @@ namespace SoulsLike {
 
         // 슬롯에서 아이템 제거
         public void ClearItem() {
-            weapon = null;
+            item = null;
             icon.sprite = null;
             icon.enabled = false;
             gameObject.SetActive(false);
         }
 
-        public void SelectThisSlot() {
+        public void SelectThisHandSlot() {
             if (rightHandSlot1) {
                 uiManager.rightHandSlot1Selected = true;
             } else if (rightHandSlot2) {
@@ -48,13 +52,25 @@ namespace SoulsLike {
                 uiManager.rightHandSlot3Selected = true;
             } else if (leftHandSlot1) {
                 uiManager.leftHandSlot1Selected = true;
-            }else if(leftHandSlot2){
+            } else if (leftHandSlot2) {
                 uiManager.leftHandSlot2Selected = true;
             } else {
                 uiManager.leftHandSlot3Selected = true;
             }
 
             uiManager.handSlotIsSelected = true;
+        }
+
+        public void SelectThisConsumableSlot() {
+            if (consumableSlot1) {
+                uiManager.consumableSlot1Selected = true;
+            } else if (consumableSlot2) {
+                uiManager.consumableSlot2Selected = true;
+            } else if (consumableSlot3) {
+                uiManager.consumableSlot3Selected = true;
+            }
+
+            uiManager.consumableSlotSelected = true;
         }
     }
 }
