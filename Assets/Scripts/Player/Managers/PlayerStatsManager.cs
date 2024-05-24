@@ -39,9 +39,9 @@ namespace SoulsLike {
 
         private void GetTotalDefense() {
             totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
-            Debug.Log(totalPhysicalDamageAbsorption);
+            //Debug.Log(totalPhysicalDamageAbsorption);
             totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
-            Debug.Log(totalFireDamageAbsorption);
+            //Debug.Log(totalFireDamageAbsorption);
         }
 
         public override void HandlePoiseResetTimer() {

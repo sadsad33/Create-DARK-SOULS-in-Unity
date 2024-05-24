@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerInventoryManager : CharacterInventoryManager {
-        
+
         // UI와 연동될 플레이어의 인벤토리
-        public List<WeaponItem> weaponsInventory; 
+        public List<WeaponItem> weaponsInventory;
         public List<ConsumableItem> consumablesInventory;
-        
+
         public void ChangeRightWeapon() {
             currentRightWeaponIndex += 1; // 다음인덱스로 넘어간다.
             if (currentRightWeaponIndex >= weaponsInRightHandSlots.Length || weaponsInRightHandSlots[currentRightWeaponIndex] == null) {
@@ -44,7 +44,7 @@ namespace SoulsLike {
 
         public void ChangeConsumableItem() {
             currentConsumableIndex += 1;
-            if (selectedConsumables[currentConsumableIndex] == null || currentConsumableIndex >= selectedConsumables.Length) {
+            if (currentConsumableIndex >= selectedConsumables.Length || selectedConsumables[currentConsumableIndex] == null) {
                 currentConsumableIndex = 0;
                 currentConsumable = selectedConsumables[currentConsumableIndex];
             } else {

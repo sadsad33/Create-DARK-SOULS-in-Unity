@@ -159,7 +159,7 @@ namespace SoulsLike {
         }
 
         private void HandleCombatInput() {
-
+            if (uiManager.uiStack.Count >= 2) return;
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
                 playerCombatManager.HandleRBAction();

@@ -42,8 +42,8 @@ namespace SoulsLike {
         public GameObject itemInventorySlotPrefab; // 슬롯 prefab
         public Transform weaponInventorySlotsParent; // 무기 인벤토리의 부모 오브젝트 instantiate로 추가 슬롯을 생성할때 어디에 놓일지 알기 위함
         public Transform consumableInventorySlotsParent; // 소모품 인벤토리의 부모 오브젝트
-        ItemInventorySlot[] weaponInventorySlots; // 무기 인벤토리 슬롯 배열
-        ItemInventorySlot[] consumableInventorySlots;
+        public ItemInventorySlot[] weaponInventorySlots; // 무기 인벤토리 슬롯 배열
+        public ItemInventorySlot[] consumableInventorySlots;
 
         private void Awake() {
             // 게임이 시작되면 Player 의 HUD를 UI 관리를 위한 스택에 제일 먼저 추가
@@ -53,7 +53,7 @@ namespace SoulsLike {
 
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
-            consumableInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+            consumableInventorySlots = consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
             equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventory);
             quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
             quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
@@ -70,9 +70,9 @@ namespace SoulsLike {
                         Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
                         weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
                     }
-                    Debug.Log(playerInventory.weaponsInventory[i]);
-                    if (playerInventory.weaponsInventory[i] != null)
+                    if (playerInventory.weaponsInventory[i] != null) {
                         weaponInventorySlots[i].AddItem(playerInventory.weaponsInventory[i]);
+                    }
                 } else { // 필요없는 곳은 비운다.
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
@@ -88,9 +88,9 @@ namespace SoulsLike {
                     }
                     if (playerInventory.consumablesInventory[i] != null)
                         consumableInventorySlots[i].AddItem(playerInventory.consumablesInventory[i]);
-                } else
+                } else {
                     consumableInventorySlots[i].ClearInventorySlot();
-
+                }
             }
             #endregion
         }
