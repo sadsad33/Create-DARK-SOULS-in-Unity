@@ -1964,7 +1964,55 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 231659627}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201319159029467312}
+        m_TargetAssemblyTypeName: SoulsLike.EquipmentWindowUI, Assembly-CSharp
+        m_MethodName: SelectConsumableSlot2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 231659629}
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisConsumableSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1796795119284244419}
+        m_TargetAssemblyTypeName: SoulsLike.UIManager, Assembly-CSharp
+        m_MethodName: OpenSelectedWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &231659627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3414,9 +3462,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 396976888}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3705,14 +3765,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9847,7 +9907,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 573311186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrevPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &573311186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10418,7 +10490,55 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 605255805}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201319159029467312}
+        m_TargetAssemblyTypeName: SoulsLike.EquipmentWindowUI, Assembly-CSharp
+        m_MethodName: SelectConsumableSlot1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 605255808}
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisConsumableSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1796795119284244419}
+        m_TargetAssemblyTypeName: SoulsLike.UIManager, Assembly-CSharp
+        m_MethodName: OpenSelectedWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &605255808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11977,7 +12097,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 792919479}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: NextPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &792919479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20441,7 +20573,7 @@ MonoBehaviour:
   openChest: {fileID: 0}
   playerStandingPosition: {fileID: 1212191469}
   itemSpawner: {fileID: 6078572700425843559, guid: 6b257debfeb0abb40b533d51037425cf, type: 3}
-  itemInChest: {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
+  itemInChest: {fileID: 11400000, guid: 47a463d742b80b34f9e4e29c3e610162, type: 2}
 --- !u!95 &1099183294
 Animator:
   serializedVersion: 5
@@ -22766,9 +22898,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1356991353}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -28589,7 +28733,55 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1419420270}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201319159029467312}
+        m_TargetAssemblyTypeName: SoulsLike.EquipmentWindowUI, Assembly-CSharp
+        m_MethodName: SelectConsumableSlot3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1419420272}
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisConsumableSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1796795119284244419}
+        m_TargetAssemblyTypeName: SoulsLike.UIManager, Assembly-CSharp
+        m_MethodName: OpenSelectedWindow
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1419420270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29536,9 +29728,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86393c8afaa7bca469afc9ea83cdc40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
+  weaponSlotManager: {fileID: 0}
+  uiManager: {fileID: 0}
   itemInfoWindowUI: {fileID: 411147143}
   icon: {fileID: 415577678}
-  memorizedWeapon: {fileID: 0}
+  item: {fileID: 0}
 --- !u!1 &1527149623
 GameObject:
   m_ObjectHideFlags: 0
@@ -31873,7 +32068,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 112753505575980108, guid: 3c3b9bd603b34204183fadad04649da8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.44
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2221702612487498077, guid: 3c3b9bd603b34204183fadad04649da8, type: 3}
       propertyPath: m_Name
@@ -38138,8 +38333,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   selectedConsumables:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -46960,6 +47153,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3189470384246409786}
     m_Modifications:
     - target: {fileID: 6078572700425843552, guid: 6b257debfeb0abb40b533d51037425cf, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
+    - target: {fileID: 6078572700425843552, guid: 6b257debfeb0abb40b533d51037425cf, type: 3}
       propertyPath: weapon
       value: 
       objectReference: {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
@@ -47793,6 +47990,8 @@ MonoBehaviour:
   itemInventorySlotPrefab: {fileID: 8201319160697999624}
   weaponInventorySlotsParent: {fileID: 8201319160572957559}
   consumableInventorySlotsParent: {fileID: 1798333723}
+  weaponInventorySlots: []
+  consumableInventorySlots: []
 --- !u!222 &1796795120095012171
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -60871,8 +61070,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -63209,7 +63406,7 @@ MonoBehaviour:
   selectedConsumables:
   - {fileID: 11400000, guid: 4df38d6861926e340a975dcf4ccbc478, type: 2}
   - {fileID: 11400000, guid: eceaaefbafc49b641bdff45ef958b539, type: 2}
-  - {fileID: 11400000, guid: 47a463d742b80b34f9e4e29c3e610162, type: 2}
+  - {fileID: 0}
   weaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 8b308fd9bb65d8e44b55ed88c725a975, type: 2}
   - {fileID: 0}
@@ -64457,8 +64654,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   selectedConsumables:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -66100,9 +66295,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8201319158972659104}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -66349,9 +66556,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8201319159052718495}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -66764,9 +66983,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8201319159962625296}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -67269,9 +67500,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8201319160437592393}
-        m_TargetAssemblyTypeName: sg.HandEquipmentSlotUI, Assembly-CSharp
-        m_MethodName: SelectThisSlot
+        m_TargetAssemblyTypeName: SoulsLike.HandEquipmentSlotUI, Assembly-CSharp
+        m_MethodName: SelectThisHandSlot
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8201319160069572050}
+        m_TargetAssemblyTypeName: InventoryWindow, Assembly-CSharp
+        m_MethodName: PrintThatInventoryWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -67749,9 +67992,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86393c8afaa7bca469afc9ea83cdc40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
+  weaponSlotManager: {fileID: 0}
+  uiManager: {fileID: 0}
   itemInfoWindowUI: {fileID: 411147143}
   icon: {fileID: 8201319160272092476}
-  memorizedWeapon: {fileID: 0}
+  item: {fileID: 0}
 --- !u!224 &8201319160697999631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68491,8 +68737,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   selectedConsumables:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

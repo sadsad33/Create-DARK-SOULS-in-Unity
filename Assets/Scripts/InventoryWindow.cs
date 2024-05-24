@@ -6,8 +6,9 @@ public class InventoryWindow : MonoBehaviour
 {
     public GameObject[] allInventoryWindows;
     public int currentIndex = 0;
-    private void Awake() {
-        PrintInventoryWindow();
+
+    private void OnDisable() {
+        currentIndex = 0;
     }
 
     public void PrintInventoryWindow() {
@@ -28,6 +29,11 @@ public class InventoryWindow : MonoBehaviour
         if (currentIndex == 0) currentIndex = allInventoryWindows.Length - 1;
         else currentIndex -= 1;
 
+        PrintInventoryWindow();
+    }
+
+    public void PrintThatInventoryWindow(int index) {
+        currentIndex = index;
         PrintInventoryWindow();
     }
 }
