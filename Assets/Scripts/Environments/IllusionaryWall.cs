@@ -11,7 +11,8 @@ namespace SoulsLike {
         public BoxCollider wallCollider;
 
         private void Awake() {
-            illusionaryWallMaterial.color = new Color(1, 1, 1, 1);   
+            illusionaryWallMaterial = GetComponent<MeshRenderer>().material;
+            illusionaryWallMaterial.color = new Color(1, 1, 1, 1);
         }
 
         private void Update() {
