@@ -6,7 +6,8 @@ namespace SoulsLike {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
 
-        public FogWall outsideFogWall;
+        //public FogWall outsideFogWall;
+        public List<FogWall> outsideFogWalls;
         public List<FogWall> insideFogWalls;
         public BossHealthBar bossHealthBar;
         public BossManager boss;
@@ -25,7 +26,10 @@ namespace SoulsLike {
             bossHealthBar.SetUIHealthBarToActive();
             // 안개벽 생성
 
-            outsideFogWall.DeactivateFogWall();
+            //outsideFogWall.DeactivateFogWall();
+            foreach (var fogwall in outsideFogWalls) {
+                fogwall.DeactivateFogWall();
+            }
             foreach (var fogWall in insideFogWalls) {
                 fogWall.ActivateFogWall();
             }
