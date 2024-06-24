@@ -6,8 +6,9 @@ namespace SoulsLike {
     public class IdleState : State {
         public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
-
+        public DeadState deadState;
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+            if (enemyStats.isDead) return deadState;
             // ¸ñÇ¥ Å½»ö
             // ¸ñÇ¥ Å½»ö¿¡ ¼º°øÇÏ¸é Pursue Target State°¡ µÊ
             // ¸ñÇ¥ Å½»öÀ» ½ÇÆÐÇÏ¸é Idle State À¯Áö

@@ -6,8 +6,9 @@ namespace SoulsLike {
     public class PursueTargetState : State {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
+        public DeadState deadState;
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
-
+            if (enemyStats.isDead) return deadState;
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨
             // 타겟이 공격 사거리 밖으로 나가면 Pursue Target State

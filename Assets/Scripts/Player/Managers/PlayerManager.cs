@@ -162,7 +162,7 @@ namespace SoulsLike {
             if (isInteracting || isInConversation || isClimbing || isAtBonfire) return; // 행동 중이거나 대화중이라면 다른 오브젝트나 NPC와 상호작용 불가
 
             Interactable interactableObject; // 주변 상호작용 가능한 오브젝트를 담을 변수
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
+            if (Physics.SphereCast(transform.position + transform.forward * 0.15f, 0.2f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
                 if (hit.collider.CompareTag("Interactable")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null) { // 주변에 상호작용 가능한 물체가 있다면

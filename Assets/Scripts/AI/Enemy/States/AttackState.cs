@@ -9,11 +9,13 @@ namespace SoulsLike {
         public CombatStanceState combatStanceState;
         public PursueTargetState pursueTargetState;
         public EnemyAttackActions currentAttack;
+        public DeadState deadState;
 
         bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false; // 공격 수행 여부
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+            if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             RotateTowardsTargetWhileAttacking(enemyManager); // 공격 도중 일부 구간에서 회전 가능
             

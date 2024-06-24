@@ -7,7 +7,6 @@ namespace SoulsLike {
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
-
         //public bool isPerformingAction;
         public State currentState;
         public CharacterStatsManager currentTarget;
