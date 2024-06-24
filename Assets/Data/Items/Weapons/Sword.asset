@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 3d5de3033771a224ba4f9b2409012617, type: 3}
-  itemName: Sword
+  itemName: "\uB871\uC18C\uB4DC"
+  flavorText: 
   modelPrefab: {fileID: 9172609376268836479, guid: d5fb25c7ffd5e5e408d12b0dc639213b, type: 3}
   isUnarmed: 0
   physicalDamage: 25

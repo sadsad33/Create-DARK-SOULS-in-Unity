@@ -21,13 +21,16 @@ namespace SoulsLike {
             if (!hasCollided) {
                 hasCollided = true;
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.identity);
-                Explode();
 
-                CharacterStatsManager character = collision.transform.GetComponent<CharacterStatsManager>();
-
+                CharacterStatsManager character = collision.transform.root.GetComponent<CharacterStatsManager>();
                 if (character != null && character.teamIDNumber != teamIDNumber) {
-                    character.TakeDamage(0, contactDamage, currentDamageAnimation);
+                    float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
+                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
+                    character.TakeDamage(contactDamage, 0, currentDamageAnimation);
+                    Debug.Log(currentDamageAnimation);
                 }
+
+                Explode();
                 Destroy(impactParticles, 5f);
                 Destroy(transform.parent.parent.gameObject);
             }
@@ -38,9 +41,15 @@ namespace SoulsLike {
             foreach (Collider character in characters) {
                 CharacterStatsManager characterStats = character.GetComponent<CharacterStatsManager>();
                 if (characterStats != null && characterStats.teamIDNumber != teamIDNumber) {
+                    float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
+                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
                     characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation);
                 }
             }
+        }
+
+        protected override void ChooseWhichDirectionDamageCameFrom(float direction) {
+            base.ChooseWhichDirectionDamageCameFrom(direction);
         }
     }
 }

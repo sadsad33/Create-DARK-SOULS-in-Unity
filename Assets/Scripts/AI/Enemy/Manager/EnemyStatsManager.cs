@@ -6,7 +6,7 @@ namespace SoulsLike {
     // 스탯 관리(방어력, 강인도, HP, FP, 스태미나, 받는 피해 등)
     public class EnemyStatsManager : CharacterStatsManager {
         EnemyAnimatorManager enemyAnimatorManager;
-        EnemyLocomotionManager enemyLocomotionManager;
+        public EnemyLocomotionManager enemyLocomotionManager;
         BossManager bossManager;
         EnemyManager enemyManager;
         public UIEnemyHealthBar enemyHealthBar;
@@ -61,6 +61,7 @@ namespace SoulsLike {
         public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
             if (enemyManager.isInvulnerable) return;
             base.TakeDamage(damage, fireDamage, damageAnimation);
+            Debug.Log(damage + fireDamage);
             if (!isBoss)
                 enemyHealthBar.UpdateHealth(currentHealth);
             else if (isBoss && bossManager != null)
@@ -76,10 +77,10 @@ namespace SoulsLike {
             //currentHealth = 0;
             Debug.Log("Dead");
             enemyAnimatorManager.PlayTargetAnimation(deathAnimation, true);
-            enemyManager.enemyRigidbody.isKinematic = false;
-            enemyManager.enemyRigidbody.useGravity = false;
-            enemyLocomotionManager.characterCollider.enabled = false;
-            enemyManager.navMeshAgent.enabled = false;
+            //enemyManager.enemyRigidbody.isKinematic = false;
+            //enemyManager.enemyRigidbody.useGravity = false;
+            //enemyLocomotionManager.characterCollider.enabled = false;
+            //enemyManager.navMeshAgent.enabled = false;
 
             if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);
@@ -89,10 +90,10 @@ namespace SoulsLike {
 
         private void HandleDeathWithNoAnimation() {
             Debug.Log("DeadWithNoAnimation");
-            enemyManager.enemyRigidbody.isKinematic = false;
-            enemyManager.enemyRigidbody.useGravity = false;
-            enemyLocomotionManager.characterCollider.enabled = false;
-            enemyManager.navMeshAgent.enabled = false;
+            //enemyManager.enemyRigidbody.isKinematic = false;
+            //enemyManager.enemyRigidbody.useGravity = false;
+            //enemyLocomotionManager.characterCollider.enabled = false;
+            //enemyManager.navMeshAgent.enabled = false;
             if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);
         }

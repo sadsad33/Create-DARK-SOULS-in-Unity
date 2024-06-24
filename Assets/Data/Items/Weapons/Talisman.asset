@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Talisman
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 92c6fbc1833686244a56633c96eadc6f, type: 3}
-  itemName: Talisman
+  itemName: "\uD0C8\uB9AC\uC2A4\uB9CC"
+  flavorText: 
   modelPrefab: {fileID: 3369392048246929232, guid: d04a868860d690241a3c165b2feac5a4, type: 3}
   isUnarmed: 0
   physicalDamage: 1
@@ -25,13 +26,11 @@ MonoBehaviour:
   Right_Hand_Idle: Right_Arm_Idle_1
   Left_Hand_Idle: Left_Arm_Idle_1
   th_idle: Two_Hand_Idle_1
-  UnarmedAttack1: 
-  UnarmedAttack2: 
   OH_Light_Attack_1: OH_Light_Attack_1
   OH_Light_Attack_2: OH_Light_Attack_2
   OH_Heavy_Attack_1: OH_Heavy_Attack_1
-  TH_Light_Sword_Attack_1: TH_Light_Sword_Attack_1
-  TH_Light_Sword_Attack_2: TH_Light_Sword_Attack_2
+  TH_Light_Attack_1: 
+  TH_Light_Attack_2: 
   weaponArt: 
   baseStamina: 20
   lightAttackMultiplier: 1

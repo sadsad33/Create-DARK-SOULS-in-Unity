@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Purple Moss Clump
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 8e1f416c7d68f5f4494ad45eee82af26, type: 3}
-  itemName: Purple Moss Clump
+  itemName: "\uD574\uB3C5\uC81C"
+  flavorText: "\uB3C5 \uC0C1\uD0DC\uB97C \uCE58\uB8CC\uD55C\uB2E4"
   maxItemAmount: 30
   currentItemAmount: 30
   itemModel: {fileID: 7901377779386641241, guid: 32425e96cf0bd2e41a4737a3d5e665d5, type: 3}

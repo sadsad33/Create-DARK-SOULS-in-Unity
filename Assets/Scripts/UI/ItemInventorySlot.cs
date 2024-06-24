@@ -145,6 +145,7 @@ namespace SoulsLike {
                     playerInventory.consumablesInventory.Add(playerInventory.selectedConsumables[0]);
                     memorizedConsumable = playerInventory.selectedConsumables[0];
                 }
+
                 playerInventory.selectedConsumables[0] = item as ConsumableItem;
                 playerInventory.consumablesInventory.Remove(item as ConsumableItem);
                 if (memorizedConsumable == null) ClearInventorySlot();
@@ -181,7 +182,7 @@ namespace SoulsLike {
         public void OnClickButton() {
             if (uiManager.handSlotIsSelected || uiManager.consumableSlotSelected) uiManager.CloseWindow();
             else ShowItemInfo();
-            uiManager.ResetAllSelectedWeaponSlots();
+            uiManager.ResetAllSelectedEquipmentSlots();
         }
 
         public void ShowItemInfo() {

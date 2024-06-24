@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Knight's Leg Armor
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: Knight's Leg Armor
+  itemName: "\uAE30\uC0AC\uC758 \uAC01\uBC18"
+  flavorText: 
   physicalDefense: 10
   legModelName: PT_Male_Armor_01_A_legs
   bootsModelName: PT_Male_Armor_01_A_boots

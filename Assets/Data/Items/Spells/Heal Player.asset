@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Heal Player
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 152f37433d7b19e4b8390fea388d2996, type: 3}
-  itemName: Heal Player
+  itemName: "\uD68C\uBCF5"
+  flavorText: 
   spellWarmUpFX: {fileID: 32974116992910233, guid: 7ca33c04d7e2577459b0a38cb5b7498d, type: 3}
   spellCastFX: {fileID: 2970547096073538130, guid: 70e54888e8ff28141ab85c8b73dda015, type: 3}
   spellAnimation: Spell_Heal_Start

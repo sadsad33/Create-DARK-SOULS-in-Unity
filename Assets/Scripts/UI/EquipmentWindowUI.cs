@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class EquipmentWindowUI : MonoBehaviour {
-        public bool rightHandSlot1, rightHandSlot2, rightHandSlot3;
-        public bool leftHandSlot1, leftHandSlot2, leftHandSlot3;
+
+        //public bool rightHandSlot1, rightHandSlot2, rightHandSlot3;
+        //public bool leftHandSlot1, leftHandSlot2, leftHandSlot3;
         public HandEquipmentSlotUI[] handEquipmentSlotUI;
 
-        public bool consumableSlot1, consumableSlot2, consumableSlot3;
+        //public bool consumableSlot1, consumableSlot2, consumableSlot3;
         public HandEquipmentSlotUI[] consumableEquipmentSlotUI;
 
         // 다크소울 처럼 오른손과 왼손에 각각 여러개의 무기들을 지니고있음
@@ -41,40 +42,40 @@ namespace SoulsLike {
             }
         }
 
-        public void SelectRightHandSlot1() {
-            rightHandSlot1 = true;
-        }
+        //public void SelectRightHandSlot1() {
+        //    rightHandSlot1 = true;
+        //}
 
-        public void SelectRightHandSlot2() {
-            rightHandSlot2 = true;
-        }
+        //public void SelectRightHandSlot2() {
+        //    rightHandSlot2 = true;
+        //}
 
-        public void SelectRightHandSlot3() {
-            rightHandSlot3 = true;
-        }
+        //public void SelectRightHandSlot3() {
+        //    rightHandSlot3 = true;
+        //}
 
-        public void SelectLeftHandSlot1() {
-            leftHandSlot1 = true;
-        }
+        //public void SelectLeftHandSlot1() {
+        //    leftHandSlot1 = true;
+        //}
 
-        public void SelectLeftHandSlot2() {
-            leftHandSlot2 = true;
-        }
+        //public void SelectLeftHandSlot2() {
+        //    leftHandSlot2 = true;
+        //}
 
-        public void SelectLeftHandSlot3() {
-            leftHandSlot3 = true;
-        }
+        //public void SelectLeftHandSlot3() {
+        //    leftHandSlot3 = true;
+        //}
 
-        public void SelectConsumableSlot1() {
-            consumableSlot1 = true;
-        }
+        //public void SelectConsumableSlot1() {
+        //    consumableSlot1 = true;
+        //}
 
-        public void SelectConsumableSlot2() {
-            consumableSlot2 = true;
-        }
+        //public void SelectConsumableSlot2() {
+        //    consumableSlot2 = true;
+        //}
 
-        public void SelectConsumableSlot3() {
-            consumableSlot3 = true;
-        }
+        //public void SelectConsumableSlot3() {
+        //    consumableSlot3 = true;
+        //}
     }
 }

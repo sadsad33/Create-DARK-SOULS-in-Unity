@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Fire Ball
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: e977c1562987f7e41b442f92c93f4234, type: 3}
-  itemName: Fire Ball
+  itemName: "\uD654\uC5FC\uAD6C"
+  flavorText: 
   spellWarmUpFX: {fileID: 1725317912486240, guid: c3c6d858ddc78a343999b0d52aaee43c, type: 3}
   spellCastFX: {fileID: 1725317912486240, guid: 6a4bf459bf730c54ba5f2bb03b011aed, type: 3}
   spellAnimation: Spell_Throw_Start

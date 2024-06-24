@@ -7,7 +7,7 @@ namespace SoulsLike {
         public bool isIgnited = false;
         public UIManager playerUIManager;
         private void Awake() {
-            interactableText = "Light Bonfire";
+            interactableText = "불을 붙인다";
         }
 
         public override void Interact(PlayerManager playerManager) {
@@ -25,7 +25,7 @@ namespace SoulsLike {
                 isIgnited = true;
                 // 화톳불 붙이는 모션
                 playerManager.InteractionAtPosition("Bonfire_Ignite", playerManager.transform);
-                interactableText = "Rest at Bonefire";
+                interactableText = "휴식한다";
             } else {
                 // 플레이어 휴식 모션
                 playerManager.InteractionAtPosition("Bonfire_Start", playerManager.transform);

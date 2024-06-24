@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Knight's Guntlet
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: Knight's Guntlet
+  itemName: "\uAE30\uC0AC\uC758 \uC1E0\uC7A5\uAC11"
+  flavorText: 
   physicalDefense: 6.5
   guntletModelName: PT_Male_Armor_01_A_gauntlets

@@ -7,12 +7,14 @@ namespace SoulsLike {
         public AttackState attackState;
         public EnemyAttackActions[] enemyAttacks;
         public PursueTargetState pursueTargetState;
+        public DeadState deadState;
 
         protected bool randomDestinationSet = false; // animator value , 수직 이동, 수평 이동 값을 조절하기 위한 bool 변수
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+            if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             enemyAnimatorManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // 앞,뒤 이동
             enemyAnimatorManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime); // 좌,우 이동

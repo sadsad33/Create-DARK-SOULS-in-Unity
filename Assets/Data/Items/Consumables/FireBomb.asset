@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: FireBomb
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 062eeb9d5e8ba8f45a9ddfea52518f82, type: 3}
-  itemName: FireBomb
+  itemName: "\uD654\uC5FC\uBCD1"
+  flavorText: 
   maxItemAmount: 20
   currentItemAmount: 20
   itemModel: {fileID: 7718585223797566845, guid: 9f84e2ee8daaabd45a1c0ac420a96b47, type: 3}
@@ -23,5 +24,5 @@ MonoBehaviour:
   forwardVelocity: 500
   bombMass: 1
   liveBombModel: {fileID: 7718585223797566845, guid: 2c4aa8db96404194ea446a645db1f549, type: 3}
-  baseDamage: 200
-  explosiveDamage: 75
+  baseDamage: 50
+  explosiveDamage: 100
