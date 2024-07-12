@@ -22,7 +22,8 @@ namespace SoulsLike {
             currentHealth = maxHealth;
         }
 
-        private void Start() {
+        protected override void Start() {
+            base.Start();
             if (!isBoss) enemyHealthBar.SetMaxHealth(maxHealth);
         }
 

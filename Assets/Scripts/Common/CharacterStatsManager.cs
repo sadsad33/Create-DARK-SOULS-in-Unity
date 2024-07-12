@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace SoulsLike {
-    public class CharacterStatsManager : MonoBehaviour {
+    public class CharacterStatsManager : NetworkBehaviour {
         CharacterAnimatorManager characterAnimatorManager;
         [Header("Team I.D")]
         public int teamIDNumber;
@@ -59,7 +60,7 @@ namespace SoulsLike {
             HandlePoiseResetTimer();
         }
 
-        private void Start() {
+        protected virtual void Start() {
             totalPoiseDefense = armorPoiseBonus;
         }
 

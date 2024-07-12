@@ -19,7 +19,9 @@ namespace SoulsLike {
         private Transform myTransform; // CameraHolder의 Transform (= Player의 Transform)
         //private Vector3 cameraFollowVelocity = Vector3.zero;
 
-        public static CameraHandler singleton;
+        public static CameraHandler instance;
+        public InputHandler inputHandler;
+        public PlayerManager playerManager;
 
         public float lookSpeed = 0.1f;
         public float followSpeed = 0.1f;
@@ -48,18 +50,24 @@ namespace SoulsLike {
         public float maximumLockOnDistance;
         public CharacterManager leftLockTarget, rightLockTarget;
 
-        InputHandler inputHandler;
-        PlayerManager playerManager;
+
+
         private void Awake() {
-            singleton = this;
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+            DontDestroyOnLoad(this);
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             obstacleLayer = 1 << 8;
-            targetTransform = FindObjectOfType<PlayerManager>().transform;
             inputHandler = FindObjectOfType<InputHandler>();
-            playerManager = FindObjectOfType<PlayerManager>();
         }
 
+        public void AssignCameraToPlayer(PlayerManager player) {
+            playerManager = player;
+            targetTransform = player.transform;
+            inputHandler = player.inputHandler;
+        }
+        
         // 카메라가 대상을 따라가도록 하는 함수
         public void FollowTarget(float delta) {
 

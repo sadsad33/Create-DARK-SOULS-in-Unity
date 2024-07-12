@@ -5,11 +5,22 @@ using UnityEngine.UI;
 
 namespace SoulsLike {
     public class UIManager : MonoBehaviour {
+        public static UIManager instance;
+
+        public PlayerManager player;
         public PlayerInventoryManager playerInventory;
         public PlayerStatsManager playerStatsManager;
         public EquipmentWindowUI equipmentWindowUI;
         private QuickSlots quickSlots;
         public Stack<GameObject> uiStack = new();
+
+        [Header("HUD")]
+        public Text soulCount;
+        public HealthBar healthBar;
+        public StaminaBar staminaBar;
+        public FocusBar focusBar;
+        public PoisonBuildUpBar poisonBuildUpBar;
+        public PoisonAmountBar poisonAmountBar;
 
         [Header("UI Windows")]
         public GameObject hudWindow;
@@ -46,18 +57,15 @@ namespace SoulsLike {
         public ItemInventorySlot[] consumableInventorySlots;
 
         private void Awake() {
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+            DontDestroyOnLoad(this);
             // 게임이 시작되면 Player 의 HUD를 UI 관리를 위한 스택에 제일 먼저 추가
             uiStack.Push(hudWindow);
             quickSlots = GetComponentInChildren<QuickSlots>();
         }
 
         private void Start() {
-            weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
-            consumableInventorySlots = consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
-            equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventory);
-            quickSlots.UpdateCurrentSpellIcon(playerInventory.currentSpell);
-            quickSlots.UpdateCurrentConsumableIcon(playerInventory.currentConsumable);
-            hudWindow.transform.GetChild(3).GetComponent<SoulCountBar>().SetSoulCountText(playerStatsManager.soulCount);
         }
 
         // UI창 하나가 열릴때마다 호출됨

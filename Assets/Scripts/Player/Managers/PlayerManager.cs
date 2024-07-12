@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 // 플레이어를 위한 Update 함수를 처리
 // 플레이어의 각종 Flag를 처리한다.
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
-        InputHandler inputHandler;
+        public InputHandler inputHandler;
         Animator anim;
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등) : InteractionPopUp
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지 : ItemPopup
@@ -52,8 +53,24 @@ namespace SoulsLike {
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
             interactableLayer = 1 << 0 | 1 << 9;
         }
+        private void Start() {
+            DontDestroyOnLoad(this);
+        }
 
-        void Update() {
+        public override void OnNetworkSpawn() {
+            base.OnNetworkSpawn();
+            if (IsOwner) {
+                playerStatsManager.SetStatBarsHUD();
+                CameraHandler.instance.AssignCameraToPlayer(this);
+                UIManager.instance.playerStatsManager = playerStatsManager;
+                UIManager.instance.playerInventory = transform.GetComponent<PlayerInventoryManager>();
+                interactableUIGameObject = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(0).gameObject;
+                itemInteractableGameObject = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
+                dialogUI = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(2).gameObject;
+            }
+        }
+
+        private void Update() {
             if (isClimbing) {
                 if (leftFoot.position.y > rightFoot.position.y) {
                     rightFootUp = false;

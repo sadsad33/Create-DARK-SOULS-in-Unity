@@ -6,14 +6,14 @@ namespace SoulsLike {
     public class UIEnemyHealthBar : MonoBehaviour {
         Slider slider;
         float timeUntilBarIsHidden;
-        public CameraHandler mainCamera;
+        //public CameraHandler mainCamera;
         private void Awake() {
             slider = GetComponentInChildren<Slider>();
         }
 
         private void LateUpdate() {
             if (slider != null) {
-                transform.forward = mainCamera.transform.forward;
+                transform.forward = CameraHandler.instance.transform.forward;
             }
         }
 

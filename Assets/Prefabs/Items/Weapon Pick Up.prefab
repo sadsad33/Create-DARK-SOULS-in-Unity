@@ -4840,5 +4840,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.5
-  interactableText: Pick Up Item
-  weapon: {fileID: 0}
+  interactableText: "\uC544\uC774\uD15C\uC744 \uC90D\uB294\uB2E4"
+  item: {fileID: 0}
