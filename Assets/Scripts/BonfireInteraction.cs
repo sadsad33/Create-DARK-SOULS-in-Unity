@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class BonfireInteraction : Interactable {
         public bool isIgnited = false;
-        public UIManager playerUIManager;
+        //public UIManager playerUIManager;
         private void Awake() {
             interactableText = "불을 붙인다";
         }
@@ -30,7 +30,7 @@ namespace SoulsLike {
                 // 플레이어 휴식 모션
                 playerManager.InteractionAtPosition("Bonfire_Start", playerManager.transform);
                 playerManager.isAtBonfire = true;
-                playerUIManager.OpenSelectedWindow(4);
+                UIManager.instance.OpenSelectedWindow(4);
             }
         }
     }

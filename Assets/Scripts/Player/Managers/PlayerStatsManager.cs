@@ -5,9 +5,6 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerStatsManager : CharacterStatsManager {
         public int level;
-        public HealthBar healthBar;
-        public StaminaBar staminaBar;
-        public FocusBar focusBar;
         PlayerManager playerManager;
         PlayerAnimatorManager playerAnimatorManager;
 
@@ -22,21 +19,25 @@ namespace SoulsLike {
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerManager = GetComponent<PlayerManager>();
         }
-        private void Start() {
+        protected override void Start() {
+            base.Start();
+        }
+
+        public void SetStatBarsHUD() {
+            UIManager.instance.player = playerManager;
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
-            healthBar.SetMaxHealth(currentHealth);
+            UIManager.instance.healthBar.SetMaxHealth(currentHealth);
 
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentStamina = maxStamina;
-            staminaBar.SetMaxStamina(currentStamina);
+            UIManager.instance.staminaBar.SetMaxStamina(currentStamina);
 
             maxFocus = SetMaxFocusFromFocusLevel();
             currentFocus = maxFocus;
-            focusBar.SetMaxFocus(currentFocus);
+            UIManager.instance.focusBar.SetMaxFocus(currentFocus);
             GetTotalDefense();
         }
-
         private void GetTotalDefense() {
             totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             //Debug.Log(totalPhysicalDamageAbsorption);
@@ -68,12 +69,12 @@ namespace SoulsLike {
 
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {
             base.TakeDamageNoAnimation(damage, fireDamage);
-            healthBar.SetCurrentHealth(currentHealth);
+            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
         }
 
         public override void TakePoisonDamage(float damage) {
             base.TakePoisonDamage(damage);
-            healthBar.SetCurrentHealth(currentHealth);
+            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
@@ -85,8 +86,8 @@ namespace SoulsLike {
             if (playerManager.isInvulnerable) return;
 
             base.TakeDamage(damage, fireDamage, damageAnimation);
-           
-            healthBar.SetCurrentHealth(currentHealth);
+
+            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
             playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0) {
@@ -100,7 +101,7 @@ namespace SoulsLike {
 
         public void TakeStaminaDamage(float damage) {
             currentStamina -= damage;
-            staminaBar.SetCurrentStamina(currentStamina);
+            UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
 
             // TODO
             // stamina가 0이하로 떨어졌을 경우
@@ -114,7 +115,7 @@ namespace SoulsLike {
             staminaRegenerationTimer += Time.deltaTime;
             if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
                 currentStamina += staminaRegenerationAmount * Time.deltaTime;
-                staminaBar.SetCurrentStamina(currentStamina);
+                UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
             }
         }
 
@@ -123,7 +124,7 @@ namespace SoulsLike {
             if (currentHealth > maxHealth) {
                 currentHealth = maxHealth;
             }
-            healthBar.SetCurrentHealth(currentHealth);
+            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
         }
 
         public void DeductFocus(float focusPoints) {
@@ -131,7 +132,7 @@ namespace SoulsLike {
             if (currentFocus < 0) {
                 currentFocus = 0;
             }
-            focusBar.SetCurrentFocus(currentFocus);
+            UIManager.instance.focusBar.SetCurrentFocus(currentFocus);
         }
 
         public void AddSouls(int souls) {

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Unity.Netcode;
 namespace SoulsLike {
-    public class CharacterManager : MonoBehaviour {
+    public class CharacterManager : NetworkBehaviour {
         CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
         [Header("Lock On Transform")]
