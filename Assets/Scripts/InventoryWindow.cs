@@ -2,38 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryWindow : MonoBehaviour
-{
-    public GameObject[] allInventoryWindows;
-    public int currentIndex = 0;
+namespace SoulsLike {
+    public class InventoryWindow : MonoBehaviour {
+        public GameObject[] allInventoryWindows;
+        public int currentIndex = 0;
 
-    private void OnDisable() {
-        currentIndex = 0;
-    }
-
-    public void PrintInventoryWindow() {
-        for (int i = 0; i < allInventoryWindows.Length; i++) {
-            allInventoryWindows[i].SetActive(false);
+        private void OnDisable() {
+            currentIndex = 0;
         }
-        allInventoryWindows[currentIndex].SetActive(true);
-    }
 
-    public void NextPage() {
-        if (currentIndex == allInventoryWindows.Length - 1) currentIndex = 0;
-        else currentIndex += 1;
+        public void PrintInventoryWindow() {
+            for (int i = 0; i < allInventoryWindows.Length; i++) {
+                allInventoryWindows[i].SetActive(false);
+            }
+            allInventoryWindows[currentIndex].SetActive(true);
+        }
 
-        PrintInventoryWindow();
-    }
+        public void NextPage() {
+            if (currentIndex == allInventoryWindows.Length - 1) currentIndex = 0;
+            else currentIndex += 1;
 
-    public void PrevPage() {
-        if (currentIndex == 0) currentIndex = allInventoryWindows.Length - 1;
-        else currentIndex -= 1;
+            PrintInventoryWindow();
+        }
 
-        PrintInventoryWindow();
-    }
+        public void PrevPage() {
+            if (currentIndex == 0) currentIndex = allInventoryWindows.Length - 1;
+            else currentIndex -= 1;
 
-    public void PrintThatInventoryWindow(int index) {
-        currentIndex = index;
-        PrintInventoryWindow();
+            PrintInventoryWindow();
+        }
+
+        public void PrintThatInventoryWindow(int index) {
+            currentIndex = index;
+            PrintInventoryWindow();
+        }
     }
 }

@@ -112,6 +112,17 @@ namespace SoulsLike {
             inputActions.Disable();
         }
 
+        private void OnApplicationFocus(bool focus) {
+            // 창을 최소화 하면 입력값을 받지 않음
+            // 다시 창을 열면 입력을 받음
+            if (this.enabled) {
+                if (focus) {
+                    inputActions.Enable();
+                } else {
+                    inputActions.Disable();
+                }
+            }
+        }
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
             if (playerStatsManager.isDead) return;
