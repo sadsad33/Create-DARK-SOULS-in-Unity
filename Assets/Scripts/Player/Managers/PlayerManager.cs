@@ -70,7 +70,9 @@ namespace SoulsLike {
             }
         }
 
-        private void Update() {
+        protected override void Update() {
+            base.Update();
+            if (!IsOwner) return;
             if (isClimbing) {
                 if (leftFoot.position.y > rightFoot.position.y) {
                     rightFootUp = false;
@@ -137,6 +139,7 @@ namespace SoulsLike {
         }
 
         private void LateUpdate() {
+            if (!IsOwner) return;
             // 1프레임당 한번의 호출만 이뤄지도록 한다.
             inputHandler.rollFlag = false;
             inputHandler.rb_Input = false;

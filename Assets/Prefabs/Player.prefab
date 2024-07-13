@@ -8226,6 +8226,7 @@ GameObject:
   - component: {fileID: 6482744793811343847}
   - component: {fileID: 6482744793811343846}
   - component: {fileID: 9055956360778353763}
+  - component: {fileID: -9156894317315943495}
   m_Layer: 11
   m_Name: Player
   m_TagString: Character
@@ -8431,9 +8432,6 @@ MonoBehaviour:
   totalFireDamageAbsorption: 0
   isDead: 0
   level: 10
-  healthBar: {fileID: 0}
-  staminaBar: {fileID: 0}
-  focusBar: {fileID: 0}
   staminaRegenerationAmount: 50
   staminaRegenerationTimer: 0
 --- !u!114 &4086121375157841885
@@ -8473,6 +8471,7 @@ MonoBehaviour:
   isMoving: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
+  inputHandler: {fileID: 0}
   interactableUIGameObject: {fileID: 0}
   itemInteractableGameObject: {fileID: 0}
   dialogUI: {fileID: 0}
@@ -8690,3 +8689,15 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-9156894317315943495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4086121375157841863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cec649750cf5214bb8dd5d1024d8fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

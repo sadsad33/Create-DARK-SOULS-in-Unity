@@ -476,7 +476,6 @@ MonoBehaviour:
   radius: 0.75
   interactableText: 
   isIgnited: 0
-  playerUIManager: {fileID: 0}
 --- !u!1 &20219544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3952,7 +3951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &327117525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4065,6 +4064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 1861903321}
   backStabCollider: {fileID: 693741378}
   riposteCollider: {fileID: 1535934053}
@@ -12132,6 +12132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 212062006596600148}
   backStabCollider: {fileID: 134924773518198507}
   riposteCollider: {fileID: 134924773715422354}
@@ -13302,7 +13303,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -20277,7 +20278,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -28427,7 +28428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1126827549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28540,6 +28541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 1247268872}
   backStabCollider: {fileID: 908486473}
   riposteCollider: {fileID: 984965490}
@@ -31478,7 +31480,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -38192,7 +38194,6 @@ MonoBehaviour:
   radius: 0.75
   interactableText: 
   isIgnited: 0
-  playerUIManager: {fileID: 0}
 --- !u!135 &1419007834
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -44939,7 +44940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585748728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53457,7 +53458,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -53807,6 +53808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 841875962}
   backStabCollider: {fileID: 1892301564}
   riposteCollider: {fileID: 1144917034}
@@ -54028,7 +54030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1921497841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54141,6 +54143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 302588504}
   backStabCollider: {fileID: 1094468347}
   riposteCollider: {fileID: 1269112987}
@@ -67235,7 +67238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &4198961208678546640
 GameObject:
   m_ObjectHideFlags: 0
@@ -67965,7 +67968,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &5324564050113085468
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -69305,6 +69308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 6389220527869462209}
   backStabCollider: {fileID: 7294613999552322113}
   riposteCollider: {fileID: 7294614000073953864}
@@ -69497,7 +69501,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -70224,6 +70228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 2173030236879191317}
   backStabCollider: {fileID: 2573975979005223317}
   riposteCollider: {fileID: 2573975977644861852}

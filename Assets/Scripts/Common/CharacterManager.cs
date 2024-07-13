@@ -6,6 +6,7 @@ namespace SoulsLike {
     public class CharacterManager : NetworkBehaviour {
         CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
+        public CharacterNetworkManager characterNetworkManager;
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -47,8 +48,24 @@ namespace SoulsLike {
         protected virtual void Awake() {
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
+            characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
 
+        protected virtual void Update() {
+            // 클라이언트가 이 오브젝트의 주인이라면
+            if (IsOwner) {
+                // 네트워크에 클라이언트의 오브젝트 좌표와 회전값을 전달
+                characterNetworkManager.networkPosition.Value = transform.position;
+                characterNetworkManager.networkRotation.Value = transform.rotation;
+            } else { // 클라이언트가 이 오브젝트의 주인이 아니라면 좌표와 회전값을 받아와 복사
+                transform.position = Vector3.SmoothDamp(transform.position, 
+                    characterNetworkManager.networkPosition.Value, 
+                    ref characterNetworkManager.networkVelocity, 
+                    characterNetworkManager.networkPositionSmoothTime);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, characterNetworkManager.networkRotation.Value, characterNetworkManager.networkRotationSmoothTime);
+            }
+        }
         protected virtual void FixedUpdate() {
             characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHandingWeapon);
         }
