@@ -32,7 +32,6 @@ namespace SoulsLike {
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
-        public bool lockOnFlag;
         //public bool inventoryFlag;
 
         public float rollInputTimer; // 다크소울 처럼 tap할 경우 구르고, 계속 누르고있을시 달리도록 하기위한 타이머
@@ -144,6 +143,7 @@ namespace SoulsLike {
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
+            playerManager.playerLocomotion.SetMovementValues(vertical, horizontal, moveAmount);
         }
 
         // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.
@@ -228,24 +228,24 @@ namespace SoulsLike {
 
         private void HandleLockOnInput() {
             // 록온 버튼이 눌렸고 아직 록온 상태가 아닌경우
-            if (lockOn_Input && !lockOnFlag) {
+            if (lockOn_Input && !playerManager.playerNetworkManager.isLockedOn.Value) {
 
                 lockOn_Input = !lockOn_Input;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.nearestLockOnTarget != null) {
                     // 록온 대상 설정
                     cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                    lockOnFlag = !lockOnFlag;
+                    playerManager.playerNetworkManager.isLockedOn.Value = !playerManager.playerNetworkManager.isLockedOn.Value;
                 }
             }
             // 록온 버튼이 눌렸고 이미 록온 상태인 경우 => 록온을 풀고 싶은 경우
-            else if (lockOn_Input && lockOnFlag) {
+            else if (lockOn_Input && playerManager.playerNetworkManager.isLockedOn.Value) {
                 lockOn_Input = !lockOn_Input;
-                lockOnFlag = !lockOnFlag;
+                playerManager.playerNetworkManager.isLockedOn.Value = !playerManager.playerNetworkManager.isLockedOn.Value;
                 cameraHandler.ClearLockOnTargets();
             }
 
-            if (lockOnFlag && right_Stick_Left_Input) {
+            if (playerManager.playerNetworkManager.isLockedOn.Value && right_Stick_Left_Input) {
                 right_Stick_Left_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.leftLockTarget != null) {
@@ -253,7 +253,7 @@ namespace SoulsLike {
                 }
             }
 
-            if (lockOnFlag && right_Stick_Right_Input) {
+            if (playerManager.playerNetworkManager.isLockedOn.Value && right_Stick_Right_Input) {
                 right_Stick_Right_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.rightLockTarget != null) {

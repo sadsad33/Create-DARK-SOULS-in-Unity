@@ -13,7 +13,7 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             playerManager = GetComponent<PlayerManager>();
-            anim = GetComponent<Animator>();
+            playerManager.anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotionManager = GetComponentInParent<PlayerLocomotionManager>();
             vertical = Animator.StringToHash("Vertical");
@@ -44,8 +44,8 @@ namespace SoulsLike {
                 v = 2;
                 h = horizontalMovement;
             }
-            anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
-            anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
+            playerManager.anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+            playerManager.anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
         private void OnAnimatorMove() {
@@ -53,7 +53,7 @@ namespace SoulsLike {
 
             float delta = Time.deltaTime;
             playerLocomotionManager.rigidbody.drag = 0;
-            Vector3 deltaPosition = anim.deltaPosition; // 현재 마지막으로 계산된 프레임에서 아바타의 좌표 변화량
+            Vector3 deltaPosition = playerManager.anim.deltaPosition; // 현재 마지막으로 계산된 프레임에서 아바타의 좌표 변화량
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta; // 거리의 변화량을 시간으로 나눠 속도를 구한다.
             playerLocomotionManager.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정

@@ -91,7 +91,7 @@ namespace SoulsLike {
          */
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput) {
             // 록온을 하지 않았을 경우
-            if (!inputHandler.lockOnFlag && currentLockOnTarget == null) {
+            if (!playerManager.playerNetworkManager.isLockedOn.Value && currentLockOnTarget == null) {
                 // 시간에 따른 각각의 회전값 변화량을 대입
                 lookAngle += (mouseXInput * lookSpeed) * delta; // 좌우 앵글
                 pivotAngle -= (mouseYInput * pivotSpeed) * delta; // 상하 앵글
@@ -201,7 +201,7 @@ namespace SoulsLike {
                     shortestDistance = distanceFromTarget;
                     nearestLockOnTarget = availableTargets[i];
                 }
-                if (inputHandler.lockOnFlag) { // 록온 상태
+                if (playerManager.playerNetworkManager.isLockedOn.Value) { // 록온 상태
                     // InverseTransformPoint : 객체의 월드좌표를 로컬좌표로 변환
                     // 주변에 락온이 가능한 타겟들의 월드 좌표를 자기 자신의 로컬좌표계로 편입시킨다.
                     Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);

@@ -16,13 +16,13 @@ namespace SoulsLike {
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
-            enemyAnimatorManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // 앞,뒤 이동
-            enemyAnimatorManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime); // 좌,우 이동
+            enemyManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // 앞,뒤 이동
+            enemyManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime); // 좌,우 이동
             attackState.hasPerformedAttack = false; // 전투 태세 -> 플레이어가 적정 사거리 내에 있을 경우 공격 선택 -> 공격
 
             if (enemyManager.isInteracting) { // 행동중이라면 
-                enemyAnimatorManager.anim.SetFloat("Vertical", 0);
-                enemyAnimatorManager.anim.SetFloat("Horizontal", 0);
+                enemyManager.anim.SetFloat("Vertical", 0);
+                enemyManager.anim.SetFloat("Horizontal", 0);
                 return this;
             }
 

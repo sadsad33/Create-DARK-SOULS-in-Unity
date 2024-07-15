@@ -101,11 +101,11 @@ namespace SoulsLike {
                         // 양잡시 왼쪽손의 무기를 등으로 옮기고, 왼손에 있는 무기는 제거한다.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
-                        characterAnimatorManager.anim.CrossFade(weaponItem.th_idle, 0.2f);
+                        characterManager.anim.CrossFade(weaponItem.th_idle, 0.2f);
                     } else {
-                        characterAnimatorManager.anim.CrossFade("BothArmsEmpty", 0.2f);
+                        characterManager.anim.CrossFade("BothArmsEmpty", 0.2f);
                         backSlot.UnloadWeaponAndDestroy();
-                        characterAnimatorManager.anim.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
+                        characterManager.anim.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
 
                     // 양잡을 하던 안하던 오른쪽은 변함없음
@@ -117,13 +117,13 @@ namespace SoulsLike {
             } else {
                 weaponItem = unarmedWeapon;
                 if (isLeft) {
-                    characterAnimatorManager.anim.CrossFade("LeftArmEmpty", 0.2f);
+                    characterManager.anim.CrossFade("LeftArmEmpty", 0.2f);
                     characterInventoryManager.leftWeapon = unarmedWeapon;
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
                 } else {
-                    characterAnimatorManager.anim.CrossFade("RightArmEmpty", 0.2f);
+                    characterManager.anim.CrossFade("RightArmEmpty", 0.2f);
                     characterInventoryManager.rightWeapon = unarmedWeapon;
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);

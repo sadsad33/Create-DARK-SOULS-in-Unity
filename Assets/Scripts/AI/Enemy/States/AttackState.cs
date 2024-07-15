@@ -47,8 +47,8 @@ namespace SoulsLike {
             //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //enemyAnimatorManager.PlayWeaponTrailFX();
-            enemyAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            enemyAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            enemyManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            enemyManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             hasPerformedAttack = true;
             RollForComboChance(enemyManager);
             if (!willDoComboOnNextAttack) {
@@ -60,8 +60,8 @@ namespace SoulsLike {
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
             willDoComboOnNextAttack = false;
-            enemyAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            enemyAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            enemyManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            enemyManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //enemyAnimatorManager.PlayWeaponTrailFX();

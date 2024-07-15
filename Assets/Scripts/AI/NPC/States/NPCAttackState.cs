@@ -44,8 +44,8 @@ namespace SoulsLike {
 
         private void AttackTarget(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            npcAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            npcAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            npcManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            npcManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             hasPerformedAttack = true;
             npcManager.changeTargetTimer = npcManager.changeTargetTime;
             RollForComboChance(npcManager);
@@ -56,8 +56,8 @@ namespace SoulsLike {
         }
         private void AttackTargetWithCombo(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
             willDoComboOnNextAttack = false;
-            npcAnimatorManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            npcAnimatorManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            npcManager.anim.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            npcManager.anim.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             npcManager.changeTargetTimer = npcManager.changeTargetTime;
             npcManager.currentRecoveryTime = currentAttack.recoveryTime;

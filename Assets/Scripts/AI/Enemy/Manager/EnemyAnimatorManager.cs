@@ -10,7 +10,7 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             enemyManager = GetComponent<EnemyManager>();
-            anim = GetComponent<Animator>();
+            enemyManager.anim = GetComponent<Animator>();
             //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             bossManager = GetComponent<BossManager>();
         }
@@ -21,13 +21,13 @@ namespace SoulsLike {
         private void OnAnimatorMove() {
             float delta = Time.deltaTime;
             enemyManager.enemyRigidbody.drag = 0; // ¹Ì²ô·¯Áü ¹æÁö
-            Vector3 deltaPosition = anim.deltaPosition;
+            Vector3 deltaPosition = enemyManager.anim.deltaPosition;
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
 
             if (characterManager.isRotatingWithRootMotion) {
-                characterManager.transform.rotation *= anim.deltaRotation;
+                characterManager.transform.rotation *= enemyManager.anim.deltaRotation;
             }
         }
 
