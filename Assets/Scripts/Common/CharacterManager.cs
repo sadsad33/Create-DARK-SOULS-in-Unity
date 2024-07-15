@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 namespace SoulsLike {
     public class CharacterManager : NetworkBehaviour {
+        public Animator anim;
         CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
         public CharacterNetworkManager characterNetworkManager;
@@ -32,7 +33,6 @@ namespace SoulsLike {
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
         public bool canRotate;
-        public bool isSprinting;
         public bool isInAir;
         public bool isGrounded;
         public bool isTwoHandingWeapon;
@@ -46,6 +46,7 @@ namespace SoulsLike {
         public float pendingCriticalDamage;
 
         protected virtual void Awake() {
+            anim = GetComponent<Animator>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();

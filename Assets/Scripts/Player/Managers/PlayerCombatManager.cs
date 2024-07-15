@@ -31,7 +31,7 @@ namespace SoulsLike {
         public void HandleWeaponCombo(WeaponItem weapon) {
             if (playerStatsManager.currentStamina <= 0) return;
             if (inputHandler.comboFlag) {
-                playerAnimatorManager.anim.SetBool("canDoCombo", false);
+                playerManager.anim.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
                     //Debug.Log("콤보 공격 실행");
                     playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
@@ -98,7 +98,7 @@ namespace SoulsLike {
             } else {
                 if (playerManager.isInteracting) return;
                 if (playerManager.canDoCombo) return;
-                playerAnimatorManager.anim.SetBool("isUsingRightHand", true);
+                playerManager.anim.SetBool("isUsingRightHand", true);
                 HandleLightAttack(playerInventoryManager.rightWeapon);
             }
         }
@@ -140,7 +140,7 @@ namespace SoulsLike {
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
             playerInventoryManager.currentSpell.SuccessfullyCastSpell(playerAnimatorManager, playerStatsManager, cameraHandler, playerWeaponSlotManager);
-            playerAnimatorManager.anim.SetBool("isFiringSpell", true);
+            playerManager.anim.SetBool("isFiringSpell", true);
             //Debug.Log("투척 이벤트");
         }
 

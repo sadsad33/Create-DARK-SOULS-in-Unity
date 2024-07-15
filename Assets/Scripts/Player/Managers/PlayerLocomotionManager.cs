@@ -46,6 +46,13 @@ namespace SoulsLike {
         [SerializeField]
         float fallingSpeed = 80;
 
+        // CharacterLocomotionManager 클래스를 생성하면 옮길 것
+        // 다른 클라이언트에서 내 오브젝트의 이동 애니메이션을 제어하기 위한 변수들(?)
+        [Header("Animator Movement Values")]
+        public float verticalMovement;
+        public float horizontalMovement;
+        public float movementAmount;
+
         [Header("Stamina Costs")]
         [SerializeField]
         float rollStaminaCost = 15;
@@ -69,6 +76,33 @@ namespace SoulsLike {
             Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
         }
 
+        private void Update() {
+            if (playerManager.IsOwner) {
+                playerManager.playerNetworkManager.verticalNetworkMovement.Value = verticalMovement;
+                playerManager.playerNetworkManager.horizontalNetworkMovement.Value = horizontalMovement;
+                playerManager.playerNetworkManager.moveAmountNetworkMovement.Value = movementAmount;
+            } else {
+                verticalMovement = playerManager.playerNetworkManager.verticalNetworkMovement.Value;
+                horizontalMovement = playerManager.playerNetworkManager.horizontalNetworkMovement.Value;
+                movementAmount = playerManager.playerNetworkManager.moveAmountNetworkMovement.Value;
+
+                // 만약 플레이어가 질주중이라면 vertical 값에 2 할당
+                // 만약 플레이어가 록온을 한 상태라면 horizontal 값은 strafing 에 사용
+                if (playerManager.playerNetworkManager.isSprinting.Value) {
+                    playerManager.anim.SetFloat("Vertical", 2, 0.1f, Time.deltaTime);
+                    playerManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                    return;
+                }
+                if (playerManager.playerNetworkManager.isLockedOn.Value) {
+                    playerManager.anim.SetFloat("Vertical", verticalMovement, 0.1f, Time.deltaTime);
+                    playerManager.anim.SetFloat("Horizontal", horizontalMovement, 0.1f, Time.deltaTime);
+                } else {
+                    playerManager.anim.SetFloat("Vertical", movementAmount, 0.1f, Time.deltaTime);
+                    playerManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                }
+            }
+        }
+
         #region Movement
 
         Vector3 normalVector;
@@ -78,7 +112,7 @@ namespace SoulsLike {
         public void HandleRotation(float delta) {
             if (playerManager.isClimbing || playerManager.isAtBonfire) return;
             if (playerAnimatorManager.canRotate) {
-                if (inputHandler.lockOnFlag) {
+                if (playerManager.playerNetworkManager.isLockedOn.Value) {
                     // 록온을 해도 달리거나 구를때는, 이동하던 방향으로 행동
                     if (inputHandler.sprintFlag || inputHandler.rollFlag) {
                         Vector3 targetDirection = Vector3.zero;
@@ -144,7 +178,7 @@ namespace SoulsLike {
 
             if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
                 speed = sprintSpeed;
-                playerManager.isSprinting = true;
+                playerManager.playerNetworkManager.isSprinting.Value = true;
                 moveDirection *= speed; // 이동속도 반영
                 jumpDirection = moveDirection; // 점프는 달리기 상태에서만 가능하므로 달리기 상태에서의 벡터를 기억
                 //Debug.Log("점프 전 : " + jumpDirection);
@@ -155,7 +189,7 @@ namespace SoulsLike {
                 } else {
                     moveDirection *= speed;
                 }
-                playerManager.isSprinting = false;
+                playerManager.playerNetworkManager.isSprinting.Value = false;
             }
 
             /*
@@ -173,10 +207,10 @@ namespace SoulsLike {
             rigidbody.velocity = projectedVelocity;
 
             // 록온 상태의경우 수평이동 입력값과 수직이동 입력값을 모두 사용한다.
-            if (inputHandler.lockOnFlag && !inputHandler.sprintFlag) {
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
+            if (playerManager.playerNetworkManager.isLockedOn.Value && !inputHandler.sprintFlag) {
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.playerNetworkManager.isSprinting.Value);
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.playerNetworkManager.isSprinting.Value);
             }
         }
 
@@ -214,6 +248,7 @@ namespace SoulsLike {
         // 낙하
         public void HandleFalling(float delta, Vector3 moveDirection) {
             if (playerManager.isClimbing|| playerManager.isMoving) return;
+            if (!playerManager.IsOwner) return;
             //playerManager.isGrounded = false;
             RaycastHit hit;
             Vector3 origin = myTransform.position; // 낙하 시작지점
@@ -245,7 +280,7 @@ namespace SoulsLike {
                         playerManager.isInteracting = true;
                     } else {
                         Debug.Log("You were in the air for" + inAirTimer);
-                        playerAnimatorManager.anim.SetTrigger("doEmpty");
+                        playerManager.anim.SetTrigger("doEmpty");
                         //playerAnimationManager.PlayTargetAnimation("Empty", false);
                     }
                 }
@@ -311,7 +346,7 @@ namespace SoulsLike {
                 }
                 playerManager.isClimbing = false;
             } else {
-                playerAnimatorManager.anim.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
+                playerManager.anim.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
                 rigidbody.velocity = new Vector3(0, inputHandler.vertical, 0);
             }
         }
@@ -323,6 +358,12 @@ namespace SoulsLike {
             // rigidbody.MovePosition : 충돌연산의 영향을 받으며 물체를 이동시키는 메서드
             // 중력이나 가속, 감속같은 연속적인 물리효과에 대해서 영향을 받지는 않으면서 부드럽게 물체를 이동시킴
             //rigidbody.MovePosition(transform.position + jumpDirection * Time.deltaTime);
+        }
+
+        public void SetMovementValues(float vertical, float horizontal, float moveAmount) {
+            verticalMovement = vertical;
+            horizontalMovement = horizontal;
+            movementAmount = moveAmount;
         }
         #endregion
     }

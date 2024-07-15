@@ -10,15 +10,17 @@ using Unity.Netcode;
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
         public InputHandler inputHandler;
-        Animator anim;
+        //public Animator anim;
         public GameObject interactableUIGameObject; // 상호작용 메세지 (문 열기, 레버 내리기 등) : InteractionPopUp
         public GameObject itemInteractableGameObject; // 아이템 획득 메세지 : ItemPopup
         public GameObject dialogUI; // NPC의 대사를 출력할 창
         public Transform leftFoot, rightFoot;
         public LadderEndPositionDetection ladderEndPositionDetector;
+        public PlayerNetworkManager playerNetworkManager;
 
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
         public bool isInConversation;
+        
         public bool isJumping = false;
         public bool rightFootUp;
         public bool isLadderTop;
@@ -27,12 +29,12 @@ namespace SoulsLike {
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
 
-        PlayerAnimatorManager playerAnimatorManager;
+        public PlayerAnimatorManager playerAnimatorManager;
         PlayerStatsManager playerStatsManager;
         PlayerEffectsManager playerEffectsManager;
-        PlayerLocomotionManager playerLocomotion;
+        public PlayerLocomotionManager playerLocomotion;
         public NPCScript[] currentDialog;
-        CameraHandler cameraHandler;
+        public CameraHandler cameraHandler;
 
         [SerializeField]
         InteractableUI interactableUI; // 상호작용때 나타나는 메세지 창
@@ -40,6 +42,8 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
+
+            playerNetworkManager = GetComponent<PlayerNetworkManager>();
             ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
             if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
@@ -124,6 +128,7 @@ namespace SoulsLike {
         public Transform interactionTargetPosition;
         protected override void FixedUpdate() {
             base.FixedUpdate();
+            if (!IsOwner) return;
             float delta = Time.fixedDeltaTime;
 
             // Rigidbody를 통해 처리되는 움직임은 FixedUpdate에서 처리되는것이 좋음
@@ -160,7 +165,7 @@ namespace SoulsLike {
             // 아바타가 움직인 좌표의 변화량을 측정하고 애니메이션 실행된 시간으로 나눠 속도를 구한후 플레이어의 rigidbody 에 대입하여 자연스럽게보이도록 속도를 대입함
             // 애니메이션의 전이가 모든 애니메이션의 마지막 프레임 이후 실행되는 거라면 상관없지만 자연스러운 전이를 위해 대부분 그러지 않으므로 Rigidbody의 velocity 가 0이 되었다가 마지막 프레임에서
             // 다시 OnAnimatorMove 메서드가 호출되면서 Rigidbody 의 velocity 값이 변화하는 듯
-            if ((isClimbing || isAtBonfire) && playerAnimatorManager.anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // 한 프레임마다 5번 레이어의 현재 애니메이션이 Empty 라면 rigidbody 의 속도를 0으로 만듬
+            if ((isClimbing || isAtBonfire) && anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // 한 프레임마다 5번 레이어의 현재 애니메이션이 Empty 라면 rigidbody 의 속도를 0으로 만듬
                 playerLocomotion.rigidbody.velocity = Vector3.zero;
             }
 

@@ -46,16 +46,16 @@ namespace SoulsLike {
             HandleRecoveryTimer();
             HandleStateMachine();
 
-            isUsingLeftHand = enemyAnimatorManager.anim.GetBool("isUsingLeftHand");
-            isUsingRightHand = enemyAnimatorManager.anim.GetBool("isUsingRightHand");
-            isPhaseShifting = enemyAnimatorManager.anim.GetBool("isPhaseShifting");
-            isRotatingWithRootMotion = enemyAnimatorManager.anim.GetBool("isRotatingWithRootMotion");
-            isInteracting = enemyAnimatorManager.anim.GetBool("isInteracting");
-            canDoCombo = enemyAnimatorManager.anim.GetBool("canDoCombo");
-            canRotate = enemyAnimatorManager.anim.GetBool("canRotate");
-            isInvulnerable = enemyAnimatorManager.anim.GetBool("isInvulnerable");
-            enemyAnimatorManager.anim.SetBool("isDead", enemyStatsManager.isDead);
-            enemyAnimatorManager.anim.SetBool("isGrabbed", isGrabbed);
+            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
+            isUsingRightHand = anim.GetBool("isUsingRightHand");
+            isPhaseShifting = anim.GetBool("isPhaseShifting");
+            isRotatingWithRootMotion = anim.GetBool("isRotatingWithRootMotion");
+            isInteracting = anim.GetBool("isInteracting");
+            canDoCombo = anim.GetBool("canDoCombo");
+            canRotate = anim.GetBool("canRotate");
+            isInvulnerable = anim.GetBool("isInvulnerable");
+            anim.SetBool("isDead", enemyStatsManager.isDead);
+            anim.SetBool("isGrabbed", isGrabbed);
         }
 
         private void LateUpdate() {

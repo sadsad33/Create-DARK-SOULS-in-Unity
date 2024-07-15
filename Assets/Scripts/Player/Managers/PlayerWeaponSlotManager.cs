@@ -86,7 +86,7 @@ namespace SoulsLike {
             GameObject activeBombModel = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
             // 화염병의 회전값은 카메라의 회전값과 맞춰 플레이어가 바라보는 방향으로 날아가게 한다
             activeBombModel.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
-            
+
             // 화염병 속도 설정
             BombDamageCollider damageCollider = activeBombModel.GetComponentInChildren<BombDamageCollider>();
             damageCollider.contactDamage = fireBombItem.baseDamage;
@@ -94,17 +94,19 @@ namespace SoulsLike {
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.up * fireBombItem.upwardVelocity);
             damageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // 피아식별을 위한 팀ID 설정
-            // LoadWeaponSlot(playerInventory.rightWeapon, false);
-            
+                                                                           // LoadWeaponSlot(playerInventory.rightWeapon, false);
+
         }
 
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack() {
-            playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+            if (playerManager.IsOwner)
+                playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack() {
-            playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+            if (playerManager.IsOwner)
+                playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
     }

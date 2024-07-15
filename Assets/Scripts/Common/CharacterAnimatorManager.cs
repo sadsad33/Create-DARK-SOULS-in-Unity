@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using Unity.Netcode;
 
 namespace SoulsLike {
     public class CharacterAnimatorManager : MonoBehaviour {
-        public Animator anim;
+        //public Animator anim;
         protected CharacterManager characterManager;
         protected CharacterStatsManager characterStatsManager;
         public bool canRotate;
@@ -23,43 +24,48 @@ namespace SoulsLike {
 
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
-            anim.applyRootMotion = isInteracting;
-            anim.SetBool("canRotate", canRotate);
-            anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            if (characterManager.IsOwner) {
+                characterManager.anim.applyRootMotion = isInteracting;
+                characterManager.anim.SetBool("canRotate", canRotate);
+                characterManager.anim.SetBool("isInteracting", isInteracting);
+                characterManager.anim.CrossFade(targetAnim, 0.2f);
+
+                // 단말에서 애니메이션을 실행하면 내 클라이언트의id 와 애니메이션, 현재 행동정보를 서버에 알림
+                characterManager.characterNetworkManager.NotifyServerOfAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnim, isInteracting);
+            }
         }
 
         // 애니메이션의 회전을 따라감
         public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting) {
-            anim.applyRootMotion = isInteracting;
-            anim.SetBool("isRotatingWithRootMotion", true);
-            anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            characterManager.anim.applyRootMotion = isInteracting;
+            characterManager.anim.SetBool("isRotatingWithRootMotion", true);
+            characterManager.anim.SetBool("isInteracting", isInteracting);
+            characterManager.anim.CrossFade(targetAnim, 0.2f);
         }
 
         #region 애니메이션 이벤트
         public virtual void CanRotate() {
-            anim.SetBool("canRotate", true);
+            characterManager.anim.SetBool("canRotate", true);
         }
 
         public virtual void StopRotation() {
-            anim.SetBool("canRotate", false);
+            characterManager.anim.SetBool("canRotate", false);
         }
 
         public virtual void EnableCombo() {
-            anim.SetBool("canDoCombo", true);
+            characterManager.anim.SetBool("canDoCombo", true);
         }
 
         public virtual void DisableCombo() {
-            anim.SetBool("canDoCombo", false);
+            characterManager.anim.SetBool("canDoCombo", false);
         }
 
         public virtual void EnableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", true);
+            characterManager.anim.SetBool("isInvulnerable", true);
         }
 
         public virtual void DisableIsInvulnerable() {
-            anim.SetBool("isInvulnerable", false);
+            characterManager.anim.SetBool("isInvulnerable", false);
         }
 
         public virtual void EnableIsParrying() {

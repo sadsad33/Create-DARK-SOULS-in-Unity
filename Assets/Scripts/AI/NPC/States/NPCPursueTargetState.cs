@@ -9,7 +9,7 @@ namespace SoulsLike {
         public NPCCombatStanceState npcCombatStanceState;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             if (npcManager.isInteracting) {
-                npcAnimatorManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                npcManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 return this;
             }
 
@@ -24,7 +24,7 @@ namespace SoulsLike {
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
             if (distance <= npcManager.maximumAggroRadius) return npcCombatStanceState;
             else {
-                npcAnimatorManager.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                npcManager.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
                 return this;
             }
         }

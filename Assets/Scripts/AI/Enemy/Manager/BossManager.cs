@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class BossManager : MonoBehaviour {
+        Animator animator;
         BossHealthBar bossHealthBar;
         public string bossName;
         EnemyStatsManager enemyStats;
@@ -14,6 +15,7 @@ namespace SoulsLike {
         public GameObject particleFX;
 
         private void Awake() {
+            animator = GetComponent<Animator>();
             bossHealthBar = FindObjectOfType<BossHealthBar>();
             enemyStats = GetComponent<EnemyStatsManager>();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
@@ -37,8 +39,8 @@ namespace SoulsLike {
 
         //페이즈 전환
         public void ShiftToSecondPhase() {
-            enemyAnimatorManager.anim.SetBool("isInvulnerable", true);
-            enemyAnimatorManager.anim.SetBool("isPhaseShifting", true);
+            animator.SetBool("isInvulnerable", true);
+            animator.SetBool("isPhaseShifting", true);
             enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
             //패턴 전환
         }
