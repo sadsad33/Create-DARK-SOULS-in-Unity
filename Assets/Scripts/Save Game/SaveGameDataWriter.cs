@@ -18,6 +18,8 @@ namespace SoulsLike {
                             saveDataToLoad = reader.ReadToEnd();
                         }
                     }
+
+                    loadedSaveData = JsonUtility.FromJson<CharacterSaveData>(saveDataToLoad);
                 } catch (Exception e) {
                     Debug.LogWarning(e.Message);
                 }
