@@ -8,6 +8,7 @@ namespace SoulsLike {
         CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
         public CharacterNetworkManager characterNetworkManager;
+
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 

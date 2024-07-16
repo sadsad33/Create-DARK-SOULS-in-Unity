@@ -5,7 +5,6 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerAnimatorManager : CharacterAnimatorManager {
         InputHandler inputHandler;
-        PlayerLocomotionManager playerLocomotionManager;
         PlayerManager playerManager;
         int vertical;
         int horizontal;
@@ -15,7 +14,6 @@ namespace SoulsLike {
             playerManager = GetComponent<PlayerManager>();
             playerManager.anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
-            playerLocomotionManager = GetComponentInParent<PlayerLocomotionManager>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
@@ -52,21 +50,21 @@ namespace SoulsLike {
             if (!characterManager.isInteracting) return;
 
             float delta = Time.deltaTime;
-            playerLocomotionManager.rigidbody.drag = 0;
+            playerManager.playerLocomotion.rigidbody.drag = 0;
             Vector3 deltaPosition = playerManager.anim.deltaPosition; // 현재 마지막으로 계산된 프레임에서 아바타의 좌표 변화량
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta; // 거리의 변화량을 시간으로 나눠 속도를 구한다.
-            playerLocomotionManager.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
+            playerManager.playerLocomotion.rigidbody.velocity = velocity; // Rigidbody의 속도를 설정
         }
 
         public void DisableCollision() {
-            playerLocomotionManager.characterCollider.enabled = false;
-            playerLocomotionManager.characterColliderBlocker.enabled = false;
+            playerManager.playerLocomotion.characterCollider.enabled = false;
+            playerManager.playerLocomotion.characterColliderBlocker.enabled = false;
         }
 
         public void EnableCollision() {
-            playerLocomotionManager.characterCollider.enabled = true;
-            playerLocomotionManager.characterColliderBlocker.enabled = true;
+            playerManager.playerLocomotion.characterCollider.enabled = true;
+            playerManager.playerLocomotion.characterColliderBlocker.enabled = true;
         }
 
         public void FinishJump() {

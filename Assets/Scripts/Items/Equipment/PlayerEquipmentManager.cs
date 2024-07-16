@@ -41,11 +41,11 @@ namespace SoulsLike {
         }
 
         private void Start() {
-            EquipAllEquipmentModelsOnStart();
+            EquipAllEquipmentModels();
         }
 
         // 시작할때 플레이어에게 설정된 장비를 모두 장착한다
-        private void EquipAllEquipmentModelsOnStart() {
+        public void EquipAllEquipmentModels() {
             helmetModelChanger.UnEquipAllHelmetModels();
             if (playerInventoryManager.currentHelmetEquipment != null) {
                 //nakedHeadModel.SetActive(false);

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 7cdfac7a7246d274c8b983fd664158c9, type: 3}
   itemName: "\uBC29\uD328"
-  flavorText: 
+  flavorText: "\uD2BC\uD2BC\uD55C \uCCA0\uC81C \uBC29\uD328"
+  itemID: 1
   modelPrefab: {fileID: 5203412457603426678, guid: 8fa242bfc5c8954418d4765807effcbf, type: 3}
   isUnarmed: 0
   physicalDamage: 10

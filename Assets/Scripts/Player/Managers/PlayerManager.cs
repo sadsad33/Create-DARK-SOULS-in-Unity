@@ -17,10 +17,11 @@ namespace SoulsLike {
         public Transform leftFoot, rightFoot;
         public LadderEndPositionDetection ladderEndPositionDetector;
         public PlayerNetworkManager playerNetworkManager;
-
+        public PlayerInventoryManager playerInventoryManager;
+        public PlayerWeaponSlotManager playerWeaponSlotManager;
         // 다크소울 시리즈에서는 대화 도중 행동이 가능하므로 isInteracting 과 분리
         public bool isInConversation;
-        
+
         public bool isJumping = false;
         public bool rightFootUp;
         public bool isLadderTop;
@@ -29,9 +30,10 @@ namespace SoulsLike {
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
 
+        public PlayerEquipmentManager playerEquipmentManager;
         public PlayerAnimatorManager playerAnimatorManager;
-        PlayerStatsManager playerStatsManager;
-        PlayerEffectsManager playerEffectsManager;
+        public PlayerStatsManager playerStatsManager;
+        public PlayerEffectsManager playerEffectsManager;
         public PlayerLocomotionManager playerLocomotion;
         public NPCScript[] currentDialog;
         public CameraHandler cameraHandler;
@@ -42,7 +44,10 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
-
+            Debug.Log("Player.Awake()");
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
             ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
             if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
@@ -313,6 +318,25 @@ namespace SoulsLike {
             currentCharacterSaveData.xPosition = transform.position.x;
             currentCharacterSaveData.yPosition = transform.position.y;
             currentCharacterSaveData.zPosition = transform.position.z;
+
+            currentCharacterSaveData.currentRightHandWeaponID = playerInventoryManager.rightWeapon.itemID;
+            currentCharacterSaveData.currentLeftHandWeaponID = playerInventoryManager.leftWeapon.itemID;
+
+            if (playerInventoryManager.currentHelmetEquipment != null)
+                currentCharacterSaveData.currentHeadGearItemID = playerInventoryManager.currentHelmetEquipment.itemID;
+            else currentCharacterSaveData.currentHeadGearItemID = -1;
+
+            if (playerInventoryManager.currentTorsoEquipment != null)
+                currentCharacterSaveData.currentChestGearItemID = playerInventoryManager.currentTorsoEquipment.itemID;
+            else currentCharacterSaveData.currentChestGearItemID = -1;
+
+            if (playerInventoryManager.currentGuntletEquipment != null)
+                currentCharacterSaveData.currentHandGearItemID = playerInventoryManager.currentGuntletEquipment.itemID;
+            else currentCharacterSaveData.currentHandGearItemID = -1;
+
+            if (playerInventoryManager.currentLegEquipment != null)
+                currentCharacterSaveData.currentLegGearItemID = playerInventoryManager.currentLegEquipment.itemID;
+            else currentCharacterSaveData.currentLegGearItemID = -1;
         }
 
         public void LoadCharacterDataFromCurrentCharacterSaveData(ref CharacterSaveData currentCharacterSaveData) {
@@ -320,6 +344,31 @@ namespace SoulsLike {
             playerStatsManager.level = currentCharacterSaveData.characterLevel;
 
             transform.position = new Vector3(currentCharacterSaveData.xPosition, currentCharacterSaveData.yPosition, currentCharacterSaveData.zPosition);
+            playerInventoryManager.rightWeapon = WorldItemDatabase.instance.GetWeaponItemByID(currentCharacterSaveData.currentRightHandWeaponID);
+            playerInventoryManager.leftWeapon = WorldItemDatabase.instance.GetWeaponItemByID(currentCharacterSaveData.currentLeftHandWeaponID);
+            playerWeaponSlotManager.LoadBothWeaponsOnSlots();
+
+            EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
+            // 데이터 베이스에 해당 아이템이 존재하면 착용
+            if (headEquipment != null) {
+                playerInventoryManager.currentHelmetEquipment = headEquipment as HelmetEquipment;
+            }
+
+            EquipmentItem bodyEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentChestGearItemID);
+            if (bodyEquipment != null) {
+                playerInventoryManager.currentTorsoEquipment = bodyEquipment as TorsoEquipment;
+            }
+
+            EquipmentItem handEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHandGearItemID);
+            if (handEquipment != null) {
+                playerInventoryManager.currentGuntletEquipment = handEquipment as GuntletEquipment;
+            }
+
+            EquipmentItem legEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentLegGearItemID);
+            if (bodyEquipment != null) {
+                playerInventoryManager.currentLegEquipment = legEquipment as LegEquipment;
+            }
+            playerEquipmentManager.EquipAllEquipmentModels();
         }
     }
 }

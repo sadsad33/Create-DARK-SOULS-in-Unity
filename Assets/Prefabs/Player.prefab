@@ -8483,12 +8483,16 @@ MonoBehaviour:
   rightFoot: {fileID: 3417426344644001915}
   ladderEndPositionDetector: {fileID: 0}
   playerNetworkManager: {fileID: 0}
+  playerInventoryManager: {fileID: 0}
+  playerWeaponSlotManager: {fileID: 0}
   isInConversation: 0
   isJumping: 0
   rightFootUp: 0
   isLadderTop: 0
   isAtBonfire: 0
   playerAnimatorManager: {fileID: 0}
+  playerStatsManager: {fileID: 0}
+  playerEffectsManager: {fileID: 0}
   playerLocomotion: {fileID: 0}
   currentDialog: []
   cameraHandler: {fileID: 0}
@@ -8529,7 +8533,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
   - {fileID: 11400000, guid: ce7fac139c06bfc4390db328c045d28c, type: 2}
   currentHelmetEquipment: {fileID: 11400000, guid: fc1e36634f4ce4540be04eb96bc679c0, type: 2}
-  currentTorsoEquipment: {fileID: 11400000, guid: e67d82a93443a204090643a8bbdec9d8, type: 2}
+  currentTorsoEquipment: {fileID: 0}
   currentLegEquipment: {fileID: 11400000, guid: d4d8bac998410a84594783304bc4a1f9, type: 2}
   currentGuntletEquipment: {fileID: 11400000, guid: 47a41915e5ae5494591a6021240b8c1d, type: 2}
   currentRightWeaponIndex: 0

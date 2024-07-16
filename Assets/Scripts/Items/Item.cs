@@ -10,5 +10,6 @@ namespace SoulsLike {
         public Sprite itemIcon;
         public string itemName;
         public string flavorText;
+        public int itemID;
     }
 }
