@@ -56,6 +56,9 @@ namespace SoulsLike {
             interactableUI = FindObjectOfType<InteractableUI>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
             interactableLayer = 1 << 0 | 1 << 9;
+
+            // 타이틀 스크린에서 플레이어를 넘겨받기 위함
+            WorldSaveGameManager.instance.player = this;
         }
         private void Start() {
             DontDestroyOnLoad(this);
@@ -310,6 +313,13 @@ namespace SoulsLike {
             currentCharacterSaveData.xPosition = transform.position.x;
             currentCharacterSaveData.yPosition = transform.position.y;
             currentCharacterSaveData.zPosition = transform.position.z;
+        }
+
+        public void LoadCharacterDataFromCurrentCharacterSaveData(ref CharacterSaveData currentCharacterSaveData) {
+            playerStatsManager.characterName = currentCharacterSaveData.characterName;
+            playerStatsManager.level = currentCharacterSaveData.characterLevel;
+
+            transform.position = new Vector3(currentCharacterSaveData.xPosition, currentCharacterSaveData.yPosition, currentCharacterSaveData.zPosition);
         }
     }
 }
