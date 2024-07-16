@@ -43,14 +43,9 @@ namespace SoulsLike {
         PlayerControls inputActions;
 
         PlayerCombatManager playerCombatManager;
-        PlayerInventoryManager playerInventoryManager;
         PlayerManager playerManager;
         UIManager uiManager;
         CameraHandler cameraHandler;
-        PlayerWeaponSlotManager weaponSlotManager;
-        PlayerAnimatorManager playerAnimatiorManager;
-        PlayerStatsManager playerStatsManager;
-        PlayerEffectsManager playerEffectsManager;
 
         BlockingCollider blockingCollider;
 
@@ -58,16 +53,11 @@ namespace SoulsLike {
         Vector2 cameraInput;
 
         public void Awake() {
-            playerStatsManager = GetComponent<PlayerStatsManager>();
             playerCombatManager = GetComponent<PlayerCombatManager>();
-            playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerManager = GetComponent<PlayerManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
-            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
-            playerAnimatiorManager = GetComponent<PlayerAnimatorManager>();
-            playerEffectsManager = GetComponent<PlayerEffectsManager>();
         }
 
         public void OnEnable() {
@@ -124,7 +114,7 @@ namespace SoulsLike {
         }
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
-            if (playerStatsManager.isDead) return;
+            if (playerManager.playerStatsManager.isDead) return;
 
             HandleMoveInput();
             HandleRollInput(delta);
@@ -153,11 +143,11 @@ namespace SoulsLike {
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
 
-                if (playerStatsManager.currentStamina <= 0) { // 스테미너가 남아있지 않다면
+                if (playerManager.playerStatsManager.currentStamina <= 0) { // 스테미너가 남아있지 않다면
                     b_Input = false;
                     sprintFlag = false;
                 }
-                if (moveAmount > 0.5f && playerStatsManager.currentStamina > 0) {
+                if (moveAmount > 0.5f && playerManager.playerStatsManager.currentStamina > 0) {
                     sprintFlag = true;
                 }
             } else {
@@ -178,7 +168,7 @@ namespace SoulsLike {
             if (rt_Input) {
                 if (playerManager.isInteracting) return;
                 if (playerManager.canDoCombo) return;
-                playerCombatManager.HandleHeavyAttack(playerInventoryManager.rightWeapon);
+                playerCombatManager.HandleHeavyAttack(playerManager.playerInventoryManager.rightWeapon);
             }
 
             if (lt_Input) {
@@ -205,13 +195,13 @@ namespace SoulsLike {
 
         private void HandleQuickSlotInput() {
             if (d_Pad_Right) {
-                playerInventoryManager.ChangeRightWeapon();
+                playerManager.playerInventoryManager.ChangeRightWeapon();
             } else if (d_Pad_Left) {
-                playerInventoryManager.ChangeLeftWeapon();
+                playerManager.playerInventoryManager.ChangeLeftWeapon();
             } else if (d_Pad_Up) {
-                playerInventoryManager.ChangeSpell();
+                playerManager.playerInventoryManager.ChangeSpell();
             } else if (d_Pad_Down) {
-                playerInventoryManager.ChangeConsumableItem();
+                playerManager.playerInventoryManager.ChangeConsumableItem();
             }
         }
 
@@ -272,13 +262,13 @@ namespace SoulsLike {
                 twoHandFlag = !twoHandFlag;
                 if (twoHandFlag) { // 양잡
                     playerManager.isTwoHandingWeapon = true;
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
-                    weaponSlotManager.LoadTwoHandIKTargets(true);
+                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.rightWeapon, false);
+                    playerManager.playerWeaponSlotManager.LoadTwoHandIKTargets(true);
                 } else { // 양잡 해제
                     playerManager.isTwoHandingWeapon = false;
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.leftWeapon, true);
-                    weaponSlotManager.LoadTwoHandIKTargets(false);
+                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.rightWeapon, false);
+                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.leftWeapon, true);
+                    playerManager.playerWeaponSlotManager.LoadTwoHandIKTargets(false);
                 }
             }
         }
@@ -295,7 +285,7 @@ namespace SoulsLike {
                 if (playerManager.isInteracting) return;
                 x_Input = false;
                 // 현재 소비 아이템을 사용한다.
-                playerInventoryManager.currentConsumable.AttemptToConsumeItem(playerAnimatiorManager, weaponSlotManager, playerEffectsManager);
+                playerManager.playerInventoryManager.currentConsumable.AttemptToConsumeItem(playerManager.playerAnimatorManager, playerManager.playerWeaponSlotManager, playerManager.playerEffectsManager);
             }
         }
     }

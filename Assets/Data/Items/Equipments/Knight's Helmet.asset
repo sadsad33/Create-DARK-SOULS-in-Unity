@@ -15,5 +15,6 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemName: "\uAE30\uC0AC\uC758 \uD22C\uAD6C"
   flavorText: 
+  itemID: 1004
   physicalDefense: 7
   helmetModelName: PT_Male_Armor_01_A_helmet

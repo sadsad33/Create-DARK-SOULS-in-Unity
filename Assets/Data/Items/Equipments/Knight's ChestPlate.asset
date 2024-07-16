@@ -15,6 +15,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemName: "\uAE30\uC0AC\uC758 \uD749\uAC11"
   flavorText: 
+  itemID: 1005
   physicalDefense: 12.5
   torsoModelName: PT_Male_Armor_01_A_body
   capeModelName: PT_Male_Armor_01_A_cape

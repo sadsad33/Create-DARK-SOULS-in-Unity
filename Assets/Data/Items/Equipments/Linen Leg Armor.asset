@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
   itemName: Linen Leg Armor
+  flavorText: 
+  itemID: 1003
   physicalDefense: 0
   legModelName: PT_Male_Armor_05_C_legs
   bootsModelName: PT_Male_Armor_05_C_boots

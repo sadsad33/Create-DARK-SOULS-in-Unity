@@ -15,6 +15,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemName: "\uAE30\uC0AC\uC758 \uAC01\uBC18"
   flavorText: 
+  itemID: 1007
   physicalDefense: 10
   legModelName: PT_Male_Armor_01_A_legs
   bootsModelName: PT_Male_Armor_01_A_boots
