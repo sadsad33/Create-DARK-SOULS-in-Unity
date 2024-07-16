@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerStatsManager : CharacterStatsManager {
         public int level;
+        public string characterName;
         PlayerManager playerManager;
         PlayerAnimatorManager playerAnimatorManager;
 

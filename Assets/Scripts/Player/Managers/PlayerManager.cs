@@ -302,5 +302,14 @@ namespace SoulsLike {
             playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
         }
         #endregion
+
+        // 현재의 세이브 파일에 캐릭터 정보를 저장
+        public void SaveCharacterDataToCurrentSaveData(ref CharacterSaveData currentCharacterSaveData) {
+            currentCharacterSaveData.characterName = playerStatsManager.characterName;
+            currentCharacterSaveData.characterLevel = playerStatsManager.level;
+            currentCharacterSaveData.xPosition = transform.position.x;
+            currentCharacterSaveData.yPosition = transform.position.y;
+            currentCharacterSaveData.zPosition = transform.position.z;
+        }
     }
 }

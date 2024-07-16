@@ -8356,7 +8356,6 @@ MonoBehaviour:
   rollFlag: 0
   sprintFlag: 0
   comboFlag: 0
-  lockOnFlag: 0
   rollInputTimer: 0
   backstepDelay: 0
   criticalAttackRayCastStartPoint: {fileID: 970529336}
@@ -8388,6 +8387,9 @@ MonoBehaviour:
   sprintSpeed: 7
   rotationSpeed: 18
   fallingSpeed: 450
+  verticalMovement: 0
+  horizontalMovement: 0
+  movementAmount: 0
   rollStaminaCost: 15
 --- !u!114 &6482744793811343848
 MonoBehaviour:
@@ -8432,6 +8434,7 @@ MonoBehaviour:
   totalFireDamageAbsorption: 0
   isDead: 0
   level: 10
+  characterName: Nameless
   staminaRegenerationAmount: 50
   staminaRegenerationTimer: 0
 --- !u!114 &4086121375157841885
@@ -8446,7 +8449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386cfc514c1b10749b80654dadb8cd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 199501606}
   backStabCollider: {fileID: 229186707681697945}
   riposteCollider: {fileID: 229186707484642016}
@@ -8463,7 +8468,6 @@ MonoBehaviour:
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
-  isSprinting: 0
   isInAir: 0
   isGrounded: 0
   isTwoHandingWeapon: 0
@@ -8478,12 +8482,16 @@ MonoBehaviour:
   leftFoot: {fileID: 3417426343914960240}
   rightFoot: {fileID: 3417426344644001915}
   ladderEndPositionDetector: {fileID: 0}
+  playerNetworkManager: {fileID: 0}
   isInConversation: 0
   isJumping: 0
   rightFootUp: 0
   isLadderTop: 0
   isAtBonfire: 0
+  playerAnimatorManager: {fileID: 0}
+  playerLocomotion: {fileID: 0}
   currentDialog: []
+  cameraHandler: {fileID: 0}
   interactableUI: {fileID: 0}
   interactionTargetPosition: {fileID: 0}
 --- !u!114 &6482744793811343854
@@ -8577,7 +8585,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bdf262bc899e44589a48d15e10fcf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   canRotate: 0
   leftHandConstraint: {fileID: 134254330578057581}
   rightHandConstraint: {fileID: 134254329769522189}
@@ -8701,3 +8708,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cec649750cf5214bb8dd5d1024d8fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  networkVelocity: {x: 0, y: 0, z: 0}
+  networkPositionSmoothTime: 0.1
+  networkRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
+  networkRotationSmoothTime: 0.1
+  verticalNetworkMovement:
+    m_InternalValue: 0
+  horizontalNetworkMovement:
+    m_InternalValue: 0
+  moveAmountNetworkMovement:
+    m_InternalValue: 0
+  isSprinting:
+    m_InternalValue: 0
+  isLockedOn:
+    m_InternalValue: 0
