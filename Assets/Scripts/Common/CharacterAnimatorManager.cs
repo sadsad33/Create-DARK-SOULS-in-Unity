@@ -7,7 +7,7 @@ using Unity.Netcode;
 namespace SoulsLike {
     public class CharacterAnimatorManager : MonoBehaviour {
         //public Animator anim;
-        protected CharacterManager characterManager;
+        protected CharacterManager character;
         protected CharacterStatsManager characterStatsManager;
         public bool canRotate;
 
@@ -17,79 +17,79 @@ namespace SoulsLike {
 
         bool handIKWeightReset = false;
         protected virtual void Awake() {
-            characterManager = GetComponent<CharacterManager>();
+            character = GetComponent<CharacterManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             rigBuilder = GetComponent<RigBuilder>();
         }
 
-        // ÇØ´ç ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ½ÇÇàÇÑ´Ù.
+        // í•´ë‹¹ ì• ë‹ˆë©”ì´ì…˜ì„ ì‹¤í–‰í•œë‹¤.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
-            if (characterManager.IsOwner) {
-                characterManager.anim.applyRootMotion = isInteracting;
-                characterManager.anim.SetBool("canRotate", canRotate);
-                characterManager.anim.SetBool("isInteracting", isInteracting);
-                characterManager.anim.CrossFade(targetAnim, 0.2f);
+            if (character.IsOwner) {
+                character.animator.applyRootMotion = isInteracting;
+                character.animator.SetBool("canRotate", canRotate);
+                character.animator.SetBool("isInteracting", isInteracting);
+                character.animator.CrossFade(targetAnim, 0.2f);
 
-                // ´Ü¸»¿¡¼­ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ½ÇÇàÇÏ¸é ³» Å¬¶óÀÌ¾ğÆ®ÀÇid ¿Í ¾Ö´Ï¸ŞÀÌ¼Ç, ÇöÀç Çàµ¿Á¤º¸¸¦ ¼­¹ö¿¡ ¾Ë¸²
-                characterManager.characterNetworkManager.NotifyServerOfAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnim, isInteracting);
+                // ë‹¨ë§ì—ì„œ ì• ë‹ˆë©”ì´ì…˜ì„ ì‹¤í–‰í•˜ë©´ ë‚´ í´ë¼ì´ì–¸íŠ¸ì˜id ì™€ ì• ë‹ˆë©”ì´ì…˜, í˜„ì¬ í–‰ë™ì •ë³´ë¥¼ ì„œë²„ì— ì•Œë¦¼
+                character.characterNetworkManager.NotifyServerOfAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnim, isInteracting);
             }
         }
 
-        // ¾Ö´Ï¸ŞÀÌ¼ÇÀÇ È¸ÀüÀ» µû¶ó°¨
+        // ì• ë‹ˆë©”ì´ì…˜ì˜ íšŒì „ì„ ë”°ë¼ê°
         public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting) {
-            characterManager.anim.applyRootMotion = isInteracting;
-            characterManager.anim.SetBool("isRotatingWithRootMotion", true);
-            characterManager.anim.SetBool("isInteracting", isInteracting);
-            characterManager.anim.CrossFade(targetAnim, 0.2f);
+            character.animator.applyRootMotion = isInteracting;
+            character.animator.SetBool("isRotatingWithRootMotion", true);
+            character.animator.SetBool("isInteracting", isInteracting);
+            character.animator.CrossFade(targetAnim, 0.2f);
         }
 
-        #region ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+        #region ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
         public virtual void CanRotate() {
-            characterManager.anim.SetBool("canRotate", true);
+            character.animator.SetBool("canRotate", true);
         }
 
         public virtual void StopRotation() {
-            characterManager.anim.SetBool("canRotate", false);
+            character.animator.SetBool("canRotate", false);
         }
 
         public virtual void EnableCombo() {
-            characterManager.anim.SetBool("canDoCombo", true);
+            character.animator.SetBool("canDoCombo", true);
         }
 
         public virtual void DisableCombo() {
-            characterManager.anim.SetBool("canDoCombo", false);
+            character.animator.SetBool("canDoCombo", false);
         }
 
         public virtual void EnableIsInvulnerable() {
-            characterManager.anim.SetBool("isInvulnerable", true);
+            character.animator.SetBool("isInvulnerable", true);
         }
 
         public virtual void DisableIsInvulnerable() {
-            characterManager.anim.SetBool("isInvulnerable", false);
+            character.animator.SetBool("isInvulnerable", false);
         }
 
         public virtual void EnableIsParrying() {
-            characterManager.isParrying = true;
+            character.isParrying = true;
         }
 
         public virtual void DisableIsParrying() {
-            characterManager.isParrying = false;
+            character.isParrying = false;
         }
 
         public virtual void EnableCanBeRiposted() {
-            characterManager.canBeRiposted = true;
+            character.canBeRiposted = true;
         }
 
         public virtual void DisableCanBeRiposted() {
-            characterManager.canBeRiposted = false;
+            character.canBeRiposted = false;
         }
 
         public virtual void TakeCriticalDamageAnimationEvent() {
-            characterStatsManager.TakeDamageNoAnimation(characterManager.pendingCriticalDamage); // Àâ±â ´ë»ó¿¡°Ô µ¥¹ÌÁö
-            characterManager.pendingCriticalDamage = 0; // Àâ±â µ¥¹ÌÁö ÃÊ±âÈ­
+            characterStatsManager.TakeDamageNoAnimation(character.pendingCriticalDamage); // ì¡ê¸° ëŒ€ìƒì—ê²Œ ë°ë¯¸ì§€
+            character.pendingCriticalDamage = 0; // ì¡ê¸° ë°ë¯¸ì§€ ì´ˆê¸°í™”
         }
 
-        // º¸½º È¤Àº ¿¤¸®Æ® ¸ó½ºÅÍÀÇ °­ÀÎµµ ÃÊ±âÈ­ ÀÌº¥Æ®
+        // ë³´ìŠ¤ í˜¹ì€ ì—˜ë¦¬íŠ¸ ëª¬ìŠ¤í„°ì˜ ê°•ì¸ë„ ì´ˆê¸°í™” ì´ë²¤íŠ¸
         public virtual void ResetPoiseValue() {
             characterStatsManager.isStuned = false;
             characterStatsManager.totalPoiseDefense = characterStatsManager.armorPoiseBonus;
@@ -98,18 +98,18 @@ namespace SoulsLike {
 
         public virtual void ReleaseFromGrab() {
             if (characterStatsManager.isDead) return;
-            characterManager.isGrabbed = false;
+            character.isGrabbed = false;
         }
         
         #endregion
 
-        // ¹«±âÀÇ HandIK ¼³Á¤
+        // ë¬´ê¸°ì˜ HandIK ì„¤ì •
         public virtual void SetHandIKForWeapon(HandIKTarget rightHandTarget, HandIKTarget leftHandTarget, bool isTwoHandingWeapon) {
             if (isTwoHandingWeapon) {
-                // ¾ç¼ÕÀâ±â »óÅÂ¶ó¸é Hand IK ±â´É ÇÊ¿ä½Ã Àû¿ë
-                // ¾ç ¼ÕÀÇ À§Ä¡¿¡ Hand IK ÇÒ´ç
+                // ì–‘ì†ì¡ê¸° ìƒíƒœë¼ë©´ Hand IK ê¸°ëŠ¥ í•„ìš”ì‹œ ì ìš©
+                // ì–‘ ì†ì˜ ìœ„ì¹˜ì— Hand IK í• ë‹¹
                 rightHandConstraint.data.target = rightHandTarget.transform;
-                rightHandConstraint.data.targetPositionWeight = 1; // 0 ~ 1 »çÀÌÀÇ ¿øÇÏ´Â °ª ÇÒ´ç
+                rightHandConstraint.data.targetPositionWeight = 1; // 0 ~ 1 ì‚¬ì´ì˜ ì›í•˜ëŠ” ê°’ í• ë‹¹
                 rightHandConstraint.data.targetRotationWeight = 1;
 
                 leftHandConstraint.data.target = leftHandTarget.transform;
@@ -117,7 +117,7 @@ namespace SoulsLike {
                 leftHandConstraint.data.targetRotationWeight = 1;
 
             } else {
-                // ¾Æ´Ï¶ó¸é ÇØÁ¦
+                // ì•„ë‹ˆë¼ë©´ í•´ì œ
                 rightHandConstraint.data.target = null;
                 leftHandConstraint.data.target = null;
             }
@@ -125,7 +125,7 @@ namespace SoulsLike {
         }
 
         public virtual void CheckHandIKWeight(HandIKTarget rightHandIK, HandIKTarget leftHandIK, bool isTwoHandingWeapon) {
-            if (characterManager.isInteracting) return;
+            if (character.isInteracting) return;
 
             if (handIKWeightReset) {
                 handIKWeightReset = !handIKWeightReset;
@@ -143,7 +143,7 @@ namespace SoulsLike {
         }
 
         public virtual void EraseHandIKForWeapon() {
-            // Hand IK °¡ÁßÄ¡°ªÀ» ¸ğµÎ 0À¸·Î ¸®¼Â
+            // Hand IK ê°€ì¤‘ì¹˜ê°’ì„ ëª¨ë‘ 0ìœ¼ë¡œ ë¦¬ì…‹
             handIKWeightReset = true;
             if (rightHandConstraint.data.target != null) {
                 rightHandConstraint.data.targetPositionWeight = 0;
@@ -153,6 +153,24 @@ namespace SoulsLike {
                 leftHandConstraint.data.targetPositionWeight = 0;
                 leftHandConstraint.data.targetRotationWeight = 0;
             }
+        }
+
+        // Root Motionì´ ì ìš©ëœ ì• ë‹ˆë©”ì´ì…˜ì´ ì¬ìƒì¤‘ì— Root Transformì´ ì´ë™ë˜ë©´ í˜¸ì¶œ
+        // OnAnimatorMove í•¨ìˆ˜ë¥¼ êµ¬í˜„í•˜ê²Œ ë˜ë©´ Animator ì»´í¬ë„ŒíŠ¸ì˜ ApplyRootMotionì´ HandledByScriptê°€ ë˜ì–´ OnAnimatorMove í•¨ìˆ˜ë‚´ì—ì„œ ì´ë™ ê´€ë ¨ ë¡œì§ì„ êµ¬í˜„í•´ ì£¼ì–´ì•¼ í•¨
+        public virtual void OnAnimatorMove() {
+            if (!character.isInteracting) return;
+            #region ë¦¬ì§€ë“œ ë°”ë””ë¥¼ ì´ìš©í•œ ì›€ì§ì„ ì œì–´ë¥¼ í•  ê²½ìš°
+            //float delta = Time.deltaTime;
+            //player.playerLocomotion.GetComponent<Rigidbody>().drag = 0;
+            //Vector3 deltaPosition = player.anim.deltaPosition; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½È­ï¿½ï¿½
+            //deltaPosition.y = 0;
+            //Vector3 velocity = deltaPosition / delta; // ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
+            //player.playerLocomotion.GetComponent<Rigidbody>().velocity = velocity; // Rigidbodyï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            #endregion
+
+            Vector3 velocity = character.animator.deltaPosition;
+            character.characterController.Move(velocity);
+            character.transform.rotation *= character.animator.deltaRotation;
         }
     }
 }

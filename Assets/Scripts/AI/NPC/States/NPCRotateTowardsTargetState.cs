@@ -6,8 +6,8 @@ namespace SoulsLike {
     public class NPCRotateTowardsTargetState : NPCState {
         public NPCCombatStanceState npcCombatStanceState;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            npcManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-            npcManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+            npcManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            npcManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
 
             Vector3 targetDirection = npcManager.currentTarget.transform.position - npcManager.transform.position;
 

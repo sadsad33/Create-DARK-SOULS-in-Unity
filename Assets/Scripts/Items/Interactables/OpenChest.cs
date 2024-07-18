@@ -10,7 +10,7 @@ namespace SoulsLike {
         public GameObject itemSpawner;
         //public WeaponItem itemInChest;
         public Item itemInChest;
-        private void Awake() {
+        protected override void Awake() {
             animator = GetComponent<Animator>();
             openChest = GetComponent<OpenChest>();
         }

@@ -1603,6 +1603,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 876123784018866804, guid: 44df77e3727569f43b4b8177bef680e4, type: 3}
+      propertyPath: NetworkConfig.PlayerPrefab
+      value: 
+      objectReference: {fileID: 4086121375157841863, guid: f988b3e3acc5f6847b464bbbe32c332a, type: 3}
     - target: {fileID: 876123784018866805, guid: 44df77e3727569f43b4b8177bef680e4, type: 3}
       propertyPath: m_RootOrder
       value: 3

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 namespace SoulsLike {
     public class ItemPickUp : Interactable {
         [Header("Item Information")]
-        [SerializeField] int itemPickUpID; // ¿ùµå¿¡ ½ºÆùµÉ ¾ÆÀÌÅÛµéÀÇ ½Äº° ¹øÈ£
-        [SerializeField] bool hasBeenLooted; // ÇÃ·¹ÀÌ¾î°¡ È¸¼öÇß´ÂÁö ¾ÈÇß´ÂÁö ¿©ºÎ
+        [SerializeField] int itemPickUpID; // ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½Äºï¿½ ï¿½ï¿½È£
+        [SerializeField] bool hasBeenLooted; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ È¸ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         public Item item;
 
         protected override void Awake() {
@@ -17,10 +17,10 @@ namespace SoulsLike {
         protected override void Start() {
             base.Start();
 
-            // ¸¸¾à ÇöÀç Ä³¸¯ÅÍ ¼¼ÀÌºê µ¥ÀÌÅÍÀÇ
-            // ¿ùµå¿¡¼­ È¸¼öÇÑ ¾ÆÀÌÅÛ ¸ñ·Ï¿¡ ÀÌ ¾ÆÀÌÅÛÀÌ ¾ø´Ù¸é
-            // ÀÌ ¾ÆÀÌÅÛÀ» È¸¼öÇÑ ÀûÀÌ ¾ø´Â °Í
-            // µû¶ó¼­ È¸¼ö µÇÁö ¾Ê¾Ò´Ù°í ±â·ÏÇØ¾ß ÇÔ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
             if (!WorldSaveGameManager.instance.currentCharacterSaveData.itemsInWorld.ContainsKey(itemPickUpID)) {
                 WorldSaveGameManager.instance.currentCharacterSaveData.itemsInWorld.Add(itemPickUpID, false);
             }
@@ -33,26 +33,26 @@ namespace SoulsLike {
         }
         
         public override void Interact(PlayerManager playerManager) {
-            base.Interact(playerManager); // ºÎ¸ðÀÇ InteractÇÔ¼ö¸¦ È£ÃâÇÑ´Ù.
+            base.Interact(playerManager); // ï¿½Î¸ï¿½ï¿½ï¿½ Interactï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-            // Ä³¸¯ÅÍ µ¥ÀÌÅÍ¿¡ ÀÌ ¾ÆÀÌÅÛÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô È¸¼öµÇ¾ú´ÂÁö¸¦ ¾Ë·Á ¸¸¾à ÀÌ¹Ì È¸¼öµÈ ¾ÆÀÌÅÛÀÌ¶ó¸é ´Ù½Ã ¿ùµå¿¡ ½ºÆùµÇÁö ¾Êµµ·Ï ÇÔ
+            // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½
 
-            // ¸¸¾à ÇöÀç Ä³¸¯ÅÍ ¼¼ÀÌºê µ¥ÀÌÅÍÀÇ °ÔÀÓ ¿ùµå¿¡¼­ È¸¼öÇÑ ¾ÆÀÌÅÛ ¸ñ·Ï¿¡ ÀÌ ½ºÆù ¾ÆÀÌÅÛÀÇ ½Äº° ¹øÈ£°¡ Á¸ÀçÇÑ´Ù¸é
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Äºï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½
             if (WorldSaveGameManager.instance.currentCharacterSaveData.itemsInWorld.ContainsKey(itemPickUpID)) {
-                // ÇØ´ç ½Äº°¹øÈ£¸¦ key °ªÀ¸·Î ÇÏ´Â Ç×¸ñÀ» Á¦°Å
+                // ï¿½Ø´ï¿½ ï¿½Äºï¿½ï¿½ï¿½È£ï¿½ï¿½ key ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 WorldSaveGameManager.instance.currentCharacterSaveData.itemsInWorld.Remove(itemPickUpID);
             }
 
-            // ÇØ´ç ½Äº°¹øÈ£¸¦ key °ªÀ¸·Î ÇÏ´Â Ç×¸ñÀÇ value¿¡ true ¸¦ ÀÔ·ÂÇÏ¿© ´Ù½Ã Ãß°¡
+            // ï¿½Ø´ï¿½ ï¿½Äºï¿½ï¿½ï¿½È£ï¿½ï¿½ key ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ valueï¿½ï¿½ true ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¿ï¿½ ï¿½Ù½ï¿½ ï¿½ß°ï¿½
             WorldSaveGameManager.instance.currentCharacterSaveData.itemsInWorld.Add(itemPickUpID, true);
 
             hasBeenLooted = true;
 
-            // ÇÃ·¹ÀÌ¾îÀÇ ÀÎº¥Åä¸®¿¡ ¾ÆÀÌÅÛÀ» Àü´ÞÇÑ´Ù
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
             PickUpItem(playerManager);
         }
         
-        // ¾ÆÀÌÅÛ ÁÝ±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý±ï¿½
         private void PickUpItem(PlayerManager playerManager) {
             PlayerInventoryManager playerInventory;
             PlayerLocomotionManager playerLocomotion;
@@ -62,13 +62,13 @@ namespace SoulsLike {
             playerLocomotion = playerManager.GetComponent<PlayerLocomotionManager>();
             animatorHandler = playerManager.GetComponentInChildren<PlayerAnimatorManager>();
 
-            playerLocomotion.rigidbody.velocity = Vector3.zero; // ÇÃ·¹ÀÌ¾î°¡ ¾ÆÀÌÅÛÀ» ÁÝ´Âµ¿¾È Á¤Áö
+            playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´Âµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             animatorHandler.PlayTargetAnimation("PickingUp", true);
             //playerInventory.weaponsInventory.Add(weapon);
             if (item is WeaponItem) playerInventory.weaponsInventory.Add(item as WeaponItem);
             else if (item is ConsumableItem) playerInventory.consumablesInventory.Add(item as ConsumableItem);
 
-            // ¹«±â ¾ÆÀÌÅÛÀ» ·çÆÃ ÇÒ¶§´Â ¹«±â ¾ÆÀÌÅÛÀÇ ÀÌ¸§ÀÌ Ç¥½ÃµÇµµ·ÏÇÑ´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Ç¥ï¿½ÃµÇµï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             playerManager.itemInteractableGameObject.GetComponentInChildren<Text>().text = item.itemName;
             playerManager.itemInteractableGameObject.GetComponentInChildren<RawImage>().texture = item.itemIcon.texture; 
             playerManager.itemInteractableGameObject.SetActive(true);

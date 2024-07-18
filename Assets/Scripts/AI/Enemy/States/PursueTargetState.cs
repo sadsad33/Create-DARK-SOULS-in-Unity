@@ -18,14 +18,14 @@ namespace SoulsLike {
 
             // 행동 중이라면
             if (enemyManager.isInteracting) {
-                enemyManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 제자리에 정지
+                enemyManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 제자리에 정지
                 return this;
             }
 
             if (distanceFromTarget <= enemyManager.maximumAggroRadius) { 
                 return combatStanceState;
             } else {
-                enemyManager.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                enemyManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
                 return this;
             }
         }

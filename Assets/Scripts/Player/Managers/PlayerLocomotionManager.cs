@@ -3,36 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class PlayerLocomotionManager : MonoBehaviour {
+    public class PlayerLocomotionManager : CharacterLocomotionManager {
         CameraHandler cameraHandler;
         Transform cameraObject;
         InputHandler inputHandler;
-        PlayerManager playerManager;
+        PlayerManager player;
         PlayerStatsManager playerStatsManager;
-        public Vector3 moveDirection;
 
         [HideInInspector]
         public Transform myTransform;
         [HideInInspector]
         public PlayerAnimatorManager playerAnimatorManager;
 
-        public CapsuleCollider characterCollider;
-        public CapsuleCollider characterColliderBlocker;
-        public new Rigidbody rigidbody;
+        //public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
+        #region 리지드 바디를 이용할 경우
         // 플레이어의 Collider를 살짝 위로 들어올렸기 때문에 플레이어의 다리 부분이 묻히게 된다.
         // 따라서 Collider의 끝 부분에서 레이캐스트를 바닥으로 쏴서 착지, 낙하를 감지함
-        [Header("Ground & Air Detection Stats")]
-        [SerializeField]
-        float groundDetectionRayStartPoint = 0.5f; // 플레이어로부터 뻗어나가는 레이캐스트 시작 지점
-        [SerializeField]
-        float minimumDistanceNeededToBeginFall = 1f; // 플레이어가 떨어지는 최소 높이
-        [SerializeField]
-        float groundDirectionRayDistance = 0.2f; // 레이캐스트시작 지점 오프셋
+        //[Header("Ground & Air Detection Stats")]
+        //[SerializeField]
+        //float groundDetectionRayStartPoint = 0.5f; // 플레이어로부터 뻗어나가는 레이캐스트 시작 지점
+        //[SerializeField]
+        //float minimumDistanceNeededToBeginFall = 1f; // 플레이어가 떨어지는 최소 높이
+        //[SerializeField]
+        //float groundDirectionRayDistance = 0.2f; // 레이캐스트시작 지점 오프셋
         //LayerMask ignoreForGroundCheck;
-        LayerMask groundCheck;
-        public float inAirTimer;
+        //public Vector3 moveDirection;
+        //LayerMask groundCheck;
+        //public float inAirTimer;
+        //[SerializeField]
+        //float fallingSpeed = 80;
+        //public CapsuleCollider characterCollider;
+        //public CapsuleCollider characterColliderBlocker;
+        #endregion
 
         [Header("Movement Stats")]
         [SerializeField]
@@ -43,8 +47,6 @@ namespace SoulsLike {
         float sprintSpeed = 7;
         [SerializeField]
         float rotationSpeed = 10;
-        [SerializeField]
-        float fallingSpeed = 80;
 
         // CharacterLocomotionManager 클래스를 생성하면 옮길 것
         // 다른 클라이언트에서 내 오브젝트의 이동 애니메이션을 제어하기 위한 변수들(?)
@@ -57,62 +59,69 @@ namespace SoulsLike {
         [SerializeField]
         float rollStaminaCost = 15;
         float backstepStaminaCost = 12;
-        float sprintStaminaCost = 1;
+        float sprintStaminaCost = 1f;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             cameraHandler = FindObjectOfType<CameraHandler>();
-            playerManager = GetComponent<PlayerManager>();
+            player = GetComponent<PlayerManager>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
-            rigidbody = GetComponent<Rigidbody>();
+            //rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         }
 
-        void Start() {
+        protected override void Start() {
+            base.Start();
             cameraObject = Camera.main.transform;
             myTransform = transform;
-            playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
-            groundCheck = (1 << 8 | 1 << 1);
-            Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
+            groundLayer = (1 << 8 | 1 << 1);
+            #region 리지드 바디를 이용할 경우
+            //playerManager.isGrounded = true; // 시작할때는 땅에 착지해있다.
+            //Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
+            #endregion
         }
 
-        private void Update() {
-            if (playerManager.IsOwner) {
-                playerManager.playerNetworkManager.verticalNetworkMovement.Value = verticalMovement;
-                playerManager.playerNetworkManager.horizontalNetworkMovement.Value = horizontalMovement;
-                playerManager.playerNetworkManager.moveAmountNetworkMovement.Value = movementAmount;
+        protected override void Update() {
+            base.Update();
+            if (player.IsOwner) {
+                player.playerNetworkManager.verticalNetworkMovement.Value = verticalMovement;
+                player.playerNetworkManager.horizontalNetworkMovement.Value = horizontalMovement;
+                player.playerNetworkManager.moveAmountNetworkMovement.Value = movementAmount;
             } else {
-                verticalMovement = playerManager.playerNetworkManager.verticalNetworkMovement.Value;
-                horizontalMovement = playerManager.playerNetworkManager.horizontalNetworkMovement.Value;
-                movementAmount = playerManager.playerNetworkManager.moveAmountNetworkMovement.Value;
+                verticalMovement = player.playerNetworkManager.verticalNetworkMovement.Value;
+                horizontalMovement = player.playerNetworkManager.horizontalNetworkMovement.Value;
+                movementAmount = player.playerNetworkManager.moveAmountNetworkMovement.Value;
 
                 // 만약 플레이어가 질주중이라면 vertical 값에 2 할당
                 // 만약 플레이어가 록온을 한 상태라면 horizontal 값은 strafing 에 사용
-                if (playerManager.playerNetworkManager.isSprinting.Value) {
-                    playerManager.anim.SetFloat("Vertical", 2, 0.1f, Time.deltaTime);
-                    playerManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                if (player.playerNetworkManager.isSprinting.Value) {
+                    player.animator.SetFloat("Vertical", 2, 0.1f, Time.deltaTime);
+                    player.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                     return;
                 }
-                if (playerManager.playerNetworkManager.isLockedOn.Value) {
-                    playerManager.anim.SetFloat("Vertical", verticalMovement, 0.1f, Time.deltaTime);
-                    playerManager.anim.SetFloat("Horizontal", horizontalMovement, 0.1f, Time.deltaTime);
+                if (player.playerNetworkManager.isLockedOn.Value) {
+                    player.animator.SetFloat("Vertical", verticalMovement, 0.1f, Time.deltaTime);
+                    player.animator.SetFloat("Horizontal", horizontalMovement, 0.1f, Time.deltaTime);
                 } else {
-                    playerManager.anim.SetFloat("Vertical", movementAmount, 0.1f, Time.deltaTime);
-                    playerManager.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                    player.animator.SetFloat("Vertical", movementAmount, 0.1f, Time.deltaTime);
+                    player.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                 }
             }
         }
 
         #region Movement
 
-        Vector3 normalVector;
-        Vector3 targetPosition;
+        #region 리지드 바디를 이용할 경우
+        //Vector3 normalVector;
+        //Vector3 targetPosition;
+        #endregion
 
         // 캐릭터 회전
         public void HandleRotation(float delta) {
-            if (playerManager.isClimbing || playerManager.isAtBonfire) return;
+            if (player.isClimbing || player.isAtBonfire) return;
             if (playerAnimatorManager.canRotate) {
-                if (playerManager.playerNetworkManager.isLockedOn.Value) {
+                if (player.playerNetworkManager.isLockedOn.Value) {
                     // 록온을 해도 달리거나 구를때는, 이동하던 방향으로 행동
                     if (inputHandler.sprintFlag || inputHandler.rollFlag) {
                         Vector3 targetDirection = Vector3.zero;
@@ -163,34 +172,18 @@ namespace SoulsLike {
 
         Vector3 jumpDirection;
         // 캐릭터 이동
-        public void HandleMovement(float delta) {
+        public void HandleGroundedMovement(float delta) {
             if (inputHandler.rollFlag) return;
-            if (playerManager.isInteracting || playerManager.isClimbing || playerManager.isAtBonfire) return;
+            if (player.isInteracting || player.isClimbing || player.isAtBonfire) return;
+            if (!player.isGrounded) return;
 
-            #region 이동할때 필요한 벡터 생성
+            #region 리지드 바디를 이용하여 이동할때 필요한 벡터 생성
             // 이동방향에 입력을 반영한다.
-            moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
-            moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
-            moveDirection.Normalize();
-            moveDirection.y = 0;
+            //moveDirection = cameraObject.forward * inputHandler.vertical; // 주된 방향
+            //moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
+            //moveDirection.Normalize();
+            //moveDirection.y = 0;
 
-            float speed = movementSpeed;
-
-            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
-                speed = sprintSpeed;
-                playerManager.playerNetworkManager.isSprinting.Value = true;
-                moveDirection *= speed; // 이동속도 반영
-                jumpDirection = moveDirection; // 점프는 달리기 상태에서만 가능하므로 달리기 상태에서의 벡터를 기억
-                //Debug.Log("점프 전 : " + jumpDirection);
-                playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
-            } else {
-                if (inputHandler.moveAmount < 0.5f) {
-                    moveDirection *= walkingSpeed;
-                } else {
-                    moveDirection *= speed;
-                }
-                playerManager.playerNetworkManager.isSprinting.Value = false;
-            }
 
             /*
              * Vector3.ProjectOnPlane(Vector3 vector, Vector3 normalVector)
@@ -200,24 +193,47 @@ namespace SoulsLike {
              * 플레이어가 이동하는 방향을 바닥면의 법선벡터에 대해 정사영하여 바닥면에 수직인 방향을 구함
              * 기울어진 바닥을 따라 이동할 때, 수직방향을 유지하며 이동할 수 있다.
              */
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            //Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            // 위에서 만든 벡터를 rigidbody 에 적용
+            //GetComponent<Rigidbody>().velocity = projectedVelocity;
             #endregion
 
-            // 위에서 만든 벡터를 rigidbody 에 적용
-            rigidbody.velocity = projectedVelocity;
+            moveDirection = player.cameraHandler.transform.forward * inputHandler.vertical;
+            moveDirection += player.cameraHandler.transform.right * inputHandler.horizontal;
+            moveDirection.Normalize();
+            moveDirection.y = 0;
+            float speed = movementSpeed;
+
+            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
+                speed = sprintSpeed;
+                player.playerNetworkManager.isSprinting.Value = true;
+                moveDirection *= speed; // 이동속도 반영
+                jumpDirection = moveDirection; // 점프는 달리기 상태에서만 가능하므로 달리기 상태에서의 벡터를 기억
+                //Debug.Log("점프 전 : " + jumpDirection);
+                playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
+            } else {
+                if (inputHandler.moveAmount <= 0.5f) {
+                    moveDirection *= walkingSpeed;
+                } else {
+                    moveDirection *= speed;
+                }
+                player.playerNetworkManager.isSprinting.Value = false;
+            }
+
+            player.characterController.Move(moveDirection * Time.deltaTime);
 
             // 록온 상태의경우 수평이동 입력값과 수직이동 입력값을 모두 사용한다.
-            if (playerManager.playerNetworkManager.isLockedOn.Value && !inputHandler.sprintFlag) {
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.playerNetworkManager.isSprinting.Value);
+            if (player.playerNetworkManager.isLockedOn.Value && !inputHandler.sprintFlag) {
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, player.playerNetworkManager.isSprinting.Value);
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.playerNetworkManager.isSprinting.Value);
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, player.playerNetworkManager.isSprinting.Value);
             }
         }
 
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             // 다른 행동을하고 있다면
-            if (playerManager.isInteracting || playerManager.isClimbing || playerManager.isAtBonfire) return;
+            if (player.isInteracting || player.isClimbing || player.isAtBonfire) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -238,86 +254,86 @@ namespace SoulsLike {
                     if (inputHandler.backstepDelay > 1f) {
                         playerAnimatorManager.PlayTargetAnimation("Backstep", true);
                         playerAnimatorManager.EraseHandIKForWeapon();
-                        rigidbody.AddForce(-myTransform.forward * 20, ForceMode.Impulse);
+                        GetComponent<Rigidbody>().AddForce(-myTransform.forward * 20, ForceMode.Impulse);
                         playerStatsManager.TakeStaminaDamage(backstepStaminaCost);
                     }
                 }
             }
         }
 
-        // 낙하
-        public void HandleFalling(float delta, Vector3 moveDirection) {
-            if (playerManager.isClimbing|| playerManager.isMoving) return;
-            if (!playerManager.IsOwner) return;
-            //playerManager.isGrounded = false;
-            RaycastHit hit;
-            Vector3 origin = myTransform.position; // 낙하 시작지점
-            origin.y += groundDetectionRayStartPoint; // 레이캐스트 시작 지점 설정
+        // 리지드 바디를 이용한 낙하
+        //public void HandleFalling(float delta, Vector3 moveDirection) {
+        //    if (playerManager.isClimbing|| playerManager.isMoving) return;
+        //    if (!playerManager.IsOwner) return;
+        //    //playerManager.isGrounded = false;
+        //    RaycastHit hit;
+        //    Vector3 origin = myTransform.position; // 낙하 시작지점
+        //    origin.y += groundDetectionRayStartPoint; // 레이캐스트 시작 지점 설정
 
-            if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f)) {
-                moveDirection = Vector3.zero;
-            }
+        //    if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f)) {
+        //        moveDirection = Vector3.zero;
+        //    }
 
-            if (playerManager.isInAir) {
-                rigidbody.AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
-                rigidbody.AddForce(moveDirection * fallingSpeed / 12); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
-            }
+        //    if (playerManager.isInAir) {
+        //        GetComponent<Rigidbody>().AddForce(-Vector3.up * fallingSpeed); // 아래쪽으로 힘을 받는다.
+        //        GetComponent<Rigidbody>().AddForce(moveDirection * fallingSpeed / 12); // 플레이어가 난간에서 발을 떼면 난간에 걸리지 않고 떨어질 수 있도록 밀어줌, 힘의 크기가 작아야 자연스러움
+        //    }
 
-            Vector3 dir = moveDirection;
-            dir.Normalize();
-            origin += dir * groundDirectionRayDistance;
-            targetPosition = myTransform.position;
-            Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.05f, false);
-            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
-                normalVector = hit.normal; // 아래쪽으로 레이를 쏴서 부딪힌 지점의 법선 벡터
-                Vector3 tp = hit.point; // 착지할 곳의 좌표
-                targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
-                if (playerManager.isInAir) { // 플레이어가 공중에 있었다면
-                    if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
-                        Debug.Log("You were in the air for" + inAirTimer);
-                        playerAnimatorManager.PlayTargetAnimation("Land", true);
-                        playerAnimatorManager.EraseHandIKForWeapon();
-                        playerManager.isInteracting = true;
-                    } else {
-                        Debug.Log("You were in the air for" + inAirTimer);
-                        playerManager.anim.SetTrigger("doEmpty");
-                        //playerAnimationManager.PlayTargetAnimation("Empty", false);
-                    }
-                }
-                playerManager.isGrounded = true;
-                inAirTimer = 0;
-                playerManager.isInAir = false;
-            } else { // 현재 땅과의 거리가 최소 낙하거리보다 크다면
-                if (playerManager.isGrounded) {
-                    playerManager.isGrounded = false; // flag 변경
-                }
-                if (!playerManager.isInAir) {
-                    playerManager.isInAir = true; // flag 변경
-                    if (playerManager.isInAir && !playerManager.isInteracting && !playerManager.isGrounded) {
-                        playerAnimatorManager.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
-                        playerAnimatorManager.EraseHandIKForWeapon();
-                    }
-                    Vector3 vel = rigidbody.velocity;
-                    vel.Normalize();
-                    rigidbody.velocity = vel * (movementSpeed / 2);
-                }
-            }
+        //    Vector3 dir = moveDirection;
+        //    dir.Normalize();
+        //    origin += dir * groundDirectionRayDistance;
+        //    targetPosition = myTransform.position;
+        //    Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.05f, false);
+        //    if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheck)) { // 최소 낙하거리 이내에 땅이 존재한다면
+        //        normalVector = hit.normal; // 아래쪽으로 레이를 쏴서 부딪힌 지점의 법선 벡터
+        //        Vector3 tp = hit.point; // 착지할 곳의 좌표
+        //        targetPosition.y = tp.y; // 도착지점의 y좌표는 hit.point의 y좌표가 된다.
+        //        if (playerManager.isInAir) { // 플레이어가 공중에 있었다면
+        //            if (inAirTimer > 0.5f) { // 공중에 있는 시간이 0.5초보다 길다면
+        //                Debug.Log("You were in the air for" + inAirTimer);
+        //                playerAnimatorManager.PlayTargetAnimation("Land", true);
+        //                playerAnimatorManager.EraseHandIKForWeapon();
+        //                playerManager.isInteracting = true;
+        //            } else {
+        //                Debug.Log("You were in the air for" + inAirTimer);
+        //                playerManager.anim.SetTrigger("doEmpty");
+        //                //playerAnimationManager.PlayTargetAnimation("Empty", false);
+        //            }
+        //        }
+        //        playerManager.isGrounded = true;
+        //        inAirTimer = 0;
+        //        playerManager.isInAir = false;
+        //    } else { // 현재 땅과의 거리가 최소 낙하거리보다 크다면
+        //        if (playerManager.isGrounded) {
+        //            playerManager.isGrounded = false; // flag 변경
+        //        }
+        //        if (!playerManager.isInAir) {
+        //            playerManager.isInAir = true; // flag 변경
+        //            if (playerManager.isInAir && !playerManager.isInteracting && !playerManager.isGrounded) {
+        //                playerAnimatorManager.PlayTargetAnimation("Falling", true); // 낙하 애니메이션 실행
+        //                playerAnimatorManager.EraseHandIKForWeapon();
+        //            }
+        //            Vector3 vel = GetComponent<Rigidbody>().velocity;
+        //            vel.Normalize();
+        //            GetComponent<Rigidbody>().velocity = vel * (movementSpeed / 2);
+        //        }
+        //    }
 
-            if (playerManager.isGrounded) {
-                if (playerManager.isInteracting || inputHandler.moveAmount > 0)
-                    myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
-                else
-                    myTransform.position = targetPosition;
-            }
-        }
+        //    if (playerManager.isGrounded) {
+        //        if (playerManager.isInteracting || inputHandler.moveAmount > 0)
+        //            myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
+        //        else
+        //            myTransform.position = targetPosition;
+        //    }
+        //}
 
         public void HandleJumping() {
-            if (playerManager.isInteracting) return;
+            if (player.isInteracting) return;
             if (playerStatsManager.currentStamina <= 0) return;
 
             if (inputHandler.jump_Input) {
                 if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
-                    playerManager.isJumping = true;
+                    player.isJumping = true;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
@@ -328,33 +344,34 @@ namespace SoulsLike {
         }
 
         public void HandleClimbing() {
-            if (playerManager.ladderEndPositionDetector.isTopEnd && inputHandler.vertical >= 1) {
-                Debug.Log(playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
-                playerManager.interactionTargetPosition = playerManager.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
-                playerManager.isMoving = true;
-                if (playerManager.rightFootUp) {
-                    playerManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", playerManager.transform);
+            if (player.ladderEndPositionDetector.isTopEnd && inputHandler.vertical >= 1) {
+                Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
+                player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
+                player.isMoving = true;
+                if (player.rightFootUp) {
+                    player.InteractionAtPosition("Ladder_End_Top_RightFootUp", player.transform);
                 } else {
-                    playerManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", playerManager.transform);
+                    player.InteractionAtPosition("Ladder_End_Top_LeftFootUp", player.transform);
                 }
-                playerManager.isClimbing = false;
-            } else if (playerManager.ladderEndPositionDetector.isBottomEnd && inputHandler.vertical <= -1) {
-                if (playerManager.rightFootUp) {
-                    playerManager.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", playerManager.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                player.isClimbing = false;
+            } else if (player.ladderEndPositionDetector.isBottomEnd && inputHandler.vertical <= -1) {
+                if (player.rightFootUp) {
+                    player.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 } else {
-                    playerManager.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", playerManager.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                    player.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 }
-                playerManager.isClimbing = false;
+                player.isClimbing = false;
             } else {
-                playerManager.anim.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
-                rigidbody.velocity = new Vector3(0, inputHandler.vertical, 0);
+                player.animator.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
+                GetComponent<Rigidbody>().velocity = new Vector3(0, inputHandler.vertical, 0);
             }
         }
 
         public void MaintainVelocity() {
-            if (!playerManager.isJumping) return;
-            rigidbody.velocity = jumpDirection;
-
+            if (!player.isJumping) return;
+            player.characterController.Move(jumpDirection/2 * Time.deltaTime);
+            
+            //GetComponent<Rigidbody>().velocity = jumpDirection;
             // rigidbody.MovePosition : 충돌연산의 영향을 받으며 물체를 이동시키는 메서드
             // 중력이나 가속, 감속같은 연속적인 물리효과에 대해서 영향을 받지는 않으면서 부드럽게 물체를 이동시킴
             //rigidbody.MovePosition(transform.position + jumpDirection * Time.deltaTime);

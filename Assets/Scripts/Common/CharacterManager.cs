@@ -4,9 +4,13 @@ using UnityEngine;
 using Unity.Netcode;
 namespace SoulsLike {
     public class CharacterManager : NetworkBehaviour {
-        public Animator anim;
-        CharacterAnimatorManager characterAnimatorManager;
+        public CharacterController characterController;
+        public Animator animator;
+        public CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
+        //public CharacterStatsManager characterStatsManager;
+        //public CharacterInventoryManager characterInventoryManager;
+        //public CharacterEffectsManager characterEffectsManager;
         public CharacterNetworkManager characterNetworkManager;
 
         [Header("Lock On Transform")]
@@ -43,23 +47,24 @@ namespace SoulsLike {
         [Header("Spells")]
         public bool isFiringSpell;
 
-        // µ¥¹ÌÁö´Â ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®·Î °¡ÇØÁú °Í
+        // ë°ë¯¸ì§€ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ë¡œ ê°€í•´ì§ˆ ê²ƒ
         public float pendingCriticalDamage;
 
         protected virtual void Awake() {
-            anim = GetComponent<Animator>();
+            characterController = GetComponent<CharacterController>();
+            animator = GetComponent<Animator>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
 
         protected virtual void Update() {
-            // Å¬¶óÀÌ¾ğÆ®°¡ ÀÌ ¿ÀºêÁ§Æ®ÀÇ ÁÖÀÎÀÌ¶ó¸é
+            // í´ë¼ì´ì–¸íŠ¸ê°€ ì´ ì˜¤ë¸Œì íŠ¸ì˜ ì£¼ì¸ì´ë¼ë©´
             if (IsOwner) {
-                // ³×Æ®¿öÅ©¿¡ Å¬¶óÀÌ¾ğÆ®ÀÇ ¿ÀºêÁ§Æ® ÁÂÇ¥¿Í È¸Àü°ªÀ» Àü´Ş
+                // ë„¤íŠ¸ì›Œí¬ì— í´ë¼ì´ì–¸íŠ¸ì˜ ì˜¤ë¸Œì íŠ¸ ì¢Œí‘œì™€ íšŒì „ê°’ì„ ì „ë‹¬
                 characterNetworkManager.networkPosition.Value = transform.position;
                 characterNetworkManager.networkRotation.Value = transform.rotation;
-            } else { // Å¬¶óÀÌ¾ğÆ®°¡ ÀÌ ¿ÀºêÁ§Æ®ÀÇ ÁÖÀÎÀÌ ¾Æ´Ï¶ó¸é ÁÂÇ¥¿Í È¸Àü°ªÀ» ¹Ş¾Æ¿Í º¹»ç
+            } else { // í´ë¼ì´ì–¸íŠ¸ê°€ ì´ ì˜¤ë¸Œì íŠ¸ì˜ ì£¼ì¸ì´ ì•„ë‹ˆë¼ë©´ ì¢Œí‘œì™€ íšŒì „ê°’ì„ ë°›ì•„ì™€ ë³µì‚¬
                 transform.position = Vector3.SmoothDamp(transform.position, 
                     characterNetworkManager.networkPosition.Value, 
                     ref characterNetworkManager.networkVelocity, 

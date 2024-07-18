@@ -8,7 +8,7 @@ namespace SoulsLike {
     public class PassThroughFogWall : Interactable {
         WorldEventManager worldEventManager;
 
-        private void Awake() {
+        protected override void Awake() {
             worldEventManager = FindObjectOfType<WorldEventManager>();
         }
 

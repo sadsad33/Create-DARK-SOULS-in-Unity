@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-// ÇÃ·¹ÀÌ¾î¸¦ À§ÇÑ Update ÇÔ¼ö¸¦ Ã³¸®
-// ÇÃ·¹ÀÌ¾îÀÇ °¢Á¾ Flag¸¦ Ã³¸®ÇÑ´Ù.
-// ÇÃ·¹ÀÌ¾îÀÇ °¢Á¾ ±â´ÉµéÀ» ¿¬°áÇÑ´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ Update ï¿½Ô¼ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Flagï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Éµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
         public InputHandler inputHandler;
         //public Animator anim;
-        public GameObject interactableUIGameObject; // »óÈ£ÀÛ¿ë ¸Þ¼¼Áö (¹® ¿­±â, ·¹¹ö ³»¸®±â µî) : InteractionPopUp
-        public GameObject itemInteractableGameObject; // ¾ÆÀÌÅÛ È¹µæ ¸Þ¼¼Áö : ItemPopup
-        public GameObject dialogUI; // NPCÀÇ ´ë»ç¸¦ Ãâ·ÂÇÒ Ã¢
+        public GameObject interactableUIGameObject; // ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : InteractionPopUp
+        public GameObject itemInteractableGameObject; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ : ItemPopup
+        public GameObject dialogUI; // NPCï¿½ï¿½ ï¿½ï¿½ç¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢
         public Transform leftFoot, rightFoot;
         public LadderEndPositionDetection ladderEndPositionDetector;
         public PlayerNetworkManager playerNetworkManager;
         public PlayerInventoryManager playerInventoryManager;
         public PlayerWeaponSlotManager playerWeaponSlotManager;
-        // ´ÙÅ©¼Ò¿ï ½Ã¸®Áî¿¡¼­´Â ´ëÈ­ µµÁß Çàµ¿ÀÌ °¡´ÉÇÏ¹Ç·Î isInteracting °ú ºÐ¸®
+        // ï¿½ï¿½Å©ï¿½Ò¿ï¿½ ï¿½Ã¸ï¿½ï¿½î¿¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ isInteracting ï¿½ï¿½ ï¿½Ð¸ï¿½
         public bool isInConversation;
 
         public bool isJumping = false;
@@ -39,12 +39,11 @@ namespace SoulsLike {
         public CameraHandler cameraHandler;
 
         [SerializeField]
-        InteractableUI interactableUI; // »óÈ£ÀÛ¿ë¶§ ³ªÅ¸³ª´Â ¸Þ¼¼Áö Ã¢
+        InteractableUI interactableUI; // ï¿½ï¿½È£ï¿½Û¿ë¶§ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ Ã¢
         LayerMask interactableLayer;
 
         protected override void Awake() {
             base.Awake();
-            Debug.Log("Player.Awake()");
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
@@ -56,13 +55,13 @@ namespace SoulsLike {
             playerStatsManager = GetComponent<PlayerStatsManager>();
             backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             inputHandler = GetComponent<InputHandler>();
-            anim = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
             interactableLayer = 1 << 0 | 1 << 9;
 
-            // Å¸ÀÌÆ² ½ºÅ©¸°¿¡¼­ ÇÃ·¹ÀÌ¾î¸¦ ³Ñ°Ü¹Þ±â À§ÇÔ
+            // Å¸ï¿½ï¿½Æ² ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½Ñ°Ü¹Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½
             WorldSaveGameManager.instance.player = this;
         }
         private void Start() {
@@ -94,38 +93,41 @@ namespace SoulsLike {
             }
 
             float delta = Time.deltaTime;
-            isInteracting = anim.GetBool("isInteracting");
-            isFiringSpell = anim.GetBool("isFiringSpell");
-            canDoCombo = anim.GetBool("canDoCombo");
-            anim.SetBool("isInAir", isInAir);
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
-            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
+            isInteracting = animator.GetBool("isInteracting");
+            isFiringSpell = animator.GetBool("isFiringSpell");
+            canDoCombo = animator.GetBool("canDoCombo");
+            animator.SetBool("isInAir", isInAir);
+            isUsingRightHand = animator.GetBool("isUsingRightHand");
+            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
             isTwoHandingWeapon = inputHandler.twoHandFlag;
-            isInvulnerable = anim.GetBool("isInvulnerable");
-            anim.SetBool("isDead", playerStatsManager.isDead);
-            anim.SetBool("isBlocking", isBlocking);
+            isInvulnerable = animator.GetBool("isInvulnerable");
+            animator.SetBool("isDead", playerStatsManager.isDead);
+            animator.SetBool("isBlocking", isBlocking);
 
-            // È­ÅêºÒ
-            anim.SetBool("isAtBonefire", isAtBonfire);
+            // È­ï¿½ï¿½ï¿½
+            animator.SetBool("isAtBonefire", isAtBonfire);
 
-            // »ç´Ù¸® °ü·Ã
-            anim.SetBool("isClimbing", isClimbing);
-            anim.SetBool("isLadderTop", isLadderTop);
-            anim.SetBool("rightFootUp", rightFootUp);
+            // ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+            animator.SetBool("isClimbing", isClimbing);
+            animator.SetBool("isLadderTop", isLadderTop);
+            animator.SetBool("rightFootUp", rightFootUp);
             HandleConversation();
 
-            // Rigidbody°¡ ÀÌµ¿µÇ´Â ¿òÁ÷ÀÓÀÌ ¾Æ´Ï¶ó¸é ÀÏ¹ÝÀûÀÎ UpdateÇÔ¼ö¿¡¼­ È£ÃâÇØµµ ±¦Âú´Ù.
+            // Rigidbodyï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ Updateï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Øµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
-
+            // Rigidbodyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FixedUpdateï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            playerLocomotion.HandleGroundedMovement(delta);
+            playerLocomotion.HandleRotation(delta);
+            playerLocomotion.MaintainVelocity();
             playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
 
-            playerAnimatorManager.canRotate = anim.GetBool("canRotate");
+            playerAnimatorManager.canRotate = animator.GetBool("canRotate");
 
-            // ÀÌµ¿Å°¿Í ¹é½ºÅÜÅ°°¡ ÂªÀº °£°ÝÀ¸·Î ´­¸®¸é ¹é½ºÅÜ ÀÌÈÄ sprint ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ½ÇÇàµÇ´Â °æ¿ì°¡ ÀÖ´Ù.
-            // ÀÌ¸¦ ÇØ°áÇÏ±â À§ÇØ delay Ãß°¡
+            // ï¿½Ìµï¿½Å°ï¿½ï¿½ ï¿½é½ºï¿½ï¿½Å°ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½é½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ sprint ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö´ï¿½.
+            // ï¿½Ì¸ï¿½ ï¿½Ø°ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ delay ï¿½ß°ï¿½
             if (inputHandler.moveAmount == 0) {
                 inputHandler.backstepDelay += delta;
             } else {
@@ -139,11 +141,9 @@ namespace SoulsLike {
             if (!IsOwner) return;
             float delta = Time.fixedDeltaTime;
 
-            // Rigidbody¸¦ ÅëÇØ Ã³¸®µÇ´Â ¿òÁ÷ÀÓÀº FixedUpdate¿¡¼­ Ã³¸®µÇ´Â°ÍÀÌ ÁÁÀ½
-            playerLocomotion.HandleMovement(delta);
-            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
-            playerLocomotion.HandleRotation(delta);
-            playerLocomotion.MaintainVelocity();
+            //playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            
+            
             if (isClimbing)
                 playerLocomotion.HandleClimbing();
             if (isMoving)
@@ -153,7 +153,7 @@ namespace SoulsLike {
 
         private void LateUpdate() {
             if (!IsOwner) return;
-            // 1ÇÁ·¹ÀÓ´ç ÇÑ¹øÀÇ È£Ãâ¸¸ ÀÌ·ïÁöµµ·Ï ÇÑ´Ù.
+            // 1ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ È£ï¿½â¸¸ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
             inputHandler.rollFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
@@ -166,15 +166,15 @@ namespace SoulsLike {
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
 
-            // »ç´Ù¸® »óÈ£ÀÛ¿ë ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ÈÄ AnimatorÀÇ ·¹ÀÌ¾î5 ¿¡¼­´Â Empty ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î ÀüÀÌ°¡ ÀÏ¾î³²
-            // »ç´Ù¸®ÀÇ ²À´ë±â ºÎºÐ¿¡¼­ »óÈ£ÀÛ¿ë ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ½ÇÇàµÉ °æ¿ì ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³ªµµ Rigidbody ÀÇ velocity °¡ 0ÀÌ µÇÁö¾Ê¾Æ Æ¯Á¤ ¹æÇâÀ¸·Î ²÷ÀÓ¾øÀÌ ¹Ð·Á³ª°¡´Âµ¥
-            // ÀÌ´Â PlayerAnimatorManager Å¬·¡½º³»ÀÇ OnAnimatorMove ¸Þ¼­µå ¶§¹®ÀÎ°ÍÀ¸·Î ÃßÁ¤
-            // ÇØ´ç ¸Þ¼­µå´Â ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ½ÇÇàµÉ ¶§ ¸¶Áö¸· ÇÁ·¹ÀÓ±îÁö È£ÃâµÇ¸ç, ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ½ÇÇàµÇ´Âµ¿¾È
-            // ¾Æ¹ÙÅ¸°¡ ¿òÁ÷ÀÎ ÁÂÇ¥ÀÇ º¯È­·®À» ÃøÁ¤ÇÏ°í ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇàµÈ ½Ã°£À¸·Î ³ª´² ¼Óµµ¸¦ ±¸ÇÑÈÄ ÇÃ·¹ÀÌ¾îÀÇ rigidbody ¿¡ ´ëÀÔÇÏ¿© ÀÚ¿¬½º·´°Ôº¸ÀÌµµ·Ï ¼Óµµ¸¦ ´ëÀÔÇÔ
-            // ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ÀüÀÌ°¡ ¸ðµç ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ¸¶Áö¸· ÇÁ·¹ÀÓ ÀÌÈÄ ½ÇÇàµÇ´Â °Å¶ó¸é »ó°ü¾øÁö¸¸ ÀÚ¿¬½º·¯¿î ÀüÀÌ¸¦ À§ÇØ ´ëºÎºÐ ±×·¯Áö ¾ÊÀ¸¹Ç·Î RigidbodyÀÇ velocity °¡ 0ÀÌ µÇ¾ú´Ù°¡ ¸¶Áö¸· ÇÁ·¹ÀÓ¿¡¼­
-            // ´Ù½Ã OnAnimatorMove ¸Þ¼­µå°¡ È£ÃâµÇ¸é¼­ Rigidbody ÀÇ velocity °ªÀÌ º¯È­ÇÏ´Â µí
-            if ((isClimbing || isAtBonfire) && anim.GetCurrentAnimatorClipInfoCount(5) == 0) { // ÇÑ ÇÁ·¹ÀÓ¸¶´Ù 5¹ø ·¹ÀÌ¾îÀÇ ÇöÀç ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ Empty ¶ó¸é rigidbody ÀÇ ¼Óµµ¸¦ 0À¸·Î ¸¸µë
-                playerLocomotion.rigidbody.velocity = Vector3.zero;
+            // ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Animatorï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½5 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Empty ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ï¾î³²
+            // ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Rigidbody ï¿½ï¿½ velocity ï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¾ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½
+            // ï¿½Ì´ï¿½ PlayerAnimatorManager Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OnAnimatorMove ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            // ï¿½Ø´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç¸ï¿½, ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´Âµï¿½ï¿½ï¿½
+            // ï¿½Æ¹ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ rigidbody ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Îºï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ Rigidbodyï¿½ï¿½ velocity ï¿½ï¿½ 0ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½
+            // ï¿½Ù½ï¿½ OnAnimatorMove ï¿½Þ¼ï¿½ï¿½å°¡ È£ï¿½ï¿½Ç¸é¼­ Rigidbody ï¿½ï¿½ velocity ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½Ï´ï¿½ ï¿½ï¿½
+            if ((isClimbing || isAtBonfire) && animator.GetCurrentAnimatorClipInfoCount(5) == 0) { // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ 5ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ Empty ï¿½ï¿½ï¿½ rigidbody ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
             float delta = Time.deltaTime;
@@ -183,22 +183,22 @@ namespace SoulsLike {
                 cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
             }
 
-            if (isInAir) { // ÇÃ·¹ÀÌ¾î°¡ Çã°ø¿¡ ÀÖ´Ù¸é
+            if (isInAir) { // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½
                 playerLocomotion.inAirTimer += Time.deltaTime;
             }
         }
 
-        #region ÇÃ·¹ÀÌ¾î »óÈ£ÀÛ¿ë
+        #region ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½
 
         CharacterManager character;
         public void CheckForInteractableObject() {
-            if (isInteracting || isInConversation || isClimbing || isAtBonfire) return; // Çàµ¿ ÁßÀÌ°Å³ª ´ëÈ­ÁßÀÌ¶ó¸é ´Ù¸¥ ¿ÀºêÁ§Æ®³ª NPC¿Í »óÈ£ÀÛ¿ë ºÒ°¡
+            if (isInteracting || isInConversation || isClimbing || isAtBonfire) return; // ï¿½àµ¿ ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Ò°ï¿½
 
-            Interactable interactableObject; // ÁÖº¯ »óÈ£ÀÛ¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®¸¦ ´ãÀ» º¯¼ö
+            Interactable interactableObject; // ï¿½Öºï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (Physics.SphereCast(transform.position + transform.forward * 0.15f, 0.2f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
                 if (hit.collider.CompareTag("Interactable")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
-                    if (interactableObject != null) { // ÁÖº¯¿¡ »óÈ£ÀÛ¿ë °¡´ÉÇÑ ¹°Ã¼°¡ ÀÖ´Ù¸é
+                    if (interactableObject != null) { // ï¿½Öºï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½
                         if (!itemInteractableGameObject.activeSelf) {
                             StartInteraction(interactableObject, hit, false);
                         } else if (inputHandler.a_Input) {
@@ -219,11 +219,11 @@ namespace SoulsLike {
                     }
                 }
             } else {
-                // ÁÖº¯¿¡ »óÈ£ÀÛ¿ë°¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾øÀ½¿¡µµ ¸Þ¼¼ÁöÃ¢ÀÌ ¶°ÀÖÁö ¾Êµµ·Ï
+                // ï¿½Öºï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ë°¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½
                 if (interactableUIGameObject != null) {
                     interactableUIGameObject.SetActive(false);
                 }
-                //¾ÆÀÌÅÛÀ» ¼öÁýÇÏ°í ³ª¼­ ¼öÁýÅ°¸¦ ÇÑ¹ø ´õ ´©¸£¸é ¸Þ½ÃÁöÃ¢ÀÌ ´ÝÈù´Ù.
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
                 if (itemInteractableGameObject != null && inputHandler.a_Input) {
                     itemInteractableGameObject.SetActive(false);
                 }
@@ -237,22 +237,22 @@ namespace SoulsLike {
 
             if (inputHandler.a_Input) {
                 interactableUIGameObject.SetActive(false);
-                hit.collider.GetComponent<Interactable>().Interact(this); // ÇØ´ç ¿ÀºêÁ§Æ®ÀÇ Interact ¸¦ ¼öÇà
+                hit.collider.GetComponent<Interactable>().Interact(this); // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Interact ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (withCharacter) currentPageIndex = 0;
             }
         }
 
-        // ´ëÈ­ Áö¼Ó
+        // ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
         private void HandleConversation() {
-            if (isInConversation) { // ÇöÀç ´ëÈ­ÁßÀÌ°í
+            if (isInConversation) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½Ì°ï¿½
                 float distance = Vector3.Distance(character.transform.position, transform.position);
-                // ´ë»ç¸¦ ¸ðµÎ Ãâ·ÂÇÏÁö ¾Ê¾Ò´Ù¸é
+                // ï¿½ï¿½ç¸¦ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½
                 if (currentPageIndex <= currentDialog.Length - 1) {
                     PrintDialog();
                     if (distance >= 3f) FinishConversation();
                 } else if (turnPageTimer <= 0) {
                     NPCManager npc = character.GetComponent<NPCManager>();
-                    npc.interactCount++; // ´ë»çÀÇ ¸¶Áö¸·ÆäÀÌÁö±îÁö ÀÐ¾ú´Ù¸é »óÈ£ÀÛ¿ë È½¼ö¸¦ Áõ°¡½ÃÄÑ ´ÙÀ½ »óÈ£ÀÛ¿ë½Ã ´Ù¸¥ ´ë»ç¸¦ Ãâ·ÂÇÏ°Ô ÇÔ
+                    npc.interactCount++; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ È½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ç¸¦ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½
                     FinishConversation();
                 }
             }
@@ -263,14 +263,14 @@ namespace SoulsLike {
             playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
         }
 
-        // ´ëÈ­ Á¾·á
+        // ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
         private void FinishConversation() {
             isInConversation = false;
             currentPageIndex = 0;
             dialogUI.SetActive(false);
         }
 
-        // ´ë»ç Ãâ·Â
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         private void PrintDialog() {
             if (!dialogUI.activeSelf) dialogUI.SetActive(true);
             if (turnPageTimer == 0)
@@ -282,7 +282,7 @@ namespace SoulsLike {
             }
         }
 
-        // ´ÙÀ½ ´ë»ç Ãâ·Â Å¸ÀÌ¸Ó
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½
         private void HandleTurnPageTimer() {
             if (turnPageTimer <= 0) turnPageTimer = 0;
             else {
@@ -291,18 +291,18 @@ namespace SoulsLike {
             }
         }
 
-        // ÇØ´ç À§Ä¡¿¡¼­ ÇØ´ç ¾Ö´Ï¸ÞÀÌ¼ÇÀ» ÅëÇÑ »óÈ£ÀÛ¿ë ½ÇÇà
+        // ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
             characterWeaponSlotManager.rightHandSlot.UnloadWeapon();
             characterWeaponSlotManager.leftHandSlot.UnloadWeapon();
-            playerLocomotion.rigidbody.velocity = Vector3.zero;
+            playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
             playerAnimatorManager.PlayTargetAnimation(animation, true);
             transform.position = playerStandingPosition.position;
         }
 
-        // ¾È°³º® Åë°ú »óÈ£ÀÛ¿ë
+        // ï¿½È°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½
         public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-            playerLocomotion.rigidbody.velocity = Vector3.zero;
+            playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
             Vector3 rotationDirection = fogWallEntrance.transform.forward;
             Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
             transform.rotation = turnRotation;
@@ -311,7 +311,7 @@ namespace SoulsLike {
         }
         #endregion
 
-        // ÇöÀçÀÇ ¼¼ÀÌºê ÆÄÀÏ¿¡ Ä³¸¯ÅÍ Á¤º¸¸¦ ÀúÀå
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         public void SaveCharacterDataToCurrentSaveData(ref CharacterSaveData currentCharacterSaveData) {
             currentCharacterSaveData.characterName = playerStatsManager.characterName;
             currentCharacterSaveData.characterLevel = playerStatsManager.level;
@@ -349,7 +349,7 @@ namespace SoulsLike {
             playerWeaponSlotManager.LoadBothWeaponsOnSlots();
 
             EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
-            // µ¥ÀÌÅÍ º£ÀÌ½º¿¡ ÇØ´ç ¾ÆÀÌÅÛÀÌ Á¸ÀçÇÏ¸é Âø¿ë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (headEquipment != null) {
                 playerInventoryManager.currentHelmetEquipment = headEquipment as HelmetEquipment;
             }

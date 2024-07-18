@@ -63,8 +63,8 @@ namespace SoulsLike {
 
         private void PerformAnimationFromServer(string animationID, bool isInteracting) {
             //anim.applyRootMotion = isInteracting;
-            character.anim.SetBool("isInteracting", isInteracting);
-            character.anim.CrossFade(animationID, 0.2f);
+            character.animator.SetBool("isInteracting", isInteracting);
+            character.animator.CrossFade(animationID, 0.2f);
         }
     }
 }

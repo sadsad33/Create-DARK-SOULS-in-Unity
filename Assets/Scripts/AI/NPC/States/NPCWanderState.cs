@@ -9,8 +9,8 @@ namespace SoulsLike {
         protected float verticalMovementValue;
         protected float horizontalMovementValue;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            npcManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
-            npcManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
+            npcManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
+            npcManager.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
             HandleRotateTowardsTarget(npcManager);
             int randomValue = Random.Range(0, 50);
             
