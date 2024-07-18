@@ -5,20 +5,20 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerAnimatorManager : CharacterAnimatorManager {
         InputHandler inputHandler;
-        PlayerManager playerManager;
+        PlayerManager player;
         int vertical;
         int horizontal;
 
         protected override void Awake() {
             base.Awake();
-            playerManager = GetComponent<PlayerManager>();
-            playerManager.anim = GetComponent<Animator>();
+            player = GetComponent<PlayerManager>();
+            player.animator = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
 
-        // BlendTree¸¦ ÀÌ¿ëÇÑ ´Ü¼ø ÀÌµ¿Á¦¾î
+        // BlendTreeï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ü¼ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting) {
             #region Vertical
             float v = 0;
@@ -42,38 +42,29 @@ namespace SoulsLike {
                 v = 2;
                 h = horizontalMovement;
             }
-            playerManager.anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
-            playerManager.anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        }
-
-        private void OnAnimatorMove() {
-            if (!characterManager.isInteracting) return;
-
-            float delta = Time.deltaTime;
-            playerManager.playerLocomotion.rigidbody.drag = 0;
-            Vector3 deltaPosition = playerManager.anim.deltaPosition; // ÇöÀç ¸¶Áö¸·À¸·Î °è»êµÈ ÇÁ·¹ÀÓ¿¡¼­ ¾Æ¹ÙÅ¸ÀÇ ÁÂÇ¥ º¯È­·®
-            deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta; // °Å¸®ÀÇ º¯È­·®À» ½Ã°£À¸·Î ³ª´² ¼Óµµ¸¦ ±¸ÇÑ´Ù.
-            playerManager.playerLocomotion.rigidbody.velocity = velocity; // RigidbodyÀÇ ¼Óµµ¸¦ ¼³Á¤
+            player.animator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+            player.animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
         public void DisableCollision() {
-            playerManager.playerLocomotion.characterCollider.enabled = false;
-            playerManager.playerLocomotion.characterColliderBlocker.enabled = false;
+            //playerManager.playerLocomotion.characterCollider.enabled = false;
+            //playerManager.playerLocomotion.characterColliderBlocker.enabled = false;
+            player.characterController.enabled = false;
         }
 
         public void EnableCollision() {
-            playerManager.playerLocomotion.characterCollider.enabled = true;
-            playerManager.playerLocomotion.characterColliderBlocker.enabled = true;
+            //player.playerLocomotion.characterCollider.enabled = true;
+            //player.playerLocomotion.characterColliderBlocker.enabled = true;
+            player.characterController.enabled = true;
         }
 
         public void FinishJump() {
-            if (playerManager.isJumping)
-                playerManager.isJumping = false;
+            if (player.isJumping)
+                player.isJumping = false;
         }
 
         public void FinishLadderInteractionAtTop() {
-            playerManager.isMoving = false;
+            player.isMoving = false;
         }
     }
 }

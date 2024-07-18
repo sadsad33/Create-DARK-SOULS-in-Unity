@@ -15,12 +15,12 @@ namespace SoulsLike {
         protected float horizontalMovementValue = 0;
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
-            npcManager.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
-            npcManager.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
+            npcManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
+            npcManager.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
 
             if (npcManager.isInteracting) {
-                npcManager.anim.SetFloat("Vertical", 0);
-                npcManager.anim.SetFloat("Horizontal", 0);
+                npcManager.animator.SetFloat("Vertical", 0);
+                npcManager.animator.SetFloat("Horizontal", 0);
                 return this;
             }
 

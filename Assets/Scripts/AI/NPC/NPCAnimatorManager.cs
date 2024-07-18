@@ -10,19 +10,19 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             npcManager = GetComponent<NPCManager>();
-            npcManager.anim = GetComponent<Animator>();
+            npcManager.animator = GetComponent<Animator>();
         }
 
-        private void OnAnimatorMove() {
+        public override void OnAnimatorMove() {
             float delta = Time.deltaTime;
             npcManager.npcRigidbody.drag = 0;
-            Vector3 deltaPosition = npcManager.anim.deltaPosition;
+            Vector3 deltaPosition = npcManager.animator.deltaPosition;
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             npcManager.npcRigidbody.velocity = velocity;
 
-            if (characterManager.isRotatingWithRootMotion) {
-                characterManager.transform.rotation *= npcManager.anim.deltaRotation;
+            if (character.isRotatingWithRootMotion) {
+                character.transform.rotation *= npcManager.animator.deltaRotation;
             }
         }
 

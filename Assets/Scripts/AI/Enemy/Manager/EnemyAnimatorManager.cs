@@ -10,25 +10,9 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             enemyManager = GetComponent<EnemyManager>();
-            enemyManager.anim = GetComponent<Animator>();
+            enemyManager.animator = GetComponent<Animator>();
             //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             bossManager = GetComponent<BossManager>();
-        }
-
-
-        // Root MotionÀÌ Àû¿ëµÈ ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ Àç»ıÁß¿¡ Root TransformÀÌ ÀÌµ¿µÇ¸é È£Ãâ
-        // OnAnimatorMove ÇÔ¼ö¸¦ ±¸ÇöÇÏ°Ô µÇ¸é Animator ÄÄÆ÷³ÍÆ®ÀÇ ApplyRootMotionÀÌ HandledByScript°¡ µÇ¾î OnAnimatorMove ÇÔ¼ö³»¿¡¼­ ÀÌµ¿ °ü·Ã ·ÎÁ÷À» ±¸ÇöÇØ ÁÖ¾î¾ß ÇÔ
-        private void OnAnimatorMove() {
-            float delta = Time.deltaTime;
-            enemyManager.enemyRigidbody.drag = 0; // ¹Ì²ô·¯Áü ¹æÁö
-            Vector3 deltaPosition = enemyManager.anim.deltaPosition;
-            deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta;
-            enemyManager.enemyRigidbody.velocity = velocity;
-
-            if (characterManager.isRotatingWithRootMotion) {
-                characterManager.transform.rotation *= enemyManager.anim.deltaRotation;
-            }
         }
 
         public void InstantiateBossParticleFX() {
@@ -37,7 +21,7 @@ namespace SoulsLike {
         }
 
         public void AwardSoulsOnDeath() {
-            // ¾À ³»ÀÇ ¸ğµç ÇÃ·¹ÀÌ¾î¿¡°Ô ¼Ò¿ïÀ» ÁÜ
+            // ì”¬ ë‚´ì˜ ëª¨ë“  í”Œë ˆì´ì–´ì—ê²Œ ì†Œìš¸ì„ ì¤Œ
             PlayerStatsManager playerStats = FindObjectOfType<PlayerStatsManager>();
             SoulCountBar soulCountBar = FindObjectOfType<SoulCountBar>();
 
@@ -46,6 +30,17 @@ namespace SoulsLike {
                 if (soulCountBar != null) {
                     soulCountBar.SetSoulCountText(playerStats.soulCount);
                 }
+            }
+        }
+
+        public override void OnAnimatorMove() {
+            if (character.isInteracting == false) return;
+
+            Vector3 velocity = character.animator.deltaPosition;
+            character.characterController.Move(velocity);
+
+            if (enemyManager.isRotatingWithRootMotion) {
+                character.transform.rotation *= character.animator.deltaRotation;
             }
         }
     }

@@ -6,7 +6,7 @@ namespace SoulsLike {
     public class BonfireInteraction : Interactable {
         public bool isIgnited = false;
         //public UIManager playerUIManager;
-        private void Awake() {
+        protected override void Awake() {
             interactableText = "불을 붙인다";
         }
 

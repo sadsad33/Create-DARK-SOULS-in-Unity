@@ -7,7 +7,7 @@ namespace SoulsLike {
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             enemyManager.enemyRigidbody.isKinematic = false;
             enemyManager.enemyRigidbody.useGravity = false;
-            enemyStats.enemyLocomotionManager.characterCollider.enabled = false;
+            //enemyStats.enemyLocomotionManager.characterCollider.enabled = false;
             enemyManager.navMeshAgent.enabled = false;
             return this;
         }

@@ -4,19 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace SoulsLike {
-    public class EnemyLocomotionManager : MonoBehaviour {
-        EnemyManager enemyManager;
-        EnemyAnimatorManager enemyAnimatorManager;
-        public LayerMask detectionLayer;
-        public CapsuleCollider characterCollider;
-        public CapsuleCollider characterColliderBlocker;
-        private void Awake() {
-            enemyManager = GetComponent<EnemyManager>();
-            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
-        }
+    public class EnemyLocomotionManager : CharacterLocomotionManager {
 
-        private void Start() {
-            Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
-        }
+        #region 리지드 바디를 사용할 경우
+        //public CapsuleCollider characterCollider;
+        //public CapsuleCollider characterColliderBlocker;
+        //protected override void Start() {
+        //    base.Start();
+        //    Physics.IgnoreCollision(characterCollider, characterColliderBlocker, true);
+        //}
+        #endregion
     }
 }

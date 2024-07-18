@@ -54,20 +54,20 @@ namespace SoulsLike {
             npcRigidbody.isKinematic = false;
         }
 
-        private void Update() {
+        protected override void Update() {
             HandleStateMachine();
             HandleChangeTargetTimer();
             HandleRecoveryTimer();
 
-            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
-            isRotatingWithRootMotion =anim.GetBool("isRotatingWithRootMotion");
-            isInteracting = anim.GetBool("isInteracting");
-            canDoCombo = anim.GetBool("canDoCombo");
-            canRotate = anim.GetBool("canRotate");
-            isInvulnerable = anim.GetBool("isInvulnerable");
-            anim.SetBool("isDead", npcStatsManager.isDead);
-            anim.SetBool("isGrabbed", isGrabbed);
+            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            isUsingRightHand = animator.GetBool("isUsingRightHand");
+            isRotatingWithRootMotion =animator.GetBool("isRotatingWithRootMotion");
+            isInteracting = animator.GetBool("isInteracting");
+            canDoCombo = animator.GetBool("canDoCombo");
+            canRotate = animator.GetBool("canRotate");
+            isInvulnerable = animator.GetBool("isInvulnerable");
+            animator.SetBool("isDead", npcStatsManager.isDead);
+            animator.SetBool("isGrabbed", isGrabbed);
             if (aggravationToPlayer >= 30 && canTalk) canTalk = false;
         }
 

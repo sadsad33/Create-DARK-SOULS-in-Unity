@@ -42,20 +42,20 @@ namespace SoulsLike {
             enemyRigidbody.isKinematic = false;
         }
 
-        private void Update() {
+        protected override void Update() {
             HandleRecoveryTimer();
             HandleStateMachine();
 
-            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
-            isPhaseShifting = anim.GetBool("isPhaseShifting");
-            isRotatingWithRootMotion = anim.GetBool("isRotatingWithRootMotion");
-            isInteracting = anim.GetBool("isInteracting");
-            canDoCombo = anim.GetBool("canDoCombo");
-            canRotate = anim.GetBool("canRotate");
-            isInvulnerable = anim.GetBool("isInvulnerable");
-            anim.SetBool("isDead", enemyStatsManager.isDead);
-            anim.SetBool("isGrabbed", isGrabbed);
+            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            isUsingRightHand = animator.GetBool("isUsingRightHand");
+            isPhaseShifting = animator.GetBool("isPhaseShifting");
+            isRotatingWithRootMotion = animator.GetBool("isRotatingWithRootMotion");
+            isInteracting = animator.GetBool("isInteracting");
+            canDoCombo = animator.GetBool("canDoCombo");
+            canRotate = animator.GetBool("canRotate");
+            isInvulnerable = animator.GetBool("isInvulnerable");
+            animator.SetBool("isDead", enemyStatsManager.isDead);
+            animator.SetBool("isGrabbed", isGrabbed);
         }
 
         private void LateUpdate() {

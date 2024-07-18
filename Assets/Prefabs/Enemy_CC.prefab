@@ -104,7 +104,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1840872851}
   - {fileID: 371654648}
   - {fileID: 4436255637133151642}
   m_Father: {fileID: 1247414621750747085}
@@ -241,7 +240,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 75989252}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &371654650
 Rigidbody:
@@ -630,7 +629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307058f48fb8a9448b4494f3e2b3509f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
 --- !u!1 &1438136247
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,69 +788,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!1 &1840872850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1840872851}
-  - component: {fileID: 1840872853}
-  - component: {fileID: 1840872852}
-  m_Layer: 10
-  m_Name: Character Collider Blocker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1840872851
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840872850}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 75989252}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1840872853
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840872850}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &1840872852
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840872850}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.45
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &19379091284972672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,8 +1118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1247414621750747085}
   - component: {fileID: 6498354789354530750}
-  - component: {fileID: 1247414621750747087}
-  - component: {fileID: 1247414621750747084}
   - component: {fileID: 1876851044213949390}
   - component: {fileID: 1876851044213949387}
   - component: {fileID: 2674730931720195349}
@@ -1193,8 +1126,10 @@ GameObject:
   - component: {fileID: 2674730931720195348}
   - component: {fileID: 2674730931720195355}
   - component: {fileID: 2674730931720195354}
+  - component: {fileID: 1247414621750747084}
+  - component: {fileID: 7871449295077461981}
   m_Layer: 9
-  m_Name: Enemy
+  m_Name: Enemy_CC
   m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1245,36 +1180,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &1247414621750747087
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247414621750747090}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 1.7977306
-  m_Direction: 1
-  m_Center: {x: -0, y: 0.91242343, z: -0}
---- !u!54 &1247414621750747084
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247414621750747090}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.01
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &1876851044213949390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,7 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e13273d7fbe9a54aa7795df635a921f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   canRotate: 0
   leftHandConstraint: {fileID: 6389220528036698311}
   rightHandConstraint: {fileID: 6389220526764800313}
@@ -1370,7 +1274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9236ad839a2af418234fdcfc9cbad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
+  animator: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
   characterWeaponSlotManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 1284610322}
   backStabCollider: {fileID: 4436255635506644370}
   riposteCollider: {fileID: 4436255637133151643}
@@ -1387,7 +1295,6 @@ MonoBehaviour:
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
-  isSprinting: 0
   isInAir: 0
   isGrounded: 0
   isTwoHandingWeapon: 0
@@ -1420,11 +1327,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d3e019774199448a540bbafd9bb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveDirection: {x: 0, y: 0, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  inAirTimer: 0
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: -20
+  fallStartYVelocity: -7
+  gravityForce: -25
+  groundCheckSphereRadius: 0
   detectionLayer:
     serializedVersion: 2
     m_Bits: 0
-  characterCollider: {fileID: 1247414621750747087}
-  characterColliderBlocker: {fileID: 1840872852}
 --- !u!114 &2674730931720195348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1507,6 +1422,40 @@ MonoBehaviour:
   - m_Rig: {fileID: 6389220527414114765}
     m_Active: 1
   m_Effectors: []
+--- !u!54 &1247414621750747084
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.01
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!143 &7871449295077461981
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1253894068147768686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,7 +2257,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 75989252}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4436255637133151641
 Rigidbody:

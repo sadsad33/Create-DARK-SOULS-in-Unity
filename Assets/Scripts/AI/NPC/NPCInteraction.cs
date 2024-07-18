@@ -11,8 +11,8 @@ namespace SoulsLike {
         public NPCScript[] dialogs;
         public NPCScript[] currentDialog;
 
-        private void Awake() {
-            //Debug.Log("Awake");
+        protected override void Awake() {
+            base.Awake();
             npcManager = GetComponent<NPCManager>();
             int cnt = 0;
             for (int i = 0; i < dialogs.Length; i++) {
