@@ -38,7 +38,6 @@ namespace SoulsLike {
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
         public bool canRotate;
-        public bool isInAir;
         public bool isGrounded;
         public bool isTwoHandingWeapon;
         public bool isClimbing;

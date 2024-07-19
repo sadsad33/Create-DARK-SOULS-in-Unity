@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerLocomotionManager : CharacterLocomotionManager {
-        CameraHandler cameraHandler;
-        Transform cameraObject;
-        InputHandler inputHandler;
         PlayerManager player;
         PlayerStatsManager playerStatsManager;
 
@@ -63,17 +60,14 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
-            cameraHandler = FindObjectOfType<CameraHandler>();
             player = GetComponent<PlayerManager>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
             //rigidbody = GetComponent<Rigidbody>();
-            inputHandler = GetComponent<InputHandler>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         }
 
         protected override void Start() {
             base.Start();
-            cameraObject = Camera.main.transform;
             myTransform = transform;
             groundLayer = (1 << 8 | 1 << 1);
             #region 리지드 바디를 이용할 경우
@@ -123,10 +117,10 @@ namespace SoulsLike {
             if (playerAnimatorManager.canRotate) {
                 if (player.playerNetworkManager.isLockedOn.Value) {
                     // 록온을 해도 달리거나 구를때는, 이동하던 방향으로 행동
-                    if (inputHandler.sprintFlag || inputHandler.rollFlag) {
+                    if (player.playerNetworkManager.isSprinting.Value || player.inputHandler.rollFlag) {
                         Vector3 targetDirection = Vector3.zero;
-                        targetDirection = cameraHandler.cameraTransform.forward * inputHandler.vertical;
-                        targetDirection += cameraHandler.cameraTransform.right * inputHandler.horizontal;
+                        targetDirection = player.cameraHandler.cameraTransform.forward * player.inputHandler.vertical;
+                        targetDirection += player.cameraHandler.cameraTransform.right * player.inputHandler.horizontal;
                         targetDirection.Normalize();
                         targetDirection.y = 0;
                         if (targetDirection == Vector3.zero) {
@@ -137,7 +131,7 @@ namespace SoulsLike {
                         transform.rotation = targetRotation;
                     } else {
                         Vector3 rotationDirection = moveDirection;
-                        rotationDirection = cameraHandler.currentLockOnTarget.transform.position - transform.position;
+                        rotationDirection = player.cameraHandler.currentLockOnTarget.transform.position - transform.position;
                         rotationDirection.y = 0;
                         rotationDirection.Normalize();
                         Quaternion tr = Quaternion.LookRotation(rotationDirection);
@@ -148,8 +142,8 @@ namespace SoulsLike {
                     // 바라볼 방향
                     Vector3 targetDir = Vector3.zero;
                     // WASD 방향키 값을 반영한다.
-                    targetDir = cameraObject.forward * inputHandler.vertical;
-                    targetDir += cameraObject.right * inputHandler.horizontal;
+                    targetDir = player.cameraHandler.transform.forward * player.inputHandler.vertical;
+                    targetDir += player.cameraHandler.transform.right * player.inputHandler.horizontal;
                     targetDir.Normalize();
                     // 위아래로는 회전하지 않을 것
                     targetDir.y = 0;
@@ -158,7 +152,7 @@ namespace SoulsLike {
                     if (targetDir == Vector3.zero)
                         targetDir = myTransform.forward;
 
-                    float moveOverride = inputHandler.moveAmount;
+                    float moveOverride = player.inputHandler.moveAmount;
 
                     // 스크립트에서 회전 처리를 다루는 경우 Quaternion 클래스와 이 클래스의 함수를 사용하여 회전 값을 만들고 수정해야 한다.
                     // 일부의 경우 스크립트에서 오일러 각을 사용하는 것이 더 좋다. 이 경우 각을 변수로 유지하고 회전에 오일러 각으로 적용하는 데만 사용해야 하고 궁극적으로 Quaterion 으로 저장되어야 한다.
@@ -173,7 +167,7 @@ namespace SoulsLike {
         Vector3 jumpDirection;
         // 캐릭터 이동
         public void HandleGroundedMovement(float delta) {
-            if (inputHandler.rollFlag) return;
+            if (player.inputHandler.rollFlag) return;
             if (player.isInteracting || player.isClimbing || player.isAtBonfire) return;
             if (!player.isGrounded) return;
 
@@ -183,7 +177,23 @@ namespace SoulsLike {
             //moveDirection += cameraObject.right * inputHandler.horizontal; // 부가적인 방향
             //moveDirection.Normalize();
             //moveDirection.y = 0;
+            //float speed = movementSpeed;
 
+            //if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
+            //    speed = sprintSpeed;
+            //    player.playerNetworkManager.isSprinting.Value = true;
+            //    moveDirection *= speed; // 이동속도 반영
+            //    jumpDirection = moveDirection; // 점프는 달리기 상태에서만 가능하므로 달리기 상태에서의 벡터를 기억
+            //    //Debug.Log("점프 전 : " + jumpDirection);
+            //    playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
+            //} else {
+            //    if (inputHandler.moveAmount <= 0.5f) {
+            //        moveDirection *= walkingSpeed;
+            //    } else {
+            //        moveDirection *= speed;
+            //    }
+            //    player.playerNetworkManager.isSprinting.Value = false;
+            //}
 
             /*
              * Vector3.ProjectOnPlane(Vector3 vector, Vector3 normalVector)
@@ -198,35 +208,28 @@ namespace SoulsLike {
             //GetComponent<Rigidbody>().velocity = projectedVelocity;
             #endregion
 
-            moveDirection = player.cameraHandler.transform.forward * inputHandler.vertical;
-            moveDirection += player.cameraHandler.transform.right * inputHandler.horizontal;
+            moveDirection = player.cameraHandler.transform.forward * player.inputHandler.vertical;
+            moveDirection += player.cameraHandler.transform.right * player.inputHandler.horizontal;
             moveDirection.Normalize();
             moveDirection.y = 0;
-            float speed = movementSpeed;
 
-            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
-                speed = sprintSpeed;
-                player.playerNetworkManager.isSprinting.Value = true;
-                moveDirection *= speed; // 이동속도 반영
-                jumpDirection = moveDirection; // 점프는 달리기 상태에서만 가능하므로 달리기 상태에서의 벡터를 기억
-                //Debug.Log("점프 전 : " + jumpDirection);
-                playerStatsManager.TakeStaminaDamage(sprintStaminaCost);
+            if (player.playerNetworkManager.isSprinting.Value && player.inputHandler.moveAmount > 0.5f) {
+                player.characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
+                jumpDirection = moveDirection * sprintSpeed;
+                playerStatsManager.DeductSprintingStamina(sprintStaminaCost);
             } else {
-                if (inputHandler.moveAmount <= 0.5f) {
-                    moveDirection *= walkingSpeed;
-                } else {
-                    moveDirection *= speed;
+                if (player.inputHandler.moveAmount > 0.5f) {
+                    player.characterController.Move(moveDirection * movementSpeed * Time.deltaTime);
+                } else if (player.inputHandler.moveAmount <= 0.5f) {
+                    player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
                 }
-                player.playerNetworkManager.isSprinting.Value = false;
             }
 
-            player.characterController.Move(moveDirection * Time.deltaTime);
-
             // 록온 상태의경우 수평이동 입력값과 수직이동 입력값을 모두 사용한다.
-            if (player.playerNetworkManager.isLockedOn.Value && !inputHandler.sprintFlag) {
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, player.playerNetworkManager.isSprinting.Value);
+            if (player.playerNetworkManager.isLockedOn.Value && !player.playerNetworkManager.isSprinting.Value) {
+                playerAnimatorManager.UpdateAnimatorValues(player.inputHandler.vertical, player.inputHandler.horizontal, player.playerNetworkManager.isSprinting.Value);
             } else { // 아닐경우 정면방향으로 움직이면 되므로 수직이동값만 사용
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.moveAmount, 0, player.playerNetworkManager.isSprinting.Value);
+                playerAnimatorManager.UpdateAnimatorValues(player.inputHandler.moveAmount, 0, player.playerNetworkManager.isSprinting.Value);
             }
         }
 
@@ -237,25 +240,25 @@ namespace SoulsLike {
 
             if (playerStatsManager.currentStamina <= 0) return;
 
-            if (inputHandler.rollFlag) {
-                moveDirection = cameraObject.forward * inputHandler.vertical;
-                moveDirection += cameraObject.right * inputHandler.horizontal;
+            if (player.inputHandler.rollFlag) {
+                moveDirection = player.cameraHandler.transform.forward * player.inputHandler.vertical;
+                moveDirection += player.cameraHandler.transform.right * player.inputHandler.horizontal;
 
-                if (inputHandler.moveAmount > 0) { // 이동중이라면 구르기
+                if (player.inputHandler.moveAmount > 0) { // 이동중이라면 구르기
                     //Debug.Log("구르기!!!");
                     playerAnimatorManager.PlayTargetAnimation("Rolling", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
-                    playerStatsManager.TakeStaminaDamage(rollStaminaCost);
+                    playerStatsManager.DeductStamina(rollStaminaCost);
                 } else { // 이동중이 아니라면 백스텝
                     //Debug.Log("백스텝!!!");
-                    if (inputHandler.backstepDelay > 1f) {
+                    if (player.inputHandler.backstepDelay > 1f) {
                         playerAnimatorManager.PlayTargetAnimation("Backstep", true);
                         playerAnimatorManager.EraseHandIKForWeapon();
                         GetComponent<Rigidbody>().AddForce(-myTransform.forward * 20, ForceMode.Impulse);
-                        playerStatsManager.TakeStaminaDamage(backstepStaminaCost);
+                        playerStatsManager.DeductStamina(backstepStaminaCost);
                     }
                 }
             }
@@ -331,8 +334,8 @@ namespace SoulsLike {
             if (player.isInteracting) return;
             if (playerStatsManager.currentStamina <= 0) return;
 
-            if (inputHandler.jump_Input) {
-                if (inputHandler.sprintFlag && inputHandler.moveAmount > 0) {
+            if (player.inputHandler.jump_Input) {
+                if (player.playerNetworkManager.isSprinting.Value && player.inputHandler.moveAmount > 0) {
                     player.isJumping = true;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
@@ -344,7 +347,7 @@ namespace SoulsLike {
         }
 
         public void HandleClimbing() {
-            if (player.ladderEndPositionDetector.isTopEnd && inputHandler.vertical >= 1) {
+            if (player.ladderEndPositionDetector.isTopEnd && player.inputHandler.vertical >= 1) {
                 Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
                 player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
                 player.isMoving = true;
@@ -354,7 +357,7 @@ namespace SoulsLike {
                     player.InteractionAtPosition("Ladder_End_Top_LeftFootUp", player.transform);
                 }
                 player.isClimbing = false;
-            } else if (player.ladderEndPositionDetector.isBottomEnd && inputHandler.vertical <= -1) {
+            } else if (player.ladderEndPositionDetector.isBottomEnd && player.inputHandler.vertical <= -1) {
                 if (player.rightFootUp) {
                     player.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 } else {
@@ -362,15 +365,15 @@ namespace SoulsLike {
                 }
                 player.isClimbing = false;
             } else {
-                player.animator.SetFloat("Vertical", inputHandler.vertical, 0.1f, Time.deltaTime);
-                GetComponent<Rigidbody>().velocity = new Vector3(0, inputHandler.vertical, 0);
+                player.animator.SetFloat("Vertical", player.inputHandler.vertical, 0.1f, Time.deltaTime);
+                GetComponent<Rigidbody>().velocity = new Vector3(0, player.inputHandler.vertical, 0);
             }
         }
 
         public void MaintainVelocity() {
             if (!player.isJumping) return;
-            player.characterController.Move(jumpDirection/2 * Time.deltaTime);
-            
+            player.characterController.Move(jumpDirection / 2 * Time.deltaTime);
+
             //GetComponent<Rigidbody>().velocity = jumpDirection;
             // rigidbody.MovePosition : 충돌연산의 영향을 받으며 물체를 이동시키는 메서드
             // 중력이나 가속, 감속같은 연속적인 물리효과에 대해서 영향을 받지는 않으면서 부드럽게 물체를 이동시킴

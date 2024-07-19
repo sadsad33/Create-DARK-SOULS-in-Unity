@@ -951,6 +951,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3125100832193713776, guid: 17cdeaeb221edf74e85fad5f56031769, type: 3}
+      propertyPath: groundedFollowSpeed
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3125100832193713777, guid: 17cdeaeb221edf74e85fad5f56031769, type: 3}
       propertyPath: m_RootOrder
       value: 2
