@@ -8260,7 +8260,6 @@ MonoBehaviour:
   right_Stick_Left_Input: 0
   twoHandFlag: 0
   rollFlag: 0
-  sprintFlag: 0
   comboFlag: 0
   rollInputTimer: 0
   backstepDelay: 0
@@ -8280,13 +8279,13 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 259
   inAirTimer: 0
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
-  fallStartYVelocity: -7
+  fallStartYVelocity: -4
   gravityForce: -25
-  groundCheckSphereRadius: 0.25
+  groundCheckSphereRadius: 0.2
   myTransform: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   normalCamera: {fileID: 0}
@@ -8315,7 +8314,7 @@ MonoBehaviour:
   healthLevel: 10
   maxHealth: 0
   currentHealth: 0
-  staminaLevel: 1000
+  staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
   focusLevel: 10
@@ -8651,7 +8650,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.85
-  m_Radius: 0.4
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08

@@ -31,14 +31,14 @@ namespace SoulsLike {
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         }
 
-        // °­ÀÎµµ : ½´ÆÛ¾Æ¸Ó À¯Áö¸¦ À§ÇÑ ÇÊ¿ä ¼öÄ¡
+        // ê°•ì¸ë„ : ìŠˆí¼ì•„ë¨¸ ìœ ì§€ë¥¼ ìœ„í•œ í•„ìš” ìˆ˜ì¹˜
         [Header("Poise")]
-        public float totalPoiseDefense; // µ¥¹ÌÁö °è»ê¿¡¼­ÀÇ ÃÑ °­ÀÎµµ
-        public float offensivePoiseBonus; // °ø°Ý¸ð¼ÇÁß °­ÀÎµµ º¸³Ê½º
-        public float armorPoiseBonus; // °©¿ÊÀ» ÀÔÀ½À¸·Î½á ¾ò´Â °­ÀÎµµ
-        public float totalPoiseResetTime; // °­ÀÎµµ ÃÊ±âÈ­ ½Ã°£
-        public float poiseResetTimer = 0; // °­ÀÎµµ ÃÊ±âÈ­ Å¸ÀÌ¸Ó
-        public bool isStuned; // ±×·Î±â »óÅÂ
+        public float totalPoiseDefense; // ë°ë¯¸ì§€ ê³„ì‚°ì—ì„œì˜ ì´ ê°•ì¸ë„
+        public float offensivePoiseBonus; // ê³µê²©ëª¨ì…˜ì¤‘ ê°•ì¸ë„ ë³´ë„ˆìŠ¤
+        public float armorPoiseBonus; // ê°‘ì˜·ì„ ìž…ìŒìœ¼ë¡œì¨ ì–»ëŠ” ê°•ì¸ë„
+        public float totalPoiseResetTime; // ê°•ì¸ë„ ì´ˆê¸°í™” ì‹œê°„
+        public float poiseResetTimer = 0; // ê°•ì¸ë„ ì´ˆê¸°í™” íƒ€ì´ë¨¸
+        public bool isStuned; // ê·¸ë¡œê¸° ìƒíƒœ
         
 
         [Header("Armor Absorptions")]
@@ -105,7 +105,7 @@ namespace SoulsLike {
             }
         }
 
-        // °­ÀÎµµ ÃÊ±âÈ­ Å¸ÀÌ¸Ó
+        // ê°•ì¸ë„ ì´ˆê¸°í™” íƒ€ì´ë¨¸
         public virtual void HandlePoiseResetTimer() {
             if (poiseResetTimer > 0) {
                 poiseResetTimer -= Time.deltaTime;
@@ -114,5 +114,32 @@ namespace SoulsLike {
                 totalPoiseDefense = armorPoiseBonus;
             }
         }
+
+        public virtual void DeductStamina(float staminaToDeduct) {
+            currentStamina -= staminaToDeduct;
+        }
+
+        public float SetMaxHealthFromHealthLevel() {
+            maxHealth = healthLevel * 10;
+            return maxHealth;
+        }
+
+        public float SetMaxFocusFromFocusLevel() {
+            maxFocus = focusLevel * 10;
+            return maxFocus;
+        }
+
+        public float SetMaxStaminaFromStaminaLevel() {
+            maxStamina = staminaLevel * 10;
+            return maxStamina;
+        }
+
+        public virtual void HealPlayer(float healAmount) {
+            currentHealth += healAmount;
+            if (currentHealth > maxHealth) {
+                currentHealth = maxHealth;
+            }
+        }
+
     }
 }

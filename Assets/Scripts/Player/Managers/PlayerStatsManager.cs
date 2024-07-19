@@ -6,26 +6,26 @@ namespace SoulsLike {
     public class PlayerStatsManager : CharacterStatsManager {
         public int level;
         public string characterName;
-        PlayerManager playerManager;
+        PlayerManager player;
         PlayerAnimatorManager playerAnimatorManager;
 
         public float staminaRegenerationAmount = 20;
         public float staminaRegenerationTimer = 0;
 
         //public int requriedSoulsToLevelUp;
-        
+        float sprintingTimer = 0;
         protected override void Awake() {
             base.Awake();
             //requriedSoulsToLevelUp = level * 65 * (level / 10 > 0 ? level / 10 : 1);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
-            playerManager = GetComponent<PlayerManager>();
+            player = GetComponent<PlayerManager>();
         }
         protected override void Start() {
             base.Start();
         }
 
         public void SetStatBarsHUD() {
-            UIManager.instance.player = playerManager;
+            UIManager.instance.player = player;
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             UIManager.instance.healthBar.SetMaxHealth(currentHealth);
@@ -49,23 +49,9 @@ namespace SoulsLike {
         public override void HandlePoiseResetTimer() {
             if (poiseResetTimer > 0) {
                 poiseResetTimer -= Time.deltaTime;
-            } else if (poiseResetTimer <= 0 && !playerManager.isInteracting) {
+            } else if (poiseResetTimer <= 0 && !player.isInteracting) {
                 totalPoiseDefense = armorPoiseBonus;
             }
-        }
-        private float SetMaxHealthFromHealthLevel() {
-            maxHealth = healthLevel * 10;
-            return maxHealth;
-        }
-
-        private float SetMaxFocusFromFocusLevel() {
-            maxFocus = focusLevel * 10;
-            return maxFocus;
-        }
-
-        private float SetMaxStaminaFromStaminaLevel() {
-            maxStamina = staminaLevel * 10;
-            return maxStamina;
         }
 
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {
@@ -84,7 +70,7 @@ namespace SoulsLike {
         }
 
         public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
-            if (playerManager.isInvulnerable) return;
+            if (player.isInvulnerable) return;
 
             base.TakeDamage(damage, fireDamage, damageAnimation);
 
@@ -95,36 +81,51 @@ namespace SoulsLike {
                 currentHealth = 0;
                 isDead = true;
                 playerAnimatorManager.PlayTargetAnimation("Dead", true);
-                // Dead ¾Ö´Ï¸ÞÀÌ¼ÇÀº TransitionÀ¸·Î Empty¿¡ ¿¬°áÇØ³õÁö ¾Ê¾Ò´Ù.
-                // Empty ¿¡¼­ isInteracting Ç×¸ñÀ» ÃÊ±âÈ­ ÇÔÀ¸·Î½á ´ÙÀ½ ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î ³Ñ¾î°¥¼ö ÀÖ°Ô²û ÇØÁÖ´Âµ¥ ÇÃ·¹ÀÌ¾î°¡ Á×´Â´Ù¸é ±×·²ÇÊ¿ä ¾øÀ½
+                // Dead ì• ë‹ˆë©”ì´ì…˜ì€ Transitionìœ¼ë¡œ Emptyì— ì—°ê²°í•´ë†“ì§€ ì•Šì•˜ë‹¤.
+                // Empty ì—ì„œ isInteracting í•­ëª©ì„ ì´ˆê¸°í™” í•¨ìœ¼ë¡œì¨ ë‹¤ìŒ ì• ë‹ˆë©”ì´ì…˜ìœ¼ë¡œ ë„˜ì–´ê°ˆìˆ˜ ìžˆê²Œë” í•´ì£¼ëŠ”ë° í”Œë ˆì´ì–´ê°€ ì£½ëŠ”ë‹¤ë©´ ê·¸ëŸ´í•„ìš” ì—†ìŒ
             }
         }
 
-        public void TakeStaminaDamage(float damage) {
-            currentStamina -= damage;
+        public override void DeductStamina(float staminaToDeduct) {
+            base.DeductStamina(staminaToDeduct);
             UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
 
             // TODO
-            // stamina°¡ 0ÀÌÇÏ·Î ¶³¾îÁ³À» °æ¿ì
+            // staminaê°€ 0ì´í•˜ë¡œ ë–¨ì–´ì¡Œì„ ê²½ìš°
+        }
+
+        public void DeductSprintingStamina(float staminaToDeduct) {
+
+            if (player.playerNetworkManager.isSprinting.Value) {
+                sprintingTimer += Time.deltaTime;
+
+                if (sprintingTimer > 0.1f) {
+                    sprintingTimer = 0;
+                    currentStamina -= staminaToDeduct;
+                    UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
+                }
+            } else {
+                sprintingTimer = 0;
+            }
         }
 
         public void RegenerateStamina() {
-            if (playerManager.isInteracting) {
+            if (player.isInteracting || player.playerNetworkManager.isSprinting.Value) {
                 staminaRegenerationTimer = 0;
                 return;
             }
             staminaRegenerationTimer += Time.deltaTime;
             if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
+
+                // ê°€ë“œë¥¼ ì˜¬ë¦¬ê³  ìžˆì„ë•ŒëŠ” ì¢€ë” ëŠë¦°ì†ë„ë¡œ ìŠ¤íƒœë¯¸ë„ˆê°€ íšŒë³µë˜ì–´ì•¼ í•¨
+
                 currentStamina += staminaRegenerationAmount * Time.deltaTime;
                 UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
             }
         }
 
-        public void HealPlayer(float healAmount) {
-            currentHealth += healAmount;
-            if (currentHealth > maxHealth) {
-                currentHealth = maxHealth;
-            }
+        public override void HealPlayer(float healAmount) {
+            base.HealPlayer(healAmount);
             UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
         }
 

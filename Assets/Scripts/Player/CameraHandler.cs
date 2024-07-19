@@ -5,32 +5,33 @@ using UnityEngine;
 namespace SoulsLike {
     public class CameraHandler : MonoBehaviour {
 
-        // Ä«¸Ş¶ó°¡ Æ÷ÂøÇÒ Å¸°ÙÀÇ À§Ä¡
+        // ì¹´ë©”ë¼ê°€ í¬ì°©í•  íƒ€ê²Ÿì˜ ìœ„ì¹˜
         public Transform targetTransform;
-        // Ä«¸Ş¶óÀÇ À§Ä¡(Áß½É ±âÁØ)
+        // ì¹´ë©”ë¼ì˜ ìœ„ì¹˜(ì¤‘ì‹¬ ê¸°ì¤€)
         public Transform cameraTransform;
-        // Ä«¸Ş¶ó¸¦ ¿òÁ÷ÀÏ¶§ »ç¿ëÇÒ ±øÅë º¯¼ö
+        // ì¹´ë©”ë¼ë¥¼ ì›€ì§ì¼ë•Œ ì‚¬ìš©í•  ê¹¡í†µ ë³€ìˆ˜
         private Vector3 cameraTransformPosition;
-        // Ä«¸Ş¶óÀÇ Áß½É À§Ä¡
+        // ì¹´ë©”ë¼ì˜ ì¤‘ì‹¬ ìœ„ì¹˜
         public Transform cameraPivotTransform;
         
-        public LayerMask obstacleLayer; // ÇÃ·¹ÀÌ¾î¿Í Ä«¸Ş¶ó »çÀÌ¿¡ ¿ÀºêÁ§Æ®°¡ Á¸ÀçÇÒ °æ¿ì Ä«¸Ş¶ó¸¦ ÇÃ·¹ÀÌ¾î¿¡°Ô °¡±õ°Ô ¹ĞÂø½ÃÅ°±â À§ÇØ Ãæµ¹ Ã¼Å©¸¦ ÇÏ°í ½ÍÀº ·¹ÀÌ¾î
+        public LayerMask obstacleLayer; // í”Œë ˆì´ì–´ì™€ ì¹´ë©”ë¼ ì‚¬ì´ì— ì˜¤ë¸Œì íŠ¸ê°€ ì¡´ì¬í•  ê²½ìš° ì¹´ë©”ë¼ë¥¼ í”Œë ˆì´ì–´ì—ê²Œ ê°€ê¹ê²Œ ë°€ì°©ì‹œí‚¤ê¸° ìœ„í•´ ì¶©ëŒ ì²´í¬ë¥¼ í•˜ê³  ì‹¶ì€ ë ˆì´ì–´
 
-        private Transform myTransform; // CameraHolderÀÇ Transform (= PlayerÀÇ Transform)
-        //private Vector3 cameraFollowVelocity = Vector3.zero;
+        private Transform myTransform; // CameraHolderì˜ Transform (= Playerì˜ Transform)
+        private Vector3 cameraFollowVelocity = Vector3.zero;
 
         public static CameraHandler instance;
         public InputHandler inputHandler;
         public PlayerManager playerManager;
 
         public float lookSpeed = 0.1f;
-        public float followSpeed = 0.1f;
+        public float groundedFollowSpeed = 20f;
+        public float inAirFollowSpeed = 20f;
         public float pivotSpeed = 0.03f;
 
         private float targetPosition;
-        private float defaultPosition; // Æò¼Ò Ä«¸Ş¶óÀÇ zÁÂÇ¥¸¦ ÀúÀåÇÒ º¯¼ö
+        private float defaultPosition; // í‰ì†Œ ì¹´ë©”ë¼ì˜ zì¢Œí‘œë¥¼ ì €ì¥í•  ë³€ìˆ˜
 
-        // Euler AngleÀ» »ç¿ëÇÏ±â À§ÇÑ º¯¼ö
+        // Euler Angleì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
         private float lookAngle;
         private float pivotAngle;
 
@@ -68,58 +69,62 @@ namespace SoulsLike {
             inputHandler = player.inputHandler;
         }
         
-        // Ä«¸Ş¶ó°¡ ´ë»óÀ» µû¶ó°¡µµ·Ï ÇÏ´Â ÇÔ¼ö
+        // ì¹´ë©”ë¼ê°€ ëŒ€ìƒì„ ë”°ë¼ê°€ë„ë¡ í•˜ëŠ” í•¨ìˆ˜
         public void FollowTarget(float delta) {
 
-            // ¸ñÇ¥ ÁöÁ¡±îÁö ºÎµå·´°Ô ÀÌµ¿ÇÑ´Ù
-            //Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
-            Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
-            myTransform.position = targetPosition;
-
+            if (playerManager.isGrounded) {
+                // ëª©í‘œ ì§€ì ê¹Œì§€ ë¶€ë“œëŸ½ê²Œ ì´ë™í•œë‹¤
+                Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, groundedFollowSpeed * Time.deltaTime);
+                //Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
+                myTransform.position = targetPosition;
+            } else {
+                Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, inAirFollowSpeed * Time.deltaTime);
+                myTransform.position = targetPosition;
+            }
             ZoomForInteraction(delta);
             HandleCameraCollision(delta);
 
-            //Debug.Log("ÇÃ·¹ÀÌ¾î Position : " + targetTransform.position);
-            //Debug.Log("Ä«¸Ş¶ó PivotPosition : " + cameraPivotTransform.position);
+            //Debug.Log("í”Œë ˆì´ì–´ Position : " + targetTransform.position);
+            //Debug.Log("ì¹´ë©”ë¼ PivotPosition : " + cameraPivotTransform.position);
         }
 
         /*
-         * Ä«¸Ş¶ó È¸Àü(±¸¸é ÁÂÇ¥°è)
+         * ì¹´ë©”ë¼ íšŒì „(êµ¬ë©´ ì¢Œí‘œê³„)
          * @delta - FixeddeltaTime
-         * @mousXInput - ¸¶¿ì½º ÁÂ¿ì È¸Àü°ª
-         * @mouseYInput - ¸¶¿ì½º »óÇÏ È¸Àü°ª
+         * @mousXInput - ë§ˆìš°ìŠ¤ ì¢Œìš° íšŒì „ê°’
+         * @mouseYInput - ë§ˆìš°ìŠ¤ ìƒí•˜ íšŒì „ê°’
          */
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput) {
-            // ·Ï¿ÂÀ» ÇÏÁö ¾Ê¾ÒÀ» °æ¿ì
+            // ë¡ì˜¨ì„ í•˜ì§€ ì•Šì•˜ì„ ê²½ìš°
             if (!playerManager.playerNetworkManager.isLockedOn.Value && currentLockOnTarget == null) {
-                // ½Ã°£¿¡ µû¸¥ °¢°¢ÀÇ È¸Àü°ª º¯È­·®À» ´ëÀÔ
-                lookAngle += (mouseXInput * lookSpeed) * delta; // ÁÂ¿ì ¾Ş±Û
-                pivotAngle -= (mouseYInput * pivotSpeed) * delta; // »óÇÏ ¾Ş±Û
+                // ì‹œê°„ì— ë”°ë¥¸ ê°ê°ì˜ íšŒì „ê°’ ë³€í™”ëŸ‰ì„ ëŒ€ì…
+                lookAngle += (mouseXInput * lookSpeed) * delta; // ì¢Œìš° ì•µê¸€
+                pivotAngle -= (mouseYInput * pivotSpeed) * delta; // ìƒí•˜ ì•µê¸€
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
-                Vector3 rotation = Vector3.zero; // Euler Angle °ªÀ» ÀúÀåÇÒ º¯¼ö »ı¼º
-                rotation.y = lookAngle; // Euler AngleÀÇ y °ª¿¡ ¸¶¿ì½º ÁÂ¿ì È¸Àü°ªÀ» ´ëÀÔÇØÁØ´Ù.
-                Quaternion targetRotation = Quaternion.Euler(rotation); // ¸ñÇ¥ È¸Àü°ª(Quaternion)
-                myTransform.rotation = targetRotation; // Ä«¸Ş¶ó È¸Àü°ªÀ» ¸ñÇ¥ È¸Àü°ªÀ¸·Î ¸¸µë
+                Vector3 rotation = Vector3.zero; // Euler Angle ê°’ì„ ì €ì¥í•  ë³€ìˆ˜ ìƒì„±
+                rotation.y = lookAngle; // Euler Angleì˜ y ê°’ì— ë§ˆìš°ìŠ¤ ì¢Œìš° íšŒì „ê°’ì„ ëŒ€ì…í•´ì¤€ë‹¤.
+                Quaternion targetRotation = Quaternion.Euler(rotation); // ëª©í‘œ íšŒì „ê°’(Quaternion)
+                myTransform.rotation = targetRotation; // ì¹´ë©”ë¼ íšŒì „ê°’ì„ ëª©í‘œ íšŒì „ê°’ìœ¼ë¡œ ë§Œë“¬
 
                 rotation = Vector3.zero;
                 rotation.x = pivotAngle;
                 targetRotation = Quaternion.Euler(rotation);
                 cameraPivotTransform.localRotation = targetRotation;
             }
-            // ·Ï¿ÂÀ» ÇßÀ» °æ¿ì
+            // ë¡ì˜¨ì„ í–ˆì„ ê²½ìš°
             else {
-                // Ä«¸Ş¶ó°¡ ·Ï¿ÂÇÑ ´ë»óÀ» Á¤¸éÀ¸·Î ¹Ù¶óº¸¸ç ¼öÆòÈ¸ÀüÇÏµµ·Ï ÇÑ´Ù.
+                // ì¹´ë©”ë¼ê°€ ë¡ì˜¨í•œ ëŒ€ìƒì„ ì •ë©´ìœ¼ë¡œ ë°”ë¼ë³´ë©° ìˆ˜í‰íšŒì „í•˜ë„ë¡ í•œë‹¤.
                 Vector3 dir = currentLockOnTarget.transform.position - transform.position;
                 dir.Normalize();
                 dir.y = 0;
 
-                Quaternion targetRotation = Quaternion.LookRotation(dir); // ´ë»óÀ» ¹Ù¶óº¸°Ô²û Quaternion ¼³Á¤
+                Quaternion targetRotation = Quaternion.LookRotation(dir); // ëŒ€ìƒì„ ë°”ë¼ë³´ê²Œë” Quaternion ì„¤ì •
                 transform.rotation = targetRotation;
 
-                // transform.rotationÀº yÃà È¸Àü°ªÀÇ º¯È­¸¸ »ı±è
-                // Ä«¸Ş¶ó ÇÇ¹şÀÇ È¸Àü°ªÀ» À§ È¸Àü°ª°ú ¶È°°ÀÌ ¸ÂÃçÁÜ
-                // Ä«¸Ş¶ó ÇÇ¹şÀÇ È¸Àü°ªÀ» ¼³Á¤ÇØÁÖÁö ¾ÊÀ¸¸é, ·Ï¿Â Á÷ÀüÀÇ Ä«¸Ş¶ó ¼öÁ÷ È¸Àü°ª¿¡ µû¶ó ·Ï¿Â ½ÃÁ¡ÀÌ º¯ÇÔ
+                // transform.rotationì€ yì¶• íšŒì „ê°’ì˜ ë³€í™”ë§Œ ìƒê¹€
+                // ì¹´ë©”ë¼ í”¼ë²—ì˜ íšŒì „ê°’ì„ ìœ„ íšŒì „ê°’ê³¼ ë˜‘ê°™ì´ ë§ì¶°ì¤Œ
+                // ì¹´ë©”ë¼ í”¼ë²—ì˜ íšŒì „ê°’ì„ ì„¤ì •í•´ì£¼ì§€ ì•Šìœ¼ë©´, ë¡ì˜¨ ì§ì „ì˜ ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „ê°’ì— ë”°ë¼ ë¡ì˜¨ ì‹œì ì´ ë³€í•¨
                 cameraPivotTransform.rotation = targetRotation;
 
                 //dir = currentLockOnTarget.position - cameraPivotTransform.position;
@@ -131,31 +136,31 @@ namespace SoulsLike {
             }
         }
 
-        // Ä«¸Ş¶ó°¡ ´Ù¸¥ ¹°Ã¼¿Í Ãæµ¹ÇÒ °æ¿ì ÇØ°áÇÏ´Â ÇÔ¼ö
+        // ì¹´ë©”ë¼ê°€ ë‹¤ë¥¸ ë¬¼ì²´ì™€ ì¶©ëŒí•  ê²½ìš° í•´ê²°í•˜ëŠ” í•¨ìˆ˜
         private void HandleCameraCollision(float delta) {
             targetPosition = defaultPosition;
             RaycastHit hit;
-            // Ä«¸Ş¶ó´Â ÇÃ·¹ÀÌ¾î ÁÖÀ§¸¦ È¸ÀüÇÑ´Ù.
-            // cameraPivotTransform Àº Ä«¸Ş¶ó È¸ÀüÀÇ Áß½ÉÀ¸·Î, ÁÂÇ¥´Â ÇÃ·¹ÀÌ¾îÀÇ Transform.position °ú °°´Ù.
-            Vector3 direction = cameraTransform.position - cameraPivotTransform.position; // ÇÃ·¹ÀÌ¾îÀÇ ÁÂÇ¥·ÎºÎÅÍ Ä«¸Ş¶ó±îÁöÀÇ ¹æÇâ
+            // ì¹´ë©”ë¼ëŠ” í”Œë ˆì´ì–´ ì£¼ìœ„ë¥¼ íšŒì „í•œë‹¤.
+            // cameraPivotTransform ì€ ì¹´ë©”ë¼ íšŒì „ì˜ ì¤‘ì‹¬ìœ¼ë¡œ, ì¢Œí‘œëŠ” í”Œë ˆì´ì–´ì˜ Transform.position ê³¼ ê°™ë‹¤.
+            Vector3 direction = cameraTransform.position - cameraPivotTransform.position; // í”Œë ˆì´ì–´ì˜ ì¢Œí‘œë¡œë¶€í„° ì¹´ë©”ë¼ê¹Œì§€ì˜ ë°©í–¥
             direction.Normalize();
 
             Debug.DrawRay(cameraPivotTransform.position, direction, Color.magenta);
             if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), obstacleLayer)) {
-                // ÇÃ·¹ÀÌ¾îÀÇ ÁÂÇ¥·ÎºÎÅÍ Ä«¸Ş¶óÀÇ ¹æÇâÀ¸·Î ray¸¦ ¹ß»çÇÏ¿© Ä«¸Ş¶ó¸¦ Á¦¿ÜÇÑ ¹«¾ğ°¡¿Í Ãæµ¹ÇßÀ» °æ¿ì Ãæµ¹ÇÑ ÁÂÇ¥±îÁöÀÇ °Å¸®
+                // í”Œë ˆì´ì–´ì˜ ì¢Œí‘œë¡œë¶€í„° ì¹´ë©”ë¼ì˜ ë°©í–¥ìœ¼ë¡œ rayë¥¼ ë°œì‚¬í•˜ì—¬ ì¹´ë©”ë¼ë¥¼ ì œì™¸í•œ ë¬´ì–¸ê°€ì™€ ì¶©ëŒí–ˆì„ ê²½ìš° ì¶©ëŒí•œ ì¢Œí‘œê¹Œì§€ì˜ ê±°ë¦¬
                 float dist = Vector3.Distance(cameraPivotTransform.position, hit.point);
                 //Debug.Log(hit.transform.gameObject.name);
-                // Ä«¸Ş¶ó°¡ ÀÌµ¿ÇØ¾ßÇÒ z ÁÂÇ¥¸¦ ¼³Á¤ÇÑ´Ù.
-                // Ä«¸Ş¶ó´Â pivotº¸´Ù Ç×»ó µÚ¿¡(z ÁÂÇ¥°¡ À½¼ö)ÀÖ¾î¾ß ÇÏ¹Ç·Î À½¼ö °ªÀÌ µÇ¾î¾ß ÇÑ´Ù.
+                // ì¹´ë©”ë¼ê°€ ì´ë™í•´ì•¼í•  z ì¢Œí‘œë¥¼ ì„¤ì •í•œë‹¤.
+                // ì¹´ë©”ë¼ëŠ” pivotë³´ë‹¤ í•­ìƒ ë’¤ì—(z ì¢Œí‘œê°€ ìŒìˆ˜)ìˆì–´ì•¼ í•˜ë¯€ë¡œ ìŒìˆ˜ ê°’ì´ ë˜ì–´ì•¼ í•œë‹¤.
                 targetPosition = -(dist - cameraCollisionOffset);
             }
 
-            // ¹°Ã¼¿Í ÇÃ·¹ÀÌ¾î »çÀÌÀÇ °Å¸®°¡ ³Ê¹« °¡±õ´Ù¸é ÃÖ¼ÒÄ¡·Î ¸ÂÃçÁÜ
+            // ë¬¼ì²´ì™€ í”Œë ˆì´ì–´ ì‚¬ì´ì˜ ê±°ë¦¬ê°€ ë„ˆë¬´ ê°€ê¹ë‹¤ë©´ ìµœì†Œì¹˜ë¡œ ë§ì¶°ì¤Œ
             if (Mathf.Abs(targetPosition) < minimumCollisionOffset) {
                 targetPosition = -minimumCollisionOffset;
             }
 
-            //Debug.Log("Ä«¸Ş¶ó ÀÌµ¿°Å¸®" + targetPosition);
+            //Debug.Log("ì¹´ë©”ë¼ ì´ë™ê±°ë¦¬" + targetPosition);
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
             cameraTransform.localPosition = cameraTransformPosition;
         }
@@ -163,26 +168,26 @@ namespace SoulsLike {
         public void HandleLockOn() {
 
             float shortestDistance = Mathf.Infinity;
-            // ÀÚ±â ÀÚ½ÅÀ» ¿øÁ¡À¸·Î ¿ŞÂÊÀº -¹«ÇÑ´ë ¿À¸¥ÂÊÀº +¹«ÇÑ´ë
+            // ìê¸° ìì‹ ì„ ì›ì ìœ¼ë¡œ ì™¼ìª½ì€ -ë¬´í•œëŒ€ ì˜¤ë¥¸ìª½ì€ +ë¬´í•œëŒ€
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
 
             Collider[] colliders = Physics.OverlapSphere(targetTransform.position, maximumLockOnDistance);
 
-            // °¨ÁöÇÑ Colliderµé·ÎºÎÅÍ CharacterManager ½ºÅ©¸³Æ®¸¦ °¡Á®¿Â´Ù.
+            // ê°ì§€í•œ Colliderë“¤ë¡œë¶€í„° CharacterManager ìŠ¤í¬ë¦½íŠ¸ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterManager character = colliders[i].GetComponent<CharacterManager>();
 
-                // ÇØ´ç ½ºÅ©¸³Æ®°¡ Á¸ÀçÇÑ´Ù¸é
+                // í•´ë‹¹ ìŠ¤í¬ë¦½íŠ¸ê°€ ì¡´ì¬í•œë‹¤ë©´
                 if (character != null) {
                     Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
                     float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);
 
-                    // ·Ï¿ÂÀ» ÇßÀ»½ÃÀÇ ½Ã¾ß°¢. È­¸é ¹Û¿¡ÀÖ´Â ´ë»óÀº ·Ï¿ÂÀÌ ¾ÈµÇµµ·ÏÇÑ´Ù.
+                    // ë¡ì˜¨ì„ í–ˆì„ì‹œì˜ ì‹œì•¼ê°. í™”ë©´ ë°–ì—ìˆëŠ” ëŒ€ìƒì€ ë¡ì˜¨ì´ ì•ˆë˜ë„ë¡í•œë‹¤.
                     float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
 
                     RaycastHit hit;
-                    // ÀÚ±â ÀÚ½Å¿¡°Ô´Â ·Ï¿ÂÀÌ ¾ÈµÇµµ·Ï ÇÑ´Ù.
+                    // ìê¸° ìì‹ ì—ê²ŒëŠ” ë¡ì˜¨ì´ ì•ˆë˜ë„ë¡ í•œë‹¤.
                     if (character.transform.root != targetTransform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
                         Vector3 startPosition = targetTransform.GetComponentInChildren<LockOnTransform>().transform.position;
                         Vector3 endPosition = character.GetComponentInChildren<LockOnTransform>().transform.position;
@@ -201,27 +206,27 @@ namespace SoulsLike {
                     shortestDistance = distanceFromTarget;
                     nearestLockOnTarget = availableTargets[i];
                 }
-                if (playerManager.playerNetworkManager.isLockedOn.Value) { // ·Ï¿Â »óÅÂ
-                    // InverseTransformPoint : °´Ã¼ÀÇ ¿ùµåÁÂÇ¥¸¦ ·ÎÄÃÁÂÇ¥·Î º¯È¯
-                    // ÁÖº¯¿¡ ¶ô¿ÂÀÌ °¡´ÉÇÑ Å¸°ÙµéÀÇ ¿ùµå ÁÂÇ¥¸¦ ÀÚ±â ÀÚ½ÅÀÇ ·ÎÄÃÁÂÇ¥°è·Î ÆíÀÔ½ÃÅ²´Ù.
+                if (playerManager.playerNetworkManager.isLockedOn.Value) { // ë¡ì˜¨ ìƒíƒœ
+                    // InverseTransformPoint : ê°ì²´ì˜ ì›”ë“œì¢Œí‘œë¥¼ ë¡œì»¬ì¢Œí‘œë¡œ ë³€í™˜
+                    // ì£¼ë³€ì— ë½ì˜¨ì´ ê°€ëŠ¥í•œ íƒ€ê²Ÿë“¤ì˜ ì›”ë“œ ì¢Œí‘œë¥¼ ìê¸° ìì‹ ì˜ ë¡œì»¬ì¢Œí‘œê³„ë¡œ í¸ì…ì‹œí‚¨ë‹¤.
                     Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);
-                    var distanceFromLeftTarget = relativeEnemyPosition.x; // ¿ŞÂÊ Å¸°ÙÀÇ ÁÂÇ¥
-                    var distanceFromRightTarget = relativeEnemyPosition.x; // ¿À¸¥ÂÊ Å¸°ÙÀÇ ÁÂÇ¥
+                    var distanceFromLeftTarget = relativeEnemyPosition.x; // ì™¼ìª½ íƒ€ê²Ÿì˜ ì¢Œí‘œ
+                    var distanceFromRightTarget = relativeEnemyPosition.x; // ì˜¤ë¥¸ìª½ íƒ€ê²Ÿì˜ ì¢Œí‘œ
 
-                    // ¸¸¾à x ÁÂÇ¥°¡ À½¼ö¶ó¸é ÀÚ½ÅÀ» ±âÁØÀ¸·Î ¿ŞÂÊ¿¡ ÀÖ´Â °Í
-                    // ¿ŞÂÊ¿¡ ÀÖ´Â Å¸°ÙµéÀº x ÁÂÇ¥ÀÇ °ªÀÌ - ÀÌ¹Ç·Î ¸Ö¼ö·Ï °ªÀÌ ÀÛ¾ÆÁö°í °¡±î¿ï¼ö·Ï °ªÀÌ Ä¿Áü
-                    // ÇØ´ç ÁÂÇ¥ÀÇ Å¸°ÙÀÌ ÇöÀç ·Ï¿ÂµÈ Å¸°ÙÀÌ ¾Æ´Ï¶ó¸é
+                    // ë§Œì•½ x ì¢Œí‘œê°€ ìŒìˆ˜ë¼ë©´ ìì‹ ì„ ê¸°ì¤€ìœ¼ë¡œ ì™¼ìª½ì— ìˆëŠ” ê²ƒ
+                    // ì™¼ìª½ì— ìˆëŠ” íƒ€ê²Ÿë“¤ì€ x ì¢Œí‘œì˜ ê°’ì´ - ì´ë¯€ë¡œ ë©€ìˆ˜ë¡ ê°’ì´ ì‘ì•„ì§€ê³  ê°€ê¹Œìš¸ìˆ˜ë¡ ê°’ì´ ì»¤ì§
+                    // í•´ë‹¹ ì¢Œí‘œì˜ íƒ€ê²Ÿì´ í˜„ì¬ ë¡ì˜¨ëœ íƒ€ê²Ÿì´ ì•„ë‹ˆë¼ë©´
                     if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget && availableTargets[i] != currentLockOnTarget) {
                         shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                        // ÇöÀç ·Ï¿ÂµÈ ¿ÀºêÁ§Æ®¿Í °¡Àå °¡±î¿î °Å¸®¸¦ °¡Áø ¿ŞÂÊ ¿ÀºêÁ§Æ®¸¦ ÀúÀå
+                        // í˜„ì¬ ë¡ì˜¨ëœ ì˜¤ë¸Œì íŠ¸ì™€ ê°€ì¥ ê°€ê¹Œìš´ ê±°ë¦¬ë¥¼ ê°€ì§„ ì™¼ìª½ ì˜¤ë¸Œì íŠ¸ë¥¼ ì €ì¥
                         leftLockTarget = availableTargets[i];
                     }
-                    // x ÁÂÇ¥°¡ ¾ç¼ö¶ó¸é ÀÚ½ÅÀ» ±âÁØÀ¸·Î ¿À¸¥ÂÊ¿¡ ÀÖ´Â °Í
-                    // ¿À¸¥ÂÊ¿¡ ÀÖ´Â Å¸°ÙµéÀº x ÁÂÇ¥ÀÇ °ªÀÌ + ÀÌ¹Ç·Î ¸Ö¼ö·Ï °ªÀÌ Ä¿Áö°í °¡±î¿ï¼ö·Ï °ªÀÌ ÀÛ¾ÆÁü
-                    // ÇØ´ç ÁÂÇ¥ÀÇ Å¸°ÙÀÌ ÇöÀç ·Ï¿ÂµÈ Å¸°ÙÀÌ ¾Æ´Ï¶ó¸é
+                    // x ì¢Œí‘œê°€ ì–‘ìˆ˜ë¼ë©´ ìì‹ ì„ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¥¸ìª½ì— ìˆëŠ” ê²ƒ
+                    // ì˜¤ë¥¸ìª½ì— ìˆëŠ” íƒ€ê²Ÿë“¤ì€ x ì¢Œí‘œì˜ ê°’ì´ + ì´ë¯€ë¡œ ë©€ìˆ˜ë¡ ê°’ì´ ì»¤ì§€ê³  ê°€ê¹Œìš¸ìˆ˜ë¡ ê°’ì´ ì‘ì•„ì§
+                    // í•´ë‹¹ ì¢Œí‘œì˜ íƒ€ê²Ÿì´ í˜„ì¬ ë¡ì˜¨ëœ íƒ€ê²Ÿì´ ì•„ë‹ˆë¼ë©´
                     else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget && availableTargets[i] != currentLockOnTarget) {
                         shortestDistanceOfRightTarget = distanceFromRightTarget;
-                        // ÇöÀç ·Ï¿ÂµÈ ¿ÀºêÁ§Æ®¿Í °¡Àå °¡±î¿î °Å¸®¸¦ °¡Áø ¿À¸¥ÂÊ ¿ÀºêÁ§Æ®¸¦ ÀúÀå
+                        // í˜„ì¬ ë¡ì˜¨ëœ ì˜¤ë¸Œì íŠ¸ì™€ ê°€ì¥ ê°€ê¹Œìš´ ê±°ë¦¬ë¥¼ ê°€ì§„ ì˜¤ë¥¸ìª½ ì˜¤ë¸Œì íŠ¸ë¥¼ ì €ì¥
                         rightLockTarget = availableTargets[i];
                     }
                 }
@@ -233,7 +238,7 @@ namespace SoulsLike {
             currentLockOnTarget = null;
         }
 
-        // ·Ï¿Â ¿©ºÎ¿¡µû¶ó Ä«¸Ş¶óÀÇ ³ô³·ÀÌ¸¦ ¹Ù²Û´Ù.
+        // ë¡ì˜¨ ì—¬ë¶€ì—ë”°ë¼ ì¹´ë©”ë¼ì˜ ë†’ë‚®ì´ë¥¼ ë°”ê¾¼ë‹¤.
         public void SetCameraHeight() {
             Vector3 velocity = Vector3.zero;
             Vector3 newLockedPosition = new Vector3(0, lockedPivotPosition);
@@ -247,11 +252,11 @@ namespace SoulsLike {
 
         public void ZoomForInteraction(float delta) {
             if (playerManager.isInConversation) {
-                //Debug.Log("ÁÜ ÀÎ");
+                //Debug.Log("ì¤Œ ì¸");
                 cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, cameraTransform.localPosition.z + 5, delta);
                 cameraTransform.localPosition = cameraTransformPosition;
             } else {
-                //Debug.Log("ÁÜ ¾Æ¿ô");
+                //Debug.Log("ì¤Œ ì•„ì›ƒ");
                 cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, defaultPosition, delta);
                 cameraTransform.localPosition = cameraTransformPosition;
             }

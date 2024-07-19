@@ -101,12 +101,12 @@ namespace SoulsLike {
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack() {
             if (playerManager.IsOwner)
-                playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+                playerStatsManager.DeductStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack() {
             if (playerManager.IsOwner)
-                playerStatsManager.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+                playerStatsManager.DeductStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
     }

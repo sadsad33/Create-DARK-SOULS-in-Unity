@@ -96,7 +96,6 @@ namespace SoulsLike {
             isInteracting = animator.GetBool("isInteracting");
             isFiringSpell = animator.GetBool("isFiringSpell");
             canDoCombo = animator.GetBool("canDoCombo");
-            animator.SetBool("isInAir", isInAir);
             isUsingRightHand = animator.GetBool("isUsingRightHand");
             isUsingLeftHand = animator.GetBool("isUsingLeftHand");
             inputHandler.TickInput(delta);
@@ -143,7 +142,6 @@ namespace SoulsLike {
 
             //playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             
-            
             if (isClimbing)
                 playerLocomotion.HandleClimbing();
             if (isMoving)
@@ -181,10 +179,6 @@ namespace SoulsLike {
             if (cameraHandler != null) {
                 cameraHandler.FollowTarget(delta);
                 cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
-            }
-
-            if (isInAir) { // �÷��̾ ����� �ִٸ�
-                playerLocomotion.inAirTimer += Time.deltaTime;
             }
         }
 

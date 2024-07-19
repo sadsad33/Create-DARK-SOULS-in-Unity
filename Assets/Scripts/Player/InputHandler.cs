@@ -30,20 +30,20 @@ namespace SoulsLike {
 
         public bool twoHandFlag;
         public bool rollFlag;
-        public bool sprintFlag;
+        //public bool sprintFlag;
         public bool comboFlag;
         //public bool inventoryFlag;
 
-        public float rollInputTimer; // ´ÙÅ©¼Ò¿ï Ã³·³ tapÇÒ °æ¿ì ±¸¸£°í, °è¼Ó ´©¸£°íÀÖÀ»½Ã ´Ş¸®µµ·Ï ÇÏ±âÀ§ÇÑ Å¸ÀÌ¸Ó
+        public float rollInputTimer; // ë‹¤í¬ì†Œìš¸ ì²˜ëŸ¼ tapí•  ê²½ìš° êµ¬ë¥´ê³ , ê³„ì† ëˆ„ë¥´ê³ ìˆì„ì‹œ ë‹¬ë¦¬ë„ë¡ í•˜ê¸°ìœ„í•œ íƒ€ì´ë¨¸
         public float backstepDelay;
 
         public Transform criticalAttackRayCastStartPoint;
 
-        // Input Action ÀÎ½ºÅÏ½º
+        // Input Action ì¸ìŠ¤í„´ìŠ¤
         PlayerControls inputActions;
 
         PlayerCombatManager playerCombatManager;
-        PlayerManager playerManager;
+        PlayerManager player;
         UIManager uiManager;
         CameraHandler cameraHandler;
 
@@ -54,7 +54,7 @@ namespace SoulsLike {
 
         public void Awake() {
             playerCombatManager = GetComponent<PlayerCombatManager>();
-            playerManager = GetComponent<PlayerManager>();
+            player = GetComponent<PlayerManager>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
@@ -66,8 +66,8 @@ namespace SoulsLike {
                 inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
 
-                // InputActionÀº Event Çü½ÄÀÌ¹Ç·Î ±»ÀÌ Update¿¡¼­ ÀÔ·ÂÀ» °è¼ÓÇØ¼­ °¨ÁöÇÒ ÇÊ¿ä ¾øÀ½
-                // ¹öÆ°ÀÇ ÀÔ·ÂÀ» ¸Å ÇÁ·¹ÀÓ¸¶´Ù °¨ÁöÇÏ°Ô µÇ¸é GarbageCollector¿¡°Ô ºÎ´ãÀ» ÁÖ°Ô µÈ´Ù.
+                // InputActionì€ Event í˜•ì‹ì´ë¯€ë¡œ êµ³ì´ Updateì—ì„œ ì…ë ¥ì„ ê³„ì†í•´ì„œ ê°ì§€í•  í•„ìš” ì—†ìŒ
+                // ë²„íŠ¼ì˜ ì…ë ¥ì„ ë§¤ í”„ë ˆì„ë§ˆë‹¤ ê°ì§€í•˜ê²Œ ë˜ë©´ GarbageCollectorì—ê²Œ ë¶€ë‹´ì„ ì£¼ê²Œ ëœë‹¤.
                 inputActions.PlayerActions.RB.performed += i => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
@@ -77,12 +77,12 @@ namespace SoulsLike {
                 inputActions.PlayerActions.DpadDown.performed += i => d_Pad_Down = true;
                 inputActions.PlayerActions.Xbutton.performed += i => x_Input = true;
 
-                // ¹öÆ°ÀÌ ´­¸®¸é ÀÌº¥Æ® È£Ãâ
+                // ë²„íŠ¼ì´ ëˆŒë¦¬ë©´ ì´ë²¤íŠ¸ í˜¸ì¶œ
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
                 inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
                 inputActions.PlayerActions.LB.performed += i => lb_Input = true;
                 
-                // ¹öÆ°À» ´­·¶´Ù ¹Ù·Î ¶¿¶¼ ÀÌº¥Æ®°¡ È£ÃâµÇ´Âµí
+                // ë²„íŠ¼ì„ ëˆŒë €ë‹¤ ë°”ë¡œ ë—„ë–¼ ì´ë²¤íŠ¸ê°€ í˜¸ì¶œë˜ëŠ”ë“¯
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
                 inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
 
@@ -102,8 +102,8 @@ namespace SoulsLike {
         }
 
         private void OnApplicationFocus(bool focus) {
-            // Ã¢À» ÃÖ¼ÒÈ­ ÇÏ¸é ÀÔ·Â°ªÀ» ¹ŞÁö ¾ÊÀ½
-            // ´Ù½Ã Ã¢À» ¿­¸é ÀÔ·ÂÀ» ¹ŞÀ½
+            // ì°½ì„ ìµœì†Œí™” í•˜ë©´ ì…ë ¥ê°’ì„ ë°›ì§€ ì•ŠìŒ
+            // ë‹¤ì‹œ ì°½ì„ ì—´ë©´ ì…ë ¥ì„ ë°›ìŒ
             if (this.enabled) {
                 if (focus) {
                     inputActions.Enable();
@@ -112,9 +112,9 @@ namespace SoulsLike {
                 }
             }
         }
-        // ¸ğµç ÀÔ·Â Ã³¸® È£Ãâ
+        // ëª¨ë“  ì…ë ¥ ì²˜ë¦¬ í˜¸ì¶œ
         public void TickInput(float delta) {
-            if (playerManager.playerStatsManager.isDead) return;
+            if (player.playerStatsManager.isDead) return;
 
             HandleMoveInput();
             HandleRollInput(delta);
@@ -133,25 +133,26 @@ namespace SoulsLike {
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
-            playerManager.playerLocomotion.SetMovementValues(vertical, horizontal, moveAmount);
+            player.playerLocomotion.SetMovementValues(vertical, horizontal, moveAmount);
         }
 
-        // ±¸¸£±â ¹öÆ°ÀÌ ´­¸®¸é È¸ÇÇ FlagÀÇ bool°ªÀÌ true°¡ µÈ´Ù.
+        // êµ¬ë¥´ê¸° ë²„íŠ¼ì´ ëˆŒë¦¬ë©´ íšŒí”¼ Flagì˜ boolê°’ì´ trueê°€ ëœë‹¤.
         private void HandleRollInput(float delta) {
 
-            if (b_Input) { // È¸ÇÇ¹öÆ°À» ´©¸£°í ÀÖ´Â µ¿¾È
+            if (b_Input) { // íšŒí”¼ë²„íŠ¼ì„ ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ
                 //Debug.Log("rollFlag : " + rollFlag);
                 rollInputTimer += delta;
 
-                if (playerManager.playerStatsManager.currentStamina <= 0) { // ½ºÅ×¹Ì³Ê°¡ ³²¾ÆÀÖÁö ¾Ê´Ù¸é
+                if (player.playerStatsManager.currentStamina <= 0) { // ìŠ¤í…Œë¯¸ë„ˆê°€ ë‚¨ì•„ìˆì§€ ì•Šë‹¤ë©´
                     b_Input = false;
-                    sprintFlag = false;
+                    //sprintFlag = false;
+                    player.playerNetworkManager.isSprinting.Value = false;
                 }
-                if (moveAmount > 0.5f && playerManager.playerStatsManager.currentStamina > 0) {
-                    sprintFlag = true;
+                if (moveAmount > 0.5f && player.playerStatsManager.currentStamina > 0) {
+                    player.playerNetworkManager.isSprinting.Value = true;
                 }
             } else {
-                sprintFlag = false;
+                player.playerNetworkManager.isSprinting.Value = false;
                 if (rollInputTimer > 0 && rollInputTimer < 0.3f) {
                     rollFlag = true;
                 }
@@ -161,23 +162,23 @@ namespace SoulsLike {
 
         private void HandleCombatInput() {
             if (uiManager.uiStack.Count >= 2) return;
-            // RB ¹öÆ°Àº ¿À¸¥¼Õ¿¡ µé¸° ¹«±â·Î °ø°İÇÏ´Â ¹öÆ°
+            // RB ë²„íŠ¼ì€ ì˜¤ë¥¸ì†ì— ë“¤ë¦° ë¬´ê¸°ë¡œ ê³µê²©í•˜ëŠ” ë²„íŠ¼
             if (rb_Input) {
                 playerCombatManager.HandleRBAction();
             }
             if (rt_Input) {
-                if (playerManager.isInteracting) return;
-                if (playerManager.canDoCombo) return;
-                playerCombatManager.HandleHeavyAttack(playerManager.playerInventoryManager.rightWeapon);
+                if (player.isInteracting) return;
+                if (player.canDoCombo) return;
+                playerCombatManager.HandleHeavyAttack(player.playerInventoryManager.rightWeapon);
             }
 
             if (lt_Input) {
-                // ¾çÀâ»óÅÂ¶ó¸é ÀüÅõ±â¼ú »ç¿ë
+                // ì–‘ì¡ìƒíƒœë¼ë©´ ì „íˆ¬ê¸°ìˆ  ì‚¬ìš©
                 if (twoHandFlag) {
 
                 } else {
-                    // ¿Ş¼Õ¶ÇÇÑ ¹«±â¸¦ µé°íÀÖ´Ù¸é ¿Ş¼Õ ¾à°ø
-                    // ¹æÆĞ¸¦ µé°íÀÖ´Ù¸é ¹æÆĞ ÀüÅõ±â¼ú »ç¿ë
+                    // ì™¼ì†ë˜í•œ ë¬´ê¸°ë¥¼ ë“¤ê³ ìˆë‹¤ë©´ ì™¼ì† ì•½ê³µ
+                    // ë°©íŒ¨ë¥¼ ë“¤ê³ ìˆë‹¤ë©´ ë°©íŒ¨ ì „íˆ¬ê¸°ìˆ  ì‚¬ìš©
                     playerCombatManager.HandleLTAction();
                 }
             }
@@ -185,7 +186,7 @@ namespace SoulsLike {
             if (lb_Input) {
                 playerCombatManager.HandleLBAction();
             } else {
-                playerManager.isBlocking = false;
+                player.isBlocking = false;
                 if (blockingCollider.blockingCollider.enabled) {
                     blockingCollider.DisableBlockingCollider();
                 }
@@ -195,13 +196,13 @@ namespace SoulsLike {
 
         private void HandleQuickSlotInput() {
             if (d_Pad_Right) {
-                playerManager.playerInventoryManager.ChangeRightWeapon();
+                player.playerInventoryManager.ChangeRightWeapon();
             } else if (d_Pad_Left) {
-                playerManager.playerInventoryManager.ChangeLeftWeapon();
+                player.playerInventoryManager.ChangeLeftWeapon();
             } else if (d_Pad_Up) {
-                playerManager.playerInventoryManager.ChangeSpell();
+                player.playerInventoryManager.ChangeSpell();
             } else if (d_Pad_Down) {
-                playerManager.playerInventoryManager.ChangeConsumableItem();
+                player.playerInventoryManager.ChangeConsumableItem();
             }
         }
 
@@ -217,25 +218,25 @@ namespace SoulsLike {
         }
 
         private void HandleLockOnInput() {
-            // ·Ï¿Â ¹öÆ°ÀÌ ´­·È°í ¾ÆÁ÷ ·Ï¿Â »óÅÂ°¡ ¾Æ´Ñ°æ¿ì
-            if (lockOn_Input && !playerManager.playerNetworkManager.isLockedOn.Value) {
+            // ë¡ì˜¨ ë²„íŠ¼ì´ ëˆŒë ¸ê³  ì•„ì§ ë¡ì˜¨ ìƒíƒœê°€ ì•„ë‹Œê²½ìš°
+            if (lockOn_Input && !player.playerNetworkManager.isLockedOn.Value) {
 
                 lockOn_Input = !lockOn_Input;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.nearestLockOnTarget != null) {
-                    // ·Ï¿Â ´ë»ó ¼³Á¤
+                    // ë¡ì˜¨ ëŒ€ìƒ ì„¤ì •
                     cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                    playerManager.playerNetworkManager.isLockedOn.Value = !playerManager.playerNetworkManager.isLockedOn.Value;
+                    player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 }
             }
-            // ·Ï¿Â ¹öÆ°ÀÌ ´­·È°í ÀÌ¹Ì ·Ï¿Â »óÅÂÀÎ °æ¿ì => ·Ï¿ÂÀ» Ç®°í ½ÍÀº °æ¿ì
-            else if (lockOn_Input && playerManager.playerNetworkManager.isLockedOn.Value) {
+            // ë¡ì˜¨ ë²„íŠ¼ì´ ëˆŒë ¸ê³  ì´ë¯¸ ë¡ì˜¨ ìƒíƒœì¸ ê²½ìš° => ë¡ì˜¨ì„ í’€ê³  ì‹¶ì€ ê²½ìš°
+            else if (lockOn_Input && player.playerNetworkManager.isLockedOn.Value) {
                 lockOn_Input = !lockOn_Input;
-                playerManager.playerNetworkManager.isLockedOn.Value = !playerManager.playerNetworkManager.isLockedOn.Value;
+                player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 cameraHandler.ClearLockOnTargets();
             }
 
-            if (playerManager.playerNetworkManager.isLockedOn.Value && right_Stick_Left_Input) {
+            if (player.playerNetworkManager.isLockedOn.Value && right_Stick_Left_Input) {
                 right_Stick_Left_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.leftLockTarget != null) {
@@ -243,7 +244,7 @@ namespace SoulsLike {
                 }
             }
 
-            if (playerManager.playerNetworkManager.isLockedOn.Value && right_Stick_Right_Input) {
+            if (player.playerNetworkManager.isLockedOn.Value && right_Stick_Right_Input) {
                 right_Stick_Right_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.rightLockTarget != null) {
@@ -254,21 +255,21 @@ namespace SoulsLike {
             cameraHandler.SetCameraHeight();
         }
 
-        // ¾çÀâ ±â´É
-        // ¾çÀâÀ» ÇÏ°Å³ª ¾çÀâÀ» Ç®¶§ ±âº»ÀûÀ¸·Î ¹«±â¸¦ ´Ù½Ã ·ÎµåÇÑ´Ù.
+        // ì–‘ì¡ ê¸°ëŠ¥
+        // ì–‘ì¡ì„ í•˜ê±°ë‚˜ ì–‘ì¡ì„ í’€ë•Œ ê¸°ë³¸ì ìœ¼ë¡œ ë¬´ê¸°ë¥¼ ë‹¤ì‹œ ë¡œë“œí•œë‹¤.
         private void HandleTwoHandInput() {
             if (y_Input) {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
-                if (twoHandFlag) { // ¾çÀâ
-                    playerManager.isTwoHandingWeapon = true;
-                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.rightWeapon, false);
-                    playerManager.playerWeaponSlotManager.LoadTwoHandIKTargets(true);
-                } else { // ¾çÀâ ÇØÁ¦
-                    playerManager.isTwoHandingWeapon = false;
-                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.rightWeapon, false);
-                    playerManager.playerWeaponSlotManager.LoadWeaponOnSlot(playerManager.playerInventoryManager.leftWeapon, true);
-                    playerManager.playerWeaponSlotManager.LoadTwoHandIKTargets(false);
+                if (twoHandFlag) { // ì–‘ì¡
+                    player.isTwoHandingWeapon = true;
+                    player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
+                    player.playerWeaponSlotManager.LoadTwoHandIKTargets(true);
+                } else { // ì–‘ì¡ í•´ì œ
+                    player.isTwoHandingWeapon = false;
+                    player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
+                    player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.leftWeapon, true);
+                    player.playerWeaponSlotManager.LoadTwoHandIKTargets(false);
                 }
             }
         }
@@ -282,10 +283,10 @@ namespace SoulsLike {
 
         private void HandleUseConsumableInput() {
             if (x_Input) {
-                if (playerManager.isInteracting) return;
+                if (player.isInteracting) return;
                 x_Input = false;
-                // ÇöÀç ¼Òºñ ¾ÆÀÌÅÛÀ» »ç¿ëÇÑ´Ù.
-                playerManager.playerInventoryManager.currentConsumable.AttemptToConsumeItem(playerManager.playerAnimatorManager, playerManager.playerWeaponSlotManager, playerManager.playerEffectsManager);
+                // í˜„ì¬ ì†Œë¹„ ì•„ì´í…œì„ ì‚¬ìš©í•œë‹¤.
+                player.playerInventoryManager.currentConsumable.AttemptToConsumeItem(player.playerAnimatorManager, player.playerWeaponSlotManager, player.playerEffectsManager);
             }
         }
     }
