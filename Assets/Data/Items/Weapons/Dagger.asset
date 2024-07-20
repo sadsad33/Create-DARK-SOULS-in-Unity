@@ -15,7 +15,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemName: "\uB2E8\uAC80"
   flavorText: 
-  itemID: 5
+  itemID: 3
   modelPrefab: {fileID: 15128329762310512, guid: 21375eb3e670c844797314db17dd7120, type: 3}
   isUnarmed: 0
   physicalDamage: 25

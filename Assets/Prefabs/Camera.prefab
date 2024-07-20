@@ -138,7 +138,7 @@ MonoBehaviour:
   inputHandler: {fileID: 0}
   playerManager: {fileID: 0}
   lookSpeed: 150
-  groundedFollowSpeed: 50
+  groundedFollowSpeed: 30
   inAirFollowSpeed: 20
   pivotSpeed: 150
   minimumPivot: -35

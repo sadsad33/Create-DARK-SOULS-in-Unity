@@ -1295,7 +1295,6 @@ MonoBehaviour:
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
-  isInAir: 0
   isGrounded: 0
   isTwoHandingWeapon: 0
   isClimbing: 0
@@ -1305,7 +1304,6 @@ MonoBehaviour:
   currentState: {fileID: 634820070}
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
-  enemyRigidbody: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 2
   detectionRadius: 10
@@ -1330,16 +1328,13 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 258
   inAirTimer: 0
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
-  fallStartYVelocity: -7
+  fallStartYVelocity: -4
   gravityForce: -25
-  groundCheckSphereRadius: 0
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  groundCheckSphereRadius: 0.2
 --- !u!114 &2674730931720195348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1450,12 +1445,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1 &1253894068147768686
 GameObject:
   m_ObjectHideFlags: 0

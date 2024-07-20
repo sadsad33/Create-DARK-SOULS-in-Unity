@@ -34,8 +34,6 @@ namespace SoulsLike {
         }
 
         public override void OnAnimatorMove() {
-            if (character.isInteracting == false) return;
-
             Vector3 velocity = character.animator.deltaPosition;
             character.characterController.Move(velocity);
 

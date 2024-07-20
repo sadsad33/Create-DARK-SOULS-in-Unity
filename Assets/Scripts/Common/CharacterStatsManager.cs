@@ -11,14 +11,13 @@ namespace SoulsLike {
         
         public int soulsAwardedOnDeath;
 
+        [Header("Stats")]
         public int healthLevel = 10;
         public float maxHealth;
         public float currentHealth;
-
         public int staminaLevel = 10;
         public float maxStamina;
         public float currentStamina;
-
         public int focusLevel = 10;
         public float maxFocus;
         public float currentFocus;
@@ -26,6 +25,11 @@ namespace SoulsLike {
         public int soulCount = 0;
 
         public bool isBoss;
+
+        // 중량 시스템을 만들면 사용할 것
+        //[Header("Equip Load")]
+        //public float currentEquipLoad = 0;
+        //public float maxEquipLoad = 0;
 
         protected virtual void Awake() {
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
@@ -39,7 +43,6 @@ namespace SoulsLike {
         public float totalPoiseResetTime; // 강인도 초기화 시간
         public float poiseResetTimer = 0; // 강인도 초기화 타이머
         public bool isStuned; // 그로기 상태
-        
 
         [Header("Armor Absorptions")]
         public float physicalDamageAbsorptionHead;

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5166077209182145812}
+  - component: {fileID: 6345208232444783560}
   m_Layer: 0
   m_Name: World Item Database
   m_TagString: Untagged
@@ -31,3 +32,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6345208232444783560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888462903555093480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e670bf20d44966841815b33940e52e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unarmedWeapon: {fileID: 11400000, guid: 1988c26deec11134fbe97c2b980264fb, type: 2}
+  allItems: []
+  weaponItems:
+  - {fileID: 11400000, guid: 571c36f2035a94f48aa13c73ae463112, type: 2}
+  - {fileID: 11400000, guid: 311163681efcd6b428e73397bf9f5144, type: 2}
+  - {fileID: 11400000, guid: b61b5ecad97f8f842857785ee3715272, type: 2}
+  - {fileID: 11400000, guid: 32f44fc45c1141b4a8638938b109e01c, type: 2}
+  - {fileID: 11400000, guid: 8b308fd9bb65d8e44b55ed88c725a975, type: 2}
+  - {fileID: 11400000, guid: abb7cab4b5daf3149b10e080111dff8d, type: 2}
+  - {fileID: 11400000, guid: 5b39c446a406e4c41b9b3b2a233306f3, type: 2}
+  - {fileID: 11400000, guid: ce7fac139c06bfc4390db328c045d28c, type: 2}
+  - {fileID: 11400000, guid: eee116bfe66806e45ab2bc14d3a0c8e9, type: 2}
+  equipmentItems:
+  - {fileID: 11400000, guid: 9fd0aea1c6995794a8ae5a54a1662bcf, type: 2}
+  - {fileID: 11400000, guid: 45e938a30804f964ab9f69c147c7b9c9, type: 2}
+  - {fileID: 11400000, guid: 5bdbecf98282d1148968477099f17041, type: 2}
+  - {fileID: 11400000, guid: 73115051e8b2f47488a248e47d3fbccd, type: 2}
+  - {fileID: 11400000, guid: fc1e36634f4ce4540be04eb96bc679c0, type: 2}
+  - {fileID: 11400000, guid: e67d82a93443a204090643a8bbdec9d8, type: 2}
+  - {fileID: 11400000, guid: 47a41915e5ae5494591a6021240b8c1d, type: 2}
+  - {fileID: 11400000, guid: d4d8bac998410a84594783304bc4a1f9, type: 2}

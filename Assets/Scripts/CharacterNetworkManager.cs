@@ -7,56 +7,60 @@ namespace SoulsLike {
     public class CharacterNetworkManager : NetworkBehaviour {
 
         CharacterManager character;
-        // ¿¬°áµÇ¾î ÀÖ´Â ¿ÀºêÁ§Æ®ÀÇ ¿ùµå ÁÂÇ¥¿Í È¸Àü°ªÀ» ±¸ÇÔ
+        // ì—°ê²°ë˜ì–´ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì˜ ì›”ë“œ ì¢Œí‘œì™€ íšŒì „ê°’ì„ êµ¬í•¨
         [Header("Network Position")]
-        // ³×Æ®¿öÅ© »óÀÇ ÁÂÇ¥´Â Á¢¼ÓÇØ ÀÖ´Â ¸ğµç »ç¶÷ÀÌ ÀĞÀ» ¼ö ÀÖ°í, ÁÖÀÎ¸¸ÀÌ ¼öÁ¤°¡´É
+        // ë„¤íŠ¸ì›Œí¬ ìƒì˜ ì¢Œí‘œëŠ” ì ‘ì†í•´ ìˆëŠ” ëª¨ë“  ì‚¬ëŒì´ ì½ì„ ìˆ˜ ìˆê³ , ì£¼ì¸ë§Œì´ ìˆ˜ì •ê°€ëŠ¥
         public NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public Vector3 networkVelocity;
-        public float networkPositionSmoothTime = 0.1f; // ¾ó¸¶³ª ºü¸£°Ô ½ÇÁ¦ À§Ä¡°¡ ³×Æ®¿öÅ© »óÀ¸·Î ¹İ¿µµÉÁö, °ªÀÌ Ä¿Áú¼ö·Ï ´À¸®°Ô ¹İ¿µµÇ¾î ¸¶Ä¡ ¼ø°£ÀÌµ¿ ÇÏ´Â°Í Ã³·³ ÀÌµ¿
+        public float networkPositionSmoothTime = 0.1f; // ì–¼ë§ˆë‚˜ ë¹ ë¥´ê²Œ ì‹¤ì œ ìœ„ì¹˜ê°€ ë„¤íŠ¸ì›Œí¬ ìƒìœ¼ë¡œ ë°˜ì˜ë ì§€, ê°’ì´ ì»¤ì§ˆìˆ˜ë¡ ëŠë¦¬ê²Œ ë°˜ì˜ë˜ì–´ ë§ˆì¹˜ ìˆœê°„ì´ë™ í•˜ëŠ”ê²ƒ ì²˜ëŸ¼ ì´ë™
         public NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>(Quaternion.identity, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public float networkRotationSmoothTime = 0.1f;
 
-        // °ÔÀÓ¿ÀºêÁ§Æ®ÀÇ ÁÖÀÎÀÌ¶ó¸é ³» ¿ÀºêÁ§Æ®ÀÇ °ªµéÀ» ³×Æ®¿öÅ© º¯¼öµé¿¡ ÇÒ´ç
-        // ÁÖÀÎÀÌ ¾Æ´Ï¶ó¸é ³×Æ®¿öÅ© °ªµé¿¡¼­ °¡Á®¿Í ÇÒ´çÇÑ´Ù.
-        // ´©±º°¡ÀÇ °ÔÀÓ¿¡ ÇÕ·ùÇß´Ù¸é, ´©±º°¡ÀÇ °ÔÀÓ³»¿¡¼­ ³ªÀÇ ¿ÀºêÁ§Æ®´Â ³×Æ®¿öÅ©·ÎºÎÅÍ °ªµéÀ» °¡Á®¿Í ´ëÀÔ¹ŞÀ½
-        // ³×Æ®¿öÅ©¿¡ Á¸ÀçÇÏ´Â °ªµéÀº ³» °ÔÀÓ¿¡¼­ ³ªÀÇ ¿ÀºêÁ§Æ®·ÎºÎÅÍ °ªÀ» ÇÒ´ç¹ŞÀº °Í
+        // ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ ì£¼ì¸ì´ë¼ë©´ ë‚´ ì˜¤ë¸Œì íŠ¸ì˜ ê°’ë“¤ì„ ë„¤íŠ¸ì›Œí¬ ë³€ìˆ˜ë“¤ì— í• ë‹¹
+        // ì£¼ì¸ì´ ì•„ë‹ˆë¼ë©´ ë„¤íŠ¸ì›Œí¬ ê°’ë“¤ì—ì„œ ê°€ì ¸ì™€ í• ë‹¹í•œë‹¤.
+        // ëˆ„êµ°ê°€ì˜ ê²Œì„ì— í•©ë¥˜í–ˆë‹¤ë©´, ëˆ„êµ°ê°€ì˜ ê²Œì„ë‚´ì—ì„œ ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ëŠ” ë„¤íŠ¸ì›Œí¬ë¡œë¶€í„° ê°’ë“¤ì„ ê°€ì ¸ì™€ ëŒ€ì…ë°›ìŒ
+        // ë„¤íŠ¸ì›Œí¬ì— ì¡´ì¬í•˜ëŠ” ê°’ë“¤ì€ ë‚´ ê²Œì„ì—ì„œ ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ë¡œë¶€í„° ê°’ì„ í• ë‹¹ë°›ì€ ê²ƒ
         [Header("Network Movement Animation")]
         public NetworkVariable<float> verticalNetworkMovement = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<float> horizontalNetworkMovement = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<float> moveAmountNetworkMovement = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        // sprintFlag ¿Í lockOnFlag ´ëÃ¼ (³» °æ¿ì »ç´Ù¸®¸¦ ¿À¸£³»¸±¶§ÀÇ ºí·»µå Æ®¸®°¡ µû·Î ÀÖ¾î¼­ Ãß°¡ÇØÁà¾ß ÇÒµí)
-        // ±âº»ÀûÀ¸·Î´Â °ÔÀÓ³»ÀÇ ¾î¶² ´Ù¸¥ »ç¶÷ÀÌ ³» °ÔÀÓÀÇ Æ¯Á¤ ½ºÅ©¸³Æ®¿¡¼­ Æ¯Á¤ º¯¼ö°¡ º¯°æµÇ´Â°ÍÀ» ¾Ë¾Æ³¾ ¹æ¹ıÀÌ ¾øÀ½
-        // ÇÏÁö¸¸ ³×Æ®¿öÅ© º¯¼ö´Â ÇÑÂÊ¿¡¼­ º¯°æµÉ ¶§¸¶´Ù ¸ğµç Å¬¶óÀÌ¾ğÆ®µé¿¡ ´ëÇØ º¯°æµÇ±â ¶§¹®¿¡ sprintFlag ¿Í lockOnFlag¸¦ ³×Æ®¿öÅ© º¯¼ö·Î ¸¸µé¾î »ç¿ë
+        // sprintFlag ì™€ lockOnFlag ëŒ€ì²´ (ë‚´ ê²½ìš° ì‚¬ë‹¤ë¦¬ë¥¼ ì˜¤ë¥´ë‚´ë¦´ë•Œì˜ ë¸”ë Œë“œ íŠ¸ë¦¬ê°€ ë”°ë¡œ ìˆì–´ì„œ ì¶”ê°€í•´ì¤˜ì•¼ í• ë“¯)
+        // ê¸°ë³¸ì ìœ¼ë¡œëŠ” ê²Œì„ë‚´ì˜ ì–´ë–¤ ë‹¤ë¥¸ ì‚¬ëŒì´ ë‚´ ê²Œì„ì˜ íŠ¹ì • ìŠ¤í¬ë¦½íŠ¸ì—ì„œ íŠ¹ì • ë³€ìˆ˜ê°€ ë³€ê²½ë˜ëŠ”ê²ƒì„ ì•Œì•„ë‚¼ ë°©ë²•ì´ ì—†ìŒ
+        // í•˜ì§€ë§Œ ë„¤íŠ¸ì›Œí¬ ë³€ìˆ˜ëŠ” í•œìª½ì—ì„œ ë³€ê²½ë  ë•Œë§ˆë‹¤ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ë“¤ì— ëŒ€í•´ ë³€ê²½ë˜ê¸° ë•Œë¬¸ì— sprintFlag ì™€ lockOnFlagë¥¼ ë„¤íŠ¸ì›Œí¬ ë³€ìˆ˜ë¡œ ë§Œë“¤ì–´ ì‚¬ìš©
         [Header("Flags")]
         public NetworkVariable<bool> isSprinting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isLockedOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+        [Header("Equipment")]
+        public NetworkVariable<int> currentRightWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentLeftWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
         }
         
-        // RPC(Remote Procedure Call) : ¿ø°İ ÇÁ·Î½ÃÀú È£Ãâ
-        // ¿ø°İÁ¦¾î¸¦ À§ÇÑ ÄÚµù¾øÀÌ ´Ù¸¥ ÁÖ¼Ò °ø°£¿¡¼­ ÇÔ¼ö³ª ÇÁ·Î½ÃÀú¸¦ ½ÇÇàÇÒ ¼ö ÀÖ°Ô ÇÏ´Â ÇÁ·Î¼¼½º °£ Åë½Å ±â¼ú
+        // RPC(Remote Procedure Call) : ì›ê²© í”„ë¡œì‹œì € í˜¸ì¶œ
+        // ì›ê²©ì œì–´ë¥¼ ìœ„í•œ ì½”ë”©ì—†ì´ ë‹¤ë¥¸ ì£¼ì†Œ ê³µê°„ì—ì„œ í•¨ìˆ˜ë‚˜ í”„ë¡œì‹œì €ë¥¼ ì‹¤í–‰í•  ìˆ˜ ìˆê²Œ í•˜ëŠ” í”„ë¡œì„¸ìŠ¤ ê°„ í†µì‹  ê¸°ìˆ 
 
-        // ¼­¹öRPC : ¾î¶² Å¬¶óÀÌ¾ğÆ®ÀÎÁö »ó°ü¾øÀÌ Å¬¶óÀÌ¾ğÆ®·Î ºÎÅÍ ¼­¹ö·Î Àü´ŞµÇ´Â ¸Ş½ÃÁö
+        // ì„œë²„RPC : ì–´ë–¤ í´ë¼ì´ì–¸íŠ¸ì¸ì§€ ìƒê´€ì—†ì´ í´ë¼ì´ì–¸íŠ¸ë¡œ ë¶€í„° ì„œë²„ë¡œ ì „ë‹¬ë˜ëŠ” ë©”ì‹œì§€
         [ServerRpc]
         public void NotifyServerOfAnimationServerRpc(ulong clientID, string animationID, bool isInteracting) {
-            // ¼­¹ö¸¸ÀÌ Å¬¶óÀÌ¾ğÆ®RPC ¼öÇà °¡´É
-            if (IsServer) { // ÇöÀç ³»°¡ ¼­¹ö¶ó¸é(È£½ºÆ®¶ó¸é?)
-                // Å¬¶óÀÌ¾ğÆ®°¡ ¿¬°áµÈ ´Ù¸¥ ¸ğµç Å¬¶óÀÌ¾ğÆ®µé¿¡¼­ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ¼öÇàÇÏµµ·Ï ÇÑ´Ù.
+            // ì„œë²„ë§Œì´ í´ë¼ì´ì–¸íŠ¸RPC ìˆ˜í–‰ ê°€ëŠ¥
+            if (IsServer) { // í˜„ì¬ ë‚´ê°€ ì„œë²„ë¼ë©´(í˜¸ìŠ¤íŠ¸ë¼ë©´?)
+                // í´ë¼ì´ì–¸íŠ¸ê°€ ì—°ê²°ëœ ë‹¤ë¥¸ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ë“¤ì—ì„œ ì• ë‹ˆë©”ì´ì…˜ì„ ìˆ˜í–‰í•˜ë„ë¡ í•œë‹¤.
                 ProcessAllClientsAnimationClientRpc(clientID, animationID, isInteracting);
             }
         }
 
-        // Å¬¶óÀÌ¾ğÆ®RPC : ¼­¹ö·ÎºÎÅÍ ÇÏ³ªÀÇ Å¬¶óÀÌ¾ğÆ® È¤Àº ¸ğµç Å¬¶óÀÌ¾ğÆ® µé¿¡°Ô Àü´ŞµÇ´Â ¸Ş½ÃÁö
+        // í´ë¼ì´ì–¸íŠ¸RPC : ì„œë²„ë¡œë¶€í„° í•˜ë‚˜ì˜ í´ë¼ì´ì–¸íŠ¸ í˜¹ì€ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ ë“¤ì—ê²Œ ì „ë‹¬ë˜ëŠ” ë©”ì‹œì§€
         [ClientRpc]
-        // ¸¸¾à ³» ¿ÀºêÁ§Æ®°¡ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Àç»ıÁßÀÌ¶ó¸é ¿¬°áµÈ ´Ù¸¥ ¸ğµç Å¬¶óÀÌ¾ğÆ®µé¿¡°Ô ÀÌ ¿ÀºêÁ§Æ®°¡ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Àç»ıÇÏ°í ÀÖ´Ù´Â »ç½ÇÀ» ¾Ë·ÁÁÜ
+        // ë§Œì•½ ë‚´ ì˜¤ë¸Œì íŠ¸ê°€ ì• ë‹ˆë©”ì´ì…˜ì„ ì¬ìƒì¤‘ì´ë¼ë©´ ì—°ê²°ëœ ë‹¤ë¥¸ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ë“¤ì—ê²Œ ì´ ì˜¤ë¸Œì íŠ¸ê°€ ì• ë‹ˆë©”ì´ì…˜ì„ ì¬ìƒí•˜ê³  ìˆë‹¤ëŠ” ì‚¬ì‹¤ì„ ì•Œë ¤ì¤Œ
         private void ProcessAllClientsAnimationClientRpc(ulong clientID, string animationID, bool isInteracting) {
-            // ³» ´Ü¸»¿¡¼­ ³»°¡ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ¼öÇàÇßÀ» ¶§, ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®ÀÇ ³» ¿ÀºêÁ§Æ®°¡ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ¼öÇà ÇÑ ÈÄ
-            // Å¬¶óÀÌ¾ğÆ®RPC¿¡ ÀÇÇØ ³» ´Ü¸»¿¡¼­ ¶Ç´Ù½Ã ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ¼öÇàÇÏÁö ¾Êµµ·Ï Å¬¶óÀÌ¾ğÆ® id°¡ ´Ù¸¥ °æ¿ì¿¡¸¸
+            // ë‚´ ë‹¨ë§ì—ì„œ ë‚´ê°€ ì• ë‹ˆë©”ì´ì…˜ì„ ìˆ˜í–‰í–ˆì„ ë•Œ, ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì˜ ë‚´ ì˜¤ë¸Œì íŠ¸ê°€ ì• ë‹ˆë©”ì´ì…˜ì„ ìˆ˜í–‰ í•œ í›„
+            // í´ë¼ì´ì–¸íŠ¸RPCì— ì˜í•´ ë‚´ ë‹¨ë§ì—ì„œ ë˜ë‹¤ì‹œ ì• ë‹ˆë©”ì´ì…˜ì„ ìˆ˜í–‰í•˜ì§€ ì•Šë„ë¡ í´ë¼ì´ì–¸íŠ¸ idê°€ ë‹¤ë¥¸ ê²½ìš°ì—ë§Œ
             if (clientID != NetworkManager.Singleton.LocalClientId) {
-                // ¾Ö´Ï¸ŞÀÌ¼Ç ¼öÇà
+                // ì• ë‹ˆë©”ì´ì…˜ ìˆ˜í–‰
                 PerformAnimationFromServer(animationID, isInteracting);
             }
         }
@@ -65,6 +69,27 @@ namespace SoulsLike {
             //anim.applyRootMotion = isInteracting;
             character.animator.SetBool("isInteracting", isInteracting);
             character.animator.CrossFade(animationID, 0.2f);
+        }
+
+        // ë¬´ê¸° ë³€ê²½
+        public void OnRightWeaponChange(int oldWeaponID, int newWeaponID) {
+            if (character.IsOwner) return;
+            WeaponItem newWeapon = WorldItemDatabase.instance.GetWeaponItemByID(newWeaponID);
+
+            if (newWeapon != null) {
+                character.characterInventoryManager.rightWeapon = newWeapon;
+                character.characterWeaponSlotManager.LoadWeaponOnSlot(newWeapon, false);
+            }
+        }
+
+        public void OnLeftWeaponChange(int oldWeaponID, int newWeaponID) {
+            if (character.IsOwner) return;
+            WeaponItem newWeapon = WorldItemDatabase.instance.GetWeaponItemByID(newWeaponID);
+
+            if (newWeapon != null) {
+                character.characterInventoryManager.leftWeapon = newWeapon;
+                character.characterWeaponSlotManager.LoadWeaponOnSlot(newWeapon, true);
+            }
         }
     }
 }

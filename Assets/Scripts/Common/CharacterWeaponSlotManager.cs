@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class CharacterWeaponSlotManager : MonoBehaviour {
-        protected CharacterManager characterManager;
+        protected CharacterManager character;
         protected CharacterStatsManager characterStatsManager;
         public CharacterEffectsManager characterEffectsManager;
         protected CharacterAnimatorManager characterAnimatorManager;
@@ -30,7 +30,7 @@ namespace SoulsLike {
         public HandIKTarget leftHandIKTarget;
 
         protected virtual void Awake() {
-            characterManager = GetComponent<CharacterManager>();
+            character = GetComponent<CharacterManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
@@ -38,24 +38,24 @@ namespace SoulsLike {
             LoadWeaponHolderSlots();
         }
 
-        // ¼Õ¿¡ ¹«±â°¡ ¾Æ´Ñ ¹«¾ğ°¡¸¦ µé°í ÇÏ´Â µ¿ÀÛÀÌ ³¡³­ÈÄ ¹«±â¸¦ ´Ù½Ã ·ÎµåÇÏ±â À§ÇÑ ÇÔ¼ö
+        // ì†ì— ë¬´ê¸°ê°€ ì•„ë‹Œ ë¬´ì–¸ê°€ë¥¼ ë“¤ê³  í•˜ëŠ” ë™ì‘ì´ ëë‚œí›„ ë¬´ê¸°ë¥¼ ë‹¤ì‹œ ë¡œë“œí•˜ê¸° ìœ„í•œ í•¨ìˆ˜
         public virtual void LoadBothWeaponsOnSlots() {
             LoadWeaponOnSlot(characterInventoryManager.rightWeapon, false);
             LoadWeaponOnSlot(characterInventoryManager.leftWeapon, true);
         }
 
-        // ´ë»ó¿¡°Ô ÇÇÇØ¸¦ ÁÖ±â À§ÇØ ¹«±âÀÇ DamageCollider¸¦ È°¼ºÈ­
+        // ëŒ€ìƒì—ê²Œ í”¼í•´ë¥¼ ì£¼ê¸° ìœ„í•´ ë¬´ê¸°ì˜ DamageColliderë¥¼ í™œì„±í™”
         public virtual void OpenDamageCollider() {
-            if (characterManager.isUsingRightHand) {
+            if (character.isUsingRightHand) {
                 characterEffectsManager.PlayWeaponFX(false);
                 rightHandDamageCollider.EnableDamageCollider();
-            } else if (characterManager.isUsingLeftHand) {
+            } else if (character.isUsingLeftHand) {
                 characterEffectsManager.PlayWeaponFX(true);
                 leftHandDamageCollider.EnableDamageCollider();
             }
         }
 
-        // °ø°İ ¸ğ¼ÇÁß(È¤Àº ³¡³ª°í) ¹«±âÀÇ DamageCollider ºñÈ°¼ºÈ­
+        // ê³µê²© ëª¨ì…˜ì¤‘(í˜¹ì€ ëë‚˜ê³ ) ë¬´ê¸°ì˜ DamageCollider ë¹„í™œì„±í™”
         public virtual void CloseDamageCollider() {
             if (rightHandDamageCollider != null) {
                 characterEffectsManager.StopWeaponFX(false);
@@ -67,9 +67,9 @@ namespace SoulsLike {
             }
         }
 
-        // °¢ ¼Õ¿¡ Componenet·Î Ãß°¡µÇ¾îÀÖ´Â WeaponHolderSlot ½ºÅ©¸³Æ®¸¦ ÂüÁ¶
-        // ¸¸¾à ¿Ş¼ÕÀÇ ½ºÅ©¸³Æ®¶ó¸é ¿Ş¼Õ¿¡ , ¿À¸¥¼ÕÀÇ ½ºÅ©¸³Æ®¶ó¸é ¿À¸¥¼Õ¿¡ ÇÒ´ç
-        // ÇÒ´çµÈ °¢ ¼ÕÀÇ WeaponHolderSlot ½ºÅ©¸³Æ®´Â ÇöÀç ¹«±â¸¦ ·ÎµåÇÏ±â À§ÇØ »ç¿ëµÉ °Í
+        // ê° ì†ì— Componenetë¡œ ì¶”ê°€ë˜ì–´ìˆëŠ” WeaponHolderSlot ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¸ì¡°
+        // ë§Œì•½ ì™¼ì†ì˜ ìŠ¤í¬ë¦½íŠ¸ë¼ë©´ ì™¼ì†ì— , ì˜¤ë¥¸ì†ì˜ ìŠ¤í¬ë¦½íŠ¸ë¼ë©´ ì˜¤ë¥¸ì†ì— í• ë‹¹
+        // í• ë‹¹ëœ ê° ì†ì˜ WeaponHolderSlot ìŠ¤í¬ë¦½íŠ¸ëŠ” í˜„ì¬ ë¬´ê¸°ë¥¼ ë¡œë“œí•˜ê¸° ìœ„í•´ ì‚¬ìš©ë  ê²ƒ
         protected virtual void LoadWeaponHolderSlots() {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
@@ -89,45 +89,53 @@ namespace SoulsLike {
         public virtual void LoadConsumableOnSlot(ConsumableItem consumableItem) {
         }
 
-        // ÇöÀç °¢ ¼ÕÀÇ WeaponHolderSlot ½ºÅ©¸³Æ®¸¦ ÂüÁ¶ÇÏ¿© ÇöÀç µé·ÁÀÖ´Â ¹«±â¸¦ ·Îµå
+        // í˜„ì¬ ê° ì†ì˜ WeaponHolderSlot ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¸ì¡°í•˜ì—¬ í˜„ì¬ ë“¤ë ¤ìˆëŠ” ë¬´ê¸°ë¥¼ ë¡œë“œ
         public virtual void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {
                 if (isLeft) {
-                    leftHandSlot.currentWeapon = weaponItem; // ¾çÀâ»óÅÂ¿¡¼­ µ¹¾Æ¿Ã¶§¸¦ À§ÇØ ÇöÀç ¿ŞÂÊ ¹«±â¸¦ ±â¾ïÇÑ´Ù.
+                    leftHandSlot.currentWeapon = weaponItem; // ì–‘ì¡ìƒíƒœì—ì„œ ëŒì•„ì˜¬ë•Œë¥¼ ìœ„í•´ í˜„ì¬ ì™¼ìª½ ë¬´ê¸°ë¥¼ ê¸°ì–µí•œë‹¤.
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentLeftWeaponID.Value = weaponItem.itemID;
                 } else {
-                    if (characterManager.isTwoHandingWeapon) {
-                        // ¾çÀâ½Ã ¿ŞÂÊ¼ÕÀÇ ¹«±â¸¦ µîÀ¸·Î ¿Å±â°í, ¿Ş¼Õ¿¡ ÀÖ´Â ¹«±â´Â Á¦°ÅÇÑ´Ù.
+                    if (character.isTwoHandingWeapon) {
+                        // ì–‘ì¡ì‹œ ì™¼ìª½ì†ì˜ ë¬´ê¸°ë¥¼ ë“±ìœ¼ë¡œ ì˜®ê¸°ê³ , ì™¼ì†ì— ìˆëŠ” ë¬´ê¸°ëŠ” ì œê±°í•œë‹¤.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
-                        characterManager.animator.CrossFade(weaponItem.th_idle, 0.2f);
+                        character.animator.CrossFade(weaponItem.th_idle, 0.2f);
                     } else {
-                        characterManager.animator.CrossFade("BothArmsEmpty", 0.2f);
+                        character.animator.CrossFade("BothArmsEmpty", 0.2f);
                         backSlot.UnloadWeaponAndDestroy();
-                        characterManager.animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
+                        character.animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
 
-                    // ¾çÀâÀ» ÇÏ´ø ¾ÈÇÏ´ø ¿À¸¥ÂÊÀº º¯ÇÔ¾øÀ½
-                    rightHandSlot.currentWeapon = weaponItem; // ¾çÀâ»óÅÂ¿¡¼­ µ¹¾Æ¿Ã¶§¸¦ À§ÇØ ÇöÀç ¿À¸¥ÂÊ ¹«±â¸¦ ±â¾ïÇÑ´Ù.
+                    // ì–‘ì¡ì„ í•˜ë˜ ì•ˆí•˜ë˜ ì˜¤ë¥¸ìª½ì€ ë³€í•¨ì—†ìŒ
+                    rightHandSlot.currentWeapon = weaponItem; // ì–‘ì¡ìƒíƒœì—ì„œ ëŒì•„ì˜¬ë•Œë¥¼ ìœ„í•´ í˜„ì¬ ì˜¤ë¥¸ìª½ ë¬´ê¸°ë¥¼ ê¸°ì–µí•œë‹¤.
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
-                    LoadTwoHandIKTargets(characterManager.isTwoHandingWeapon);
+                    LoadTwoHandIKTargets(character.isTwoHandingWeapon);
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentRightWeaponID.Value = weaponItem.itemID;
                 }
             } else {
                 weaponItem = unarmedWeapon;
                 if (isLeft) {
-                    characterManager.animator.CrossFade("LeftArmEmpty", 0.2f);
+                    character.animator.CrossFade("LeftArmEmpty", 0.2f);
                     characterInventoryManager.leftWeapon = unarmedWeapon;
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentLeftWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
                 } else {
-                    characterManager.animator.CrossFade("RightArmEmpty", 0.2f);
+                    character.animator.CrossFade("RightArmEmpty", 0.2f);
                     characterInventoryManager.rightWeapon = unarmedWeapon;
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentRightWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
                 }
             }
         }
@@ -138,10 +146,10 @@ namespace SoulsLike {
             leftHandDamageCollider.fireDamage = characterInventoryManager.leftWeapon.fireDamage;
             leftHandDamageCollider.teamIDNumber = characterStatsManager.teamIDNumber;
 
-            leftHandDamageCollider.characterManager = characterManager;
-            // ¿ŞÂÊ ¹«±âÀÇ DamageCollider¿¡ ÇöÀç ¿ŞÂÊ ¹«±âÀÇ °­ÀÎµµ °¨¼âÀ²À» Àü´Ş
+            leftHandDamageCollider.characterManager = character;
+            // ì™¼ìª½ ë¬´ê¸°ì˜ DamageColliderì— í˜„ì¬ ì™¼ìª½ ë¬´ê¸°ì˜ ê°•ì¸ë„ ê°ì‡„ìœ¨ì„ ì „ë‹¬
             leftHandDamageCollider.poiseBreak = characterInventoryManager.leftWeapon.poiseBreak;
-            // ÇöÀç ¿ŞÂÊ¼Õ¿¡ µé·ÁÀÖ´Â ¹«±â ¸ğµ¨ÀÇ ÀÚ½Ä¿¡ ÀÖ´Â WeaponFX ½ºÅ©¸³Æ® ÆÄÀÏÀ» ºÒ·¯¿È
+            // í˜„ì¬ ì™¼ìª½ì†ì— ë“¤ë ¤ìˆëŠ” ë¬´ê¸° ëª¨ë¸ì˜ ìì‹ì— ìˆëŠ” WeaponFX ìŠ¤í¬ë¦½íŠ¸ íŒŒì¼ì„ ë¶ˆëŸ¬ì˜´
             characterEffectsManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
         }
 
@@ -151,24 +159,24 @@ namespace SoulsLike {
             rightHandDamageCollider.fireDamage = characterInventoryManager.rightWeapon.fireDamage;
             rightHandDamageCollider.teamIDNumber = characterStatsManager.teamIDNumber;
 
-            rightHandDamageCollider.characterManager = characterManager;
-            // ¿À¸¥ÂÊ ¹«±âÀÇ DamageCollider¿¡ ÇöÀç ¿À¸¥ÂÊ ¹«±âÀÇ °­ÀÎµµ °¨¼âÀ²À» Àü´Ş
+            rightHandDamageCollider.characterManager = character;
+            // ì˜¤ë¥¸ìª½ ë¬´ê¸°ì˜ DamageColliderì— í˜„ì¬ ì˜¤ë¥¸ìª½ ë¬´ê¸°ì˜ ê°•ì¸ë„ ê°ì‡„ìœ¨ì„ ì „ë‹¬
             rightHandDamageCollider.poiseBreak = characterInventoryManager.rightWeapon.poiseBreak;
-            // ÇöÀç ¿À¸¥ÂÊ¼Õ¿¡ µé·ÁÀÖ´Â ¹«±â ¸ğµ¨ÀÇ ÀÚ½Ä¿¡ ÀÖ´Â WeaponFX ½ºÅ©¸³Æ® ÆÄÀÏÀ» ºÒ·¯¿È
+            // í˜„ì¬ ì˜¤ë¥¸ìª½ì†ì— ë“¤ë ¤ìˆëŠ” ë¬´ê¸° ëª¨ë¸ì˜ ìì‹ì— ìˆëŠ” WeaponFX ìŠ¤í¬ë¦½íŠ¸ íŒŒì¼ì„ ë¶ˆëŸ¬ì˜´
             characterEffectsManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
         }
 
-        public virtual void GrantWeaponAttackingPoiseBonus() { // (Æ¯)´ëÇü¹«±â °ø°İ µµÁß °­ÀÎµµ º¸³Ê½º ÇÕ»ê
-            // ÀûÀÇ °æ¿ì ¹«±â¸¦ ±³Ã¼ÇÏ´Â »óÈ²ÀÌ ÈçÇÏÁö ¾ÊÀ¸¹Ç·Î °ø°İ½Ã °­ÀÎµµ º¸³Ê½º¸¦ ½ºÅÈÀ¸·Î °¡Áü
+        public virtual void GrantWeaponAttackingPoiseBonus() { // (íŠ¹)ëŒ€í˜•ë¬´ê¸° ê³µê²© ë„ì¤‘ ê°•ì¸ë„ ë³´ë„ˆìŠ¤ í•©ì‚°
+            // ì ì˜ ê²½ìš° ë¬´ê¸°ë¥¼ êµì²´í•˜ëŠ” ìƒí™©ì´ í”í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ê³µê²©ì‹œ ê°•ì¸ë„ ë³´ë„ˆìŠ¤ë¥¼ ìŠ¤íƒ¯ìœ¼ë¡œ ê°€ì§
             characterStatsManager.totalPoiseDefense += attackingWeapon.offensivePoiseBonus;
         }
 
-        public virtual void ResetWeaponAttackingPoiseBonus() { // °ø°İÀÌ ³¡³ª¸é °­ÀÎµµ º¸³Ê½º ÃÊ±âÈ­
+        public virtual void ResetWeaponAttackingPoiseBonus() { // ê³µê²©ì´ ëë‚˜ë©´ ê°•ì¸ë„ ë³´ë„ˆìŠ¤ ì´ˆê¸°í™”
             characterStatsManager.totalPoiseDefense = characterStatsManager.armorPoiseBonus;
         }
 
         public virtual void LoadTwoHandIKTargets(bool isTwoHandingWeapon) {
-            // ¿À¸¥ÂÊ ½½·Ô¿¡ ÀÖ´Â ¹«±â¸¦ ¾ç¼ÕÀâ±â ÇÒ °ÍÀÌ¹Ç·Î ¿À¸¥¼Õ ½½·Ô¸¸ ÂüÁ¶
+            // ì˜¤ë¥¸ìª½ ìŠ¬ë¡¯ì— ìˆëŠ” ë¬´ê¸°ë¥¼ ì–‘ì†ì¡ê¸° í•  ê²ƒì´ë¯€ë¡œ ì˜¤ë¥¸ì† ìŠ¬ë¡¯ë§Œ ì°¸ì¡°
             HandIKTarget[] handIKTargets = rightHandSlot.currentWeaponModel.GetComponentsInChildren<HandIKTarget>();
             foreach (HandIKTarget handIKTarget in handIKTargets) {
                 if (handIKTarget.isLeft) leftHandIKTarget = handIKTarget;
