@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace SoulsLike {
     public class EnemyManager : CharacterManager {
+        
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
@@ -11,7 +12,7 @@ namespace SoulsLike {
         public State currentState;
         public CharacterStatsManager currentTarget;
         public NavMeshAgent navMeshAgent;
-        public Rigidbody enemyRigidbody;
+        //public Rigidbody enemyRigidbody;
 
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 1.5f; // 공격 가능 사거리
@@ -33,13 +34,11 @@ namespace SoulsLike {
             enemyStatsManager = GetComponent<EnemyStatsManager>();
             enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
-            enemyRigidbody = GetComponent<Rigidbody>();
             navMeshAgent.enabled = false;
             navMeshAgent.updateRotation = false;
         }
 
         private void Start() {
-            enemyRigidbody.isKinematic = false;
         }
 
         protected override void Update() {

@@ -9,7 +9,7 @@ namespace SoulsLike {
         public CharacterAnimatorManager characterAnimatorManager;
         public CharacterWeaponSlotManager characterWeaponSlotManager;
         //public CharacterStatsManager characterStatsManager;
-        //public CharacterInventoryManager characterInventoryManager;
+        public CharacterInventoryManager characterInventoryManager;
         //public CharacterEffectsManager characterEffectsManager;
         public CharacterNetworkManager characterNetworkManager;
 
@@ -55,6 +55,7 @@ namespace SoulsLike {
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            characterInventoryManager = GetComponent<CharacterInventoryManager>();
         }
 
         protected virtual void Update() {

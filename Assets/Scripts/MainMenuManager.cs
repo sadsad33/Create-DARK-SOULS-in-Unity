@@ -16,7 +16,6 @@ namespace SoulsLike {
             PlayerManager player = FindObjectOfType<PlayerManager>();
             if (player != null) {
                 UIManager.instance.transform.gameObject.GetComponent<CanvasGroup>().alpha = 1;
-                player.transform.position = new Vector3(-3.5f, 5f, -19f);
             }
         }
     }

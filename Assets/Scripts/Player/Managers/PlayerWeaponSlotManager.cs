@@ -36,14 +36,16 @@ namespace SoulsLike {
         public override void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
             if (weaponItem != null) {
                 if (isLeft) {
-                    leftHandSlot.currentWeapon = weaponItem; // ¾çÀâ»óÅÂ¿¡¼­ µ¹¾Æ¿Ã¶§¸¦ À§ÇØ ÇöÀç ¿ŞÂÊ ¹«±â¸¦ ±â¾ïÇÑ´Ù.
+                    leftHandSlot.currentWeapon = weaponItem; // ì–‘ì¡ìƒíƒœì—ì„œ ëŒì•„ì˜¬ë•Œë¥¼ ìœ„í•´ í˜„ì¬ ì™¼ìª½ ë¬´ê¸°ë¥¼ ê¸°ì–µí•œë‹¤.
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
                     quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
                     animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentLeftWeaponID.Value = weaponItem.itemID;
                 } else {
                     if (inputHandler.twoHandFlag) {
-                        // ¾çÀâ½Ã ¿ŞÂÊ¼ÕÀÇ ¹«±â¸¦ µîÀ¸·Î ¿Å±â°í, ¿Ş¼Õ¿¡ ÀÖ´Â ¹«±â´Â Á¦°ÅÇÑ´Ù.
+                        // ì–‘ì¡ì‹œ ì™¼ìª½ì†ì˜ ë¬´ê¸°ë¥¼ ë“±ìœ¼ë¡œ ì˜®ê¸°ê³ , ì™¼ì†ì— ìˆëŠ” ë¬´ê¸°ëŠ” ì œê±°í•œë‹¤.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
                         animator.CrossFade(weaponItem.th_idle, 0.2f);
@@ -53,11 +55,13 @@ namespace SoulsLike {
                         animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
 
-                    // ¾çÀâÀ» ÇÏ´ø ¾ÈÇÏ´ø ¿À¸¥ÂÊÀº º¯ÇÔ¾øÀ½
-                    rightHandSlot.currentWeapon = weaponItem; // ¾çÀâ»óÅÂ¿¡¼­ µ¹¾Æ¿Ã¶§¸¦ À§ÇØ ÇöÀç ¿À¸¥ÂÊ ¹«±â¸¦ ±â¾ïÇÑ´Ù.
+                    // ì–‘ì¡ì„ í•˜ë˜ ì•ˆí•˜ë˜ ì˜¤ë¥¸ìª½ì€ ë³€í•¨ì—†ìŒ
+                    rightHandSlot.currentWeapon = weaponItem; // ì–‘ì¡ìƒíƒœì—ì„œ ëŒì•„ì˜¬ë•Œë¥¼ ìœ„í•´ í˜„ì¬ ì˜¤ë¥¸ìª½ ë¬´ê¸°ë¥¼ ê¸°ì–µí•œë‹¤.
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
                     quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentRightWeaponID.Value = weaponItem.itemID;
                 }
             } else {
                 weaponItem = unarmedWeapon;
@@ -68,6 +72,8 @@ namespace SoulsLike {
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
                     quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentLeftWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
                 } else {
                     animator.CrossFade("RightArmEmpty", 0.2f);
                     playerInventoryManager.rightWeapon = unarmedWeapon;
@@ -75,6 +81,8 @@ namespace SoulsLike {
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
                     quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    if (character.IsOwner)
+                        character.characterNetworkManager.currentRightWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
                 }
             }
         }
@@ -82,18 +90,18 @@ namespace SoulsLike {
         public void SuccessfullyThrowFireBomb() {
             Destroy(playerEffectsManager.instantiatedFXModel);
             BombConsumableItem fireBombItem = playerInventoryManager.currentConsumable as BombConsumableItem;
-            // Instantiate¸Ş¼­µå¿¡ ¿¡ Ä«¸Ş¶óÀÇ È¸Àü°ªÀ» ³Ñ°ÜÁÖ´Â ÀÌÀ¯´Â ¾î¶² °æ¿ì¿¡¶óµµ ÇÃ·¹ÀÌ¾îÀÇ Á¤¸é ¹æÇâ¿¡¼­ È­¿°º´ÀÌ ½ºÆùµÇ¾î¾ß ÇÏ±â ¶§¹®
+            // Instantiateë©”ì„œë“œì— ì— ì¹´ë©”ë¼ì˜ íšŒì „ê°’ì„ ë„˜ê²¨ì£¼ëŠ” ì´ìœ ëŠ” ì–´ë–¤ ê²½ìš°ì—ë¼ë„ í”Œë ˆì´ì–´ì˜ ì •ë©´ ë°©í–¥ì—ì„œ í™”ì—¼ë³‘ì´ ìŠ¤í°ë˜ì–´ì•¼ í•˜ê¸° ë•Œë¬¸
             GameObject activeBombModel = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
-            // È­¿°º´ÀÇ È¸Àü°ªÀº Ä«¸Ş¶óÀÇ È¸Àü°ª°ú ¸ÂÃç ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ³¯¾Æ°¡°Ô ÇÑ´Ù
+            // í™”ì—¼ë³‘ì˜ íšŒì „ê°’ì€ ì¹´ë©”ë¼ì˜ íšŒì „ê°’ê³¼ ë§ì¶° í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ë‚ ì•„ê°€ê²Œ í•œë‹¤
             activeBombModel.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
 
-            // È­¿°º´ ¼Óµµ ¼³Á¤
+            // í™”ì—¼ë³‘ ì†ë„ ì„¤ì •
             BombDamageCollider damageCollider = activeBombModel.GetComponentInChildren<BombDamageCollider>();
             damageCollider.contactDamage = fireBombItem.baseDamage;
             damageCollider.fireExplosionDamage = fireBombItem.explosiveDamage;
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.up * fireBombItem.upwardVelocity);
-            damageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // ÇÇ¾Æ½Äº°À» À§ÇÑ ÆÀID ¼³Á¤
+            damageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // í”¼ì•„ì‹ë³„ì„ ìœ„í•œ íŒ€ID ì„¤ì •
                                                                            // LoadWeaponSlot(playerInventory.rightWeapon, false);
 
         }

@@ -23,6 +23,7 @@ namespace SoulsLike {
         }
 
         protected virtual void Start() {
+
         }
 
         protected virtual void Update() {

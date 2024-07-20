@@ -44,13 +44,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2e41260c9e5194293f5585d22f6c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 0}
+  player: {fileID: 0}
   currentCharacterSaveData:
     characterName: 
     characterLevel: 0
+    currentRightHandWeaponID: 0
+    currentLeftHandWeaponID: 0
+    currentHeadGearItemID: 0
+    currentChestGearItemID: 0
+    currentHandGearItemID: 0
+    currentLegGearItemID: 0
     xPosition: 0
     yPosition: 0
     zPosition: 0
-  fileName: 
+    itemsInWorld:
+      keys: 
+      values: 
+  fileName: SaveGameFile
   saveGame: 0
   loadGame: 0

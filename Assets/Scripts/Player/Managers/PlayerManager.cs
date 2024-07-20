@@ -67,9 +67,27 @@ namespace SoulsLike {
         private void Start() {
             DontDestroyOnLoad(this);
         }
+        
+        // 이벤트 핸들러
+        private void OnClientConnectedCallback(ulong clientID) {
+            Debug.Log("Client Connected! Client ID : " + clientID);
+            GameSessionManager.instance.AddPlayerToActivePlayerList(this);
+
+            // 호스트가 아닌 단순 클라이언트라면 
+            if (!IsServer && IsOwner) {
+                foreach (var player in GameSessionManager.instance.players) {
+                    if (player != this) {
+                        player.LoadOtherPlayerCharacterWhenJoiningOnline(player);
+                    }
+                }
+            }
+        }
 
         public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
+            
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+
             if (IsOwner) {
                 playerStatsManager.SetStatBarsHUD();
                 CameraHandler.instance.AssignCameraToPlayer(this);
@@ -79,6 +97,8 @@ namespace SoulsLike {
                 itemInteractableGameObject = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
                 dialogUI = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(2).gameObject;
             }
+            playerNetworkManager.currentRightWeaponID.OnValueChanged += playerNetworkManager.OnRightWeaponChange;
+            playerNetworkManager.currentLeftWeaponID.OnValueChanged += playerNetworkManager.OnLeftWeaponChange;
         }
 
         protected override void Update() {
@@ -363,6 +383,12 @@ namespace SoulsLike {
                 playerInventoryManager.currentLegEquipment = legEquipment as LegEquipment;
             }
             playerEquipmentManager.EquipAllEquipmentModels();
+        }
+
+        public void LoadOtherPlayerCharacterWhenJoiningOnline(PlayerManager player) {
+            Debug.Log("다른 플레이어 캐릭터 로드");
+            player.playerNetworkManager.OnRightWeaponChange(0, player.playerNetworkManager.currentRightWeaponID.Value);
+            player.playerNetworkManager.OnLeftWeaponChange(0, player.playerNetworkManager.currentLeftWeaponID.Value);
         }
     }
 }
