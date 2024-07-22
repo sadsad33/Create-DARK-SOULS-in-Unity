@@ -35,6 +35,10 @@ namespace SoulsLike {
         [Header("Equipment")]
         public NetworkVariable<int> currentRightWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> currentLeftWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentHeadEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentTorsoEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentGuntletEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentLegEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
@@ -81,7 +85,6 @@ namespace SoulsLike {
                 character.characterWeaponSlotManager.LoadWeaponOnSlot(newWeapon, false);
             }
         }
-
         public void OnLeftWeaponChange(int oldWeaponID, int newWeaponID) {
             if (character.IsOwner) return;
             WeaponItem newWeapon = WorldItemDatabase.instance.GetWeaponItemByID(newWeaponID);
@@ -91,5 +94,6 @@ namespace SoulsLike {
                 character.characterWeaponSlotManager.LoadWeaponOnSlot(newWeapon, true);
             }
         }
+
     }
 }

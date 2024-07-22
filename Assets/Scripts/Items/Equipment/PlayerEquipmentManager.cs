@@ -5,7 +5,8 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerEquipmentManager : MonoBehaviour {
         InputHandler inputHandler;
-        PlayerInventoryManager playerInventoryManager;
+        PlayerManager player;
+        //PlayerInventoryManager playerInventoryManager;
 
         [Header("Equipment Model Changer")]
         HelmetModelChanger helmetModelChanger;
@@ -14,7 +15,7 @@ namespace SoulsLike {
         BootsModelChanger bootsModelChanger;
         GuntletModelChanger guntletModelChanger;
         CapeModelChanger capeModelChanger;
-        PlayerStatsManager playerStatsManager;
+        //PlayerStatsManager playerStatsManager;
 
         [Header("Default Naked Models")]
         //public GameObject nakedHeadModel;
@@ -29,8 +30,7 @@ namespace SoulsLike {
 
         private void Awake() {
             inputHandler = GetComponent<InputHandler>();
-            playerInventoryManager = GetComponent<PlayerInventoryManager>();
-            playerStatsManager = GetComponent<PlayerStatsManager>();
+            player = GetComponent<PlayerManager>();
 
             helmetModelChanger = GetComponentInChildren<HelmetModelChanger>();
             torsoModelChanger = GetComponentInChildren<TorsoModelChanger>();
@@ -44,64 +44,90 @@ namespace SoulsLike {
             EquipAllEquipmentModels();
         }
 
-        // Ω√¿€«“∂ß «√∑π¿ÃæÓø°∞‘ º≥¡§µ» ¿Â∫Ò∏¶ ∏µŒ ¿Â¬¯«—¥Ÿ
+        // ÏãúÏûëÌï†Îïå ÌîåÎ†àÏù¥Ïñ¥ÏóêÍ≤å ÏÑ§Ï†ïÎêú Ïû•ÎπÑÎ•º Î™®Îëê Ïû•Ï∞©ÌïúÎã§
         public void EquipAllEquipmentModels() {
             helmetModelChanger.UnEquipAllHelmetModels();
-            if (playerInventoryManager.currentHelmetEquipment != null) {
+            if (player.playerInventoryManager.currentHelmetEquipment != null) {
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentHeadEquipmentID.Value = player.playerInventoryManager.currentHelmetEquipment.itemID;
+                }
                 //nakedHeadModel.SetActive(false);
-                helmetModelChanger.EquipHelmetModelByName(playerInventoryManager.currentHelmetEquipment.helmetModelName);
-                playerStatsManager.physicalDamageAbsorptionHead = playerInventoryManager.currentHelmetEquipment.physicalDefense;
+                helmetModelChanger.EquipHelmetModelByName(player.playerInventoryManager.currentHelmetEquipment.helmetModelName);
+                player.playerStatsManager.physicalDamageAbsorptionHead = player.playerInventoryManager.currentHelmetEquipment.physicalDefense;
                 //Debug.Log("Head Absorption : " + playerStats.physicalDamageAbsorptionHead + "%");
             } else {
                 //nakedHeadModel.SetActive(true);
                 helmetModelChanger.EquipHelmetModelByName(nakedHeadModel);
-                playerStatsManager.physicalDamageAbsorptionHead = 0;
+                player.playerStatsManager.physicalDamageAbsorptionHead = 0;
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentHeadEquipmentID.Value = -1;
+                }
             }
 
             torsoModelChanger.UnEquipAllTorsoModels();
             capeModelChanger.UnEquipAllCapeModels();
             
-            if (playerInventoryManager.currentTorsoEquipment != null) {
-                torsoModelChanger.EquipTorsoModelByName(playerInventoryManager.currentTorsoEquipment.torsoModelName);
-                capeModelChanger.EquipCapeModelByName(playerInventoryManager.currentTorsoEquipment.capeModelName);
-                playerStatsManager.physicalDamageAbsorptionBody = playerInventoryManager.currentTorsoEquipment.physicalDefense;
+            if (player.playerInventoryManager.currentTorsoEquipment != null) {
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentTorsoEquipmentID.Value = player.playerInventoryManager.currentTorsoEquipment.itemID;
+                }
+                torsoModelChanger.EquipTorsoModelByName(player.playerInventoryManager.currentTorsoEquipment.torsoModelName);
+                capeModelChanger.EquipCapeModelByName(player.playerInventoryManager.currentTorsoEquipment.capeModelName);
+                player.playerStatsManager.physicalDamageAbsorptionBody = player.playerInventoryManager.currentTorsoEquipment.physicalDefense;
                 //Debug.Log("Body Absorption : " + playerStats.physicalDamageAbsorptionBody + "%");
             } else {
                 torsoModelChanger.EquipTorsoModelByName(nakedTorsoModel);
                 capeModelChanger.EquipCapeModelByName(nakedCapeModel);
-                playerStatsManager.physicalDamageAbsorptionBody = 0;
+                player.playerStatsManager.physicalDamageAbsorptionBody = 0;
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentTorsoEquipmentID.Value = -1;
+                }
             }
 
             legModelChanger.UnEquipAllLegModels();
             bootsModelChanger.UnEquipAllBootsModels();
-            if (playerInventoryManager.currentLegEquipment != null) {
-                legModelChanger.EquipLegModelByName(playerInventoryManager.currentLegEquipment.legModelName);
-                bootsModelChanger.EquipBootsModelByName(playerInventoryManager.currentLegEquipment.bootsModelName);
-                playerStatsManager.physicalDamageAbsorptionLegs = playerInventoryManager.currentLegEquipment.physicalDefense;
+            if (player.playerInventoryManager.currentLegEquipment != null) {
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentLegEquipmentID.Value = player.playerInventoryManager.currentLegEquipment.itemID;
+                }
+                legModelChanger.EquipLegModelByName(player.playerInventoryManager.currentLegEquipment.legModelName);
+                bootsModelChanger.EquipBootsModelByName(player.playerInventoryManager.currentLegEquipment.bootsModelName);
+                player.playerStatsManager.physicalDamageAbsorptionLegs = player.playerInventoryManager.currentLegEquipment.physicalDefense;
                 //Debug.Log("Legs Absorption : " + playerStats.physicalDamageAbsorptionLegs + "%");
             } else {
                 legModelChanger.EquipLegModelByName(nakedLegModel);
                 bootsModelChanger.EquipBootsModelByName(nakedBootsModel);
-                playerStatsManager.physicalDamageAbsorptionLegs = 0;
+                player.playerStatsManager.physicalDamageAbsorptionLegs = 0;
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentLegEquipmentID.Value = -1;
+                }
             }
 
             guntletModelChanger.UnEquipAllGuntletModels();
-            if (playerInventoryManager.currentGuntletEquipment != null) {
-                guntletModelChanger.EquipGuntletModelByName(playerInventoryManager.currentGuntletEquipment.guntletModelName);
-                playerStatsManager.physicalDamageAbsorptionHands = playerInventoryManager.currentGuntletEquipment.physicalDefense;
+            if (player.playerInventoryManager.currentGuntletEquipment != null) {
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentGuntletEquipmentID.Value = player.playerInventoryManager.currentGuntletEquipment.itemID;
+                }
+                guntletModelChanger.EquipGuntletModelByName(player.playerInventoryManager.currentGuntletEquipment.guntletModelName);
+                player.playerStatsManager.physicalDamageAbsorptionHands = player.playerInventoryManager.currentGuntletEquipment.physicalDefense;
                 //Debug.Log("Hands Absorption : " + playerStats.physicalDamageAbsorptionHands + "%");
             } else {
                 guntletModelChanger.EquipGuntletModelByName(nakedGuntletModel);
-                playerStatsManager.physicalDamageAbsorptionHands = 0;
+                player.playerStatsManager.physicalDamageAbsorptionHands = 0;
+                if (player.IsOwner) {
+                    player.playerNetworkManager.currentGuntletEquipmentID.Value = -1;
+                }
             }
+
+
         }
 
-        // πÊæÓøÎ Collider ¿˚øÎ
+        // Î∞©Ïñ¥Ïö© Collider Ï†ÅÏö©
         public void OpenBlockingCollider() {
-            if (inputHandler.twoHandFlag) { // æÁ¿‚Ω√ ø¿∏•º’ π´±‚¿« ∞Ê∞®¿≤ ¿˚øÎ
-                blockingCollider.SetColliderDamageAbsorption(playerInventoryManager.rightWeapon);
-            } else { // æ∆¥“∞ÊøÏ øﬁº’ π´±‚¿« ∞Ê∞®¿≤ ¿˚øÎ
-                blockingCollider.SetColliderDamageAbsorption(playerInventoryManager.leftWeapon);
+            if (inputHandler.twoHandFlag) { // ÏñëÏû°Ïãú Ïò§Î•∏ÏÜê Î¨¥Í∏∞Ïùò Í≤ΩÍ∞êÏú® Ï†ÅÏö©
+                blockingCollider.SetColliderDamageAbsorption(player.playerInventoryManager.rightWeapon);
+            } else { // ÏïÑÎãêÍ≤ΩÏö∞ ÏôºÏÜê Î¨¥Í∏∞Ïùò Í≤ΩÍ∞êÏú® Ï†ÅÏö©
+                blockingCollider.SetColliderDamageAbsorption(player.playerInventoryManager.leftWeapon);
             }
             blockingCollider.EnableBlockingCollider();
         }
