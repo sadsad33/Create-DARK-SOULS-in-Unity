@@ -99,6 +99,10 @@ namespace SoulsLike {
             }
             playerNetworkManager.currentRightWeaponID.OnValueChanged += playerNetworkManager.OnRightWeaponChange;
             playerNetworkManager.currentLeftWeaponID.OnValueChanged += playerNetworkManager.OnLeftWeaponChange;
+            playerNetworkManager.currentHeadEquipmentID.OnValueChanged += playerNetworkManager.OnHeadEquipmentChange;
+            playerNetworkManager.currentTorsoEquipmentID.OnValueChanged += playerNetworkManager.OnTorsoEquipmentChange;
+            playerNetworkManager.currentGuntletEquipmentID.OnValueChanged += playerNetworkManager.OnGuntletEquipmentChange;
+            playerNetworkManager.currentLegEquipmentID.OnValueChanged += playerNetworkManager.OnLegEquipmentChange;
         }
 
         protected override void Update() {
@@ -389,6 +393,10 @@ namespace SoulsLike {
             Debug.Log("다른 플레이어 캐릭터 로드");
             player.playerNetworkManager.OnRightWeaponChange(0, player.playerNetworkManager.currentRightWeaponID.Value);
             player.playerNetworkManager.OnLeftWeaponChange(0, player.playerNetworkManager.currentLeftWeaponID.Value);
+            player.playerNetworkManager.OnHeadEquipmentChange(0, player.playerNetworkManager.currentHeadEquipmentID.Value);
+            player.playerNetworkManager.OnTorsoEquipmentChange(0, player.playerNetworkManager.currentTorsoEquipmentID.Value);
+            player.playerNetworkManager.OnGuntletEquipmentChange(0, player.playerNetworkManager.currentGuntletEquipmentID.Value);
+            player.playerNetworkManager.OnLegEquipmentChange(0, player.playerNetworkManager.currentLegEquipmentID.Value);
         }
     }
 }
