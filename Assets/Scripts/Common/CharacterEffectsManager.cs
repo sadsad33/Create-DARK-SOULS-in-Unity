@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class CharacterEffectsManager : MonoBehaviour {
-        CharacterStatsManager characterStatsManager;
+        CharacterManager character;
+
+        [Header("Static Effect")]
+        [SerializeField] List<StaticCharacterEffect> staticCharacterEffects;
+
         [Header("Weapon FX")]
         public WeaponFX rightWeaponFX;
         public WeaponFX leftWeaponFX;
@@ -13,19 +17,70 @@ namespace SoulsLike {
         public GameObject bloodSplatterFX;
 
         [Header("Poison")]
-        public GameObject defaultPoisonedParticleFX; // ÇÃ·¹ÀÌ¾î°¡ ±âº»ÀûÀ¸·Î °¡Áö°í ÀÖ´Â µ¶ »óÅÂÀÌ»ó ÀÌÆåÆ®
-        public GameObject currentPoisonedParticleFX; // µ¶ »óÅÂÀÌ»ó¿¡ °É·È´Ù¸é »ç¿ë, »óÅÂÀÌ»óÀÌ ÇØÁ¦µÇ¸é ÆÄ±«
-        public Transform buildUpTransform; // ÃàÀû ÀÌÆåÆ®°¡ »ı¼ºµÉ À§Ä¡
+        public GameObject defaultPoisonedParticleFX; // í”Œë ˆì´ì–´ê°€ ê¸°ë³¸ì ìœ¼ë¡œ ê°€ì§€ê³  ìˆëŠ” ë… ìƒíƒœì´ìƒ ì´í™íŠ¸
+        public GameObject currentPoisonedParticleFX; // ë… ìƒíƒœì´ìƒì— ê±¸ë ¸ë‹¤ë©´ ì‚¬ìš©, ìƒíƒœì´ìƒì´ í•´ì œë˜ë©´ íŒŒê´´
+        public Transform buildUpTransform; // ì¶•ì  ì´í™íŠ¸ê°€ ìƒì„±ë  ìœ„ì¹˜
         public bool isPoisoned;
-        public float poisonBuildUp = 0; // µ¶ ÃàÀûÀ» À§ÇÑ ¼öÄ¡, ÀÌ ¼öÄ¡°¡ 100ÀÌ µÇ¸é µ¶ »óÅÂÀÌ»ó¿¡ °É¸°´Ù
-        public float poisonAmount = 100; // µ¶ »óÅÂ¿¡¼­ µ¶ »óÅÂÀÌ»óÀÌ ÇØÁ¦µÇ±â À§ÇØ ÇÊ¿äÇÑ ¼öÄ¡
-        public float defaultPoisonAmount = 100; // µ¶ »óÅÂÀÌ»ó¿¡ °É·ÈÀ» °æ¿ì ¼³Á¤µÉ µ¶ ¼öÄ¡
+        public float poisonBuildUp = 0; // ë… ì¶•ì ì„ ìœ„í•œ ìˆ˜ì¹˜, ì´ ìˆ˜ì¹˜ê°€ 100ì´ ë˜ë©´ ë… ìƒíƒœì´ìƒì— ê±¸ë¦°ë‹¤
+        public float poisonAmount = 100; // ë… ìƒíƒœì—ì„œ ë… ìƒíƒœì´ìƒì´ í•´ì œë˜ê¸° ìœ„í•´ í•„ìš”í•œ ìˆ˜ì¹˜
+        public float defaultPoisonAmount = 100; // ë… ìƒíƒœì´ìƒì— ê±¸ë ¸ì„ ê²½ìš° ì„¤ì •ë  ë… ìˆ˜ì¹˜
         public float poisonDamage;
-        public float poisonTimer = 2; // ¸Å 2ÃÊ¸¶´Ù µ¶ ÇÇÇØ
+        public float poisonTimer = 2; // ë§¤ 2ì´ˆë§ˆë‹¤ ë… í”¼í•´
         float timer;
 
         protected virtual void Awake() {
-            characterStatsManager = GetComponent<CharacterStatsManager>();
+            character = GetComponent<CharacterManager>();
+        }
+
+        protected virtual void Start() {
+            foreach (var effect in staticCharacterEffects) {
+                effect.AddStaticEffect(character);
+            }
+        }
+
+        public void AddStaticEffect(StaticCharacterEffect effect) {
+            // StaticCharacterEffect ë¦¬ìŠ¤íŠ¸ë¥¼ ì²´í¬í•˜ì—¬ ì¤‘ë³µì ìš©ì´ ë˜ì§€ ì•Šë„ë¡ í•¨
+
+            StaticCharacterEffect staticEffect;
+            for (int i = staticCharacterEffects.Count; i > -1; i--) {
+                if (staticCharacterEffects[i] != null) {
+                    if (staticCharacterEffects[i].effectID == effect.effectID) {
+                        staticEffect = staticCharacterEffects[i];
+                        // ìºë¦­í„°ì—ê²Œì„œ í•´ë‹¹ íš¨ê³¼ë¥¼ ì œê±°
+                        staticEffect.RemoveStaticEffect(character);
+                        // ìºë¦­í„°ê°€ ê°€ì§„ ì •ì  íš¨ê³¼ ëª©ë¡ì—ì„œë„ ì œê±°
+                        staticCharacterEffects.Remove(staticEffect);
+                    }
+                }
+            }
+            // ìºë¦­í„°ê°€ ê°€ì§„ ì •ì  íš¨ê³¼ ëª©ë¡ì— ì¶”ê°€
+            staticCharacterEffects.Add(effect);
+            // ìºë¦­í„°ì—ê²Œ í•´ë‹¹ íš¨ê³¼ë¥¼ ì¶”ê°€
+            effect.AddStaticEffect(character);
+
+            for (int i = staticCharacterEffects.Count - 1; i > -1; i--) {
+                if (staticCharacterEffects[i] == null) 
+                    staticCharacterEffects.RemoveAt(i);
+            }
+        }
+
+        public void RemoveStaticEffect(int effectID) {
+            StaticCharacterEffect staticEffect;
+
+            for (int i = staticCharacterEffects.Count; i > -1; i--) {
+                if (staticCharacterEffects[i] != null) {
+                    if (staticCharacterEffects[i].effectID == effectID) {
+                        staticEffect = staticCharacterEffects[i];
+                        staticEffect.RemoveStaticEffect(character);
+                        staticCharacterEffects.Remove(staticEffect);
+                    }
+                }
+            }
+
+            for (int i = staticCharacterEffects.Count - 1; i > -1; i--) {
+                if (staticCharacterEffects[i] == null)
+                    staticCharacterEffects.RemoveAt(i);
+            }
         }
 
         public virtual void PlayWeaponFX(bool isLeft) {
@@ -56,31 +111,31 @@ namespace SoulsLike {
             GameObject blood = Instantiate(bloodSplatterFX, bloodSplatterLocation, Quaternion.identity);
         }
 
-        // µ¶ ÃàÀû
+        // ë… ì¶•ì 
         protected virtual void HandlePoisonBuildUp() {
-            if (isPoisoned) return; // ÀÌ¹Ì µ¶ »óÅÂ¿¡ °É·ÁÀÖ´Ù¸é ´õÀÌ»ó ÃàÀûÇÏÁö ¾Ê´Â´Ù
-            if (poisonBuildUp > 0 && poisonBuildUp < 100) { // µ¶ »óÅÂ¿¡ °É¸®Áø ¾Ê¾ÒÁö¸¸ µ¶ ¼öÄ¡°¡ ´©ÀûµÇ¾î ÀÖ´Ù¸é
+            if (isPoisoned) return; // ì´ë¯¸ ë… ìƒíƒœì— ê±¸ë ¤ìˆë‹¤ë©´ ë”ì´ìƒ ì¶•ì í•˜ì§€ ì•ŠëŠ”ë‹¤
+            if (poisonBuildUp > 0 && poisonBuildUp < 100) { // ë… ìƒíƒœì— ê±¸ë¦¬ì§„ ì•Šì•˜ì§€ë§Œ ë… ìˆ˜ì¹˜ê°€ ëˆ„ì ë˜ì–´ ìˆë‹¤ë©´
                 poisonBuildUp -= Time.deltaTime;
-            } else if (poisonBuildUp >= 100) { // µ¶ ÃàÀûÄ¡°¡ 100 ÀÌ»óÀÌ¶ó¸é
-                isPoisoned = true; // µ¶ »óÅÂÀÌ»ó
+            } else if (poisonBuildUp >= 100) { // ë… ì¶•ì ì¹˜ê°€ 100 ì´ìƒì´ë¼ë©´
+                isPoisoned = true; // ë… ìƒíƒœì´ìƒ
                 poisonBuildUp = 0;
                 
                 if (buildUpTransform != null) {
                     currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, buildUpTransform.transform);
                 } else {
-                    currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, characterStatsManager.transform);
+                    currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, character.characterStatsManager.transform);
                 }
             }
         }
 
-        // µ¶ »óÅÂÀÌ»ó
+        // ë… ìƒíƒœì´ìƒ
         protected virtual void HandlePoisonedEffect() {
             if (isPoisoned) {
                 if (poisonAmount > 0) {
                     timer += Time.deltaTime;
 
                     if (timer >= poisonTimer) {
-                        characterStatsManager.TakePoisonDamage(poisonDamage);
+                        character.characterStatsManager.TakePoisonDamage(poisonDamage);
                         timer = 0;
                     }
                     poisonAmount -= Time.deltaTime;
@@ -92,9 +147,9 @@ namespace SoulsLike {
             }
         }
 
-        // ¸ğµç ÃàÀû/»óÅÂÀÌ»ó Àû¿ë
+        // ëª¨ë“  ì¶•ì /ìƒíƒœì´ìƒ ì ìš©
         public virtual void HandleAllBuildUpEffects() {
-            if (characterStatsManager.isDead) return;
+            if (character.characterStatsManager.isDead) return;
             HandlePoisonBuildUp();
             HandlePoisonedEffect();
         }
