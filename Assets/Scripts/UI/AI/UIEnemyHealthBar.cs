@@ -4,11 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace SoulsLike {
     public class UIEnemyHealthBar : MonoBehaviour {
-        Slider slider;
+        public Slider slider;
         float timeUntilBarIsHidden;
+        [SerializeField] private UIYellowBar yellowBar;
+        [SerializeField] float yellowBarTimer = 2;
+        [SerializeField] Text damageText;
+        [SerializeField] float currentDamageTaken;
+
         //public CameraHandler mainCamera;
         private void Awake() {
             slider = GetComponentInChildren<Slider>();
+            yellowBar = GetComponentInChildren<UIYellowBar>();
+        }
+
+        private void OnDisable() {
+            currentDamageTaken = 0;
         }
 
         private void LateUpdate() {
@@ -18,6 +28,15 @@ namespace SoulsLike {
         }
 
         public void UpdateHealth(float health) {
+            if (yellowBar != null) {
+                yellowBar.gameObject.SetActive(true);
+                yellowBar.timer = yellowBarTimer; // ë°ë¯¸ì§€ë¥¼ ë°›ì„ë•Œë§ˆë‹¤ íƒ€ì´ë¨¸ ë¦¬ì…‹ 
+                if (health > slider.value) {
+                    yellowBar.slider.value = health;
+                }
+            }
+            currentDamageTaken += (slider.value - health);
+            damageText.text = currentDamageTaken.ToString();
             slider.value = health;
             timeUntilBarIsHidden = 3;
         }
@@ -25,9 +44,10 @@ namespace SoulsLike {
         public void SetMaxHealth(float maxHealth) {
             slider.maxValue = maxHealth;
             slider.value = maxHealth;
+            if (yellowBar != null) yellowBar.SetMaxStat(maxHealth);
         }
 
-        // Ã¼·Â¹Ù°¡ È­¸é¿¡ Ç¥½ÃµÈÈÄ ÀÏÁ¤ ½Ã°£ÀÌ Áö³ª¸é ´Ù½Ã »ç¶óÁöµµ·Ï ÇÑ´Ù.
+        // ì²´ë ¥ë°”ê°€ í™”ë©´ì— í‘œì‹œëœí›„ ì¼ì • ì‹œê°„ì´ ì§€ë‚˜ë©´ ë‹¤ì‹œ ì‚¬ë¼ì§€ë„ë¡ í•œë‹¤.
         private void Update() {
             timeUntilBarIsHidden -= Time.deltaTime;
             if (slider != null) {
