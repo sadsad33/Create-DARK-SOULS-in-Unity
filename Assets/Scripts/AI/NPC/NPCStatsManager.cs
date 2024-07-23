@@ -39,9 +39,9 @@ namespace SoulsLike {
             if (isDead && !npcManager.isGrabbed) HandleDeath("PoisonedDeath");
         }
 
-        public override void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation) {
+        public override void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation, CharacterManager enemyCharacterDamagingMe) {
             if (npcManager.isInvulnerable) return;
-            base.TakeDamage(physicalDamage, fireDamage, damageAnimation);
+            base.TakeDamage(physicalDamage, fireDamage, damageAnimation, enemyCharacterDamagingMe);
             npcHealthBar.UpdateHealth(currentHealth);
             npcAnimatorManager.PlayTargetAnimation(damageAnimation, true);
             if (isDead && !npcManager.isGrabbed) HandleDeath("Dead");

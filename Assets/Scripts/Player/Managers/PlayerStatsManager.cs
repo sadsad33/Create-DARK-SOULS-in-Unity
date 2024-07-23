@@ -39,10 +39,11 @@ namespace SoulsLike {
             UIManager.instance.focusBar.SetMaxFocus(currentFocus);
             GetTotalDefense();
         }
-        private void GetTotalDefense() {
-            totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
+
+        public void GetTotalDefense() {
+            totalPhysicalDamageDefenseRate = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
             //Debug.Log(totalPhysicalDamageAbsorption);
-            totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
+            totalFireDamageDefenseRate = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
             //Debug.Log(totalFireDamageAbsorption);
         }
 
@@ -69,10 +70,10 @@ namespace SoulsLike {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation, CharacterManager enemyCharacterDamaingMe) {
             if (player.isInvulnerable) return;
 
-            base.TakeDamage(damage, fireDamage, damageAnimation);
+            base.TakeDamage(damage, fireDamage, damageAnimation, enemyCharacterDamaingMe);
 
             UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
             playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);

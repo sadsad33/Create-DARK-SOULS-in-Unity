@@ -4,13 +4,15 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class BombDamageCollider : DamageCollider {
+        public CharacterManager characterThrowsThis;
+
         [Header("Explosive Damage & Radius")]
         public int explosiveRadius = 1;
-        public float contactDamage; // Á÷°İ µ¥¹ÌÁö
-        public float fireExplosionDamage; // Æø¹ß½Ã ±¤¿ª µ¥¹ÌÁö
+        public float contactDamage; // ì§ê²© ë°ë¯¸ì§€
+        public float fireExplosionDamage; // í­ë°œì‹œ ê´‘ì—­ ë°ë¯¸ì§€
 
         public Rigidbody bombRigidbody;
-        private bool hasCollided = false; // È­¿°º´ÀÌ ¹°Ã¼¿Í Ãæµ¹Çß´ÂÁö ¿©ºÎ
+        private bool hasCollided = false; // í™”ì—¼ë³‘ì´ ë¬¼ì²´ì™€ ì¶©ëŒí–ˆëŠ”ì§€ ì—¬ë¶€
         public GameObject impactParticles;
         protected override void Awake() {
             damageCollider = GetComponent<Collider>();
@@ -26,7 +28,7 @@ namespace SoulsLike {
                 if (character != null && character.teamIDNumber != teamIDNumber) {
                     float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
                     ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    character.TakeDamage(contactDamage, 0, currentDamageAnimation);
+                    character.TakeDamage(contactDamage, 0, currentDamageAnimation, characterThrowsThis);
                     Debug.Log(currentDamageAnimation);
                 }
 
@@ -43,7 +45,7 @@ namespace SoulsLike {
                 if (characterStats != null && characterStats.teamIDNumber != teamIDNumber) {
                     float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
                     ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation);
+                    characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation, characterThrowsThis);
                 }
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    // ½ºÅÈ °ü¸®(¹æ¾î·Â, °­ÀÎµµ, HP, FP, ½ºÅÂ¹Ì³ª, ¹Ş´Â ÇÇÇØ µî)
+    // ìŠ¤íƒ¯ ê´€ë¦¬(ë°©ì–´ë ¥, ê°•ì¸ë„, HP, FP, ìŠ¤íƒœë¯¸ë‚˜, ë°›ëŠ” í”¼í•´ ë“±)
     public class EnemyStatsManager : CharacterStatsManager {
         EnemyAnimatorManager enemyAnimatorManager;
         public EnemyLocomotionManager enemyLocomotionManager;
@@ -17,7 +17,7 @@ namespace SoulsLike {
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             bossManager = GetComponent<BossManager>();
-            // º¸½º¸ó½ºÅÍÀÇ °æ¿ì Start ¸Ş¼­µå¿¡¼­ ½ºÅÈÀ» °¡Á®¿À±â ¶§¹®¿¡ ±×Àü¿¡ ¼¼ÆÃÇØÁà¾ßÇÔ
+            // ë³´ìŠ¤ëª¬ìŠ¤í„°ì˜ ê²½ìš° Start ë©”ì„œë“œì—ì„œ ìŠ¤íƒ¯ì„ ê°€ì ¸ì˜¤ê¸° ë•Œë¬¸ì— ê·¸ì „ì— ì„¸íŒ…í•´ì¤˜ì•¼í•¨
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
         }
@@ -32,7 +32,7 @@ namespace SoulsLike {
             return maxHealth;
         }
 
-        // µÚÀâÀÌ³ª ¾ÕÀâµî ¾Ö´Ï¸ŞÀÌ¼ÇÀ» °­Á¦ÇØ¾ß ÇÏ´Â °æ¿ì »ç¿ë
+        // ë’¤ì¡ì´ë‚˜ ì•ì¡ë“± ì• ë‹ˆë©”ì´ì…˜ì„ ê°•ì œí•´ì•¼ í•˜ëŠ” ê²½ìš° ì‚¬ìš©
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {
             if (enemyManager.isInvulnerable) return;
             base.TakeDamageNoAnimation(damage, fireDamage);
@@ -59,10 +59,9 @@ namespace SoulsLike {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation) {
+        public override void TakeDamage(float damage, float fireDamage, string damageAnimation, CharacterManager enemyCharacterDamagingMe) {
             if (enemyManager.isInvulnerable) return;
-            base.TakeDamage(damage, fireDamage, damageAnimation);
-            Debug.Log(damage + fireDamage);
+            base.TakeDamage(damage, fireDamage, damageAnimation, enemyCharacterDamagingMe);
             if (!isBoss)
                 enemyHealthBar.UpdateHealth(currentHealth);
             else if (isBoss && bossManager != null)

@@ -10,12 +10,12 @@ namespace SoulsLike {
         QuickSlots quickSlots;
         PlayerStatsManager playerStatsManager;
         InputHandler inputHandler;
-        PlayerManager playerManager;
+        PlayerManager player;
         PlayerEffectsManager playerEffectsManager;
         CameraHandler cameraHandler;
         protected override void Awake() {
             base.Awake();
-            playerManager = GetComponent<PlayerManager>();
+            player = GetComponent<PlayerManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             inputHandler = GetComponent<InputHandler>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
@@ -93,10 +93,11 @@ namespace SoulsLike {
             // Instantiate메서드에 에 카메라의 회전값을 넘겨주는 이유는 어떤 경우에라도 플레이어의 정면 방향에서 화염병이 스폰되어야 하기 때문
             GameObject activeBombModel = Instantiate(fireBombItem.liveBombModel, rightHandSlot.transform.position, cameraHandler.cameraPivotTransform.rotation);
             // 화염병의 회전값은 카메라의 회전값과 맞춰 플레이어가 바라보는 방향으로 날아가게 한다
-            activeBombModel.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerManager.lockOnTransform.eulerAngles.y, 0);
+            activeBombModel.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, player.lockOnTransform.eulerAngles.y, 0);
 
             // 화염병 속도 설정
             BombDamageCollider damageCollider = activeBombModel.GetComponentInChildren<BombDamageCollider>();
+            damageCollider.characterThrowsThis = player;
             damageCollider.contactDamage = fireBombItem.baseDamage;
             damageCollider.fireExplosionDamage = fireBombItem.explosiveDamage;
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);
@@ -108,12 +109,12 @@ namespace SoulsLike {
 
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack() {
-            if (playerManager.IsOwner)
+            if (player.IsOwner)
                 playerStatsManager.DeductStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack() {
-            if (playerManager.IsOwner)
+            if (player.IsOwner)
                 playerStatsManager.DeductStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
