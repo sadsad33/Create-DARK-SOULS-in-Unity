@@ -1298,6 +1298,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 634820070, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: pursueTargetState
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1438136248, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8196,6 +8200,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterWeaponSlotManager: {fileID: 0}
+  characterInventoryManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 212062006596600148}
   backStabCollider: {fileID: 134924773518198507}
@@ -50473,8 +50478,6 @@ MonoBehaviour:
   currentFocus: 0
   soulCount: 0
   isBoss: 0
-  currentEquipLoad: 0
-  maxEquipLoad: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 0
@@ -51959,8 +51962,6 @@ MonoBehaviour:
   currentFocus: 0
   soulCount: 0
   isBoss: 1
-  currentEquipLoad: 0
-  maxEquipLoad: 0
   totalPoiseDefense: 0
   offensivePoiseBonus: 0
   armorPoiseBonus: 100
@@ -52033,6 +52034,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterWeaponSlotManager: {fileID: 0}
+  characterInventoryManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 2173030236879191317}
   backStabCollider: {fileID: 2573975979005223317}

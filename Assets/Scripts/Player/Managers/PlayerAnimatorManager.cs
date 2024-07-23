@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerAnimatorManager : CharacterAnimatorManager {
-        InputHandler inputHandler;
-        PlayerManager player;
+        public PlayerManager player;
         int vertical;
         int horizontal;
 
@@ -13,7 +12,6 @@ namespace SoulsLike {
             base.Awake();
             player = GetComponent<PlayerManager>();
             player.animator = GetComponent<Animator>();
-            inputHandler = GetComponentInParent<InputHandler>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
@@ -38,7 +36,7 @@ namespace SoulsLike {
             else h = 0;
             #endregion
 
-            if (isSprinting && inputHandler.moveAmount > 0) {
+            if (isSprinting && player.inputHandler.moveAmount > 0) {
                 v = 2;
                 h = horizontalMovement;
             }

@@ -28,15 +28,15 @@ namespace SoulsLike {
             rigidbody = instantiatedSpellFX.GetComponent<Rigidbody>();
             //spellDamageCollider = instantiatedSpellFX.GetComponent<SpellDamageCollider>();
             SpellDamageCollider spellDamageCollider = instantiatedSpellFX.GetComponent<SpellDamageCollider>();
-            
-            spellDamageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // ÇÇ¾Æ½Äº°À» À§ÇÑ ÆÀID ¼³Á¤
+            spellDamageCollider.characterSpelledThis = animatorHandler.player;
+            spellDamageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // í”¼ì•„ì‹ë³„ì„ ìœ„í•œ íŒ€ID ì„¤ì •
             
             if (cameraHandler.currentLockOnTarget != null) {
-                // ¶ô¿Â »óÅÂ¶ó¸é ¶ô¿ÂµÈ ´ë»óÀÇ ¹æÇâÀ¸·Î Åõ»çÃ¼°¡ ³¯¾Æ°£´Ù.
+                // ë½ì˜¨ ìƒíƒœë¼ë©´ ë½ì˜¨ëœ ëŒ€ìƒì˜ ë°©í–¥ìœ¼ë¡œ íˆ¬ì‚¬ì²´ê°€ ë‚ ì•„ê°„ë‹¤.
                 instantiatedSpellFX.transform.LookAt(cameraHandler.currentLockOnTarget.transform);
             } else {
-                // Åõ»çÃ¼°¡ ¹ß»çµÇ´Â ³ôÀÌ´Â Ä«¸Ş¶ó¿¡ ÀÇÇØ Á¦¾îµÈ´Ù.
-                // ¶ô¿Â »óÅÂ°¡ ¾Æ´Ò°æ¿ì ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î Åõ»çÃ¼°¡ ³ª°¡°Ô²û ÇÑ´Ù.
+                // íˆ¬ì‚¬ì²´ê°€ ë°œì‚¬ë˜ëŠ” ë†’ì´ëŠ” ì¹´ë©”ë¼ì— ì˜í•´ ì œì–´ëœë‹¤.
+                // ë½ì˜¨ ìƒíƒœê°€ ì•„ë‹ê²½ìš° í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ íˆ¬ì‚¬ì²´ê°€ ë‚˜ê°€ê²Œë” í•œë‹¤.
                 instantiatedSpellFX.transform.rotation = Quaternion.Euler(cameraHandler.cameraPivotTransform.eulerAngles.x, playerStatsManager.transform.eulerAngles.y, 0);
             }
 

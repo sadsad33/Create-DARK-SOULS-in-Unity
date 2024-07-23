@@ -4,63 +4,61 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerCombatManager : MonoBehaviour {
-        InputHandler inputHandler;
-        CameraHandler cameraHandler;
-        PlayerManager playerManager;
+        PlayerManager player;
+        
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
         public void Awake() {
-            cameraHandler = FindObjectOfType<CameraHandler>();
-            playerManager = GetComponent<PlayerManager>();
-            inputHandler = GetComponent<InputHandler>();
+            player = GetComponent<PlayerManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon) {
-            if (playerManager.playerStatsManager.currentStamina <= 0) return;
-            if (inputHandler.comboFlag) {
-                playerManager.animator.SetBool("canDoCombo", false);
+            if (player.playerStatsManager.currentStamina <= 0) return;
+            if (player.inputHandler.comboFlag) {
+                player.animator.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.OH_Light_Attack_1) {
-                    //Debug.Log("ÄŞº¸ °ø°İ ½ÇÇà");
-                    playerManager.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
+                    //Debug.Log("ì½¤ë³´ ê³µê²© ì‹¤í–‰");
+                    player.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
                 } else if (lastAttack == weapon.TH_Light_Attack_1) {
-                    //Debug.Log("¾ç¼Õ ÄŞº¸ °ø°İ ½ÇÇà");
-                    playerManager.playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_2, true);
+                    //Debug.Log("ì–‘ì† ì½¤ë³´ ê³µê²© ì‹¤í–‰");
+                    player.playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_2, true);
                 }
             }
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
-            if (playerManager.playerStatsManager.currentStamina <= 0 || playerManager.isInteracting || playerManager.isClimbing || playerManager.isAtBonfire) return;
-            //Debug.Log("ÇÑ¼Õ ¾à°ø");
-            playerManager.playerWeaponSlotManager.attackingWeapon = weapon;
-            if (inputHandler.twoHandFlag) {
-                playerManager.playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_1, true);
+            if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting || player.isClimbing || player.isAtBonfire) return;
+            //Debug.Log("í•œì† ì•½ê³µ");
+            player.playerWeaponSlotManager.attackingWeapon = weapon;
+            if (player.inputHandler.twoHandFlag) {
+                player.playerAnimatorManager.PlayTargetAnimation(weapon.TH_Light_Attack_1, true);
                 lastAttack = weapon.TH_Light_Attack_1;
             } else {
-                playerManager.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
+                player.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
                 lastAttack = weapon.OH_Light_Attack_1;
             }
         }
 
         public void HandleHeavyAttack(WeaponItem weapon) {
-            if (playerManager.playerStatsManager.currentStamina <= 0 || playerManager.isInteracting) return;
-            playerManager.playerWeaponSlotManager.attackingWeapon = weapon;
-            playerManager.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+            if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting) return;
+            player.playerWeaponSlotManager.attackingWeapon = weapon;
+            player.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+            player.animator.SetBool("isUsingRightHand", true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
 
-        // °ø°İ ÀÔ·Â
-        // ÇÃ·¹ÀÌ¾î°¡ µé°íÀÖ´Â ¹«±âÀÇ Á¾·ù¿¡ µû¶ó °°Àº °ø°İ ÀÔ·Â¿¡µµ Çàµ¿ÀÌ ´Ş¶ó¾ßÇÑ´Ù.
+        // ê³µê²© ì…ë ¥
+        // í”Œë ˆì´ì–´ê°€ ë“¤ê³ ìˆëŠ” ë¬´ê¸°ì˜ ì¢…ë¥˜ì— ë”°ë¼ ê°™ì€ ê³µê²© ì…ë ¥ì—ë„ í–‰ë™ì´ ë‹¬ë¼ì•¼í•œë‹¤.
         #region Input Actions
         public void HandleRBAction() {
-            playerManager.playerAnimatorManager.EraseHandIKForWeapon();
+            player.playerAnimatorManager.EraseHandIKForWeapon();
 
-            if (playerManager.playerInventoryManager.rightWeapon.isMeleeWeapon) {
+            if (player.playerInventoryManager.rightWeapon.isMeleeWeapon) {
                 PerformRBMeleeAction();
-            } else if (playerManager.playerInventoryManager.rightWeapon.isMagicCaster || playerManager.playerInventoryManager.rightWeapon.isFaithCaster 
-                || playerManager.playerInventoryManager.rightWeapon.isPyroCaster) {
-                PerformRBSpellAction(playerManager.playerInventoryManager.rightWeapon);
+            } else if (player.playerInventoryManager.rightWeapon.isMagicCaster || player.playerInventoryManager.rightWeapon.isFaithCaster 
+                || player.playerInventoryManager.rightWeapon.isPyroCaster) {
+                PerformRBSpellAction(player.playerInventoryManager.rightWeapon);
             }
         }
 
@@ -69,133 +67,133 @@ namespace SoulsLike {
         }
 
         public void HandleLTAction() {
-            if (playerManager.playerInventoryManager.leftWeapon.isShieldWeapon) {
-                PerformLTWeaponArt(inputHandler.twoHandFlag);
-            } else if (playerManager.playerInventoryManager.leftWeapon.isMeleeWeapon) {
-                // ¾à°ø
+            if (player.playerInventoryManager.leftWeapon.isShieldWeapon) {
+                PerformLTWeaponArt(player.inputHandler.twoHandFlag);
+            } else if (player.playerInventoryManager.leftWeapon.isMeleeWeapon) {
+                // ì•½ê³µ
             }
         }
         #endregion
 
         #region Attack Actions
-        // ±ÙÁ¢ °ø°İ ¼öÇà
+        // ê·¼ì ‘ ê³µê²© ìˆ˜í–‰
         private void PerformRBMeleeAction() {
-            if (playerManager.canDoCombo) {
-                inputHandler.comboFlag = true;
-                HandleWeaponCombo(playerManager.playerInventoryManager.rightWeapon);
-                inputHandler.comboFlag = false;
+            if (player.canDoCombo) {
+                player.inputHandler.comboFlag = true;
+                HandleWeaponCombo(player.playerInventoryManager.rightWeapon);
+                player.inputHandler.comboFlag = false;
             } else {
-                if (playerManager.isInteracting) return;
-                if (playerManager.canDoCombo) return;
-                playerManager.animator.SetBool("isUsingRightHand", true);
-                HandleLightAttack(playerManager.playerInventoryManager.rightWeapon);
+                if (player.isInteracting) return;
+                if (player.canDoCombo) return;
+                player.animator.SetBool("isUsingRightHand", true);
+                HandleLightAttack(player.playerInventoryManager.rightWeapon);
             }
         }
 
-        // ¿µÃ¢ °ø°İ
+        // ì˜ì°½ ê³µê²©
         private void PerformRBSpellAction(WeaponItem weapon) {
-            if (playerManager.isInteracting) return;
+            if (player.isInteracting) return;
             if (weapon.isFaithCaster) {
-                if (playerManager.playerInventoryManager.currentSpell.isFaithSpell) {
-                    if (playerManager.playerStatsManager.currentFocus >= playerManager.playerInventoryManager.currentSpell.focusCost)
-                        playerManager.playerInventoryManager.currentSpell.AttemptToCastSpell(playerManager.playerAnimatorManager, playerManager.playerStatsManager, playerManager.playerWeaponSlotManager);
-                    else playerManager.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                if (player.playerInventoryManager.currentSpell.isFaithSpell) {
+                    if (player.playerStatsManager.currentFocus >= player.playerInventoryManager.currentSpell.focusCost)
+                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.playerWeaponSlotManager);
+                    else player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 } else {
-                    playerManager.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                    player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             } else if (weapon.isPyroCaster) {
-                if (playerManager.playerInventoryManager.currentSpell.isPyroSpell) {
-                    if (playerManager.playerStatsManager.currentFocus >= playerManager.playerInventoryManager.currentSpell.focusCost)
-                        playerManager.playerInventoryManager.currentSpell.AttemptToCastSpell(playerManager.playerAnimatorManager, playerManager.playerStatsManager, playerManager.playerWeaponSlotManager);
-                    else playerManager.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                if (player.playerInventoryManager.currentSpell.isPyroSpell) {
+                    if (player.playerStatsManager.currentFocus >= player.playerInventoryManager.currentSpell.focusCost)
+                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.playerWeaponSlotManager);
+                    else player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 } else {
-                    playerManager.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
+                    player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 }
             }
         }
 
         private void PerformLTWeaponArt(bool isTwoHanding) {
-            if (playerManager.isInteracting) return;
+            if (player.isInteracting) return;
 
             if (isTwoHanding) {
-                // ¾çÀâ »óÅÂ¶ó¸é ¿À¸¥¼Õ ¹«±âÀÇ Àü±â »ç¿ë
+                // ì–‘ì¡ ìƒíƒœë¼ë©´ ì˜¤ë¥¸ì† ë¬´ê¸°ì˜ ì „ê¸° ì‚¬ìš©
 
             } else {
-                // ¿Ş¼Õ ¹«±âÀÇ Àü±â¸¦ »ç¿ë
-                playerManager.playerAnimatorManager.PlayTargetAnimation(playerManager.playerInventoryManager.leftWeapon.weaponArt, true);
+                // ì™¼ì† ë¬´ê¸°ì˜ ì „ê¸°ë¥¼ ì‚¬ìš©
+                player.playerAnimatorManager.PlayTargetAnimation(player.playerInventoryManager.leftWeapon.weaponArt, true);
             }
         }
 
-        // Animation Event¿¡¼­ È£ÃâÇÏ±â À§ÇÑ ÇÔ¼ö
+        // Animation Eventì—ì„œ í˜¸ì¶œí•˜ê¸° ìœ„í•œ í•¨ìˆ˜
         private void SuccessfullyCastSpell() {
-            playerManager.playerInventoryManager.currentSpell.SuccessfullyCastSpell(playerManager.playerAnimatorManager, playerManager.playerStatsManager, cameraHandler, playerManager.playerWeaponSlotManager);
-            playerManager.animator.SetBool("isFiringSpell", true);
-            //Debug.Log("ÅõÃ´ ÀÌº¥Æ®");
+            player.playerInventoryManager.currentSpell.SuccessfullyCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.cameraHandler, player.playerWeaponSlotManager);
+            player.animator.SetBool("isFiringSpell", true);
+            //Debug.Log("íˆ¬ì²™ ì´ë²¤íŠ¸");
         }
 
         #endregion
 
         #region Defense Actions
         private void PerformLBBlockingAction() {
-            if (playerManager.isInteracting) return;
-            // ÀÌ¹Ì ¸·±âÁßÀÌ¶ó¸é ¹İÈ¯
-            // °è¼ÓÇØ¼­ Block Start ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ½ÇÇàµÇ´Â°ÍÀ» ¹æÁö
-            if (playerManager.isBlocking) return;
+            if (player.isInteracting) return;
+            // ì´ë¯¸ ë§‰ê¸°ì¤‘ì´ë¼ë©´ ë°˜í™˜
+            // ê³„ì†í•´ì„œ Block Start ì• ë‹ˆë©”ì´ì…˜ì´ ì‹¤í–‰ë˜ëŠ”ê²ƒì„ ë°©ì§€
+            if (player.isBlocking) return;
 
-            playerManager.playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
-            playerManager.playerEquipmentManager.OpenBlockingCollider();
-            playerManager.isBlocking = true;
+            player.playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
+            player.playerEquipmentManager.OpenBlockingCollider();
+            player.isBlocking = true;
         }
 
         #endregion
-        // µÚÀâ, ¾ÕÀâ ½Ãµµ
+        // ë’¤ì¡, ì•ì¡ ì‹œë„
         public void AttemptBackStabOrRiposte() {
-            if (playerManager.playerStatsManager.currentStamina <= 0 || playerManager.isInteracting) return;
-            RaycastHit hit; // Riposte Collider ¿Í BackStab Collider °¨Áö
-            if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
+            if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting) return;
+            RaycastHit hit; // Riposte Collider ì™€ BackStab Collider ê°ì§€
+            if (Physics.Raycast(player.inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                DamageCollider rightWeapon = playerManager.playerWeaponSlotManager.rightHandDamageCollider;
-                if (enemyCharacterManager != null) { // µÚÀâ, È¤Àº ¾ÕÀâÀÌ °¡´ÉÇÑ ´ë»óÀ» Æ÷ÂøÇßÀ» °æ¿ì
+                DamageCollider rightWeapon = player.playerWeaponSlotManager.rightHandDamageCollider;
+                if (enemyCharacterManager != null) { // ë’¤ì¡, í˜¹ì€ ì•ì¡ì´ ê°€ëŠ¥í•œ ëŒ€ìƒì„ í¬ì°©í–ˆì„ ê²½ìš°
                     // TODO
-                    // ÇÇ¾Æ ½Äº° (¾Æ±ºÀÌ³ª ÀÚ½Å¿¡°Ô´Â °¡´ÉÇÏÁö ¾Êµµ·Ï)
+                    // í”¼ì•„ ì‹ë³„ (ì•„êµ°ì´ë‚˜ ìì‹ ì—ê²ŒëŠ” ê°€ëŠ¥í•˜ì§€ ì•Šë„ë¡)
 
-                    // µÚÀâ È¤Àº ¾ÕÀâÀ» ÇÒ¶§ ¾î»öÇÏÁö ¾Êµµ·Ï Æ¯Á¤ ÁÂÇ¥·Î ÀÌµ¿½ÃÅ´
-                    playerManager.transform.position = enemyCharacterManager.backStabCollider.criticalDamagerStandPosition.position;
-                    // È¸Àü°ª Á¶Á¤
-                    Vector3 rotationDirection = playerManager.transform.root.eulerAngles;
-                    rotationDirection = hit.transform.position - playerManager.transform.position;
+                    // ë’¤ì¡ í˜¹ì€ ì•ì¡ì„ í• ë•Œ ì–´ìƒ‰í•˜ì§€ ì•Šë„ë¡ íŠ¹ì • ì¢Œí‘œë¡œ ì´ë™ì‹œí‚´
+                    player.transform.position = enemyCharacterManager.backStabCollider.criticalDamagerStandPosition.position;
+                    // íšŒì „ê°’ ì¡°ì •
+                    Vector3 rotationDirection = player.transform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - player.transform.position;
                     rotationDirection.y = 0;
                     rotationDirection.Normalize();
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
-                    playerManager.transform.rotation = targetRotation;
+                    Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 500 * Time.deltaTime);
+                    player.transform.rotation = targetRotation;
 
-                    float criticalDamage = playerManager.playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.physicalDamage;
+                    float criticalDamage = player.playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.physicalDamage;
                     enemyCharacterManager.pendingCriticalDamage = criticalDamage;
 
-                    // ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı
-                    playerManager.playerAnimatorManager.PlayTargetAnimation("Back Stab", true);
+                    // ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ
+                    player.playerAnimatorManager.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Back Stabbed", true);
                     enemyCharacterManager.isGrabbed = true;
                 }
-            } else if (Physics.Raycast(inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer)) {
+            } else if (Physics.Raycast(player.inputHandler.criticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer)) {
                 CharacterManager enemyCharacterManager = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                DamageCollider rightWeapon = playerManager.playerWeaponSlotManager.rightHandDamageCollider;
+                DamageCollider rightWeapon = player.playerWeaponSlotManager.rightHandDamageCollider;
                 if (enemyCharacterManager != null && enemyCharacterManager.canBeRiposted) {
-                    playerManager.transform.position = enemyCharacterManager.riposteCollider.criticalDamagerStandPosition.position;
+                    player.transform.position = enemyCharacterManager.riposteCollider.criticalDamagerStandPosition.position;
 
-                    Vector3 rotationDirection = playerManager.transform.root.eulerAngles;
-                    rotationDirection = hit.transform.position - playerManager.transform.position;
+                    Vector3 rotationDirection = player.transform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - player.transform.position;
                     rotationDirection.y = 0;
                     rotationDirection.Normalize();
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 500 * Time.deltaTime);
-                    playerManager.transform.rotation = targetRotation;
+                    Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 500 * Time.deltaTime);
+                    player.transform.rotation = targetRotation;
 
-                    float criticalDamage = playerManager.playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.physicalDamage;
+                    float criticalDamage = player.playerInventoryManager.rightWeapon.criticalDamageMultiplier * rightWeapon.physicalDamage;
                     enemyCharacterManager.pendingCriticalDamage = criticalDamage;
 
-                    playerManager.playerAnimatorManager.PlayTargetAnimation("Riposte", true);
+                    player.playerAnimatorManager.PlayTargetAnimation("Riposte", true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Riposted", true);
                     enemyCharacterManager.canBeRiposted = false;
                     enemyCharacterManager.isGrabbed = true;

@@ -45,19 +45,29 @@ namespace SoulsLike {
         public bool isStuned; // 그로기 상태
 
         [Header("Armor Absorptions")]
-        public float physicalDamageAbsorptionHead;
-        public float physicalDamageAbsorptionBody;
-        public float physicalDamageAbsorptionLegs;
+        public float physicalDamageAbsorptionHead; 
+        public float physicalDamageAbsorptionBody; 
+        public float physicalDamageAbsorptionLegs; 
         public float physicalDamageAbsorptionHands;
-        public float totalPhysicalDamageAbsorption;
+        public float totalPhysicalDamageDefenseRate;
 
         public float fireDamageAbsorptionHead;
         public float fireDamageAbsorptionBody;
         public float fireDamageAbsorptionLegs;
         public float fireDamageAbsorptionHands;
-        public float totalFireDamageAbsorption;
+        public float totalFireDamageDefenseRate;
 
         public bool isDead;
+
+        // 캐릭터가 가하는 데미지의 배율
+        [Header("Damage Type Modifiers")]
+        public float physicalDamagePercentageModifier = 100;
+        public float fireDamagePercentageModifier = 100;
+
+        // 캐릭터가 받는 데미지의 배율
+        [Header("Damage Absorption Modifiers")]
+        public float physicalAbsorptionPercentageModifier = 0;
+        public float fireAbsorptionPercentageModifier = 0;
 
         protected virtual void Update() {
             HandlePoiseResetTimer();
@@ -67,13 +77,33 @@ namespace SoulsLike {
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation) {
+        public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation, CharacterManager enmyCharacterDamagingMe) {
             if (isDead) return;
+            
             characterAnimatorManager.EraseHandIKForWeapon();
+            
+            physicalDamage *= (enmyCharacterDamagingMe.characterStatsManager.physicalDamagePercentageModifier / 100);
+            float totalPhysicalDamageAbsorption = 1 -
+                (1 - physicalDamageAbsorptionHead / 100) *
+                (1 - physicalDamageAbsorptionBody / 100) *
+                (1 - physicalDamageAbsorptionLegs / 100) *
+                (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
+
+            physicalDamage -= physicalDamage * (physicalAbsorptionPercentageModifier / 100);
+
+            fireDamage *= (enmyCharacterDamagingMe.characterStatsManager.fireDamagePercentageModifier / 100);
+            float totalFireDamageAbsorption = 1 -
+                (1 - fireDamageAbsorptionHead / 100) *
+                (1 - fireDamageAbsorptionBody / 100) *
+                (1 - fireDamageAbsorptionLegs / 100) *
+                (1 - fireDamageAbsorptionHands / 100);
             fireDamage -= (fireDamage * totalFireDamageAbsorption);
 
+            fireDamage -= fireDamage * (fireAbsorptionPercentageModifier / 100);
+
             float finalDamage = physicalDamage + fireDamage;
+            Debug.Log("Final Damage : " + finalDamage);
             currentHealth -= finalDamage;
 
             if (currentHealth <= 0) {
@@ -85,10 +115,18 @@ namespace SoulsLike {
         public virtual void TakeDamageNoAnimation(float physicalDamage, float fireDamage = 0) {
             if (isDead) return;
 
-            float totalPhysicalDamageAbsorption = 1 - (1 - physicalDamageAbsorptionHead / 100) * (1 - physicalDamageAbsorptionBody / 100) * (1 - physicalDamageAbsorptionLegs / 100) * (1 - physicalDamageAbsorptionHands / 100);
+            float totalPhysicalDamageAbsorption = 1 - 
+                (1 - physicalDamageAbsorptionHead / 100) * 
+                (1 - physicalDamageAbsorptionBody / 100) * 
+                (1 - physicalDamageAbsorptionLegs / 100) * 
+                (1 - physicalDamageAbsorptionHands / 100);
             physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
 
-            float totalFireDamageAbsorption = 1 - (1 - fireDamageAbsorptionHead / 100) * (1 - fireDamageAbsorptionBody / 100) * (1 - fireDamageAbsorptionLegs / 100) * (1 - fireDamageAbsorptionHands / 100);
+            float totalFireDamageAbsorption = 1 - 
+                (1 - fireDamageAbsorptionHead / 100) * 
+                (1 - fireDamageAbsorptionBody / 100) * 
+                (1 - fireDamageAbsorptionLegs / 100) * 
+                (1 - fireDamageAbsorptionHands / 100);
             fireDamage -= (fireDamage * totalFireDamageAbsorption);
 
             float finalDamage = physicalDamage + fireDamage;

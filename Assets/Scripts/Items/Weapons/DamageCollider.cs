@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ¸ğµç ¹«±â°¡ °¡Áö°í ÀÖÀ» Å¬·¡½º
+// ëª¨ë“  ë¬´ê¸°ê°€ ê°€ì§€ê³  ìˆì„ í´ë˜ìŠ¤
 namespace SoulsLike {
     public class DamageCollider : MonoBehaviour {
-        public CharacterManager characterManager;
+        public CharacterManager characterCausingDamage;
         public bool enabledDamageColliderOnStartUp = false;
         protected Collider damageCollider;
 
         [Header("Team I.D")]
-        public int teamIDNumber; // ÇÇ¾Æ½Äº°¿¡ »ç¿ëÇÒ ID
+        public int teamIDNumber; // í”¼ì•„ì‹ë³„ì— ì‚¬ìš©í•  ID
 
         [Header("PoiseDamage")]
         public float poiseBreak;
@@ -56,11 +56,11 @@ namespace SoulsLike {
                     if (enemyStats.teamIDNumber == teamIDNumber) return;
                     if (hasBeenParried) return;
                     if (shieldHasBeenHit) return;
-                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime; // °­ÀÎµµ ¸®¼Â ½Ã°£ ¼³Á¤
+                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime; // ê°•ì¸ë„ ë¦¬ì…‹ ì‹œê°„ ì„¤ì •
 
-                    // Å¸°İ ÁöÁ¡
+                    // íƒ€ê²© ì§€ì 
                     Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    float directionHitFrom = (Vector3.SignedAngle(characterManager.transform.forward, enemyManager.transform.forward, Vector3.up));
+                    float directionHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, enemyManager.transform.forward, Vector3.up));
                     ChooseWhichDirectionDamageCameFrom(directionHitFrom);
                     enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
                     if (enemyStats.isBoss) {
@@ -74,7 +74,7 @@ namespace SoulsLike {
                             enemyStats.TakeDamageNoAnimation(physicalDamage);
                         } else {
                             //enemyStats.isStuned = true;
-                            enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation);
+                            enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation, characterCausingDamage);
                         }
                     }
                     if (enemyStats.teamIDNumber == 0) {
@@ -84,8 +84,8 @@ namespace SoulsLike {
                         } else if (teamIDNumber == 2) {
                             npcManager.aggravationToPlayer += 10;
                         }
-                        if (npcManager.currentTarget != characterManager.transform.GetComponent<CharacterStatsManager>()) {
-                            Debug.Log("Å¸°Ù ¼³Á¤ ½Ã°£ °¨¼Ò");
+                        if (npcManager.currentTarget != characterCausingDamage.transform.GetComponent<CharacterStatsManager>()) {
+                            Debug.Log("íƒ€ê²Ÿ ì„¤ì • ì‹œê°„ ê°ì†Œ");
                             npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
                         }
                     }
@@ -101,8 +101,8 @@ namespace SoulsLike {
 
         protected virtual void CheckForParry(CharacterManager enemyManager) {
             if (enemyManager.isParrying) {
-                //Debug.Log("ÆĞ¸® ¼º°ø");
-                characterManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("Parried", true);
+                //Debug.Log("íŒ¨ë¦¬ ì„±ê³µ");
+                characterCausingDamage.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("Parried", true);
                 hasBeenParried = true;
             }
         }
@@ -113,7 +113,7 @@ namespace SoulsLike {
                 float fireDamageAfterBlock = fireDamage - (fireDamage * shield.blockingFireDamageAbsorption) / 100;
 
                 if (enemyStats != null) {
-                    enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact");
+                    enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact", characterCausingDamage);
                     shieldHasBeenHit = true;
                 }
             }

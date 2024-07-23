@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class SpellDamageCollider : DamageCollider {
+        public CharacterManager characterSpelledThis;
         public GameObject impactParticles;
         public GameObject projectileParticles;
         public GameObject muzzleParticles;
@@ -11,8 +12,8 @@ namespace SoulsLike {
         bool hasCollided = false;
         Rigidbody rigidBody;
         new SphereCollider collider;
-        CharacterStatsManager spellTarget; // ¸ñÇ¥¹°ÀÇ Stat
-        Vector3 impactNormal; // impactParticles È¸ÀüÃà
+        CharacterStatsManager spellTarget; // ëª©í‘œë¬¼ì˜ Stat
+        Vector3 impactNormal; // impactParticles íšŒì „ì¶•
 
         private new void Awake() {
             rigidBody = GetComponent<Rigidbody>();
@@ -33,11 +34,11 @@ namespace SoulsLike {
                 spellTarget = collision.transform.root.GetComponent<CharacterStatsManager>();
                 if (spellTarget != null) {
                     if (spellTarget.teamIDNumber != teamIDNumber)
-                        spellTarget.TakeDamage(0, fireDamage, currentDamageAnimation);
+                        spellTarget.TakeDamage(0, fireDamage, currentDamageAnimation, characterSpelledThis);
                     else return;
                 }
                 hasCollided = true;
-                impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up À» impactNoraml ¿¡ ´ëÇØ È¸Àü
+                impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up ì„ impactNoraml ì— ëŒ€í•´ íšŒì „
 
                 Destroy(projectileParticles);
                 Destroy(impactParticles, 2f);

@@ -14,10 +14,10 @@ namespace SoulsLike {
         public Text[] currentStatPoints;
         public Text requiredSoulsText;
 
-        // ÀÎµ¦½º 6Àº ·¹º§, 7Àº ¼ÒÁö ¼Ò¿ï
+        // ì¸ë±ìŠ¤ 6ì€ ë ˆë²¨, 7ì€ ì†Œì§€ ì†Œìš¸
         private float[] initStats = new float[8];
 
-        // È­ÅêºÒ¿¡¼­ ·¹º§¾÷À» ¼±ÅÃÇÏ¿© UI°¡ È°¼ºÈ­ µÇ¸é
+        // í™”í†³ë¶ˆì—ì„œ ë ˆë²¨ì—…ì„ ì„ íƒí•˜ì—¬ UIê°€ í™œì„±í™” ë˜ë©´
         private void OnEnable() {
             
             currentStats = new Text[currentStatsBackground.transform.childCount];
@@ -34,7 +34,7 @@ namespace SoulsLike {
 
             GetCurrentStatPoints();
 
-            // ÇÃ·¹ÀÌ¾îÀÇ ½ºÅÈ Æ÷ÀÎÆ®µéÀ» UI¿¡ Ãâ·Â
+            // í”Œë ˆì´ì–´ì˜ ìŠ¤íƒ¯ í¬ì¸íŠ¸ë“¤ì„ UIì— ì¶œë ¥
             for (int i = 0; i < 3; i++) {
                 PrintCurrentStatPoints(i);
             }
@@ -45,7 +45,7 @@ namespace SoulsLike {
             }
         }
 
-        // °¢ ½ºÅÈÀÇ ±âÁ¸ ÃÖ´ëÄ¡¸¦ ±â·Ï
+        // ê° ìŠ¤íƒ¯ì˜ ê¸°ì¡´ ìµœëŒ€ì¹˜ë¥¼ ê¸°ë¡
         private void GetCurrentStatPoints() {
             initStats[0] = playerStatsManager.maxHealth;
             initStats[1] = playerStatsManager.maxFocus;
@@ -57,13 +57,13 @@ namespace SoulsLike {
             initStats[7] = playerStatsManager.soulCount;
         }
 
-        // ½ºÅÈ Æ÷ÀÎÆ®¿¡µû¸¥ ÇöÀç ´É·ÂÄ¡µéÀ» UI¿¡ Ãâ·ÂÇÑ´Ù
+        // ìŠ¤íƒ¯ í¬ì¸íŠ¸ì—ë”°ë¥¸ í˜„ì¬ ëŠ¥ë ¥ì¹˜ë“¤ì„ UIì— ì¶œë ¥í•œë‹¤
         private void PrintCurrentStats(int index) {
             switch (index) {
                 case 0:
                     currentStats[index].text = "Current Health : ";
                     currentStats[index].text += playerStatsManager.maxHealth.ToString();
-                    // ÃÖ´ë°ªÀÌ ´Ş¶óÁ³´Ù¸é(¿Ã¶ú´Ù¸é) »¡°£»öÀ¸·Î º¯°æ
+                    // ìµœëŒ€ê°’ì´ ë‹¬ë¼ì¡Œë‹¤ë©´(ì˜¬ëë‹¤ë©´) ë¹¨ê°„ìƒ‰ìœ¼ë¡œ ë³€ê²½
                     if (initStats[index] != playerStatsManager.maxHealth) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
@@ -89,7 +89,7 @@ namespace SoulsLike {
                     break;
                 case 5:
                     currentStats[index].text = "Current DEF : ";
-                    currentStats[5].text += (Mathf.Round(playerStatsManager.totalPhysicalDamageAbsorption * 100)).ToString() + '%';
+                    currentStats[5].text += (Mathf.Round(playerStatsManager.totalPhysicalDamageDefenseRate * 100)).ToString() + '%';
                     break;
                 case 6:
                     currentStats[index].text = "Current Level : ";
@@ -106,7 +106,7 @@ namespace SoulsLike {
             }
         }
 
-        // ÇöÀç ½ºÅÈ Æ÷ÀÎÆ®µéÀ» UI¿¡ Ãâ·ÂÇÑ´Ù
+        // í˜„ì¬ ìŠ¤íƒ¯ í¬ì¸íŠ¸ë“¤ì„ UIì— ì¶œë ¥í•œë‹¤
         private void PrintCurrentStatPoints(int index) {
             switch (index) {
                 case 0:
@@ -127,7 +127,7 @@ namespace SoulsLike {
             }
         }
 
-        // ÇØ´ç ÀÎµ¦½ºÀÇ ´É·ÂÄ¡°ª¿¡ º¯°æµÈ Æ÷ÀÎÆ®°ªÀ» Àû¿ëÇÑ´Ù
+        // í•´ë‹¹ ì¸ë±ìŠ¤ì˜ ëŠ¥ë ¥ì¹˜ê°’ì— ë³€ê²½ëœ í¬ì¸íŠ¸ê°’ì„ ì ìš©í•œë‹¤
         public void ChangeSelectedStat(int index, int value) {
             int delta = value;
             switch (index) {

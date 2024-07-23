@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace SoulsLike {
-    // ItemÀÌ¶ó´Â ScriptableObjectÀÇ ÇÏÀ§Ç×¸ñÀ¸·Î WeaponItemÀÌ¶ó´Â ScriptableObject¸¦ ¸¸µç´Ù.
-    // WeaponItemÀº ItemÀÌ °¡Áø ¼Ó¼º¿¡ ´õÇØ GameObject¿Í bool ¼Ó¼ºÀ» Ãß°¡·Î °®´Â´Ù.
+    // Itemì´ë¼ëŠ” ScriptableObjectì˜ í•˜ìœ„í•­ëª©ìœ¼ë¡œ WeaponItemì´ë¼ëŠ” ScriptableObjectë¥¼ ë§Œë“ ë‹¤.
+    // WeaponItemì€ Itemì´ ê°€ì§„ ì†ì„±ì— ë”í•´ GameObjectì™€ bool ì†ì„±ì„ ì¶”ê°€ë¡œ ê°–ëŠ”ë‹¤.
     [CreateAssetMenu(menuName = "Items/WeaponItem")]
     public class WeaponItem : Item {
         public GameObject modelPrefab;
@@ -14,13 +14,19 @@ namespace SoulsLike {
         [Header("Damage")]
         public float physicalDamage = 25;
         public float fireDamage;
+
+        [Header("Modifiers")]
+        public float lightAttackDamageModifier;
+        public float heavyAttackDamageModifier;
+        // Running Attack Modifier
+        // Jumping Attack Modifier
         public int criticalDamageMultiplier = 4;
 
         [Header("Poise")]
         public float poiseBreak;
         public float offensivePoiseBonus;
 
-        // ¹æ¾î½Ã ¹°¸® ÇÇÇØ Èí¼ö·®
+        // ë°©ì–´ì‹œ ë¬¼ë¦¬ í”¼í•´ í¡ìˆ˜ëŸ‰
         [Header("Absorption")]
         public float physicalDamageAbsorption;
 
