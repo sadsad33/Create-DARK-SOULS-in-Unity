@@ -16,6 +16,10 @@ namespace SoulsLike {
         public int currentChestGearItemID;
         public int currentHandGearItemID;
         public int currentLegGearItemID;
+        public int currentRingSlot01ItemID;
+        public int currentRingSlot02ItemID;
+        public int currentRingSlot03ItemID;
+        public int currentRingSlot04ItemID;
 
         [Header("World Coordinates")]
         public float xPosition;
@@ -23,9 +27,9 @@ namespace SoulsLike {
         public float zPosition;
 
         [Header("Items Looted From World")]
-        // ¿ùµå·ÎºÎÅÍ ·çÆÃ °¡´ÉÇÑ ¾ÆÀÌÅÛµéÀÇ ¸ñ·ÏÀÎ°ÇÁö ³»°¡ ¿ùµå·ÎºÎÅÍ ·çÆÃ ÇÑ ¾ÆÀÌÅÛÀÇ ¸ñ·ÏÀÎ°ÇÁö ¾Ö¸Å
-        // int Çü º¯¼ö´Â ¿ùµå¿¡ ½ºÆùµÈ ¾ÆÀÌÅÛÀÇ ½Äº° ¹øÈ£
-        // bool º¯¼ö´Â ÇÃ·¹ÀÌ¾î°¡ ¾ÆÀÌÅÛÀ» È¸¼öÇß´ÂÁö ¿©ºÎ
+        // ì›”ë“œë¡œë¶€í„° ë£¨íŒ… ê°€ëŠ¥í•œ ì•„ì´í…œë“¤ì˜ ëª©ë¡ì¸ê±´ì§€ ë‚´ê°€ ì›”ë“œë¡œë¶€í„° ë£¨íŒ… í•œ ì•„ì´í…œì˜ ëª©ë¡ì¸ê±´ì§€ ì• ë§¤
+        // int í˜• ë³€ìˆ˜ëŠ” ì›”ë“œì— ìŠ¤í°ëœ ì•„ì´í…œì˜ ì‹ë³„ ë²ˆí˜¸
+        // bool ë³€ìˆ˜ëŠ” í”Œë ˆì´ì–´ê°€ ì•„ì´í…œì„ íšŒìˆ˜í–ˆëŠ”ì§€ ì—¬ë¶€
         public SerializableDictionary<int, bool> itemsInWorld;
 
         public CharacterSaveData() {

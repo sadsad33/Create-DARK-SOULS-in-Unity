@@ -19,6 +19,9 @@ namespace SoulsLike {
             //poisonBuildUpBar = FindObjectOfType<PoisonBuildUpBar>();
             //poisonAmountBar = FindObjectOfType<PoisonAmountBar>();
         }
+        protected override void Start() {
+            base.Start();
+        }
 
         public void HealPlayerFromEffect() {
             player.playerStatsManager.HealPlayer(amountToBeHealed);

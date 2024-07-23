@@ -8365,6 +8365,7 @@ MonoBehaviour:
   characterWeaponSlotManager: {fileID: 0}
   characterStatsManager: {fileID: 0}
   characterInventoryManager: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 199501606}
   backStabCollider: {fileID: 229186707681697945}
@@ -8450,6 +8451,10 @@ MonoBehaviour:
   currentTorsoEquipment: {fileID: 11400000, guid: 45e938a30804f964ab9f69c147c7b9c9, type: 2}
   currentLegEquipment: {fileID: 11400000, guid: 73115051e8b2f47488a248e47d3fbccd, type: 2}
   currentGuntletEquipment: {fileID: 11400000, guid: 5bdbecf98282d1148968477099f17041, type: 2}
+  ringSlot01: {fileID: 11400000, guid: 5648d42eab585fa4993d26b01b7038cb, type: 2}
+  ringSlot02: {fileID: 11400000, guid: a206b19a16eb40443a98bd072ac5f03e, type: 2}
+  ringSlot03: {fileID: 0}
+  ringSlot04: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   currentSpellIndex: 0
@@ -8539,8 +8544,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staticCharacterEffects:
-  - {fileID: 11400000, guid: 9e04397b7cb4c914683fc5667bdd51e9, type: 2}
-  - {fileID: 11400000, guid: 4116f243c040a874cbca5d7ba8790a9b, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   rightWeaponFX: {fileID: 0}
   leftWeaponFX: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}

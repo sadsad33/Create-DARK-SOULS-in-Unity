@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-
 // �÷��̾ ���� Update �Լ��� ó��
 // �÷��̾��� ���� Flag�� ó���Ѵ�.
 // �÷��̾��� ���� ��ɵ��� �����Ѵ�.
@@ -337,9 +337,13 @@ namespace SoulsLike {
             currentCharacterSaveData.yPosition = transform.position.y;
             currentCharacterSaveData.zPosition = transform.position.z;
 
+            // 현재 무기 저장
             currentCharacterSaveData.currentRightHandWeaponID = playerInventoryManager.rightWeapon.itemID;
             currentCharacterSaveData.currentLeftHandWeaponID = playerInventoryManager.leftWeapon.itemID;
 
+            // 현재 갑옷 저장
+            // 식별번호로 -1은 사용하지 않으므로 해당 부위에 아무런 장비도 없다면 -1을 저장
+            // LINQ를 이용해 값을 찾을때 null을 반환하게 됨
             if (playerInventoryManager.currentHelmetEquipment != null)
                 currentCharacterSaveData.currentHeadGearItemID = playerInventoryManager.currentHelmetEquipment.itemID;
             else currentCharacterSaveData.currentHeadGearItemID = -1;
@@ -355,8 +359,26 @@ namespace SoulsLike {
             if (playerInventoryManager.currentLegEquipment != null)
                 currentCharacterSaveData.currentLegGearItemID = playerInventoryManager.currentLegEquipment.itemID;
             else currentCharacterSaveData.currentLegGearItemID = -1;
+
+            // 현재 반지 저장
+            if (playerInventoryManager.ringSlot01 != null)
+                currentCharacterSaveData.currentRingSlot01ItemID = playerInventoryManager.ringSlot01.itemID;
+            else currentCharacterSaveData.currentRingSlot01ItemID = -1;
+
+            if (playerInventoryManager.ringSlot02 != null)
+                currentCharacterSaveData.currentRingSlot02ItemID = playerInventoryManager.ringSlot02.itemID;
+            else currentCharacterSaveData.currentRingSlot02ItemID = -1;
+
+            if (playerInventoryManager.ringSlot03 != null)
+                currentCharacterSaveData.currentRingSlot03ItemID = playerInventoryManager.ringSlot03.itemID;
+            else currentCharacterSaveData.currentRingSlot03ItemID = -1;
+
+            if (playerInventoryManager.ringSlot04 != null)
+                currentCharacterSaveData.currentRingSlot04ItemID = playerInventoryManager.ringSlot04.itemID;
+            else currentCharacterSaveData.currentRingSlot04ItemID = -1;
         }
 
+        [Obsolete(" 플레이어의 장비 UI에 반지를 장착/해제 할수 있는 부분이 없으므로 반지의 장착 해제 메서드는 호출되는 부분이 없음. 따라서 반지를 장착하고 있다가 해제하고 세이브해도 로드 하는 과정에서 반영이 되지 않는 문제가 있음")]
         public void LoadCharacterDataFromCurrentCharacterSaveData(ref CharacterSaveData currentCharacterSaveData) {
             playerStatsManager.characterName = currentCharacterSaveData.characterName;
             playerStatsManager.level = currentCharacterSaveData.characterLevel;
@@ -366,27 +388,41 @@ namespace SoulsLike {
             playerInventoryManager.leftWeapon = WorldItemDatabase.instance.GetWeaponItemByID(currentCharacterSaveData.currentLeftHandWeaponID);
             playerWeaponSlotManager.LoadBothWeaponsOnSlots();
 
+            //EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
+            //// ������ ���̽��� �ش� �������� �����ϸ� ����
+            //Debug.Log(headEquipment);
+            //if (headEquipment != null) {
+            //    playerInventoryManager.currentHelmetEquipment = headEquipment as HelmetEquipment;
+            //} else {
+            //    playerInventoryManager.currentHelmetEquipment = null;
+            //}
             EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
-            // ������ ���̽��� �ش� �������� �����ϸ� ����
-            if (headEquipment != null) {
-                playerInventoryManager.currentHelmetEquipment = headEquipment as HelmetEquipment;
-            }
+            playerInventoryManager.currentHelmetEquipment = headEquipment == null ? null : headEquipment as HelmetEquipment; 
 
             EquipmentItem bodyEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentChestGearItemID);
-            if (bodyEquipment != null) {
-                playerInventoryManager.currentTorsoEquipment = bodyEquipment as TorsoEquipment;
-            }
+            playerInventoryManager.currentTorsoEquipment = bodyEquipment == null ? null : bodyEquipment as TorsoEquipment;
 
             EquipmentItem handEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHandGearItemID);
-            if (handEquipment != null) {
-                playerInventoryManager.currentGuntletEquipment = handEquipment as GuntletEquipment;
-            }
+            playerInventoryManager.currentGuntletEquipment = handEquipment == null ? null : handEquipment as GuntletEquipment;
 
             EquipmentItem legEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentLegGearItemID);
-            if (bodyEquipment != null) {
-                playerInventoryManager.currentLegEquipment = legEquipment as LegEquipment;
-            }
+            playerInventoryManager.currentLegEquipment = legEquipment == null ? null : legEquipment as LegEquipment;
+            
             playerEquipmentManager.EquipAllEquipmentModels();
+
+            RingItem slot01Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot01ItemID);
+            playerInventoryManager.ringSlot01 = slot01Ring == null ? null : slot01Ring;
+            
+            RingItem slot02Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot02ItemID);
+            playerInventoryManager.ringSlot02 = slot02Ring == null ? null : slot02Ring;
+
+            RingItem slot03Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot03ItemID);
+            playerInventoryManager.ringSlot03 = slot03Ring == null ? null : slot03Ring;
+
+            RingItem slot04Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot04ItemID);
+            playerInventoryManager.ringSlot04 = slot04Ring == null ? null : slot04Ring;
+
+            playerInventoryManager.LoadRingEffect();
         }
 
         public void LoadOtherPlayerCharacterWhenJoiningOnline(PlayerManager player) {
