@@ -4,50 +4,50 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PlayerEffectsManager : CharacterEffectsManager {
-        PlayerStatsManager playerStatsManager;
-        PlayerWeaponSlotManager playerWeaponSlotManager;
-        public GameObject currentParticleFX; // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¿¡ µû¸¥ ¿À¶ó(?) È¿°ú
+        PlayerManager player;
+        public GameObject currentParticleFX; // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìƒíƒœì— ë”°ë¥¸ ì˜¤ë¼(?) íš¨ê³¼
         public GameObject instantiatedFXModel;
         public float amountToBeHealed;
 
+        // ë°ë¯¸ì§€ì™€ ê°™ì€ ì¦‰ê°ì ì¸ íš¨ê³¼
+        // ë°˜ì§€ë‚˜, ê°‘ì˜· íš¨ê³¼ ê°™ì€ ì •ì  íš¨ê³¼
+        // ì‹œê°„ í˜¹ì€ ìƒíƒœì— ë”°ë¥¸ íš¨ê³¼
+
         protected override void Awake() {
             base.Awake();
-            playerStatsManager = GetComponent<PlayerStatsManager>();
-            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
-             
+            player = GetComponent<PlayerManager>();
             //poisonBuildUpBar = FindObjectOfType<PoisonBuildUpBar>();
             //poisonAmountBar = FindObjectOfType<PoisonAmountBar>();
         }
 
         public void HealPlayerFromEffect() {
-            playerStatsManager.HealPlayer(amountToBeHealed);
-            GameObject healParticles = Instantiate(currentParticleFX, playerStatsManager.transform); // È¸º¹ ÀÌÆåÆ®
+            player.playerStatsManager.HealPlayer(amountToBeHealed);
+            GameObject healParticles = Instantiate(currentParticleFX, player.playerStatsManager.transform); // íšŒë³µ ì´í™íŠ¸
             Destroy(healParticles, 2f);
         }
 
         public void UnloadFlask() {
-            Destroy(instantiatedFXModel.gameObject); // ¿¡½ºÆ®º´ Á¦°Å
+            Destroy(instantiatedFXModel.gameObject); // ì—ìŠ¤íŠ¸ë³‘ ì œê±°
         }
 
         protected override void HandlePoisonBuildUp() {
             if (poisonBuildUp <= 0) {
-                UIManager.instance.poisonBuildUpBar.gameObject.SetActive(false); // ÃàÀûÄ¡°¡ ÇÏ³ªµµ ¾ø´Ù¸é È­¸é¿¡ º¸ÀÌÁö ¾Êµµ·Ï ÇÑ´Ù.
+                UIManager.instance.poisonBuildUpBar.gameObject.SetActive(false); // ì¶•ì ì¹˜ê°€ í•˜ë‚˜ë„ ì—†ë‹¤ë©´ í™”ë©´ì— ë³´ì´ì§€ ì•Šë„ë¡ í•œë‹¤.
             } else {
-                UIManager.instance.poisonBuildUpBar.gameObject.SetActive(true); // ÃàÀûÄ¡°¡ Á¶±İÀÌ¶óµµ ÀÖ´Ù¸é È­¸é¿¡ Ç¥½Ã
+                UIManager.instance.poisonBuildUpBar.gameObject.SetActive(true); // ì¶•ì ì¹˜ê°€ ì¡°ê¸ˆì´ë¼ë„ ìˆë‹¤ë©´ í™”ë©´ì— í‘œì‹œ
             }
             base.HandlePoisonBuildUp();
-            UIManager.instance.poisonBuildUpBar.SetPoisonBuildUpAmount(poisonBuildUp); // µ¶ ÃàÀûÄ¡¸¦ ³ªÅ¸³¾ UI¹Ù¿¡ ÇöÀç ÃàÀûÄ¡¸¦ ¹İ¿µÇÑ´Ù.
+            UIManager.instance.poisonBuildUpBar.SetPoisonBuildUpAmount(poisonBuildUp); // ë… ì¶•ì ì¹˜ë¥¼ ë‚˜íƒ€ë‚¼ UIë°”ì— í˜„ì¬ ì¶•ì ì¹˜ë¥¼ ë°˜ì˜í•œë‹¤.
         }
 
         protected override void HandlePoisonedEffect() {
             if (!isPoisoned) {
-                UIManager.instance.poisonAmountBar.gameObject.SetActive(false); // µ¶ »óÅÂÀÌ»ó¿¡ °É¸®Áö ¾Ê¾Ò´Ù¸é ÃàÀûÄ¡ Ç¥½Ã X
+                UIManager.instance.poisonAmountBar.gameObject.SetActive(false); // ë… ìƒíƒœì´ìƒì— ê±¸ë¦¬ì§€ ì•Šì•˜ë‹¤ë©´ ì¶•ì ì¹˜ í‘œì‹œ X
             } else {
-                UIManager.instance.poisonAmountBar.gameObject.SetActive(true); // »óÅÂÀÌ»ó¿¡ °É¸° »óÅÂ¶ó¸é ÃàÀûÄ¡ Ç¥½Ã
+                UIManager.instance.poisonAmountBar.gameObject.SetActive(true); // ìƒíƒœì´ìƒì— ê±¸ë¦° ìƒíƒœë¼ë©´ ì¶•ì ì¹˜ í‘œì‹œ
             }
             base.HandlePoisonedEffect();
-            UIManager.instance.poisonAmountBar.SetPoisonAmount(poisonAmount); // µ¶ ÃàÀûÄ¡¸¦ ³ªÅ¸³¾ UI¹Ù¿¡ ÇöÀç ÃàÀûÄ¡¸¦ ¹İ¿µ
+            UIManager.instance.poisonAmountBar.SetPoisonAmount(poisonAmount); // ë… ì¶•ì ì¹˜ë¥¼ ë‚˜íƒ€ë‚¼ UIë°”ì— í˜„ì¬ ì¶•ì ì¹˜ë¥¼ ë°˜ì˜
         }
-
     }
 }

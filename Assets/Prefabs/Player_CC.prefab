@@ -8332,13 +8332,17 @@ MonoBehaviour:
   physicalDamageAbsorptionBody: 0
   physicalDamageAbsorptionLegs: 0
   physicalDamageAbsorptionHands: 0
-  totalPhysicalDamageAbsorption: 0
+  totalPhysicalDamageDefenseRate: 0
   fireDamageAbsorptionHead: 0
   fireDamageAbsorptionBody: 0
   fireDamageAbsorptionLegs: 0
   fireDamageAbsorptionHands: 0
-  totalFireDamageAbsorption: 0
+  totalFireDamageDefenseRate: 0
   isDead: 0
+  physicalDamagePercentageModifier: 100
+  fireDamagePercentageModifier: 100
+  physicalAbsorptionPercentageModifier: 0
+  fireAbsorptionPercentageModifier: 0
   level: 10
   characterName: Nameless
   staminaRegenerationAmount: 50
@@ -8359,6 +8363,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterWeaponSlotManager: {fileID: 0}
+  characterStatsManager: {fileID: 0}
   characterInventoryManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   lockOnTransform: {fileID: 199501606}
@@ -8501,6 +8506,7 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 134254330578057581}
   rightHandConstraint: {fileID: 134254329769522189}
+  player: {fileID: 0}
 --- !u!114 &6482744793811343858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8532,6 +8538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c2e201d470fbc47af6d49237e3c2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staticCharacterEffects:
+  - {fileID: 11400000, guid: 9e04397b7cb4c914683fc5667bdd51e9, type: 2}
+  - {fileID: 11400000, guid: 4116f243c040a874cbca5d7ba8790a9b, type: 2}
   rightWeaponFX: {fileID: 0}
   leftWeaponFX: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
