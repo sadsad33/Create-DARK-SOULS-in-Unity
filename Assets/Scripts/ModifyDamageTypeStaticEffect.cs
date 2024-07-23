@@ -13,7 +13,7 @@ namespace SoulsLike {
         [SerializeField] int modifiedValue = 0;
 
         
-        // 효과가 추가되면 값을 더해줘야함
+        // 인수로 전달받은 캐릭터에게 효과를 추가해줌
         public override void AddStaticEffect(CharacterManager character) {
             base.AddStaticEffect(character);
 

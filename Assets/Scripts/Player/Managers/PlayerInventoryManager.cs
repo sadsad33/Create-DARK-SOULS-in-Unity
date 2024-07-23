@@ -5,30 +5,38 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerInventoryManager : CharacterInventoryManager {
 
-        // UI¿Í ¿¬µ¿µÉ ÇÃ·¹ÀÌ¾îÀÇ ÀÎº¥Åä¸®
+        // UIì™€ ì—°ë™ë  í”Œë ˆì´ì–´ì˜ ì¸ë²¤í† ë¦¬
         public List<WeaponItem> weaponsInventory;
         public List<ConsumableItem> consumablesInventory;
 
+        protected override void Awake() {
+            base.Awake();
+        }
+
+        protected override void Start() {
+            base.Start();
+            LoadRingEffect();
+        }
         public void ChangeRightWeapon() {
-            currentRightWeaponIndex += 1; // ´ÙÀ½ÀÎµ¦½º·Î ³Ñ¾î°£´Ù.
+            currentRightWeaponIndex += 1; // ë‹¤ìŒì¸ë±ìŠ¤ë¡œ ë„˜ì–´ê°„ë‹¤.
             if (currentRightWeaponIndex >= weaponsInRightHandSlots.Length || weaponsInRightHandSlots[currentRightWeaponIndex] == null) {
                 currentRightWeaponIndex = -1;
-                rightWeapon = characterWeaponSlotManager.unarmedWeapon;
+                rightWeapon = character.characterWeaponSlotManager.unarmedWeapon;
             } else {
                 rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
             }
-            characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+            character.characterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
         }
 
         public void ChangeLeftWeapon() {
             currentLeftWeaponIndex += 1;
             if (currentLeftWeaponIndex >= weaponsInLeftHandSlots.Length || weaponsInLeftHandSlots[currentLeftWeaponIndex] == null) {
                 currentLeftWeaponIndex = -1;
-                leftWeapon = characterWeaponSlotManager.unarmedWeapon;
+                leftWeapon = character.characterWeaponSlotManager.unarmedWeapon;
             } else {
                 leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
             }
-            characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+            character.characterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         }
 
         public void ChangeSpell() {
@@ -39,7 +47,7 @@ namespace SoulsLike {
             } else {
                 currentSpell = memorizedSpells[currentSpellIndex];
             }
-            characterWeaponSlotManager.LoadSpellOnSlot(currentSpell);
+            character.characterWeaponSlotManager.LoadSpellOnSlot(currentSpell);
         }
 
         public void ChangeConsumableItem() {
@@ -50,7 +58,15 @@ namespace SoulsLike {
             } else {
                 currentConsumable = selectedConsumables[currentConsumableIndex];
             }
-            characterWeaponSlotManager.LoadConsumableOnSlot(currentConsumable);
+            character.characterWeaponSlotManager.LoadConsumableOnSlot(currentConsumable);
+        }
+
+        // ê²Œì„ ë°ì´í„°ë¥¼ ì„¸ì´ë¸Œí•˜ëŠ” ë©”ì„œë“œì—ì„œ ì¥ë¹„ë“¤ì„ ë¡œë“œí•œ í›„ í˜¸ì¶œ 
+        public void LoadRingEffect() {
+            if (ringSlot01 != null) ringSlot01.EquipRing(character);
+            if (ringSlot02 != null) ringSlot02.EquipRing(character);
+            if (ringSlot03 != null) ringSlot03.EquipRing(character);
+            if (ringSlot04 != null) ringSlot04.EquipRing(character);
         }
     }
 }

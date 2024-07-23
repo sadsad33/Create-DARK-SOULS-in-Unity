@@ -1582,9 +1582,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6345208232444783560, guid: c34596650c0acbe48a8b2fdfe895c5e2, type: 3}
+      propertyPath: ringItems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345208232444783560, guid: c34596650c0acbe48a8b2fdfe895c5e2, type: 3}
       propertyPath: weaponItems.Array.size
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6345208232444783560, guid: c34596650c0acbe48a8b2fdfe895c5e2, type: 3}
+      propertyPath: ringItems.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a206b19a16eb40443a98bd072ac5f03e, type: 2}
+    - target: {fileID: 6345208232444783560, guid: c34596650c0acbe48a8b2fdfe895c5e2, type: 3}
+      propertyPath: ringItems.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5648d42eab585fa4993d26b01b7038cb, type: 2}
     - target: {fileID: 6345208232444783560, guid: c34596650c0acbe48a8b2fdfe895c5e2, type: 3}
       propertyPath: weaponItems.Array.data[0]
       value: 

@@ -11,6 +11,8 @@ namespace SoulsLike {
         public List<Item> allItems = new List<Item>();
         public List<WeaponItem> weaponItems = new List<WeaponItem>();
         public List<EquipmentItem> equipmentItems = new List<EquipmentItem>();
+        public List<RingItem> ringItems = new List<RingItem>();
+
         private void Awake() {
             if (instance == null) instance = this;
             else Destroy(gameObject);
@@ -24,11 +26,18 @@ namespace SoulsLike {
                 allItems.Add(item);
             }
 
+            foreach (var item in ringItems) {
+                allItems.Add(item);
+            }
+
             for (int i = 0; i < allItems.Count; i++) {
                 allItems[i].itemID = i;
             }
         }
 
+        private void Start() {
+            DontDestroyOnLoad(this);
+        }
         public WeaponItem GetWeaponItemByID(int weaponID) {
             // 전체 리스트를 탐색하여 id가 일치하는 가장 첫번째 WeaponItem을 반환, 찾지 못하면 null 반환
             return weaponItems.FirstOrDefault(weapon => weapon.itemID == weaponID);
@@ -36,6 +45,10 @@ namespace SoulsLike {
 
         public EquipmentItem GetEquipmentItemByID(int equipmentID) {
             return equipmentItems.FirstOrDefault(equipment => equipment.itemID == equipmentID);
+        }
+
+        public RingItem GetRingItemByID(int ringID) {
+            return ringItems.FirstOrDefault(ring => ring.itemID == ringID);
         }
     }
 }

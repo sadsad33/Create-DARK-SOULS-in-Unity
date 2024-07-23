@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class CharacterInventoryManager : MonoBehaviour {
 
-        protected CharacterWeaponSlotManager characterWeaponSlotManager;
+        protected CharacterManager character;
 
         [Header("Quick Slot Items")]
         public SpellItem currentSpell;
@@ -14,30 +14,34 @@ namespace SoulsLike {
 
         public SpellItem[] memorizedSpells = new SpellItem[5];
         public ConsumableItem[] selectedConsumables = new ConsumableItem[3];
-        public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3]; // øﬁº’ π´±‚ΩΩ∑‘
-        public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3]; // ø¿∏•º’ π´±‚ΩΩ∑‘
+        public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3]; // ÏôºÏÜê Î¨¥Í∏∞Ïä¨Î°Ø
+        public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3]; // Ïò§Î•∏ÏÜê Î¨¥Í∏∞Ïä¨Î°Ø
 
         [Header("Current Equipment")]
         public HelmetEquipment currentHelmetEquipment;
         public TorsoEquipment currentTorsoEquipment;
         public LegEquipment currentLegEquipment;
         public GuntletEquipment currentGuntletEquipment;
+        public RingItem ringSlot01;
+        public RingItem ringSlot02;
+        public RingItem ringSlot03;
+        public RingItem ringSlot04;
 
         public int currentRightWeaponIndex;
         public int currentLeftWeaponIndex;
         public int currentSpellIndex;
         public int currentConsumableIndex;
 
-        private void Awake() {
-            characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
+        protected virtual void Awake() {
+            character = GetComponent<CharacterManager>();
             rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
             leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
             if (memorizedSpells[currentSpellIndex] != null) currentSpell = memorizedSpells[currentSpellIndex];
             if (selectedConsumables[currentConsumableIndex] != null) currentConsumable = selectedConsumables[currentConsumableIndex];
         }
 
-        private void Start() {
-            characterWeaponSlotManager.LoadBothWeaponsOnSlots();
+        protected virtual void Start() {
+            character.characterWeaponSlotManager.LoadBothWeaponsOnSlots();
         }
     }
 }

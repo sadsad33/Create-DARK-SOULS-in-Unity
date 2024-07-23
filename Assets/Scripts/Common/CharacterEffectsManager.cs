@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,17 +33,18 @@ namespace SoulsLike {
             character = GetComponent<CharacterManager>();
         }
 
+        [Obsolete(" 직접적으로 플레이어에게 적용된 Static Effect 목록을 검사하는것이 아니라 PlayerInventoryManager 의 Start 메소드 에서 반지를 모두 장착하는 함수를 호출하여 Static Effect 들을 적용 시키는 상태. 만약 게임 시작시 Static Effect가 제대로 적용되지 않는다면 이곳 참조")]
         protected virtual void Start() {
-            foreach (var effect in staticCharacterEffects) {
-                effect.AddStaticEffect(character);
-            }
+            //foreach (var effect in staticCharacterEffects) {
+            //    if (effect != null)
+            //        effect.AddStaticEffect(character);
+            //}
         }
 
         public void AddStaticEffect(StaticCharacterEffect effect) {
             // StaticCharacterEffect 리스트를 체크하여 중복적용이 되지 않도록 함
-
             StaticCharacterEffect staticEffect;
-            for (int i = staticCharacterEffects.Count; i > -1; i--) {
+            for (int i = staticCharacterEffects.Count - 1; i > -1; i--) {
                 if (staticCharacterEffects[i] != null) {
                     if (staticCharacterEffects[i].effectID == effect.effectID) {
                         staticEffect = staticCharacterEffects[i];
@@ -59,7 +61,7 @@ namespace SoulsLike {
             effect.AddStaticEffect(character);
 
             for (int i = staticCharacterEffects.Count - 1; i > -1; i--) {
-                if (staticCharacterEffects[i] == null) 
+                if (staticCharacterEffects[i] == null)
                     staticCharacterEffects.RemoveAt(i);
             }
         }
@@ -119,7 +121,7 @@ namespace SoulsLike {
             } else if (poisonBuildUp >= 100) { // 독 축적치가 100 이상이라면
                 isPoisoned = true; // 독 상태이상
                 poisonBuildUp = 0;
-                
+
                 if (buildUpTransform != null) {
                     currentPoisonedParticleFX = Instantiate(defaultPoisonedParticleFX, buildUpTransform.transform);
                 } else {

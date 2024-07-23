@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b784fddce0e16504e9d6b5afc1d5896e, type: 3}
+  m_Name: Ruby Ring
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  itemName: 
+  flavorText: 
+  itemID: 0
+  effect: {fileID: 11400000, guid: 4116f243c040a874cbca5d7ba8790a9b, type: 2}
+  itemEffectInformation: "\uD654\uC5FC \uD53C\uD574\uB97C \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
