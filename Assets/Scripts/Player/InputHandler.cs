@@ -286,7 +286,7 @@ namespace SoulsLike {
                 if (player.isInteracting) return;
                 x_Input = false;
                 // 현재 소비 아이템을 사용한다.
-                player.playerInventoryManager.currentConsumable.AttemptToConsumeItem(player.playerAnimatorManager, player.playerWeaponSlotManager, player.playerEffectsManager);
+                player.playerInventoryManager.currentConsumable.AttemptToConsumeItem(player);
             }
         }
     }

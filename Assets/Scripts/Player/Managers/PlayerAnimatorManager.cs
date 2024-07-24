@@ -56,6 +56,12 @@ namespace SoulsLike {
             player.characterController.enabled = true;
         }
 
+        public virtual void SuccessfullyUseCurrentConsumable() {
+            if (character.characterInventoryManager.currentConsumable != null) {
+                character.characterInventoryManager.currentConsumable.SuccessfullyConsumedItem(player);
+            }
+        }
+
         public void FinishJump() {
             if (player.isJumping)
                 player.isJumping = false;

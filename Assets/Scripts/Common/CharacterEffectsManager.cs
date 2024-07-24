@@ -11,11 +11,14 @@ namespace SoulsLike {
         [SerializeField] List<StaticCharacterEffect> staticCharacterEffects;
 
         [Header("Weapon FX")]
-        public WeaponFX rightWeaponFX;
-        public WeaponFX leftWeaponFX;
+        public WeaponManager rightWeaponManager; 
+        public WeaponManager leftWeaponManager;
 
         [Header("Damage FX")]
         public GameObject bloodSplatterFX;
+
+        [Header("Right Weapon Buff")]
+        public WeaponBuffEffect rightWeaponBuffEffect;
 
         [Header("Poison")]
         public GameObject defaultPoisonedParticleFX; // 플레이어가 기본적으로 가지고 있는 독 상태이상 이펙트
@@ -39,6 +42,14 @@ namespace SoulsLike {
             //    if (effect != null)
             //        effect.AddStaticEffect(character);
             //}
+        }
+
+        public void ProcessWeaponBuffs() {
+            // 현재 오른손 무기에 버프가 걸린 상태라면
+            if (rightWeaponBuffEffect != null) {
+                // 버프 적용
+                rightWeaponBuffEffect.ProcessEffect(character);
+            }
         }
 
         public void AddStaticEffect(StaticCharacterEffect effect) {
@@ -87,24 +98,24 @@ namespace SoulsLike {
 
         public virtual void PlayWeaponFX(bool isLeft) {
             if (!isLeft) {
-                if (rightWeaponFX != null) {
-                    rightWeaponFX.PlayWeaponFX();
+                if (rightWeaponManager != null) {
+                    rightWeaponManager.PlayWeaponTrailFX();
                 }
             } else {
-                if (leftWeaponFX != null) {
-                    leftWeaponFX.PlayWeaponFX();
+                if (leftWeaponManager != null) {
+                    leftWeaponManager.PlayWeaponTrailFX();
                 }
             }
         }
 
         public virtual void StopWeaponFX(bool isLeft) {
             if (!isLeft) {
-                if (rightWeaponFX != null) {
-                    rightWeaponFX.StopWeaponFX();
+                if (rightWeaponManager != null) {
+                    rightWeaponManager.PlayWeaponTrailFX();
                 }
             } else {
-                if (leftWeaponFX != null) {
-                    leftWeaponFX.StopWeaponFX();
+                if (leftWeaponManager != null) {
+                    leftWeaponManager.PlayWeaponTrailFX();
                 }
             }
         }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7aae2c9088ad24bb389463fd5a4c68, type: 3}
+  m_Name: Fire Buff Item
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  itemName: Fire Buff
+  flavorText: 
+  itemID: 0
+  maxItemAmount: 10
+  currentItemAmount: 10
+  itemModel: {fileID: 0}
+  consumeAnimation: Buff_Sword_01
+  isInteracting: 1
+  weaponBuffEffect: {fileID: 11400000, guid: 976279eaa8d16804ab0fc9b3f2007846, type: 2}
+  buffTriggerSound: {fileID: 8300000, guid: aac59b3175fa36943ab5be218bb68967, type: 3}

@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class WeaponManager : MonoBehaviour {
-        [Header("Buff FX")]
-        [SerializeField] GameObject physicalBuffFX;
+        [Header("Buff FX")]// 버프의 이펙트
+        [SerializeField] GameObject physicalBuffFX; 
         [SerializeField] GameObject fireBuffFX;
 
-        [Header("Trail FX")]
+        [Header("Trail FX")] // 버프 상태에 따른 무기의 트레일
         [SerializeField] ParticleSystem defaultTrailFX;
         [SerializeField] ParticleSystem fireTrailFX;
 
-        private bool weaponIsBuffed;
-        private BuffType weaponBuffType;
+        private bool weaponIsBuffed; // 현재 무기가 버프된 상태인지
+        private BuffType weaponBuffType; // 어떤 타입의 버프를 받았는지
 
         [HideInInspector] public MeleeWeaponDamageCollider damageCollider;
-        public AudioSource audioSource;
+        public AudioSource audioSource; // 버프 적용중 재생되는 소리
 
         private void Awake() {
             damageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
@@ -67,6 +67,8 @@ namespace SoulsLike {
                         fireTrailFX.Play();
                         break;
                 }
+            } else {
+                return;
             }
         }
     }
