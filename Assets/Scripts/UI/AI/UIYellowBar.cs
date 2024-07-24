@@ -21,7 +21,7 @@ namespace SoulsLike {
         }
 
         private void OnEnable() {
-            if (timer <= 0) timer = 1f; // 노란색 체력바 남아있는 시간
+            if (timer <= 0) timer = 0.5f; // 노란색 체력바 남아있는 시간
         }
 
         private void Update() {

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 // 모든 무기가 가지고 있을 클래스
 namespace SoulsLike {
     public class DamageCollider : MonoBehaviour {
@@ -38,47 +38,34 @@ namespace SoulsLike {
             damageCollider.enabled = false;
         }
 
+        [Obsolete("캐릭터에게 데미지를 주는 부분을 추출해서 메서드로 만듬, 만약 NPC 관련해서 문제가 발생한다면 이곳 참조")]
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Character")) {
                 shieldHasBeenHit = false;
                 hasBeenParried = false;
-                CharacterStatsManager enemyStats = other.GetComponent<CharacterStatsManager>();
-                CharacterManager enemyManager = other.GetComponent<CharacterManager>();
-                CharacterEffectsManager enemyEffectsManager = other.GetComponent<CharacterEffectsManager>();
+                CharacterManager target = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                if (enemyStats.isDead) return;
-                if (enemyManager != null) {
-                    if (enemyStats.teamIDNumber == teamIDNumber) return;
-                    CheckForParry(enemyManager);
-                    CheckForBlock(enemyManager, shield, enemyStats);
+                
+                if (target.characterStatsManager.isDead) return;
+                
+                if (target != null) {
+                    if (target.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                    CheckForParry(target);
+                    CheckForBlock(target, shield, target.characterStatsManager);
                 }
-                if (enemyStats != null) {
-                    if (enemyStats.teamIDNumber == teamIDNumber) return;
+                
+                if (target.characterStatsManager != null) {
+                    if (target.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                   
                     if (hasBeenParried) return;
+                    
                     if (shieldHasBeenHit) return;
-                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime; // 강인도 리셋 시간 설정
+                    
+                    target.characterStatsManager.poiseResetTimer = target.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
+                    target.characterStatsManager.totalPoiseDefense -= poiseBreak;
 
-                    // 타격 지점
-                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    float directionHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, enemyManager.transform.forward, Vector3.up));
-                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
-                    if (enemyStats.isBoss) {
-                        if (enemyStats.totalPoiseDefense < 0 && !enemyStats.isStuned) {
-                            enemyStats.isStuned = true;
-                            enemyStats.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
-                        }
-                        enemyStats.TakeDamageNoAnimation(physicalDamage);
-                    } else {
-                        if (enemyStats.totalPoiseDefense > poiseBreak) {
-                            enemyStats.TakeDamageNoAnimation(physicalDamage);
-                        } else {
-                            //enemyStats.isStuned = true;
-                            enemyStats.TakeDamage(physicalDamage, 0, currentDamageAnimation, characterCausingDamage);
-                        }
-                    }
-                    if (enemyStats.teamIDNumber == 0) {
-                        NPCManager npcManager = other.GetComponent<NPCManager>();
+                    if (target.characterStatsManager.teamIDNumber == 0) {
+                        NPCManager npcManager = target.transform.GetComponent<NPCManager>();
                         if (teamIDNumber == 1) {
                             npcManager.aggravationToEnemy += 30;
                         } else if (teamIDNumber == 2) {
@@ -89,7 +76,13 @@ namespace SoulsLike {
                             npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
                         }
                     }
-                    enemyStats.totalPoiseDefense -= poiseBreak;
+
+                    // 타격 지점
+                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    float directionHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, target.transform.forward, Vector3.up));
+                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
+                    target.characterEffectsManager.PlayBloodSplatterFX(contactPoint);
+                    DealDamage(target);
                 }
             }
 
@@ -97,6 +90,26 @@ namespace SoulsLike {
                 IllusionaryWall illusionaryWall = other.GetComponent<IllusionaryWall>();
                 illusionaryWall.illusionaryWallHealthPoint -= 1;
             }
+        }
+
+        protected virtual void DealDamage(CharacterManager target) {
+            float finalPhysicalDamage = physicalDamage;
+
+            if (target.characterStatsManager.isBoss) {
+                if (target.characterStatsManager.totalPoiseDefense < 0 && !target.characterStatsManager.isStuned) {
+                    target.characterStatsManager.isStuned = true;
+                    target.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
+                }
+                target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage);
+            } else {
+                if (target.characterStatsManager.totalPoiseDefense > poiseBreak) {
+                    target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage);
+                } else {
+                    //enemyStats.isStuned = true;
+                    target.characterStatsManager.TakeDamage(finalPhysicalDamage, 0, currentDamageAnimation, characterCausingDamage);
+                }
+            }
+
         }
 
         protected virtual void CheckForParry(CharacterManager enemyManager) {
