@@ -12,6 +12,11 @@ namespace SoulsLike {
         Physical,
         Fire
     }
+
+    public enum BuffType {
+        Physical,
+        Fire
+    }
     public class Enums {
 
     }
