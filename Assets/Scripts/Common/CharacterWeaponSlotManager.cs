@@ -150,7 +150,7 @@ namespace SoulsLike {
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
             leftHandDamageCollider.poiseBreak = characterInventoryManager.leftWeapon.poiseBreak;
             // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
-            characterEffectsManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+            characterEffectsManager.leftWeaponManager = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponManager>();
         }
 
         protected virtual void LoadRightWeaponDamageCollider() {
@@ -163,7 +163,7 @@ namespace SoulsLike {
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
             rightHandDamageCollider.poiseBreak = characterInventoryManager.rightWeapon.poiseBreak;
             // 현재 오른쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
-            characterEffectsManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+            characterEffectsManager.rightWeaponManager = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponManager>();
         }
 
         public virtual void GrantWeaponAttackingPoiseBonus() { // (특)대형무기 공격 도중 강인도 보너스 합산

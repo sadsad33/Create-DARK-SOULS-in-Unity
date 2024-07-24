@@ -14,17 +14,17 @@ namespace SoulsLike {
         public GameObject liveBombModel;
 
         [Header("Base Damage")]
-        public int baseDamage = 200; // Á÷°Ý½Ã °¡ÇÒ µ¥¹ÌÁö
-        public float explosiveDamage = 75; // ÁÖº¯ Æø¹ß µ¥¹ÌÁö
+        public int baseDamage = 200; // ì§ê²©ì‹œ ê°€í•  ë°ë¯¸ì§€
+        public float explosiveDamage = 75; // ì£¼ë³€ í­ë°œ ë°ë¯¸ì§€
 
-        public override void AttemptToConsumeItem(PlayerAnimatorManager playerAnimatorManager, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffectsManager) {
+        public override void AttemptToConsumeItem(PlayerManager player) {
             if (currentItemAmount > 0) {
-                playerAnimatorManager.PlayTargetAnimation(consumeAnimation, true);
-                GameObject bombModel = Instantiate(itemModel, weaponSlotManager.rightHandSlot.transform.position, Quaternion.identity, weaponSlotManager.rightHandSlot.transform);
-                playerEffectsManager.instantiatedFXModel = bombModel;
-                weaponSlotManager.rightHandSlot.UnloadWeapon();
+                player.playerAnimatorManager.PlayTargetAnimation(consumeAnimation, true);
+                GameObject bombModel = Instantiate(itemModel, player.playerWeaponSlotManager.rightHandSlot.transform.position, Quaternion.identity, player.playerWeaponSlotManager.rightHandSlot.transform);
+                player.playerEffectsManager.instantiatedFXModel = bombModel;
+                player.playerWeaponSlotManager.rightHandSlot.UnloadWeapon();
             } else {
-                playerAnimatorManager.PlayTargetAnimation("Shrug", true);
+                player.playerAnimatorManager.PlayTargetAnimation("Shrug", true);
             }
         }
     }

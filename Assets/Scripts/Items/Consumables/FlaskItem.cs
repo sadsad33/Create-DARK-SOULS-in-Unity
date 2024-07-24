@@ -16,17 +16,17 @@ namespace SoulsLike {
         [Header("Recovery FX")]
         public GameObject recoveryFX;
 
-        public override void AttemptToConsumeItem(PlayerAnimatorManager playerAnimatorManager, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffectsManager) {
-            base.AttemptToConsumeItem(playerAnimatorManager, weaponSlotManager, playerEffectsManager);
-            GameObject flask = Instantiate(itemModel, weaponSlotManager.rightHandSlot.transform);
+        public override void AttemptToConsumeItem(PlayerManager player) {
+            base.AttemptToConsumeItem(player);
+            GameObject flask = Instantiate(itemModel, player.playerWeaponSlotManager.rightHandSlot.transform);
 
             //Player recovery fx when/if we drink without being hit
-            playerEffectsManager.currentParticleFX = recoveryFX;
+            player.playerEffectsManager.currentParticleFX = recoveryFX;
             //Add Health or Focus Point
-            playerEffectsManager.amountToBeHealed = healthRecoverAmount;
+            player.playerEffectsManager.amountToBeHealed = healthRecoverAmount;
             //Instantiate flask in hand and play drink animation
-            playerEffectsManager.instantiatedFXModel = flask;
-            weaponSlotManager.rightHandSlot.UnloadWeapon();
+            player.playerEffectsManager.instantiatedFXModel = flask;
+            player.playerWeaponSlotManager.rightHandSlot.UnloadWeapon();
         }
     }
 }

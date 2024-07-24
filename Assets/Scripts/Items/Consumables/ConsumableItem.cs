@@ -15,12 +15,17 @@ namespace SoulsLike {
         public string consumeAnimation;
         public bool isInteracting;
 
-        public virtual void AttemptToConsumeItem(PlayerAnimatorManager playerAnimatorManager, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffectsManager) {
-            if (currentItemAmount > 0) {
-                playerAnimatorManager.PlayTargetAnimation(consumeAnimation, isInteracting, true);
-            } else {
-                playerAnimatorManager.PlayTargetAnimation("Shrug", true);
-            }
+        public virtual void AttemptToConsumeItem(PlayerManager player) {
+            if (currentItemAmount > 0) player.playerAnimatorManager.PlayTargetAnimation(consumeAnimation, isInteracting, true);
+            else player.playerAnimatorManager.PlayTargetAnimation("Shrug", true);
+        }
+
+        public virtual void SuccessfullyConsumedItem(PlayerManager player) {
+            currentItemAmount -= 1;
+        }
+
+        public virtual bool CanIUseThisItem(PlayerManager player) {
+            return true;
         }
     }
 }

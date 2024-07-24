@@ -10,24 +10,24 @@ namespace SoulsLike {
 
         [Header("Cure FX")]
         public bool curePoison;
-        // √‚«˜ ƒ°∑·
-        // µøªÛ ƒ°∑· ...
+        // Ï∂úÌòà ÏπòÎ£å
+        // ÎèôÏÉÅ ÏπòÎ£å ...
 
-        public override void AttemptToConsumeItem(PlayerAnimatorManager playerAnimatorManager, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffectsManager) {
-            base.AttemptToConsumeItem(playerAnimatorManager, weaponSlotManager, playerEffectsManager);
-            GameObject clump = Instantiate(itemModel, weaponSlotManager.rightHandSlot.transform);
-            playerEffectsManager.currentParticleFX = clumpConsumeFX;
-            playerEffectsManager.instantiatedFXModel = clump;
+        public override void AttemptToConsumeItem(PlayerManager player) {
+            base.AttemptToConsumeItem(player);
+            GameObject clump = Instantiate(itemModel, player.playerWeaponSlotManager.rightHandSlot.transform);
+            player.playerEffectsManager.currentParticleFX = clumpConsumeFX;
+            player.playerEffectsManager.instantiatedFXModel = clump;
             
             if (curePoison) {
-                playerEffectsManager.poisonBuildUp = 0;
-                playerEffectsManager.poisonAmount = playerEffectsManager.defaultPoisonAmount;
-                playerEffectsManager.isPoisoned = false;
-                if (playerEffectsManager.currentPoisonedParticleFX != null) {
-                    Destroy(playerEffectsManager.currentPoisonedParticleFX);
+                player.playerEffectsManager.poisonBuildUp = 0;
+                player.playerEffectsManager.poisonAmount = player.playerEffectsManager.defaultPoisonAmount;
+                player.playerEffectsManager.isPoisoned = false;
+                if (player.playerEffectsManager.currentPoisonedParticleFX != null) {
+                    Destroy(player.playerEffectsManager.currentPoisonedParticleFX);
                 }
             }
-            weaponSlotManager.rightHandSlot.UnloadWeapon();
+            player.playerWeaponSlotManager.rightHandSlot.UnloadWeapon();
         }
     }
 }

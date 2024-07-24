@@ -9,17 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d7067eea7413364d847461fc0777f6a, type: 3}
-  m_Name: Sword
+  m_Script: {fileID: 11500000, guid: 555365c5c463199478d62ee1d46744eb, type: 3}
+  m_Name: Long Sword
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 3d5de3033771a224ba4f9b2409012617, type: 3}
   itemName: "\uB871\uC18C\uB4DC"
   flavorText: "\uCCA0\uC81C \uC9C1\uAC80"
-  itemID: 8
+  itemID: 0
   modelPrefab: {fileID: 9172609376268836479, guid: d5fb25c7ffd5e5e408d12b0dc639213b, type: 3}
   isUnarmed: 0
   physicalDamage: 25
   fireDamage: 0
+  lightAttackDamageModifier: 0
+  heavyAttackDamageModifier: 0
   criticalDamageMultiplier: 4
   poiseBreak: 20
   offensivePoiseBonus: 0
@@ -41,3 +43,4 @@ MonoBehaviour:
   isPyroCaster: 0
   isMeleeWeapon: 1
   isShieldWeapon: 0
+  canBeBuffed: 1
