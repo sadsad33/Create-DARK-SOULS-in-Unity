@@ -5,7 +5,8 @@ using Unity.Netcode;
 
 namespace SoulsLike {
     public class CharacterStatsManager : NetworkBehaviour {
-        CharacterAnimatorManager characterAnimatorManager;
+        CharacterManager character;
+
         [Header("Team I.D")]
         public int teamIDNumber;
         
@@ -32,7 +33,7 @@ namespace SoulsLike {
         //public float maxEquipLoad = 0;
 
         protected virtual void Awake() {
-            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            character = GetComponent<CharacterManager>();
         }
 
         // 강인도 : 슈퍼아머 유지를 위한 필요 수치
@@ -79,8 +80,8 @@ namespace SoulsLike {
 
         public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation, CharacterManager enmyCharacterDamagingMe) {
             if (isDead) return;
-            
-            characterAnimatorManager.EraseHandIKForWeapon();
+
+            character.characterAnimatorManager.EraseHandIKForWeapon();
             
             physicalDamage *= (enmyCharacterDamagingMe.characterStatsManager.physicalDamagePercentageModifier / 100);
             float totalPhysicalDamageAbsorption = 1 -
@@ -110,6 +111,8 @@ namespace SoulsLike {
                 currentHealth = 0;
                 isDead = true;
             }
+
+            character.characterSoundEffectsManager.PlayRandomDamageSoundFX();
         }
 
         public virtual void TakeDamageNoAnimation(float physicalDamage, float fireDamage = 0) {

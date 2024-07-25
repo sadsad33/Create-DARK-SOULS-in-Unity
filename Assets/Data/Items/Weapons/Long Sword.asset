@@ -43,4 +43,7 @@ MonoBehaviour:
   isPyroCaster: 0
   isMeleeWeapon: 1
   isShieldWeapon: 0
+  weaponAttackSounds:
+  - {fileID: 8300000, guid: e1cea9b5ac4c5d44dafd8167e9f6d844, type: 3}
+  - {fileID: 8300000, guid: f8c1b7280894796419d462a36a1ef4b1, type: 3}
   canBeBuffed: 1

@@ -46,6 +46,7 @@ namespace SoulsLike {
 
         // 대상에게 피해를 주기 위해 무기의 DamageCollider를 활성화
         public virtual void OpenDamageCollider() {
+            character.characterSoundEffectsManager.PlayRandomWeaponAttackSounds();
             if (character.isUsingRightHand) {
                 characterEffectsManager.PlayWeaponFX(false);
                 rightHandDamageCollider.EnableDamageCollider();

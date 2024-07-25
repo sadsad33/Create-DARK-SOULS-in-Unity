@@ -62,5 +62,8 @@ namespace SoulsLike {
         public bool isPyroCaster;
         public bool isMeleeWeapon;
         public bool isShieldWeapon;
+
+        [Header("Sound FX")]
+        public AudioClip[] weaponAttackSounds;
     }
 }

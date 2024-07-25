@@ -12,7 +12,7 @@ namespace SoulsLike {
         public CharacterInventoryManager characterInventoryManager;
         public CharacterEffectsManager characterEffectsManager;
         public CharacterNetworkManager characterNetworkManager;
-
+        public CharacterSoundEffectsManager characterSoundEffectsManager;
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -58,6 +58,7 @@ namespace SoulsLike {
             characterInventoryManager = GetComponent<CharacterInventoryManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
+            characterSoundEffectsManager = GetComponent<CharacterSoundEffectsManager>();
         }
 
         protected virtual void Update() {
