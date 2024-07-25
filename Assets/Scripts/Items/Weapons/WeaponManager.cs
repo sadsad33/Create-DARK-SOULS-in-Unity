@@ -67,9 +67,22 @@ namespace SoulsLike {
                         fireTrailFX.Play();
                         break;
                 }
-            } else {
-                return;
-            }
+            } else defaultTrailFX.Play();
+        }
+
+        public void StopWeaponTrailFX() {
+            if (weaponIsBuffed) {
+                switch (weaponBuffType) {
+                    case BuffType.Physical:
+                        if (defaultTrailFX == null) return;
+                        defaultTrailFX.Stop();
+                        break;
+                    case BuffType.Fire:
+                        if (fireTrailFX == null) return;
+                        fireTrailFX.Stop();
+                        break;
+                }
+            } else defaultTrailFX.Stop();
         }
     }
 }

@@ -66,5 +66,9 @@ namespace SoulsLike {
                 audioSource.PlayOneShot(character.characterInventoryManager.leftWeapon.weaponAttackSounds[randomValue]);
             }
         }
+
+        public virtual void PlaySoundEffect(AudioClip soundFX) {
+            audioSource.PlayOneShot(soundFX);
+        }
     }
 }

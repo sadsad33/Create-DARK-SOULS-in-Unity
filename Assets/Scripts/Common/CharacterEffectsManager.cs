@@ -111,11 +111,11 @@ namespace SoulsLike {
         public virtual void StopWeaponFX(bool isLeft) {
             if (!isLeft) {
                 if (rightWeaponManager != null) {
-                    rightWeaponManager.PlayWeaponTrailFX();
+                    rightWeaponManager.StopWeaponTrailFX();
                 }
             } else {
                 if (leftWeaponManager != null) {
-                    leftWeaponManager.PlayWeaponTrailFX();
+                    leftWeaponManager.StopWeaponTrailFX();
                 }
             }
         }
