@@ -58,6 +58,9 @@ namespace SoulsLike {
         public float fireDamageAbsorptionHands;
         public float totalFireDamageDefenseRate;
 
+        [Header("Resistances")]
+        public float poisonResistance;
+
         public bool isDead;
 
         // 캐릭터가 가하는 데미지의 배율
@@ -69,6 +72,11 @@ namespace SoulsLike {
         [Header("Damage Absorption Modifiers")]
         public float physicalAbsorptionPercentageModifier = 0;
         public float fireAbsorptionPercentageModifier = 0;
+
+        [Header("Poison")]
+        public bool isPoisoned;
+        public float poisonBuildUp = 0; // 독 축적을 위한 수치, 이 수치가 100이 되면 독 상태이상에 걸린다
+        public float poisonAmount = 100; // 독 상태에서 독 상태이상이 해제되기 위해 필요한 수치
 
         protected virtual void Update() {
             HandlePoiseResetTimer();

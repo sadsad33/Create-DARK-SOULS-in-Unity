@@ -64,7 +64,8 @@ namespace SoulsLike {
             // Ÿ��Ʋ ��ũ������ �÷��̾ �Ѱܹޱ� ����
             WorldSaveGameManager.instance.player = this;
         }
-        private void Start() {
+        protected override void Start() {
+            base.Start();
             DontDestroyOnLoad(this);
         }
         
@@ -170,7 +171,6 @@ namespace SoulsLike {
                 playerLocomotion.HandleClimbing();
             if (isMoving)
                 transform.position = Vector3.Slerp(transform.position, interactionTargetPosition.position, Time.deltaTime);
-            playerEffectsManager.HandleAllBuildUpEffects();
         }
 
         private void LateUpdate() {

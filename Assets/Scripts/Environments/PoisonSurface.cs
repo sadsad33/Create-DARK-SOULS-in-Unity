@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class PoisonSurface : MonoBehaviour {
-        public float poisonBuildUpAmount = 7; // µ¶ ÃàÀû ¼öÄ¡
-        public List<CharacterEffectsManager> charactersInsidePoisonSurface; // µ¶´Ë È¤Àº µ¶ »óÅÂÀÌ»ó ¹ß»ıÁö ³»ÀÇ CharacterµéÀ» ´ãÀ» ¸®½ºÆ®
+        public float poisonBuildUpAmount = 7; // ë… ì¶•ì  ìˆ˜ì¹˜
+        public List<CharacterStatsManager> charactersInsidePoisonSurface; // ë…ëŠª í˜¹ì€ ë… ìƒíƒœì´ìƒ ë°œìƒì§€ ë‚´ì˜ Characterë“¤ì„ ë‹´ì„ ë¦¬ìŠ¤íŠ¸
 
         private void OnTriggerEnter(Collider other) {
-            CharacterEffectsManager character = other.GetComponent<CharacterEffectsManager>();
+            CharacterStatsManager character = other.GetComponent<CharacterStatsManager>();
             if (character != null) {
                 charactersInsidePoisonSurface.Add(character);
             }
         }
 
         private void OnTriggerExit(Collider other) {
-            CharacterEffectsManager character = other.GetComponent<CharacterEffectsManager>();
+            CharacterStatsManager character = other.GetComponent<CharacterStatsManager>();
             if (character != null) {
                 charactersInsidePoisonSurface.Remove(character);
             }
         }
 
         private void OnTriggerStay(Collider other) {
-            foreach (CharacterEffectsManager character in charactersInsidePoisonSurface) { // µ¶ »óÅÂÀÌ»ó ¹ß»ıÁö ³» Character µé¿¡°Ô ¸ğµÎ ÃàÀû ¼öÄ¡¸¦ ºÎ¿©ÇÑ´Ù.
+            foreach (CharacterStatsManager character in charactersInsidePoisonSurface) { // ë… ìƒíƒœì´ìƒ ë°œìƒì§€ ë‚´ Character ë“¤ì—ê²Œ ëª¨ë‘ ì¶•ì  ìˆ˜ì¹˜ë¥¼ ë¶€ì—¬í•œë‹¤.
                 if (character.isPoisoned) return;
                 character.poisonBuildUp += poisonBuildUpAmount * Time.deltaTime;
             }

@@ -61,7 +61,13 @@ namespace SoulsLike {
             characterSoundEffectsManager = GetComponent<CharacterSoundEffectsManager>();
         }
 
+        protected virtual void Start() {
+            
+        }
+
         protected virtual void Update() {
+            characterEffectsManager.ProcessAllTimedEffects();
+            
             // 클라이언트가 이 오브젝트의 주인이라면
             if (IsOwner) {
                 // 네트워크에 클라이언트의 오브젝트 좌표와 회전값을 전달
@@ -79,5 +85,6 @@ namespace SoulsLike {
         protected virtual void FixedUpdate() {
             characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHandingWeapon);
         }
+
     }
 }

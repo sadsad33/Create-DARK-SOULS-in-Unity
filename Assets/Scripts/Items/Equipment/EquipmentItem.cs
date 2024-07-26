@@ -6,10 +6,13 @@ namespace SoulsLike {
     public class EquipmentItem : Item {
         [Header("Defense Bonus")]
         public float physicalDefense;
-        // ¸¶·Â ¹æ¾î
-        // È­¿° ¹æ¾î
-        // ½Å¼º ¹æ¾î
-        // ¾îµÒ ¹æ¾î
-        // º­¶ô ¹æ¾î ...
+        // ë§ˆë ¥ ë°©ì–´
+        // í™”ì—¼ ë°©ì–´
+        // ì‹ ì„± ë°©ì–´
+        // ì–´ë‘  ë°©ì–´
+        // ë²¼ë½ ë°©ì–´ ...
+
+        [Header("Resistances")]
+        public float poisonResistance;
     }
 }
