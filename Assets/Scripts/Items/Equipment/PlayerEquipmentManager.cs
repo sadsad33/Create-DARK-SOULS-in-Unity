@@ -46,7 +46,9 @@ namespace SoulsLike {
 
         // 시작할때 플레이어에게 설정된 장비를 모두 장착한다
         public void EquipAllEquipmentModels() {
+            float poisonResistance = 0;
             helmetModelChanger.UnEquipAllHelmetModels();
+
             if (player.playerInventoryManager.currentHelmetEquipment != null) {
                 if (player.IsOwner) {
                     player.playerNetworkManager.currentHeadEquipmentID.Value = player.playerInventoryManager.currentHelmetEquipment.itemID;
@@ -54,7 +56,7 @@ namespace SoulsLike {
                 //nakedHeadModel.SetActive(false);
                 helmetModelChanger.EquipHelmetModelByName(player.playerInventoryManager.currentHelmetEquipment.helmetModelName);
                 player.playerStatsManager.physicalDamageAbsorptionHead = player.playerInventoryManager.currentHelmetEquipment.physicalDefense;
-                //Debug.Log("Head Absorption : " + playerStats.physicalDamageAbsorptionHead + "%");
+                poisonResistance += player.playerInventoryManager.currentHelmetEquipment.poisonResistance;
             } else {
                 //nakedHeadModel.SetActive(true);
                 helmetModelChanger.EquipHelmetModelByName(nakedHeadModel);
@@ -74,7 +76,7 @@ namespace SoulsLike {
                 torsoModelChanger.EquipTorsoModelByName(player.playerInventoryManager.currentTorsoEquipment.torsoModelName);
                 capeModelChanger.EquipCapeModelByName(player.playerInventoryManager.currentTorsoEquipment.capeModelName);
                 player.playerStatsManager.physicalDamageAbsorptionBody = player.playerInventoryManager.currentTorsoEquipment.physicalDefense;
-                //Debug.Log("Body Absorption : " + playerStats.physicalDamageAbsorptionBody + "%");
+                poisonResistance += player.playerInventoryManager.currentTorsoEquipment.poisonResistance;
             } else {
                 torsoModelChanger.EquipTorsoModelByName(nakedTorsoModel);
                 capeModelChanger.EquipCapeModelByName(nakedCapeModel);
@@ -93,7 +95,7 @@ namespace SoulsLike {
                 legModelChanger.EquipLegModelByName(player.playerInventoryManager.currentLegEquipment.legModelName);
                 bootsModelChanger.EquipBootsModelByName(player.playerInventoryManager.currentLegEquipment.bootsModelName);
                 player.playerStatsManager.physicalDamageAbsorptionLegs = player.playerInventoryManager.currentLegEquipment.physicalDefense;
-                //Debug.Log("Legs Absorption : " + playerStats.physicalDamageAbsorptionLegs + "%");
+                poisonResistance += player.playerInventoryManager.currentLegEquipment.poisonResistance;
             } else {
                 legModelChanger.EquipLegModelByName(nakedLegModel);
                 bootsModelChanger.EquipBootsModelByName(nakedBootsModel);
@@ -110,7 +112,7 @@ namespace SoulsLike {
                 }
                 guntletModelChanger.EquipGuntletModelByName(player.playerInventoryManager.currentGuntletEquipment.guntletModelName);
                 player.playerStatsManager.physicalDamageAbsorptionHands = player.playerInventoryManager.currentGuntletEquipment.physicalDefense;
-                //Debug.Log("Hands Absorption : " + playerStats.physicalDamageAbsorptionHands + "%");
+                poisonResistance += player.playerInventoryManager.currentGuntletEquipment.poisonResistance;
             } else {
                 guntletModelChanger.EquipGuntletModelByName(nakedGuntletModel);
                 player.playerStatsManager.physicalDamageAbsorptionHands = 0;
@@ -118,8 +120,7 @@ namespace SoulsLike {
                     player.playerNetworkManager.currentGuntletEquipmentID.Value = -1;
                 }
             }
-
-
+            player.playerStatsManager.poisonResistance = poisonResistance;
         }
 
         // 방어용 Collider 적용

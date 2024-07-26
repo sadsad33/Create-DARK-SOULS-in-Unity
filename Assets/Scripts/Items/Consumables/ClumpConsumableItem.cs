@@ -20,9 +20,8 @@ namespace SoulsLike {
             player.playerEffectsManager.instantiatedFXModel = clump;
             
             if (curePoison) {
-                player.playerEffectsManager.poisonBuildUp = 0;
-                player.playerEffectsManager.poisonAmount = player.playerEffectsManager.defaultPoisonAmount;
-                player.playerEffectsManager.isPoisoned = false;
+                player.playerStatsManager.poisonBuildUp = 0;
+                player.playerStatsManager.isPoisoned = false;
                 if (player.playerEffectsManager.currentPoisonedParticleFX != null) {
                     Destroy(player.playerEffectsManager.currentPoisonedParticleFX);
                 }

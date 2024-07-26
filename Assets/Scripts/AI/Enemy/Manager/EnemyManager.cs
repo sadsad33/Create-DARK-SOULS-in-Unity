@@ -38,7 +38,8 @@ namespace SoulsLike {
             navMeshAgent.updateRotation = false;
         }
 
-        private void Start() {
+        protected override void Start() {
+            base.Start();
         }
 
         protected override void Update() {
@@ -64,7 +65,6 @@ namespace SoulsLike {
 
         protected override void FixedUpdate() {
             base.FixedUpdate();
-            enemyEffectsManager.HandleAllBuildUpEffects();
         }
 
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
