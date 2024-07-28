@@ -14,6 +14,8 @@ namespace SoulsLike {
         }
 
         public void SetPoisonAmount(float poisonAmount) {
+            if (poisonAmount > 0) gameObject.SetActive(true);
+            else gameObject.SetActive(false);
             slider.value = poisonAmount;
         }
     }

@@ -22,9 +22,9 @@ namespace SoulsLike {
             if (curePoison) {
                 player.playerStatsManager.poisonBuildUp = 0;
                 player.playerStatsManager.isPoisoned = false;
-                if (player.playerEffectsManager.currentPoisonedParticleFX != null) {
-                    Destroy(player.playerEffectsManager.currentPoisonedParticleFX);
-                }
+                //if (player.playerEffectsManager.currentPoisonedParticleFX != null) {
+                //    Destroy(player.playerEffectsManager.currentPoisonedParticleFX);
+                //}
             }
             player.playerWeaponSlotManager.rightHandSlot.UnloadWeapon();
         }
