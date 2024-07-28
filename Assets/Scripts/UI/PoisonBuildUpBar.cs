@@ -15,6 +15,8 @@ namespace SoulsLike {
 
         public void SetPoisonBuildUpAmount(float currentPoisonBuildUp) {
             slider.value = currentPoisonBuildUp;
+
+            if (currentPoisonBuildUp <= 0) gameObject.SetActive(false);
         }
     }
 }

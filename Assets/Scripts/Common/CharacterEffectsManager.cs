@@ -14,6 +14,9 @@ namespace SoulsLike {
         public List<CharacterEffect> timedEffects;
         [SerializeField] float effectTickTimer = 0;
 
+        [Header("Tiemd Effect Visual FX")]
+        public List<GameObject> timedEffectParticles;
+
         [Header("Weapon FX")]
         public WeaponManager rightWeaponManager; 
         public WeaponManager leftWeaponManager;
@@ -25,8 +28,6 @@ namespace SoulsLike {
         public WeaponBuffEffect rightWeaponBuffEffect;
 
         [Header("Poison")]
-        public GameObject defaultPoisonedParticleFX; // 플레이어가 기본적으로 가지고 있는 독 상태이상 이펙트
-        public GameObject currentPoisonedParticleFX; // 독 상태이상에 걸렸다면 사용, 상태이상이 해제되면 파괴
         public Transform buildUpTransform; // 축적 이펙트가 생성될 위치
 
         protected virtual void Awake() {
@@ -47,9 +48,13 @@ namespace SoulsLike {
                 effectTickTimer = 0;
                 ProcessWeaponBuffs();
 
+                // 게임에서 시간이 지남에따라 이펙트들을 활성화
                 for (int i = timedEffects.Count - 1; i > -1; i--) {
                     timedEffects[i].ProcessEffect(character);
                 }
+
+                // 게임에서 시간이 지남에따라 축적치 감소
+                ProcessBuildUpDecay();
             }
         }
 
@@ -132,6 +137,26 @@ namespace SoulsLike {
 
         public virtual void PlayBloodSplatterFX(Vector3 bloodSplatterLocation) {
             GameObject blood = Instantiate(bloodSplatterFX, bloodSplatterLocation, Quaternion.identity);
+        }
+
+        protected virtual void ProcessBuildUpDecay() {
+            if (character.characterStatsManager.poisonBuildUp > 0) {
+                character.characterStatsManager.poisonBuildUp -= 1;
+            }
+        }
+
+        public virtual void AddTimedEffectParticle(GameObject effect) {
+            GameObject effectGameObject = Instantiate(effect, buildUpTransform);
+            timedEffectParticles.Add(effectGameObject);
+        }
+
+        public virtual void RemoveTimedEffectParticle(EffectParticleType effectType) {
+            for (int i = timedEffectParticles.Count - 1; i > -1; i--) {
+                if (timedEffectParticles[i].GetComponent<EffectParticle>().effectType == effectType) {
+                    Destroy(timedEffectParticles[i]);
+                    timedEffectParticles.RemoveAt(i);
+                }
+            }
         }
     }
 }

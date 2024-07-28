@@ -10,13 +10,12 @@ namespace SoulsLike {
         PlayerAnimatorManager playerAnimatorManager;
 
         public float staminaRegenerationAmount = 20;
-        public float staminaRegenerationTimer = 0;
+        public float staminaRegenerationTimer = 0; // Stamina 회복에 필요한 딜레이
 
         //public int requriedSoulsToLevelUp;
         float sprintingTimer = 0;
         protected override void Awake() {
             base.Awake();
-            //requriedSoulsToLevelUp = level * 65 * (level / 10 > 0 ? level / 10 : 1);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             player = GetComponent<PlayerManager>();
         }
@@ -115,6 +114,7 @@ namespace SoulsLike {
                 staminaRegenerationTimer = 0;
                 return;
             }
+                
             staminaRegenerationTimer += Time.deltaTime;
             if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
 

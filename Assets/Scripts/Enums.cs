@@ -17,6 +17,11 @@ namespace SoulsLike {
         Physical,
         Fire
     }
+
+    public enum EffectParticleType {
+        Poison
+    }
+
     public class Enums {
 
     }

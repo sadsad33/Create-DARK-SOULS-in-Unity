@@ -6,11 +6,19 @@ namespace SoulsLike {
     public class WorldEffectsManager : MonoBehaviour {
         public static WorldEffectsManager instance;
 
+        [Header("Poison")]
         public PoisonBuildUpEffect poisonBuildUpEffect;
-        public PoisonEffect poisonedEffect;
+        public PoisonedEffect poisonedEffect;
+        public GameObject poisonFX;
+        // 독에 중독된 상태에서의 사운드 이펙트
+        // public AudioClip poisonSFX
         private void Awake() {
             if (instance == null) instance = this;
             else Destroy(gameObject);
+        }
+
+        private void Start() {
+            DontDestroyOnLoad(this);
         }
     }
 }

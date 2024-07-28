@@ -5,7 +5,9 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerEffectsManager : CharacterEffectsManager {
         PlayerManager player;
-        public GameObject currentParticleFX; // 현재 플레이어의 상태에 따른 오라(?) 효과
+        PoisonBuildUpBar poisonBuildUpBar;
+        public PoisonAmountBar poisonAmountBar;
+        public GameObject currentParticleFX; // 현재 플레이어의 상태에 따른 이펙트
         public GameObject instantiatedFXModel;
         public float amountToBeHealed;
 
@@ -16,12 +18,15 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             player = GetComponent<PlayerManager>();
+            poisonBuildUpBar = UIManager.instance.poisonBuildUpBar;
+            poisonAmountBar = UIManager.instance.poisonAmountBar;
             //poisonBuildUpBar = FindObjectOfType<PoisonBuildUpBar>();
             //poisonAmountBar = FindObjectOfType<PoisonAmountBar>();
         }
-        protected override void Start() {
-            base.Start();
-        }
+
+        //protected override void Start() {
+        //    base.Start();
+        //}
 
         public void HealPlayerFromEffect() {
             player.playerStatsManager.HealPlayer(amountToBeHealed);
@@ -31,6 +36,15 @@ namespace SoulsLike {
 
         public void UnloadFlask() {
             Destroy(instantiatedFXModel.gameObject); // 에스트병 제거
+        }
+
+        protected override void ProcessBuildUpDecay() {
+            if (player.characterStatsManager.poisonBuildUp >= 0) {
+                player.characterStatsManager.poisonBuildUp -= 1;
+
+                poisonBuildUpBar.gameObject.SetActive(true);
+                poisonBuildUpBar.SetPoisonBuildUpAmount(player.characterStatsManager.poisonBuildUp);
+            }
         }
     }
 }

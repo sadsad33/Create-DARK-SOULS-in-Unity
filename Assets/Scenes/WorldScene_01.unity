@@ -14542,118 +14542,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851459802}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &860512297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 860512301}
-  - component: {fileID: 860512300}
-  - component: {fileID: 860512299}
-  - component: {fileID: 860512302}
-  - component: {fileID: 860512303}
-  m_Layer: 0
-  m_Name: PoisonPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &860512299
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860512297}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: e6505e0efebafde4dad7810b6eb7f576, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &860512300
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860512297}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &860512301
+--- !u!4 &860512301 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+  m_PrefabInstance: {fileID: 1970576404611303092}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860512297}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.5067997, y: -4.4, z: -24.968319}
-  m_LocalScale: {x: 10, y: 0.2, z: 9.936638}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1585748729}
-  m_RootOrder: 35
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &860512302
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860512297}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 8.222543, z: 1}
-  m_Center: {x: 0, y: 3.611271, z: 0}
---- !u!114 &860512303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860512297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70fc594303a7afe4d9369af39ec338c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poisonBuildUpAmount: 7
-  charactersInsidePoisonSurface: []
 --- !u!1 &861528887
 GameObject:
   m_ObjectHideFlags: 0
@@ -47857,6 +47750,63 @@ Transform:
   m_Father: {fileID: 1501639702376304647}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1970576404611303092
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1585748729}
+    m_Modifications:
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_RootOrder
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5067997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -24.968319
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099481, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970576404296099485, guid: 0205243934ea53f409806e963ca3135e, type: 3}
+      propertyPath: m_Name
+      value: PoisonPool
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0205243934ea53f409806e963ca3135e, type: 3}
 --- !u!4 &1993777798612748880
 Transform:
   m_ObjectHideFlags: 0
@@ -50433,11 +50383,15 @@ MonoBehaviour:
   fireDamageAbsorptionLegs: 0
   fireDamageAbsorptionHands: 0
   totalFireDamageDefenseRate: 0
+  poisonResistance: 0
   isDead: 0
   physicalDamagePercentageModifier: 100
   fireDamagePercentageModifier: 100
   physicalAbsorptionPercentageModifier: 0
   fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
   npcHealthBar: {fileID: 677814067}
 --- !u!114 &4086121375643061409
 MonoBehaviour:
@@ -50474,6 +50428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staticCharacterEffects: []
+  timedEffects: []
+  effectTickTimer: 0
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
@@ -50481,12 +50437,6 @@ MonoBehaviour:
   defaultPoisonedParticleFX: {fileID: 6036021610362047377, guid: c59dddb4847201d4bbc6dfdf30c1748d, type: 3}
   currentPoisonedParticleFX: {fileID: 0}
   buildUpTransform: {fileID: 0}
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  defaultPoisonAmount: 100
-  poisonDamage: 0
-  poisonTimer: 2
 --- !u!114 &4086121375643061411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52012,11 +51962,15 @@ MonoBehaviour:
   fireDamageAbsorptionLegs: 0
   fireDamageAbsorptionHands: 0
   totalFireDamageDefenseRate: 0
+  poisonResistance: 0
   isDead: 0
   physicalDamagePercentageModifier: 100
   fireDamagePercentageModifier: 100
   physicalAbsorptionPercentageModifier: 0
   fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
   enemyLocomotionManager: {fileID: 0}
   enemyHealthBar: {fileID: 0}
   worldEventManager: {fileID: 1152895628869660359}
@@ -52154,6 +52108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staticCharacterEffects: []
+  timedEffects: []
+  effectTickTimer: 0
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
@@ -52161,12 +52117,6 @@ MonoBehaviour:
   defaultPoisonedParticleFX: {fileID: 0}
   currentPoisonedParticleFX: {fileID: 0}
   buildUpTransform: {fileID: 0}
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  defaultPoisonAmount: 0
-  poisonDamage: 0
-  poisonTimer: 2
 --- !u!114 &6777079784069156020
 MonoBehaviour:
   m_ObjectHideFlags: 0
