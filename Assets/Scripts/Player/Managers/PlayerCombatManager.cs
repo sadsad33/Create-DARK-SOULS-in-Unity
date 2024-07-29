@@ -9,6 +9,7 @@ namespace SoulsLike {
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
+
         public void Awake() {
             player = GetComponent<PlayerManager>();
         }

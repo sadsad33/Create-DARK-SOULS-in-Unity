@@ -13,7 +13,7 @@ namespace SoulsLike {
         public int teamIDNumber; // 피아식별에 사용할 ID
 
         [Header("PoiseDamage")]
-        public float poiseBreak;
+        public float poiseDamage;
         public float offensivePoiseBonus;
 
         [Header("Damage")]
@@ -23,6 +23,10 @@ namespace SoulsLike {
         bool shieldHasBeenHit;
         bool hasBeenParried;
         protected string currentDamageAnimation;
+
+        protected Vector3 contactPoint;
+        protected float angleHitFrom;
+
         protected virtual void Awake() {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
@@ -62,7 +66,7 @@ namespace SoulsLike {
                     if (shieldHasBeenHit) return;
                     
                     target.characterStatsManager.poiseResetTimer = target.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
-                    target.characterStatsManager.totalPoiseDefense -= poiseBreak;
+                    target.characterStatsManager.totalPoiseDefense -= poiseDamage;
 
                     if (target.characterStatsManager.teamIDNumber == 0) {
                         NPCManager npcManager = target.transform.GetComponent<NPCManager>();
@@ -78,10 +82,8 @@ namespace SoulsLike {
                     }
 
                     // 타격 지점
-                    Vector3 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    float directionHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, target.transform.forward, Vector3.up));
-                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    target.characterEffectsManager.PlayBloodSplatterFX(contactPoint);
+                    contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, target.transform.forward, Vector3.up));
                     DealDamage(target);
                 }
             }
@@ -94,20 +96,22 @@ namespace SoulsLike {
 
         protected virtual void DealDamage(CharacterManager target) {
             float finalPhysicalDamage = physicalDamage;
+            float finalFireDamage = fireDamage;
 
             if (target.characterStatsManager.isBoss) {
                 if (target.characterStatsManager.totalPoiseDefense < 0 && !target.characterStatsManager.isStuned) {
                     target.characterStatsManager.isStuned = true;
                     target.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
                 }
-                target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage);
+                target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
             } else {
-                if (target.characterStatsManager.totalPoiseDefense > poiseBreak) {
-                    target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage);
-                } else {
-                    //enemyStats.isStuned = true;
-                    target.characterStatsManager.TakeDamage(finalPhysicalDamage, 0, currentDamageAnimation, characterCausingDamage);
-                }
+                TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+                takeDamageEffect.physicalDamage = finalPhysicalDamage;
+                takeDamageEffect.fireDamage = finalFireDamage;
+                takeDamageEffect.poiseDamage = poiseDamage;
+                takeDamageEffect.contactPoint = contactPoint;
+                takeDamageEffect.angleHitFrom = angleHitFrom;
+                target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
             }
 
         }
@@ -122,27 +126,18 @@ namespace SoulsLike {
 
         protected virtual void CheckForBlock(CharacterManager enemyManager, BlockingCollider shield, CharacterStatsManager enemyStats) {
             if (shield != null && enemyManager.isBlocking) {
-                float physicalDamageAfterBlock = physicalDamage - (physicalDamage * shield.blockingPhysicalDamageAbsorption) / 100;
-                float fireDamageAfterBlock = fireDamage - (fireDamage * shield.blockingFireDamageAbsorption) / 100;
 
                 if (enemyStats != null) {
-                    enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact", characterCausingDamage);
+                    //enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact", characterCausingDamage);
                     shieldHasBeenHit = true;
+                    TakeBlockedDamageEffect takeBlockedDamage = Instantiate(WorldEffectsManager.instance.takeBlockedDamageEffect);
+                    takeBlockedDamage.physicalDamage = physicalDamage;
+                    takeBlockedDamage.fireDamage = fireDamage;
+                    takeBlockedDamage.poiseDamage = poiseDamage;
+                    takeBlockedDamage.staminaDamage = poiseDamage;
+
+                    enemyManager.characterEffectsManager.ProcessEffectInstantly(takeBlockedDamage);
                 }
-            }
-        }
-        protected virtual void ChooseWhichDirectionDamageCameFrom(float direction) {
-            if (direction >= 145 && direction <= 180) {
-                currentDamageAnimation = "Damage_Forward_1";
-            } else if (direction <= -145 && direction >= -180) {
-                currentDamageAnimation = "Damage_Forward_1";
-            } else if (direction >= -45 && direction <= 45) {
-                //currentDamageAnimation = "Damage_Back_1";
-                currentDamageAnimation = "Damage_Forward_1";
-            } else if (direction >= -144 && direction <= -45) {
-                currentDamageAnimation = "Damage_Right_1";
-            } else if (direction >= 45 && direction <= 144) {
-                currentDamageAnimation = "Damage_Left_1";
             }
         }
     }

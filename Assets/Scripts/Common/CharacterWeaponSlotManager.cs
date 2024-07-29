@@ -149,7 +149,7 @@ namespace SoulsLike {
 
             leftHandDamageCollider.characterCausingDamage = character;
             // 왼쪽 무기의 DamageCollider에 현재 왼쪽 무기의 강인도 감쇄율을 전달
-            leftHandDamageCollider.poiseBreak = characterInventoryManager.leftWeapon.poiseBreak;
+            leftHandDamageCollider.poiseDamage = characterInventoryManager.leftWeapon.poiseBreak;
             // 현재 왼쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
             characterEffectsManager.leftWeaponManager = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponManager>();
         }
@@ -162,7 +162,7 @@ namespace SoulsLike {
 
             rightHandDamageCollider.characterCausingDamage = character;
             // 오른쪽 무기의 DamageCollider에 현재 오른쪽 무기의 강인도 감쇄율을 전달
-            rightHandDamageCollider.poiseBreak = characterInventoryManager.rightWeapon.poiseBreak;
+            rightHandDamageCollider.poiseDamage = characterInventoryManager.rightWeapon.poiseBreak;
             // 현재 오른쪽손에 들려있는 무기 모델의 자식에 있는 WeaponFX 스크립트 파일을 불러옴
             characterEffectsManager.rightWeaponManager = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponManager>();
         }

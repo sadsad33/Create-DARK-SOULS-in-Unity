@@ -65,5 +65,6 @@ namespace SoulsLike {
 
         [Header("Sound FX")]
         public AudioClip[] weaponAttackSounds;
+        public AudioClip[] blockingNoises;
     }
 }

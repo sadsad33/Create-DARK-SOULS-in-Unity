@@ -20,12 +20,13 @@ namespace SoulsLike {
                 }
                 target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
             } else {
-                if (target.characterStatsManager.totalPoiseDefense > poiseBreak) {
-                    target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
-                } else {
-                    //enemyStats.isStuned = true;
-                    target.characterStatsManager.TakeDamage(finalPhysicalDamage, finalFireDamage, currentDamageAnimation, characterCausingDamage);
-                }
+                TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+                takeDamageEffect.physicalDamage = finalPhysicalDamage;
+                takeDamageEffect.fireDamage = finalFireDamage;
+                takeDamageEffect.poiseDamage = poiseDamage;
+                takeDamageEffect.contactPoint = contactPoint;
+                takeDamageEffect.angleHitFrom = angleHitFrom;
+                target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
             }
         }
     }

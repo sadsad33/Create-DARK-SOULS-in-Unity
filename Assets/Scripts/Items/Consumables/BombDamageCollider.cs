@@ -24,12 +24,15 @@ namespace SoulsLike {
                 hasCollided = true;
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.identity);
 
-                CharacterStatsManager character = collision.transform.root.GetComponent<CharacterStatsManager>();
-                if (character != null && character.teamIDNumber != teamIDNumber) {
-                    float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
-                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    character.TakeDamage(contactDamage, 0, currentDamageAnimation, characterThrowsThis);
-                    Debug.Log(currentDamageAnimation);
+                CharacterManager character = collision.transform.root.GetComponent<CharacterManager>();
+                if (character != null && character.characterStatsManager.teamIDNumber != teamIDNumber) {
+                    TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+                    takeDamageEffect.physicalDamage = physicalDamage;
+                    takeDamageEffect.fireDamage = fireDamage;
+                    takeDamageEffect.poiseDamage = poiseDamage;
+                    takeDamageEffect.contactPoint = contactPoint;
+                    takeDamageEffect.angleHitFrom = angleHitFrom;
+                    character.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
                 }
 
                 Explode();
@@ -44,14 +47,10 @@ namespace SoulsLike {
                 CharacterStatsManager characterStats = character.GetComponent<CharacterStatsManager>();
                 if (characterStats != null && characterStats.teamIDNumber != teamIDNumber) {
                     float directionHitFrom = (Vector3.SignedAngle(transform.forward, character.transform.forward, Vector3.up));
-                    ChooseWhichDirectionDamageCameFrom(directionHitFrom);
-                    characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation, characterThrowsThis);
+                    //ChooseWhichDirectionDamageCameFrom(directionHitFrom);
+                    //characterStats.TakeDamage(0, fireExplosionDamage, currentDamageAnimation, characterThrowsThis);
                 }
             }
-        }
-
-        protected override void ChooseWhichDirectionDamageCameFrom(float direction) {
-            base.ChooseWhichDirectionDamageCameFrom(direction);
         }
     }
 }

@@ -8311,6 +8311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d978634805ad16b43948ae384e6a93a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
   teamIDNumber: 2
   soulsAwardedOnDeath: 0
   healthLevel: 10
@@ -8322,6 +8323,7 @@ MonoBehaviour:
   focusLevel: 10
   maxFocus: 0
   currentFocus: 0
+  blockingStabilityRating: 0
   soulCount: 10000
   isBoss: 0
   totalPoiseDefense: 50
@@ -8340,11 +8342,15 @@ MonoBehaviour:
   fireDamageAbsorptionLegs: 0
   fireDamageAbsorptionHands: 0
   totalFireDamageDefenseRate: 0
+  poisonResistance: 0
   isDead: 0
   physicalDamagePercentageModifier: 100
   fireDamagePercentageModifier: 100
   physicalAbsorptionPercentageModifier: 0
   fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
   level: 10
   characterName: Nameless
   staminaRegenerationAmount: 50
@@ -8369,6 +8375,7 @@ MonoBehaviour:
   characterInventoryManager: {fileID: 0}
   characterEffectsManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
+  characterSoundEffectsManager: {fileID: 0}
   lockOnTransform: {fileID: 199501606}
   backStabCollider: {fileID: 229186707681697945}
   riposteCollider: {fileID: 229186707484642016}
@@ -8513,6 +8520,10 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 134254330578057581}
   rightHandConstraint: {fileID: 134254329769522189}
+  damageAnimationForward: Damage_Forward_1
+  damageAnimationBackward: Damage_Backward_1
+  damageAnimationRight: Damage_Right_1
+  damageAnimationLeft: Damage_Left_1
   player: {fileID: 0}
 --- !u!114 &6482744793811343858
 MonoBehaviour:
@@ -8548,19 +8559,15 @@ MonoBehaviour:
   staticCharacterEffects:
   - {fileID: 0}
   - {fileID: 0}
+  timedEffects: []
+  effectTickTimer: 0
+  timedEffectParticles: []
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
   rightWeaponBuffEffect: {fileID: 0}
-  defaultPoisonedParticleFX: {fileID: 6036021610362047377, guid: c59dddb4847201d4bbc6dfdf30c1748d, type: 3}
-  currentPoisonedParticleFX: {fileID: 0}
   buildUpTransform: {fileID: 199501606}
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  defaultPoisonAmount: 100
-  poisonDamage: 10
-  poisonTimer: 2
+  poisonAmountBar: {fileID: 0}
   currentParticleFX: {fileID: 0}
   instantiatedFXModel: {fileID: 0}
   amountToBeHealed: 0

@@ -48372,6 +48372,10 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 969424266}
   rightHandConstraint: {fileID: 1397932456}
+  damageAnimationForward: Damage_Forward_1
+  damageAnimationBackward: Damage_Backward_1
+  damageAnimationRight: Damage_Right_1
+  damageAnimationLeft: Damage_Left_1
 --- !u!4 &2173030237397731460
 Transform:
   m_ObjectHideFlags: 0
@@ -50294,6 +50298,10 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 1165792849}
   rightHandConstraint: {fileID: 1048734311}
+  damageAnimationForward: Damage_Forward_1
+  damageAnimationBackward: Damage_Backward_1
+  damageAnimationRight: Damage_Right_1
+  damageAnimationLeft: Damage_Left_1
   npcInventory: {fileID: 4086121375643061407}
   npcWeaponSlotManager: {fileID: 4086121375643061409}
 --- !u!114 &4086121375643061407
@@ -50354,6 +50362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f738cf051ab14614bb4b365990318168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
   teamIDNumber: 0
   soulsAwardedOnDeath: 5
   healthLevel: 10
@@ -50365,6 +50374,7 @@ MonoBehaviour:
   focusLevel: 10
   maxFocus: 0
   currentFocus: 0
+  blockingStabilityRating: 0
   soulCount: 0
   isBoss: 0
   totalPoiseDefense: 0
@@ -50430,12 +50440,11 @@ MonoBehaviour:
   staticCharacterEffects: []
   timedEffects: []
   effectTickTimer: 0
+  timedEffectParticles: []
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
   rightWeaponBuffEffect: {fileID: 0}
-  defaultPoisonedParticleFX: {fileID: 6036021610362047377, guid: c59dddb4847201d4bbc6dfdf30c1748d, type: 3}
-  currentPoisonedParticleFX: {fileID: 0}
   buildUpTransform: {fileID: 0}
 --- !u!114 &4086121375643061411
 MonoBehaviour:
@@ -51648,6 +51657,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_CC
       objectReference: {fileID: 0}
+    - target: {fileID: 2674730931720195349, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: armorPoiseBonus
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2682100639615162616, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: takingDamageSounds.Array.size
       value: 3
@@ -51933,6 +51946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ed6b924acef144097847a59bee8a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
   teamIDNumber: 1
   soulsAwardedOnDeath: 10000
   healthLevel: 50
@@ -51944,6 +51958,7 @@ MonoBehaviour:
   focusLevel: 10
   maxFocus: 0
   currentFocus: 0
+  blockingStabilityRating: 0
   soulCount: 0
   isBoss: 1
   totalPoiseDefense: 0
@@ -52110,12 +52125,11 @@ MonoBehaviour:
   staticCharacterEffects: []
   timedEffects: []
   effectTickTimer: 0
+  timedEffectParticles: []
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
   rightWeaponBuffEffect: {fileID: 0}
-  defaultPoisonedParticleFX: {fileID: 0}
-  currentPoisonedParticleFX: {fileID: 0}
   buildUpTransform: {fileID: 0}
 --- !u!114 &6777079784069156020
 MonoBehaviour:

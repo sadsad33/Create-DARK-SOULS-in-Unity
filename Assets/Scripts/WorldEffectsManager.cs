@@ -6,6 +6,10 @@ namespace SoulsLike {
     public class WorldEffectsManager : MonoBehaviour {
         public static WorldEffectsManager instance;
 
+        [Header("Damage")]
+        public TakeDamageEffect takeDamageEffect;
+        public TakeBlockedDamageEffect takeBlockedDamageEffect;
+
         [Header("Poison")]
         public PoisonBuildUpEffect poisonBuildUpEffect;
         public PoisonedEffect poisonedEffect;
