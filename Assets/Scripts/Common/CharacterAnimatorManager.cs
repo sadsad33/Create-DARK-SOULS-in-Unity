@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ using Unity.Netcode;
 
 namespace SoulsLike {
     public class CharacterAnimatorManager : MonoBehaviour {
-        //public Animator anim;
         protected CharacterManager character;
         protected CharacterStatsManager characterStatsManager;
         public bool canRotate;
@@ -15,11 +15,25 @@ namespace SoulsLike {
         public TwoBoneIKConstraint leftHandConstraint;
         public TwoBoneIKConstraint rightHandConstraint;
 
+        [Obsolete("특정 피격 상황에 따른 피격 애니메이션들을 추가할 경우 이곳에 리스트들을 생성하고 등록할 것, " +
+            "또한 리스트를 매개변수로 받아 해당 리스트에서 랜덤하게 하나의 애니메이션을 추출하는 메서드를 작성해서 사용할 것")]
+        [Header("Damage Animation")]
+        // 공격 방향에 따라, 공격의 강도에 따라 여러 애니메이션 리스트들을 갖는다
+        //public List<string> damageAnimationsForward = new List<string>();
+        //public List<string> damageAnimationsBack = new List<string>();
+        //public List<string> damageAnimationsLeft = new List<string>();
+        //public List<string> damageAnimationsRight = new List<string>();
+        
+
         bool handIKWeightReset = false;
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             rigBuilder = GetComponent<RigBuilder>();
+        }
+
+        protected virtual void Start() {
+            
         }
 
         // 해당 애니메이션을 실행한다.
@@ -83,8 +97,6 @@ namespace SoulsLike {
         public virtual void DisableCanBeRiposted() {
             character.canBeRiposted = false;
         }
-
-
 
         public virtual void TakeCriticalDamageAnimationEvent() {
             characterStatsManager.TakeDamageNoAnimation(character.pendingCriticalDamage); // 잡기 대상에게 데미지

@@ -59,20 +59,6 @@ namespace SoulsLike {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation, CharacterManager enemyCharacterDamagingMe) {
-            if (enemyManager.isInvulnerable) return;
-            base.TakeDamage(damage, fireDamage, damageAnimation, enemyCharacterDamagingMe);
-            if (!isBoss)
-                enemyHealthBar.UpdateHealth(currentHealth);
-            else if (isBoss && bossManager != null)
-                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-
-            enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
-            if (isDead && !enemyManager.isGrabbed) {
-                HandleDeath("Dead");
-            }
-        }
-
         private void HandleDeath(string deathAnimation) {
             //currentHealth = 0;
             Debug.Log("Dead");

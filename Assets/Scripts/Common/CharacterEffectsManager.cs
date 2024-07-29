@@ -58,7 +58,10 @@ namespace SoulsLike {
             }
         }
 
-
+        // 즉각적인 이펙트(데미지 등) 실행
+        public virtual void ProcessEffectInstantly(CharacterEffect effect) {
+            effect.ProcessEffect(character);
+        }
         public void ProcessWeaponBuffs() {
             // 현재 오른손 무기에 버프가 걸린 상태라면
             if (rightWeaponBuffEffect != null) {

@@ -7,6 +7,10 @@ namespace SoulsLike {
     public class CharacterStatsManager : NetworkBehaviour {
         CharacterManager character;
 
+        // CharacterCombatManager
+        [Header("마지막으로 받은 강인도 데미지의 총량")]
+        public int previousPoiseDamageTaken;
+
         [Header("Team I.D")]
         public int teamIDNumber;
         
@@ -22,7 +26,8 @@ namespace SoulsLike {
         public int focusLevel = 10;
         public float maxFocus;
         public float currentFocus;
-
+        public float blockingStabilityRating;
+        
         public int soulCount = 0;
 
         public bool isBoss;
@@ -86,41 +91,10 @@ namespace SoulsLike {
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(float physicalDamage, float fireDamage, string damageAnimation, CharacterManager enmyCharacterDamagingMe) {
-            if (isDead) return;
-
-            character.characterAnimatorManager.EraseHandIKForWeapon();
-            
-            physicalDamage *= (enmyCharacterDamagingMe.characterStatsManager.physicalDamagePercentageModifier / 100);
-            float totalPhysicalDamageAbsorption = 1 -
-                (1 - physicalDamageAbsorptionHead / 100) *
-                (1 - physicalDamageAbsorptionBody / 100) *
-                (1 - physicalDamageAbsorptionLegs / 100) *
-                (1 - physicalDamageAbsorptionHands / 100);
-            physicalDamage -= (physicalDamage * totalPhysicalDamageAbsorption);
-
-            physicalDamage -= physicalDamage * (physicalAbsorptionPercentageModifier / 100);
-
-            fireDamage *= (enmyCharacterDamagingMe.characterStatsManager.fireDamagePercentageModifier / 100);
-            float totalFireDamageAbsorption = 1 -
-                (1 - fireDamageAbsorptionHead / 100) *
-                (1 - fireDamageAbsorptionBody / 100) *
-                (1 - fireDamageAbsorptionLegs / 100) *
-                (1 - fireDamageAbsorptionHands / 100);
-            fireDamage -= (fireDamage * totalFireDamageAbsorption);
-
-            fireDamage -= fireDamage * (fireAbsorptionPercentageModifier / 100);
-
-            float finalDamage = physicalDamage + fireDamage;
-            Debug.Log("Final Damage : " + finalDamage);
-            currentHealth -= finalDamage;
-
-            if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
-            }
-
-            character.characterSoundEffectsManager.PlayRandomDamageSoundFX();
+        // 피격 애니메이션이 여러개라면 사용
+        public string GetRandomDamageAnimationFromList(List<string> animationList) {
+            int randomValue = Random.Range(0, animationList.Count);
+            return animationList[randomValue];
         }
 
         public virtual void TakeDamageNoAnimation(float physicalDamage, float fireDamage = 0) {

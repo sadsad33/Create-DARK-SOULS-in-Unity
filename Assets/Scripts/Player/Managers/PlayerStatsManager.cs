@@ -69,23 +69,6 @@ namespace SoulsLike {
             }
         }
 
-        public override void TakeDamage(float damage, float fireDamage, string damageAnimation, CharacterManager enemyCharacterDamaingMe) {
-            if (player.isInvulnerable) return;
-
-            base.TakeDamage(damage, fireDamage, damageAnimation, enemyCharacterDamaingMe);
-
-            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
-            playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
-
-            if (currentHealth <= 0) {
-                currentHealth = 0;
-                isDead = true;
-                playerAnimatorManager.PlayTargetAnimation("Dead", true);
-                // Dead 애니메이션은 Transition으로 Empty에 연결해놓지 않았다.
-                // Empty 에서 isInteracting 항목을 초기화 함으로써 다음 애니메이션으로 넘어갈수 있게끔 해주는데 플레이어가 죽는다면 그럴필요 없음
-            }
-        }
-
         public override void DeductStamina(float staminaToDeduct) {
             base.DeductStamina(staminaToDeduct);
             UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);

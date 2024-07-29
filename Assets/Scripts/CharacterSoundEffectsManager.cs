@@ -70,5 +70,11 @@ namespace SoulsLike {
         public virtual void PlaySoundEffect(AudioClip soundFX) {
             audioSource.PlayOneShot(soundFX);
         }
+
+        public virtual void PlayRandomSoundEffectFromArray(AudioClip[] soundArray) {
+            int index = Random.Range(0, soundArray.Length);
+
+            PlaySoundEffect(soundArray[index]);
+        }
     }
 }

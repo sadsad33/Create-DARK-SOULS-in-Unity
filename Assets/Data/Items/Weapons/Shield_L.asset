@@ -15,11 +15,13 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: 7cdfac7a7246d274c8b983fd664158c9, type: 3}
   itemName: "\uBC29\uD328"
   flavorText: "\uD2BC\uD2BC\uD55C \uCCA0\uC81C \uBC29\uD328"
-  itemID: 6
+  itemID: 5
   modelPrefab: {fileID: 5203412457603426678, guid: e105b7be8d1d33549bb3605cb4b61673, type: 3}
   isUnarmed: 0
   physicalDamage: 10
   fireDamage: 0
+  lightAttackDamageModifier: 0
+  heavyAttackDamageModifier: 0
   criticalDamageMultiplier: 2
   poiseBreak: 5
   offensivePoiseBonus: 0
@@ -41,3 +43,6 @@ MonoBehaviour:
   isPyroCaster: 0
   isMeleeWeapon: 0
   isShieldWeapon: 1
+  weaponAttackSounds: []
+  blockingNoises:
+  - {fileID: 8300000, guid: b3f24e091b1f36a47ad685b2e971772d, type: 3}

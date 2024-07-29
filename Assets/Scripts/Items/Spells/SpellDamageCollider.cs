@@ -11,14 +11,14 @@ namespace SoulsLike {
 
         bool hasCollided = false;
         Rigidbody rigidBody;
-        new SphereCollider collider;
-        CharacterStatsManager spellTarget; // 목표물의 Stat
+        CharacterManager spellTarget; // 목표물의 Stat
         Vector3 impactNormal; // impactParticles 회전축
 
-        private new void Awake() {
+        protected override void Awake() {
+            base.Awake();
             rigidBody = GetComponent<Rigidbody>();
-            collider = GetComponent<SphereCollider>();
         }
+
         private void Start() {
             projectileParticles = Instantiate(projectileParticles, transform.position, transform.rotation);
             projectileParticles.transform.parent = transform;
@@ -31,12 +31,17 @@ namespace SoulsLike {
 
         private void OnCollisionEnter(Collision collision) {
             if (!hasCollided) {
-                spellTarget = collision.transform.root.GetComponent<CharacterStatsManager>();
-                if (spellTarget != null) {
-                    if (spellTarget.teamIDNumber != teamIDNumber)
-                        spellTarget.TakeDamage(0, fireDamage, currentDamageAnimation, characterSpelledThis);
-                    else return;
+                spellTarget = collision.transform.root.GetComponent<CharacterManager>();
+                if (spellTarget != null && spellTarget.characterStatsManager.teamIDNumber != teamIDNumber) {
+                    TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+                    takeDamageEffect.physicalDamage = physicalDamage;
+                    takeDamageEffect.fireDamage = fireDamage;
+                    takeDamageEffect.poiseDamage = poiseDamage;
+                    takeDamageEffect.contactPoint = contactPoint;
+                    takeDamageEffect.angleHitFrom = angleHitFrom;
+                    spellTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
                 }
+
                 hasCollided = true;
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전
 
