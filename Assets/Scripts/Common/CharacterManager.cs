@@ -31,8 +31,6 @@ namespace SoulsLike {
         public bool isBlocking;
         public bool isInvulnerable;
         public bool canDoCombo;
-        public bool isUsingRightHand;
-        public bool isUsingLeftHand;
         public bool isGrabbed;
 
         [Header("Movement Flags")]
@@ -86,5 +84,16 @@ namespace SoulsLike {
             characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHandingWeapon);
         }
 
+        public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {
+            if (IsOwner) {
+                if (usingRightHand) {
+                    characterNetworkManager.isUsingRightHand.Value = true;
+                    characterNetworkManager.isUsingLeftHand.Value = false;
+                } else {
+                    characterNetworkManager.isUsingRightHand.Value = false;
+                    characterNetworkManager.isUsingLeftHand.Value = true;
+                }
+            }
+        }
     }
 }

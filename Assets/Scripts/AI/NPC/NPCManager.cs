@@ -59,8 +59,9 @@ namespace SoulsLike {
             HandleChangeTargetTimer();
             HandleRecoveryTimer();
 
-            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
-            isUsingRightHand = animator.GetBool("isUsingRightHand");
+            //isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            //isUsingRightHand = animator.GetBool("isUsingRightHand");
+
             isRotatingWithRootMotion =animator.GetBool("isRotatingWithRootMotion");
             isInteracting = animator.GetBool("isInteracting");
             canDoCombo = animator.GetBool("canDoCombo");

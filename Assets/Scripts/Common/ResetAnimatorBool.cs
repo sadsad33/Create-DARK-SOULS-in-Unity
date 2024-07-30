@@ -5,12 +5,6 @@ using UnityEngine;
 namespace SoulsLike {
     public class ResetAnimatorBool : StateMachineBehaviour {
 
-        public string isUsingRightHand = "isUsingRightHand";
-        public bool isUsingRightHandStatus = false;
-
-        public string isUsingLeftHand = "isUsingRightHand";
-        public bool isUsingLeftHandStatus = false;
-
         public string isInteractingBool = "isInteracting";
         public bool isInteractingStatus = false;
 
@@ -35,11 +29,13 @@ namespace SoulsLike {
 
             animator.SetBool(isInteractingBool, isInteractingStatus);
             animator.SetBool(isFiringSpellBool, isFiringSpellStatus);
+            animator.SetBool(isRotatingWithRootMotion, isRotatingWithRootMotionStatus);
             animator.SetBool(canRotateBool, canRotateBoolStatus);
             animator.SetBool(isInvulnerableBool, isInvulnerableStatus);
-            animator.SetBool(isRotatingWithRootMotion, isRotatingWithRootMotionStatus);
-            animator.SetBool(isUsingRightHand, isUsingRightHandStatus);
-            animator.SetBool(isUsingLeftHand, isUsingLeftHandStatus);
+            if (character.IsOwner) {
+                character.characterNetworkManager.isUsingRightHand.Value = false;
+                character.characterNetworkManager.isUsingLeftHand.Value = false;
+            }
             //Debug.Log("애니메이션 종료");
         }
     }

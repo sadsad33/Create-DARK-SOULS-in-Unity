@@ -31,6 +31,8 @@ namespace SoulsLike {
         [Header("Flags")]
         public NetworkVariable<bool> isSprinting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isLockedOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> isUsingRightHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> isUsingLeftHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Equipment")]
         public NetworkVariable<int> currentRightWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -95,5 +97,61 @@ namespace SoulsLike {
             }
         }
 
+        // Effects
+        // 어떤 클라이언트가 다른 클라이언트의 오브젝트에서 서버 rpc를 호출할 수 있도록 해줌
+        // 다른 클라이언트의 오브젝트에 데미지를 줬다면, 해당 오브젝트에서 서버 rpc를 호출해서 모든 클라이언트에게 이 오브젝트가 데미지를 받았다는 사실을 알릴수 있도록
+        [ServerRpc(RequireOwnership = false)]
+        public virtual void NotifyServerOfCharacterDamageServerRpc(ulong damagedCharacterID, 
+            float physicalDamage, 
+            float fireDamage, 
+            float poiseDamage,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ,
+            ulong characterCausingDamageID) {
+
+            // 내가 요청을 수행하는 서버라면
+            if (IsServer) {
+                ProcessDamageForCharacterAcrossAllClientRpc(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, characterCausingDamageID);
+            }
+        
+        }
+
+        [ClientRpc]
+        private void ProcessDamageForCharacterAcrossAllClientRpc(ulong damagedCharacterID,
+            float physicalDamage,
+            float fireDamage,
+            float poiseDamage,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ,
+            ulong characterCausingDamageID) {
+
+            ProcessCharacterDamage(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, characterCausingDamageID);
+        }
+
+        private void ProcessCharacterDamage(ulong damagedCharacterID,
+            float physicalDamage,
+            float fireDamage,
+            float poiseDamage,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ,
+            ulong characterCausingDamageID) {
+
+            TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+            takeDamageEffect.physicalDamage = physicalDamage;
+            takeDamageEffect.fireDamage = fireDamage;
+            takeDamageEffect.poiseDamage = poiseDamage;
+            takeDamageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
+            
+            //공격한 오브젝트와 공격당한 오브젝트를 구분할때 클라이언트ID 를 사용하지 않는 이유는 AI 캐릭터는 클라이언트 ID를 갖지 않기 때문
+            takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+            CharacterManager damageTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+
+            if (damageTarget.isInvulnerable) return;
+
+            damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+        }
     }
 }

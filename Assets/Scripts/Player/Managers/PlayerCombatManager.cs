@@ -45,7 +45,7 @@ namespace SoulsLike {
             if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting) return;
             player.playerWeaponSlotManager.attackingWeapon = weapon;
             player.playerAnimatorManager.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
-            player.animator.SetBool("isUsingRightHand", true);
+            player.UpdateWhichHandCharacterIsUsing(true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
 
@@ -86,7 +86,7 @@ namespace SoulsLike {
             } else {
                 if (player.isInteracting) return;
                 if (player.canDoCombo) return;
-                player.animator.SetBool("isUsingRightHand", true);
+                player.UpdateWhichHandCharacterIsUsing(true);
                 HandleLightAttack(player.playerInventoryManager.rightWeapon);
             }
         }
@@ -94,6 +94,7 @@ namespace SoulsLike {
         // 영창 공격
         private void PerformRBSpellAction(WeaponItem weapon) {
             if (player.isInteracting) return;
+            player.UpdateWhichHandCharacterIsUsing(true);
             if (weapon.isFaithCaster) {
                 if (player.playerInventoryManager.currentSpell.isFaithSpell) {
                     if (player.playerStatsManager.currentFocus >= player.playerInventoryManager.currentSpell.focusCost)
@@ -109,8 +110,8 @@ namespace SoulsLike {
                     else player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 } else {
                     player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
-                }
             }
+                }
         }
 
         private void PerformLTWeaponArt(bool isTwoHanding) {
@@ -122,6 +123,7 @@ namespace SoulsLike {
             } else {
                 // 왼손 무기의 전기를 사용
                 player.playerAnimatorManager.PlayTargetAnimation(player.playerInventoryManager.leftWeapon.weaponArt, true);
+                player.UpdateWhichHandCharacterIsUsing(false);
             }
         }
 
@@ -144,6 +146,8 @@ namespace SoulsLike {
             player.playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
             player.playerEquipmentManager.OpenBlockingCollider();
             player.isBlocking = true;
+            if (player.isTwoHandingWeapon) player.UpdateWhichHandCharacterIsUsing(true);
+            else player.UpdateWhichHandCharacterIsUsing(false);
         }
 
         #endregion
@@ -174,6 +178,7 @@ namespace SoulsLike {
 
                     // 애니메이션 재생
                     player.playerAnimatorManager.PlayTargetAnimation("Back Stab", true);
+                    player.UpdateWhichHandCharacterIsUsing(true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Back Stabbed", true);
                     enemyCharacterManager.isGrabbed = true;
                 }
@@ -195,6 +200,7 @@ namespace SoulsLike {
                     enemyCharacterManager.pendingCriticalDamage = criticalDamage;
 
                     player.playerAnimatorManager.PlayTargetAnimation("Riposte", true);
+                    player.UpdateWhichHandCharacterIsUsing(true);
                     enemyCharacterManager.GetComponentInChildren<CharacterAnimatorManager>().PlayTargetAnimation("Riposted", true);
                     enemyCharacterManager.canBeRiposted = false;
                     enemyCharacterManager.isGrabbed = true;
