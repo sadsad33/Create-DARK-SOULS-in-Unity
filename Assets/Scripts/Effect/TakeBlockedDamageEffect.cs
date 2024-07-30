@@ -27,6 +27,8 @@ namespace SoulsLike {
             PlayBlockSoundEffect(character);
             AssignNewAITarget(character);
 
+            if (!character.IsOwner) return; 
+
             if (character.characterStatsManager.isDead) {
                 character.characterAnimatorManager.PlayTargetAnimation("Dead", true);
             } else {
@@ -34,7 +36,7 @@ namespace SoulsLike {
                     character.characterAnimatorManager.PlayTargetAnimation("BreakGuard", true);
                     character.canBeRiposted = true;
                     //Play Guard Break Sound
-                    character.isBlocking = false;
+                    character.characterNetworkManager.isBlocking.Value = false;
                 } else {
                     character.characterAnimatorManager.PlayTargetAnimation(blockAnimation, true);
                     //character.isAttacking = false;
@@ -43,6 +45,7 @@ namespace SoulsLike {
         }
 
         private void CalculateDamage(CharacterManager character) {
+            if (!character.IsOwner) return;
             if (character.characterStatsManager.isDead) return;
 
             if (characterCausingDamage != null) {
@@ -71,6 +74,7 @@ namespace SoulsLike {
             fireDamage -= fireDamage * (character.characterStatsManager.fireAbsorptionPercentageModifier / 100);
 
             float finalDamage = physicalDamage + fireDamage;
+            finalDamage = 0;
             character.characterStatsManager.currentHealth -= finalDamage;
 
             if (character.characterStatsManager.currentHealth <= 0) {

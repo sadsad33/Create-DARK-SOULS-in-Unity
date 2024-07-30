@@ -28,7 +28,9 @@ namespace SoulsLike {
                 //damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
             }
 
+            // 이 클라이언트가 데미지를 입혔다면
             if (characterCausingDamage.IsOwner) {
+                // 데미지를 받는쪽에서 서버RPC 호출
                 damageTarget.characterNetworkManager.NotifyServerOfCharacterDamageServerRpc(damageTarget.NetworkObjectId, 
                     takeDamageEffect.physicalDamage, 
                     takeDamageEffect.fireDamage, 
@@ -37,6 +39,29 @@ namespace SoulsLike {
                     takeDamageEffect.contactPoint.y,
                     takeDamageEffect.contactPoint.z,
                     characterCausingDamage.NetworkObjectId);
+            }
+        }
+
+        protected override void CheckForBlock(CharacterManager damageTarget, BlockingCollider shield, CharacterStatsManager enemyStats) {
+            if (shield != null && damageTarget.characterNetworkManager.isBlocking.Value) {
+
+                if (enemyStats != null) {
+                    //enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact", characterCausingDamage);
+                    shieldHasBeenHit = true;
+                    TakeBlockedDamageEffect takeBlockedDamage = Instantiate(WorldEffectsManager.instance.takeBlockedDamageEffect);
+                    takeBlockedDamage.physicalDamage = physicalDamage;
+                    takeBlockedDamage.fireDamage = fireDamage;
+                    takeBlockedDamage.poiseDamage = poiseDamage;
+                    takeBlockedDamage.staminaDamage = poiseDamage;
+
+                    //damageTarget.characterEffectsManager.ProcessEffectInstantly(takeBlockedDamage);
+                    damageTarget.characterNetworkManager.NotifyServerOfCharacterBlockedDamageServerRpc(damageTarget.NetworkObjectId,
+                    takeBlockedDamage.physicalDamage,
+                    takeBlockedDamage.fireDamage,
+                    takeBlockedDamage.poiseDamage,
+                    takeBlockedDamage.staminaDamage,
+                    characterCausingDamage.NetworkObjectId);
+                }
             }
         }
     }

@@ -186,7 +186,7 @@ namespace SoulsLike {
             if (lb_Input) {
                 playerCombatManager.HandleLBAction();
             } else {
-                player.isBlocking = false;
+                player.characterNetworkManager.isBlocking.Value = false;
                 if (blockingCollider.blockingCollider.enabled) {
                     blockingCollider.DisableBlockingCollider();
                 }
