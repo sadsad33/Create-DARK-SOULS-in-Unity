@@ -8,11 +8,9 @@ namespace SoulsLike {
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
-        //public bool isPerformingAction;
         public State currentState;
         public CharacterStatsManager currentTarget;
         public NavMeshAgent navMeshAgent;
-        //public Rigidbody enemyRigidbody;
 
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 1.5f; // 공격 가능 사거리
@@ -46,8 +44,6 @@ namespace SoulsLike {
             HandleRecoveryTimer();
             HandleStateMachine();
 
-            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
-            isUsingRightHand = animator.GetBool("isUsingRightHand");
             isPhaseShifting = animator.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = animator.GetBool("isRotatingWithRootMotion");
             isInteracting = animator.GetBool("isInteracting");
@@ -68,7 +64,7 @@ namespace SoulsLike {
         }
 
         // 타겟의 유무와 타겟과의 거리를 통해 현재 행동을 결정한다
-        private void HandleStateMachine() {
+        protected virtual void HandleStateMachine() {
             if (currentState != null) {
                 //if (!enemyStatsManager.isBoss)
                     //Debug.Log(currentState);
@@ -79,12 +75,12 @@ namespace SoulsLike {
             }
         }
 
-        private void SwitchToNextState(State state) {
+        protected virtual void SwitchToNextState(State state) {
             currentState = state;
         }
 
         // 공격과 공격사이의 딜레이
-        private void HandleRecoveryTimer() {
+        protected virtual void HandleRecoveryTimer() {
             if (currentRecoveryTime > 0) {
                 currentRecoveryTime -= Time.deltaTime;
             } else currentRecoveryTime = 0;

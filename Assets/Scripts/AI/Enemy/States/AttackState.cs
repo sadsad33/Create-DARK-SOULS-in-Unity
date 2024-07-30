@@ -12,29 +12,29 @@ namespace SoulsLike {
         public DeadState deadState;
 
         bool willDoComboOnNextAttack = false;
-        public bool hasPerformedAttack = false; // °ø°İ ¼öÇà ¿©ºÎ
+        public bool hasPerformedAttack = false; // ê³µê²© ìˆ˜í–‰ ì—¬ë¶€
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // Å¸°Ù°úÀÇ °Å¸®
-            RotateTowardsTargetWhileAttacking(enemyManager); // °ø°İ µµÁß ÀÏºÎ ±¸°£¿¡¼­ È¸Àü °¡´É
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬
+            RotateTowardsTargetWhileAttacking(enemyManager); // ê³µê²© ë„ì¤‘ ì¼ë¶€ êµ¬ê°„ì—ì„œ íšŒì „ ê°€ëŠ¥
             
-            if (distanceFromTarget > enemyManager.maximumAggroRadius) { // °ø°İ »ç°Å¸®¸¦ ¹ş¾î³ª¸é ÃßÀû »óÅÂ·Î ÀüÀÌ
+            if (distanceFromTarget > enemyManager.maximumAggroRadius) { // ê³µê²© ì‚¬ê±°ë¦¬ë¥¼ ë²—ì–´ë‚˜ë©´ ì¶”ì  ìƒíƒœë¡œ ì „ì´
                 return pursueTargetState;
             }
 
             if (willDoComboOnNextAttack && enemyManager.canDoCombo) {
-                // ÄŞº¸ °ø°İ
+                // ì½¤ë³´ ê³µê²©
                 AttackTargetWithCombo(enemyAnimatorManager, enemyManager);
             }
 
             //Debug.Log(hasPerformedAttack);
             if (!hasPerformedAttack) {
-                //Debug.Log("°ø°İ?");
+                //Debug.Log("ê³µê²©?");
                 AttackTarget(enemyAnimatorManager, enemyManager);
             }
 
-            // ÄŞº¸ °ø°İ ÇÃ·¡±×°¡ °ø°İ ÀÌÈÄ °áÁ¤µÇ±â ¶§¹®¿¡, °ø°İÀÌ ³¡³­ÈÄ ÄŞº¸ °ø°İ ÇÃ·¡±×°¡ true¶ó¸é ´Ù½Ã ÇöÀç »óÅÂ¸¦ ¹İÈ¯ÇÏ¿© ÄŞº¸ °ø°İÀ» ¼öÇàÇÒ¼ö ÀÖµµ·Ï
+            // ì½¤ë³´ ê³µê²© í”Œë˜ê·¸ê°€ ê³µê²© ì´í›„ ê²°ì •ë˜ê¸° ë•Œë¬¸ì—, ê³µê²©ì´ ëë‚œí›„ ì½¤ë³´ ê³µê²© í”Œë˜ê·¸ê°€ trueë¼ë©´ ë‹¤ì‹œ í˜„ì¬ ìƒíƒœë¥¼ ë°˜í™˜í•˜ì—¬ ì½¤ë³´ ê³µê²©ì„ ìˆ˜í–‰í• ìˆ˜ ìˆë„ë¡
             if (willDoComboOnNextAttack && hasPerformedAttack) {
                 return this;
             }
@@ -42,44 +42,48 @@ namespace SoulsLike {
             return rotateTowardsTargetState;
         }
 
-        // °ø°İ ¼öÇà
+        // ê³µê²© ìˆ˜í–‰
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
-            //Debug.Log(currentAttack);
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //enemyAnimatorManager.PlayWeaponTrailFX();
-            enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            //enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            enemyManager.characterNetworkManager.isUsingRightHand.Value = currentAttack.isRightHandedAction;
+            enemyManager.characterNetworkManager.isUsingLeftHand.Value = !currentAttack.isRightHandedAction;
+
             hasPerformedAttack = true;
             RollForComboChance(enemyManager);
+            
             if (!willDoComboOnNextAttack) {
-                //Debug.Log("ÄŞº¸ ¾ÈÇÔ");
-                enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // ´ë±â½Ã°£ ¼³Á¤
+                //Debug.Log("ì½¤ë³´ ì•ˆí•¨");
+                enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // ëŒ€ê¸°ì‹œê°„ ì„¤ì •
                 currentAttack = null;
             }
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
             willDoComboOnNextAttack = false;
-            enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
-            //Debug.Log(currentAttack);
+            //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            //enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            enemyManager.characterNetworkManager.isUsingRightHand.Value = currentAttack.isRightHandedAction;
+            enemyManager.characterNetworkManager.isUsingLeftHand.Value = !currentAttack.isRightHandedAction;
+            
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            //enemyAnimatorManager.PlayWeaponTrailFX();
-            enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // ´ë±â½Ã°£ ¼³Á¤
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime; // ëŒ€ê¸°ì‹œê°„ ì„¤ì •
             currentAttack = null;
         }
 
         private void RotateTowardsTargetWhileAttacking(EnemyManager enemyManager) {
             //if (enemyManager.isInteracting) return;
 
-            // °ø°İ ¸ğ¼ÇµµÁß È¸ÀüÀÌ °¡´ÉÇÑ ±¸°£ÀÌ ÀÖÀ½
-            // °ø°İ µµÁßÀÇ È¸Àü¿¡¸¸ °ü¿©ÇÏµµ·Ï
+            // ê³µê²© ëª¨ì…˜ë„ì¤‘ íšŒì „ì´ ê°€ëŠ¥í•œ êµ¬ê°„ì´ ìˆìŒ
+            // ê³µê²© ë„ì¤‘ì˜ íšŒì „ì—ë§Œ ê´€ì—¬í•˜ë„ë¡
             if (enemyManager.canRotate && enemyManager.isInteracting) {
                 Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
 
-                if (direction == Vector3.zero) // Å¸°ÙÀÌ ¾øÀ»°æ¿ì Á¤¸éÀ» ¹Ù¶óº½
+                if (direction == Vector3.zero) // íƒ€ê²Ÿì´ ì—†ì„ê²½ìš° ì •ë©´ì„ ë°”ë¼ë´„
                     direction = enemyManager.transform.forward;
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -88,7 +92,7 @@ namespace SoulsLike {
         }
 
 
-        // ÄŞº¸ °ø°İÀ» À§ÇÑ ½ÃÇà
+        // ì½¤ë³´ ê³µê²©ì„ ìœ„í•œ ì‹œí–‰
         private void RollForComboChance(EnemyManager enemyManager) {
             float comboChance = Random.Range(0, 100);
             

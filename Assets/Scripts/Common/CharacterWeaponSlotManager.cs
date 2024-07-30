@@ -47,10 +47,10 @@ namespace SoulsLike {
         // 대상에게 피해를 주기 위해 무기의 DamageCollider를 활성화
         public virtual void OpenDamageCollider() {
             character.characterSoundEffectsManager.PlayRandomWeaponAttackSounds();
-            if (character.isUsingRightHand) {
+            if (character.characterNetworkManager.isUsingRightHand.Value) {
                 characterEffectsManager.PlayWeaponFX(false);
                 rightHandDamageCollider.EnableDamageCollider();
-            } else if (character.isUsingLeftHand) {
+            } else if (character.characterNetworkManager.isUsingLeftHand.Value) {
                 characterEffectsManager.PlayWeaponFX(true);
                 leftHandDamageCollider.EnableDamageCollider();
             }
@@ -85,9 +85,11 @@ namespace SoulsLike {
         }
 
         public virtual void LoadSpellOnSlot(SpellItem spellItem) {
+        
         }
 
         public virtual void LoadConsumableOnSlot(ConsumableItem consumableItem) {
+
         }
 
         // 현재 각 손의 WeaponHolderSlot 스크립트를 참조하여 현재 들려있는 무기를 로드

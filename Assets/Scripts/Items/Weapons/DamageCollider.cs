@@ -47,29 +47,29 @@ namespace SoulsLike {
             if (other.CompareTag("Character")) {
                 shieldHasBeenHit = false;
                 hasBeenParried = false;
-                CharacterManager target = other.GetComponent<CharacterManager>();
+                CharacterManager damageTarget = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 
-                if (target.characterStatsManager.isDead) return;
+                if (damageTarget.characterStatsManager.isDead) return;
                 
-                if (target != null) {
-                    if (target.characterStatsManager.teamIDNumber == teamIDNumber) return;
-                    CheckForParry(target);
-                    CheckForBlock(target, shield, target.characterStatsManager);
+                if (damageTarget != null) {
+                    if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                    CheckForParry(damageTarget);
+                    CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
                 }
                 
-                if (target.characterStatsManager != null) {
-                    if (target.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                if (damageTarget.characterStatsManager != null) {
+                    if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
                    
                     if (hasBeenParried) return;
                     
                     if (shieldHasBeenHit) return;
                     
-                    target.characterStatsManager.poiseResetTimer = target.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
-                    target.characterStatsManager.totalPoiseDefense -= poiseDamage;
+                    damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
+                    damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
 
-                    if (target.characterStatsManager.teamIDNumber == 0) {
-                        NPCManager npcManager = target.transform.GetComponent<NPCManager>();
+                    if (damageTarget.characterStatsManager.teamIDNumber == 0) {
+                        NPCManager npcManager = damageTarget.transform.GetComponent<NPCManager>();
                         if (teamIDNumber == 1) {
                             npcManager.aggravationToEnemy += 30;
                         } else if (teamIDNumber == 2) {
@@ -83,8 +83,8 @@ namespace SoulsLike {
 
                     // 타격 지점
                     contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, target.transform.forward, Vector3.up));
-                    DealDamage(target);
+                    angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up));
+                    DealDamage(damageTarget);
                 }
             }
 

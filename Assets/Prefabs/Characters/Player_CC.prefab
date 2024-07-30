@@ -8387,8 +8387,6 @@ MonoBehaviour:
   isBlocking: 0
   isInvulnerable: 0
   canDoCombo: 0
-  isUsingRightHand: 0
-  isUsingLeftHand: 0
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
@@ -8520,10 +8518,6 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 134254330578057581}
   rightHandConstraint: {fileID: 134254329769522189}
-  damageAnimationForward: Damage_Forward_1
-  damageAnimationBackward: Damage_Backward_1
-  damageAnimationRight: Damage_Right_1
-  damageAnimationLeft: Damage_Left_1
   player: {fileID: 0}
 --- !u!114 &6482744793811343858
 MonoBehaviour:
@@ -8661,6 +8655,10 @@ MonoBehaviour:
   isSprinting:
     m_InternalValue: 0
   isLockedOn:
+    m_InternalValue: 0
+  isUsingRightHand:
+    m_InternalValue: 0
+  isUsingLeftHand:
     m_InternalValue: 0
   currentRightWeaponID:
     m_InternalValue: 0
@@ -8816,4 +8814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c527da29a12a84eb8f9e2f705f109e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  takingDamageSounds: []
+  takingDamageSounds:
+  - {fileID: 8300000, guid: bd4871c9cbf2a8c4cbf58291800eb98d, type: 3}
+  - {fileID: 8300000, guid: 319914c91d8ceee4ebec0b3c04fe9681, type: 3}
+  - {fileID: 8300000, guid: 97bddef150715c649a8292e24f93aa09, type: 3}

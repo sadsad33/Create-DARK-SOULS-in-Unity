@@ -121,8 +121,10 @@ namespace SoulsLike {
             isInteracting = animator.GetBool("isInteracting");
             isFiringSpell = animator.GetBool("isFiringSpell");
             canDoCombo = animator.GetBool("canDoCombo");
-            isUsingRightHand = animator.GetBool("isUsingRightHand");
-            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+
+            //isUsingRightHand = animator.GetBool("isUsingRightHand");
+            //isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            
             inputHandler.TickInput(delta);
             isTwoHandingWeapon = inputHandler.twoHandFlag;
             isInvulnerable = animator.GetBool("isInvulnerable");

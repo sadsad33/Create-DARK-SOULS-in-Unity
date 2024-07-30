@@ -17,7 +17,7 @@ namespace SoulsLike {
             float distanceFromTarget = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
 
             if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
-                Debug.Log("Å¸°Ù Àç¼³Á¤");
+                Debug.Log("íƒ€ê²Ÿ ìž¬ì„¤ì •");
                 npcManager.currentTarget = null;
                 return npcIdleState;
             }
@@ -44,8 +44,12 @@ namespace SoulsLike {
 
         private void AttackTarget(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            //npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            //npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            //npcManager.UpdateWhichHandCharacterIsUsing(currentAttack.isRightHandedAction);
+            npcManager.characterNetworkManager.isUsingRightHand.Value = currentAttack.isRightHandedAction;
+            npcManager.characterNetworkManager.isUsingLeftHand.Value = !currentAttack.isRightHandedAction;
+
             hasPerformedAttack = true;
             npcManager.changeTargetTimer = npcManager.changeTargetTime;
             RollForComboChance(npcManager);
@@ -56,8 +60,11 @@ namespace SoulsLike {
         }
         private void AttackTargetWithCombo(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
             willDoComboOnNextAttack = false;
-            npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
-            npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            //npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
+            //npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
+            npcManager.characterNetworkManager.isUsingRightHand.Value = currentAttack.isRightHandedAction;
+            npcManager.characterNetworkManager.isUsingLeftHand.Value = !currentAttack.isRightHandedAction;
+
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             npcManager.changeTargetTimer = npcManager.changeTargetTime;
             npcManager.currentRecoveryTime = currentAttack.recoveryTime;

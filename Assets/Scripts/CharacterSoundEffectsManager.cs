@@ -9,7 +9,7 @@ namespace SoulsLike {
         // 공격 사운드
         [Header("Weapon Sounds")]
         private List<AudioClip> potentialWeaponAttackSounds;
-        private AudioClip lastWeaponAttackSound;
+        private AudioClip lastWeaponAttackSound = null;
 
 
         // 피격 사운드
@@ -44,7 +44,7 @@ namespace SoulsLike {
         public virtual void PlayRandomWeaponAttackSounds() {
             potentialWeaponAttackSounds = new List<AudioClip>();
 
-            if (character.isUsingRightHand) {
+            if (character.characterNetworkManager.isUsingRightHand.Value) {
                 foreach (AudioClip weaponAttackSound in character.characterInventoryManager.rightWeapon.weaponAttackSounds) {
                     if (weaponAttackSound != lastWeaponAttackSound) {
                         potentialWeaponAttackSounds.Add(weaponAttackSound);

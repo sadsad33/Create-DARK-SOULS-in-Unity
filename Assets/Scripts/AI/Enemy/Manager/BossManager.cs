@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class BossManager : MonoBehaviour {
-        Animator animator;
+    public class BossManager : EnemyManager {
         BossHealthBar bossHealthBar;
         public string bossName;
         EnemyStatsManager enemyStats;
@@ -14,7 +13,7 @@ namespace SoulsLike {
         [Header("Second Phase FX")]
         public GameObject particleFX;
 
-        private void Awake() {
+        protected override void Awake() {
             animator = GetComponent<Animator>();
             bossHealthBar = FindObjectOfType<BossHealthBar>();
             enemyStats = GetComponent<EnemyStatsManager>();
@@ -22,7 +21,7 @@ namespace SoulsLike {
             bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
         }
 
-        private void Start() {
+        protected override void Start() {
             bossHealthBar.SetBossName(bossName);
             bossHealthBar.SetBossMaxHealth(enemyStats.maxHealth);
         }
@@ -31,18 +30,18 @@ namespace SoulsLike {
             bossHealthBar.SetBossCurrentHealth(currentHealth);
             if (currentHealth <= maxHealth / 2 && !bossCombatStanceState.hasPhaseShifted) {
                 if (enemyStats.isStuned) return;
-                //Debug.Log("2ÆäÀÌÁî ÁøÀÔ");
+                //Debug.Log("2íŽ˜ì´ì¦ˆ ì§„ìž…");
                 bossCombatStanceState.hasPhaseShifted = true;
                 ShiftToSecondPhase();
             }
         }
 
-        //ÆäÀÌÁî ÀüÈ¯
+        //íŽ˜ì´ì¦ˆ ì „í™˜
         public void ShiftToSecondPhase() {
             animator.SetBool("isInvulnerable", true);
             animator.SetBool("isPhaseShifting", true);
             enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
-            //ÆÐÅÏ ÀüÈ¯
+            //íŒ¨í„´ ì „í™˜
         }
     }
 }

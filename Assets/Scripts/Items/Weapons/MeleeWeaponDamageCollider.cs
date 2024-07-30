@@ -9,24 +9,34 @@ namespace SoulsLike {
         public float fireBuffDamage;
         public float poiseBuffDamage;
 
-        protected override void DealDamage(CharacterManager target) {
+        protected override void DealDamage(CharacterManager damageTarget) {
             float finalPhysicalDamage = physicalDamage + physicalBuffDamage;
             float finalFireDamage = fireDamage + fireBuffDamage;
-            
-            if (target.characterStatsManager.isBoss) {
-                if (target.characterStatsManager.totalPoiseDefense < 0 && !target.characterStatsManager.isStuned) {
-                    target.characterStatsManager.isStuned = true;
-                    target.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
+            TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+            if (damageTarget.characterStatsManager.isBoss) {
+                if (damageTarget.characterStatsManager.totalPoiseDefense < 0 && !damageTarget.characterStatsManager.isStuned) {
+                    damageTarget.characterStatsManager.isStuned = true;
+                    damageTarget.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
                 }
-                target.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
+                //damageTarget.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
             } else {
-                TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
                 takeDamageEffect.physicalDamage = finalPhysicalDamage;
                 takeDamageEffect.fireDamage = finalFireDamage;
                 takeDamageEffect.poiseDamage = poiseDamage;
                 takeDamageEffect.contactPoint = contactPoint;
                 takeDamageEffect.angleHitFrom = angleHitFrom;
-                target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+                //damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+            }
+
+            if (characterCausingDamage.IsOwner) {
+                damageTarget.characterNetworkManager.NotifyServerOfCharacterDamageServerRpc(damageTarget.NetworkObjectId, 
+                    takeDamageEffect.physicalDamage, 
+                    takeDamageEffect.fireDamage, 
+                    takeDamageEffect.poiseDamage,
+                    takeDamageEffect.contactPoint.x,
+                    takeDamageEffect.contactPoint.y,
+                    takeDamageEffect.contactPoint.z,
+                    characterCausingDamage.NetworkObjectId);
             }
         }
     }

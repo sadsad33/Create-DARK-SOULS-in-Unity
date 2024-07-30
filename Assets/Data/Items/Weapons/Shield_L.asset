@@ -46,3 +46,5 @@ MonoBehaviour:
   weaponAttackSounds: []
   blockingNoises:
   - {fileID: 8300000, guid: b3f24e091b1f36a47ad685b2e971772d, type: 3}
+  - {fileID: 8300000, guid: 8c5d18fcb8b29dd4c9f4bee6b3e5dd2c, type: 3}
+  - {fileID: 8300000, guid: 463bf48e3da858e4e90e9c2d50973f92, type: 3}

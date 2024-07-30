@@ -722,10 +722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b070f41354b9134c9cbac260912c153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsingRightHand: isUsingRightHand
-  isUsingRightHandStatus: 0
-  isUsingLeftHand: isUsingRightHand
-  isUsingLeftHandStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2407,18 +2403,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isUsingRightHand
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: isUsingLeftHand
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: isInvulnerable
     m_Type: 4
     m_DefaultFloat: 0
@@ -3962,7 +3946,7 @@ AnimatorStateMachine:
     m_Position: {x: -30, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4376060953521737155}
-    m_Position: {x: 70, y: 30, z: 0}
+    m_Position: {x: 70, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1110617932129752830}
     m_Position: {x: 70, y: 80, z: 0}
