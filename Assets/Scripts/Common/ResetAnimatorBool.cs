@@ -24,7 +24,7 @@ namespace SoulsLike {
 
             CharacterManager character = animator.GetComponent<CharacterManager>();
 
-            // 피격 애니메이션 재생 후 이전에 받은 강인도 데미지를 초기화
+            // 피격 애니메이션 재생 후 이전에 받은 강인도 데미지 변수를 초기화
             character.characterStatsManager.previousPoiseDamageTaken = 0;
 
             animator.SetBool(isInteractingBool, isInteractingStatus);
@@ -36,7 +36,6 @@ namespace SoulsLike {
                 character.characterNetworkManager.isUsingRightHand.Value = false;
                 character.characterNetworkManager.isUsingLeftHand.Value = false;
             }
-            //Debug.Log("애니메이션 종료");
         }
     }
 }

@@ -33,6 +33,7 @@ namespace SoulsLike {
         public NetworkVariable<bool> isLockedOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isUsingRightHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isUsingLeftHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Equipment")]
         public NetworkVariable<int> currentRightWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -41,7 +42,6 @@ namespace SoulsLike {
         public NetworkVariable<int> currentTorsoEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> currentGuntletEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> currentLegEquipmentID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
         }
@@ -146,7 +146,44 @@ namespace SoulsLike {
             takeDamageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
             
             //공격한 오브젝트와 공격당한 오브젝트를 구분할때 클라이언트ID 를 사용하지 않는 이유는 AI 캐릭터는 클라이언트 ID를 갖지 않기 때문
-            takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+            takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();
+            CharacterManager damageTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+
+            if (damageTarget.isInvulnerable) return;
+
+            damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+        }
+
+
+        [ServerRpc(RequireOwnership = false)]
+        public virtual void NotifyServerOfCharacterBlockedDamageServerRpc(ulong damagedCharacterID,
+            float physicalDamage,
+            float fireDamage,
+            float poiseDamage,
+            float staminaDamage,
+            ulong characterCausingDamageID) {
+
+            if (IsServer) {
+                ProcessBlockedDamageForCharacterAcrossAllClientRpc(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, staminaDamage, characterCausingDamageID);
+            }
+        }
+
+        [ClientRpc]
+        protected virtual void ProcessBlockedDamageForCharacterAcrossAllClientRpc(ulong damagedCharacterID,
+            float physicalDamage,
+            float fireDamage,
+            float poiseDamage,
+            float staminaDamage,
+            ulong characterCausingDamageID) {
+
+            TakeBlockedDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeBlockedDamageEffect);
+            takeDamageEffect.physicalDamage = physicalDamage;
+            takeDamageEffect.fireDamage = fireDamage;
+            takeDamageEffect.poiseDamage = poiseDamage;
+            takeDamageEffect.staminaDamage = staminaDamage;
+
+            //공격한 오브젝트와 공격당한 오브젝트를 구분할때 클라이언트ID 를 사용하지 않는 이유는 AI 캐릭터는 클라이언트 ID를 갖지 않기 때문
+            takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();
             CharacterManager damageTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
 
             if (damageTarget.isInvulnerable) return;

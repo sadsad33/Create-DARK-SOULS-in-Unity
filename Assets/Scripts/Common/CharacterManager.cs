@@ -28,7 +28,6 @@ namespace SoulsLike {
         public bool canBeRiposted;
         public bool canBeParried;
         public bool isParrying;
-        public bool isBlocking;
         public bool isInvulnerable;
         public bool canDoCombo;
         public bool isGrabbed;

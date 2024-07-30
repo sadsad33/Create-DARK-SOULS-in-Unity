@@ -108,7 +108,6 @@ namespace SoulsLike {
 
         protected override void Update() {
             base.Update();
-            if (!IsOwner) return;
             if (isClimbing) {
                 if (leftFoot.position.y > rightFoot.position.y) {
                     rightFootUp = false;
@@ -116,21 +115,16 @@ namespace SoulsLike {
                     rightFootUp = true;
                 }
             }
+            
 
             float delta = Time.deltaTime;
             isInteracting = animator.GetBool("isInteracting");
             isFiringSpell = animator.GetBool("isFiringSpell");
             canDoCombo = animator.GetBool("canDoCombo");
-
-            //isUsingRightHand = animator.GetBool("isUsingRightHand");
-            //isUsingLeftHand = animator.GetBool("isUsingLeftHand");
-            
-            inputHandler.TickInput(delta);
-            isTwoHandingWeapon = inputHandler.twoHandFlag;
             isInvulnerable = animator.GetBool("isInvulnerable");
             animator.SetBool("isDead", playerStatsManager.isDead);
-            animator.SetBool("isBlocking", isBlocking);
-
+            animator.SetBool("isBlocking", characterNetworkManager.isBlocking.Value);
+            
             // ȭ���
             animator.SetBool("isAtBonefire", isAtBonfire);
 
@@ -138,6 +132,12 @@ namespace SoulsLike {
             animator.SetBool("isClimbing", isClimbing);
             animator.SetBool("isLadderTop", isLadderTop);
             animator.SetBool("rightFootUp", rightFootUp);
+            playerAnimatorManager.canRotate = animator.GetBool("canRotate");
+
+            if (!IsOwner) return;
+
+            inputHandler.TickInput(delta);
+            isTwoHandingWeapon = inputHandler.twoHandFlag;
             HandleConversation();
 
             // Rigidbody�� �̵��Ǵ� �������� �ƴ϶�� �Ϲ����� Update�Լ����� ȣ���ص� ������.
@@ -150,7 +150,6 @@ namespace SoulsLike {
             playerStatsManager.RegenerateStamina();
             CheckForInteractableObject();
 
-            playerAnimatorManager.canRotate = animator.GetBool("canRotate");
 
             // �̵�Ű�� �齺��Ű�� ª�� �������� ������ �齺�� ���� sprint �ִϸ��̼��� ����Ǵ� ��찡 �ִ�.
             // �̸� �ذ��ϱ� ���� delay �߰�

@@ -8384,7 +8384,6 @@ MonoBehaviour:
   canBeRiposted: 0
   canBeParried: 0
   isParrying: 0
-  isBlocking: 0
   isInvulnerable: 0
   canDoCombo: 0
   isGrabbed: 0
@@ -8659,6 +8658,8 @@ MonoBehaviour:
   isUsingRightHand:
     m_InternalValue: 0
   isUsingLeftHand:
+    m_InternalValue: 0
+  isBlocking:
     m_InternalValue: 0
   currentRightWeaponID:
     m_InternalValue: 0

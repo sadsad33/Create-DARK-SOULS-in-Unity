@@ -141,11 +141,11 @@ namespace SoulsLike {
             if (player.isInteracting) return;
             // 이미 막기중이라면 반환
             // 계속해서 Block Start 애니메이션이 실행되는것을 방지
-            if (player.isBlocking) return;
+            if (player.characterNetworkManager.isBlocking.Value) return;
 
             player.playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
             player.playerEquipmentManager.OpenBlockingCollider();
-            player.isBlocking = true;
+            player.characterNetworkManager.isBlocking.Value = true;
             if (player.isTwoHandingWeapon) player.UpdateWhichHandCharacterIsUsing(true);
             else player.UpdateWhichHandCharacterIsUsing(false);
         }

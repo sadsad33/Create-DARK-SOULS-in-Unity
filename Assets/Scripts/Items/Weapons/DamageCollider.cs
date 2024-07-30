@@ -20,7 +20,7 @@ namespace SoulsLike {
         public float physicalDamage;
         public float fireDamage;
 
-        bool shieldHasBeenHit;
+        protected bool shieldHasBeenHit;
         bool hasBeenParried;
         protected string currentDamageAnimation;
 
@@ -125,7 +125,7 @@ namespace SoulsLike {
         }
 
         protected virtual void CheckForBlock(CharacterManager enemyManager, BlockingCollider shield, CharacterStatsManager enemyStats) {
-            if (shield != null && enemyManager.isBlocking) {
+            if (shield != null && enemyManager.characterNetworkManager.isBlocking.Value) {
 
                 if (enemyStats != null) {
                     //enemyStats.TakeDamage(physicalDamageAfterBlock, fireDamageAfterBlock, "Block Impact", characterCausingDamage);
