@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace SoulsLike {
     public class UIManager : MonoBehaviour {
@@ -11,9 +12,12 @@ namespace SoulsLike {
         public PlayerInventoryManager playerInventory;
         public PlayerStatsManager playerStatsManager;
         public EquipmentWindowUI equipmentWindowUI;
-        private QuickSlots quickSlots;
+        public QuickSlots quickSlotsUI;
         public Stack<GameObject> uiStack = new();
 
+        [Header("Canvas Group")]
+        [SerializeField] CanvasGroup canvasGroup;
+       
         [Header("HUD")]
         public Text soulCount;
         public HealthBar healthBar;
@@ -30,8 +34,11 @@ namespace SoulsLike {
         public GameObject itemInfoWindow;
         public GameObject bonfireWindow;
         public GameObject levelUpWindow;
+        public GameObject interactableUIGameObject; // ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : InteractionPopUp
+        public GameObject itemInteractableGameObject; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½ : ItemPopup
+        public GameObject dialogUI; // NPCï¿½ï¿½ ï¿½ï¿½ç¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢
 
-        // ¾î¶² ½½·ÔÀ» ¼±ÅÃÇØ¼­ ÀÎº¥Åä¸® Ã¢¿¡ µé¾î¿Ô´ÂÁö ÃßÀûÇÒ ¼ö ÀÖµµ·Ï
+        // ì–´ë–¤ ìŠ¬ë¡¯ì„ ì„ íƒí•´ì„œ ì¸ë²¤í† ë¦¬ ì°½ì— ë“¤ì–´ì™”ëŠ”ì§€ ì¶”ì í•  ìˆ˜ ìˆë„ë¡
         [Header("Equipment Window Weapon Slots Selected")]
         public bool rightHandSlot1Selected;
         public bool rightHandSlot2Selected;
@@ -50,38 +57,39 @@ namespace SoulsLike {
         public bool consumableSlotSelected = false;
 
         [Header("Weapon Inventory")]
-        public GameObject itemInventorySlotPrefab; // ½½·Ô prefab
-        public Transform weaponInventorySlotsParent; // ¹«±â ÀÎº¥Åä¸®ÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ® instantiate·Î Ãß°¡ ½½·ÔÀ» »ı¼ºÇÒ¶§ ¾îµğ¿¡ ³õÀÏÁö ¾Ë±â À§ÇÔ
-        public Transform consumableInventorySlotsParent; // ¼Ò¸ğÇ° ÀÎº¥Åä¸®ÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®
-        public ItemInventorySlot[] weaponInventorySlots; // ¹«±â ÀÎº¥Åä¸® ½½·Ô ¹è¿­
+        public GameObject itemInventorySlotPrefab; // ìŠ¬ë¡¯ prefab
+        public Transform weaponInventorySlotsParent; // ë¬´ê¸° ì¸ë²¤í† ë¦¬ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ instantiateë¡œ ì¶”ê°€ ìŠ¬ë¡¯ì„ ìƒì„±í• ë•Œ ì–´ë””ì— ë†“ì¼ì§€ ì•Œê¸° ìœ„í•¨
+        public Transform consumableInventorySlotsParent; // ì†Œëª¨í’ˆ ì¸ë²¤í† ë¦¬ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸
+        public ItemInventorySlot[] weaponInventorySlots; // ë¬´ê¸° ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ ë°°ì—´
         public ItemInventorySlot[] consumableInventorySlots;
 
         private void Awake() {
             if (instance == null) instance = this;
             else Destroy(gameObject);
             DontDestroyOnLoad(this);
-            // °ÔÀÓÀÌ ½ÃÀÛµÇ¸é Player ÀÇ HUD¸¦ UI °ü¸®¸¦ À§ÇÑ ½ºÅÃ¿¡ Á¦ÀÏ ¸ÕÀú Ãß°¡
+            // ê²Œì„ì´ ì‹œì‘ë˜ë©´ Player ì˜ HUDë¥¼ UI ê´€ë¦¬ë¥¼ ìœ„í•œ ìŠ¤íƒì— ì œì¼ ë¨¼ì € ì¶”ê°€
             uiStack.Push(hudWindow);
-            quickSlots = GetComponentInChildren<QuickSlots>();
+            quickSlotsUI = GetComponentInChildren<QuickSlots>();
         }
 
         private void Start() {
+            SceneManager.activeSceneChanged += OnSceneChange;
         }
 
-        // UIÃ¢ ÇÏ³ª°¡ ¿­¸±¶§¸¶´Ù È£ÃâµÊ
+        // UIì°½ í•˜ë‚˜ê°€ ì—´ë¦´ë•Œë§ˆë‹¤ í˜¸ì¶œë¨
         public void UpdateUI() {
             #region Weapon Inventory Slots
             for (int i = 0; i < weaponInventorySlots.Length; i++) {
                 if (i < playerInventory.weaponsInventory.Count) {
-                    // ¹«±â¸¦ ÀúÀåÇÒ ÀÎº¥Åä¸®ÀÇ ½½·Ô¼ö°¡ ºÎÁ·ÇÏ´Ù¸é
+                    // ë¬´ê¸°ë¥¼ ì €ì¥í•  ì¸ë²¤í† ë¦¬ì˜ ìŠ¬ë¡¯ìˆ˜ê°€ ë¶€ì¡±í•˜ë‹¤ë©´
                     if (weaponInventorySlots.Length < playerInventory.weaponsInventory.Count) {
-                        Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // ½½·Ô Ãß°¡
+                        Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // ìŠ¬ë¡¯ ì¶”ê°€
                         weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
                     }
                     if (playerInventory.weaponsInventory[i] != null) {
                         weaponInventorySlots[i].AddItem(playerInventory.weaponsInventory[i]);
                     }
-                } else { // ÇÊ¿ä¾ø´Â °÷Àº ºñ¿î´Ù.
+                } else { // í•„ìš”ì—†ëŠ” ê³³ì€ ë¹„ìš´ë‹¤.
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
             }
@@ -136,16 +144,16 @@ namespace SoulsLike {
 
         public void CloseWindow() {
             if (uiStack.Peek() == inventoryWindow) ResetAllSelectedEquipmentSlots();
-            Debug.Log("ÇöÀç ´İÀ» Ã¢ : " + uiStack.Peek());
-            uiStack.Peek().SetActive(false); // °¡Àå À§¿¡ ¿­·ÁÀÖ´ø Ã¢À» ´İ´Â´Ù
+            Debug.Log("í˜„ì¬ ë‹«ì„ ì°½ : " + uiStack.Peek());
+            uiStack.Peek().SetActive(false); // ê°€ì¥ ìœ„ì— ì—´ë ¤ìˆë˜ ì°½ì„ ë‹«ëŠ”ë‹¤
             uiStack.Pop();
-            uiStack.Peek().SetActive(true); // ¹Ù·Î ´ÙÀ½ Ã¢À» ´Ù½Ã Ç¥½Ã
-            Debug.Log("ÇöÀç ÃÖ»óÀ§¿¡ Ç¥½ÃµÇ´Â Ã¢ : " + uiStack.Peek());
+            uiStack.Peek().SetActive(true); // ë°”ë¡œ ë‹¤ìŒ ì°½ì„ ë‹¤ì‹œ í‘œì‹œ
+            Debug.Log("í˜„ì¬ ìµœìƒìœ„ì— í‘œì‹œë˜ëŠ” ì°½ : " + uiStack.Peek());
         }
 
-        // ÀÌÀü¿¡ ¼±ÅÃµÆ´ø ÀåºñÃ¢ÀÇ ½½·ÔÀ» ÃÊ±âÈ­ÇÑ´Ù.
+        // ì´ì „ì— ì„ íƒëë˜ ì¥ë¹„ì°½ì˜ ìŠ¬ë¡¯ì„ ì´ˆê¸°í™”í•œë‹¤.
         public void ResetAllSelectedEquipmentSlots() {
-            Debug.Log("¸ğµç ½½·Ô ¼±ÅÃ»óÅÂ ÇØÁ¦");
+            Debug.Log("ëª¨ë“  ìŠ¬ë¡¯ ì„ íƒìƒíƒœ í•´ì œ");
             rightHandSlot1Selected = false;
             rightHandSlot2Selected = false;
             rightHandSlot3Selected = false;
@@ -160,6 +168,15 @@ namespace SoulsLike {
             consumableSlot3Selected = false;
 
             consumableSlotSelected = false;
+        }
+
+        private void OnSceneChange(Scene oldScene, Scene newScene) {
+            // ìƒˆë¡œìš´ ì”¬ì´ ë©”ì¸ë©”ë‰´ ì”¬ì¼ ê²½ìš°
+            if (newScene.buildIndex == 0) {
+                canvasGroup.alpha = 0;
+            } else {
+                canvasGroup.alpha = 1;
+            }
         }
     }
 }

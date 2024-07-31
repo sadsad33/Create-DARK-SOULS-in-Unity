@@ -9,18 +9,11 @@ using Unity.Netcode;
 
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
+        [Header("Input")]
         public InputHandler inputHandler;
-        //public Animator anim;
-        public GameObject interactableUIGameObject; // ��ȣ�ۿ� �޼��� (�� ����, ���� ������ ��) : InteractionPopUp
-        public GameObject itemInteractableGameObject; // ������ ȹ�� �޼��� : ItemPopup
-        public GameObject dialogUI; // NPC�� ��縦 ����� â
-        public Transform leftFoot, rightFoot;
-        public LadderEndPositionDetection ladderEndPositionDetector;
-        public PlayerNetworkManager playerNetworkManager;
-        public PlayerInventoryManager playerInventoryManager;
-        public PlayerWeaponSlotManager playerWeaponSlotManager;
-        // ��ũ�ҿ� �ø������ ��ȭ ���� �ൿ�� �����ϹǷ� isInteracting �� �и�
-        public bool isInConversation;
+
+        [Header("Camera")]
+        public CameraHandler cameraHandler;
 
         public bool isJumping = false;
         public bool rightFootUp;
@@ -29,14 +22,22 @@ namespace SoulsLike {
         private float turnPageTimer;
         private readonly float turnPageTime = 10f;
         private int currentPageIndex;
+        // ��ũ�ҿ� �ø������ ��ȭ ���� �ൿ�� �����ϹǷ� isInteracting �� �и�
+        public bool isInConversation;
 
+        public Transform leftFoot, rightFoot;
+        public LadderEndPositionDetection ladderEndPositionDetector;
+
+        public PlayerCombatManager playerCombatManager;
+        public PlayerNetworkManager playerNetworkManager;
+        public PlayerInventoryManager playerInventoryManager;
+        public PlayerWeaponSlotManager playerWeaponSlotManager;
         public PlayerEquipmentManager playerEquipmentManager;
         public PlayerAnimatorManager playerAnimatorManager;
         public PlayerStatsManager playerStatsManager;
         public PlayerEffectsManager playerEffectsManager;
         public PlayerLocomotionManager playerLocomotion;
         public NPCScript[] currentDialog;
-        public CameraHandler cameraHandler;
 
         [SerializeField]
         InteractableUI interactableUI; // ��ȣ�ۿ붧 ��Ÿ���� �޼��� â
@@ -44,6 +45,7 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
@@ -94,9 +96,6 @@ namespace SoulsLike {
                 CameraHandler.instance.AssignCameraToPlayer(this);
                 UIManager.instance.playerStatsManager = playerStatsManager;
                 UIManager.instance.playerInventory = transform.GetComponent<PlayerInventoryManager>();
-                interactableUIGameObject = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(0).gameObject;
-                itemInteractableGameObject = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
-                dialogUI = UIManager.instance.transform.GetChild(0).GetChild(2).GetChild(2).gameObject;
             }
             playerNetworkManager.currentRightWeaponID.OnValueChanged += playerNetworkManager.OnRightWeaponChange;
             playerNetworkManager.currentLeftWeaponID.OnValueChanged += playerNetworkManager.OnLeftWeaponChange;
@@ -218,10 +217,10 @@ namespace SoulsLike {
                 if (hit.collider.CompareTag("Interactable")) {
                     interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null) { // �ֺ��� ��ȣ�ۿ� ������ ��ü�� �ִٸ�
-                        if (!itemInteractableGameObject.activeSelf) {
+                        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
                             StartInteraction(interactableObject, hit, false);
                         } else if (inputHandler.a_Input) {
-                            itemInteractableGameObject.SetActive(false);
+                            UIManager.instance.itemInteractableGameObject.SetActive(false);
                         }
                     }
                 } else if (hit.collider.CompareTag("Character")) {
@@ -229,22 +228,22 @@ namespace SoulsLike {
                     character = hit.collider.GetComponent<CharacterManager>();
                     if (character.canTalk) {
                         if (interactableObject != null) {
-                            if (!itemInteractableGameObject.activeSelf) {
+                            if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
                                 StartInteraction(interactableObject, hit, false);
                             } else if (inputHandler.a_Input) {
-                                itemInteractableGameObject.SetActive(false);
+                                UIManager.instance.itemInteractableGameObject.SetActive(false);
                             }
                         }
                     }
                 }
             } else {
                 // �ֺ��� ��ȣ�ۿ밡���� ������Ʈ�� �������� �޼���â�� ������ �ʵ���
-                if (interactableUIGameObject != null) {
-                    interactableUIGameObject.SetActive(false);
+                if (UIManager.instance.interactableUIGameObject != null) {
+                    UIManager.instance.interactableUIGameObject.SetActive(false);
                 }
                 //�������� �����ϰ� ���� ����Ű�� �ѹ� �� ������ �޽���â�� ������.
-                if (itemInteractableGameObject != null && inputHandler.a_Input) {
-                    itemInteractableGameObject.SetActive(false);
+                if (UIManager.instance.itemInteractableGameObject != null && inputHandler.a_Input) {
+                    UIManager.instance.itemInteractableGameObject.SetActive(false);
                 }
             }
         }
@@ -252,10 +251,10 @@ namespace SoulsLike {
         private void StartInteraction(Interactable interactableObject, RaycastHit hit, bool withCharacter) {
             string interactableText = interactableObject.interactableText;
             interactableUI.interactableText.text = interactableText;
-            interactableUIGameObject.SetActive(true);
+            UIManager.instance.interactableUIGameObject.SetActive(true);
 
             if (inputHandler.a_Input) {
-                interactableUIGameObject.SetActive(false);
+                UIManager.instance.interactableUIGameObject.SetActive(false);
                 hit.collider.GetComponent<Interactable>().Interact(this); // �ش� ������Ʈ�� Interact �� ����
                 if (withCharacter) currentPageIndex = 0;
             }
@@ -286,12 +285,12 @@ namespace SoulsLike {
         private void FinishConversation() {
             isInConversation = false;
             currentPageIndex = 0;
-            dialogUI.SetActive(false);
+            UIManager.instance.dialogUI.SetActive(false);
         }
 
         // ��� ���
         private void PrintDialog() {
-            if (!dialogUI.activeSelf) dialogUI.SetActive(true);
+            if (!UIManager.instance.dialogUI.activeSelf) UIManager.instance.dialogUI.SetActive(true);
             if (turnPageTimer == 0)
                 turnPageTimer = turnPageTime;
             interactableUI.dialogText.text = currentDialog[currentPageIndex].script;

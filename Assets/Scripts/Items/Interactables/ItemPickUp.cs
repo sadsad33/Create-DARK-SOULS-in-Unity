@@ -69,9 +69,9 @@ namespace SoulsLike {
             else if (item is ConsumableItem) playerInventory.consumablesInventory.Add(item as ConsumableItem);
 
             // ���� �������� ���� �Ҷ��� ���� �������� �̸��� ǥ�õǵ����Ѵ�.
-            playerManager.itemInteractableGameObject.GetComponentInChildren<Text>().text = item.itemName;
-            playerManager.itemInteractableGameObject.GetComponentInChildren<RawImage>().texture = item.itemIcon.texture; 
-            playerManager.itemInteractableGameObject.SetActive(true);
+            UIManager.instance.itemInteractableGameObject.GetComponentInChildren<Text>().text = item.itemName;
+            UIManager.instance.itemInteractableGameObject.GetComponentInChildren<RawImage>().texture = item.itemIcon.texture;
+            UIManager.instance.itemInteractableGameObject.SetActive(true);
             
             Destroy(gameObject);
         }

@@ -25,6 +25,7 @@ namespace SoulsLike {
 
         public void SetStatBarsHUD() {
             UIManager.instance.player = player;
+
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             UIManager.instance.healthBar.SetMaxHealth(currentHealth);
@@ -56,12 +57,16 @@ namespace SoulsLike {
 
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {
             base.TakeDamageNoAnimation(damage, fireDamage);
-            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
+            if (player.IsOwner)
+                UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
         }
 
         public override void TakePoisonDamage(float damage) {
             base.TakePoisonDamage(damage);
-            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
+
+            if (player.IsOwner)
+                UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
+
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isDead = true;
@@ -71,57 +76,66 @@ namespace SoulsLike {
 
         public override void DeductStamina(float staminaToDeduct) {
             base.DeductStamina(staminaToDeduct);
-            UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
+
+            if (player.IsOwner)
+                UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
 
             // TODO
             // stamina가 0이하로 떨어졌을 경우
         }
 
         public void DeductSprintingStamina(float staminaToDeduct) {
+            if (player.IsOwner) {
+                if (player.playerNetworkManager.isSprinting.Value) {
+                    sprintingTimer += Time.deltaTime;
 
-            if (player.playerNetworkManager.isSprinting.Value) {
-                sprintingTimer += Time.deltaTime;
-
-                if (sprintingTimer > 0.1f) {
+                    if (sprintingTimer > 0.1f) {
+                        sprintingTimer = 0;
+                        currentStamina -= staminaToDeduct;
+                        UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
+                    }
+                } else {
                     sprintingTimer = 0;
-                    currentStamina -= staminaToDeduct;
-                    UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
                 }
-            } else {
-                sprintingTimer = 0;
             }
         }
 
         public void RegenerateStamina() {
-            if (player.isInteracting || player.playerNetworkManager.isSprinting.Value) {
-                staminaRegenerationTimer = 0;
-                return;
-            }
-                
-            staminaRegenerationTimer += Time.deltaTime;
-            if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
+            if (player.IsOwner) {
+                if (player.isInteracting || player.playerNetworkManager.isSprinting.Value) {
+                    staminaRegenerationTimer = 0;
+                    return;
+                }
 
-                // 가드를 올리고 있을때는 좀더 느린속도로 스태미너가 회복되어야 함
+                staminaRegenerationTimer += Time.deltaTime;
+                if (currentStamina < maxStamina && staminaRegenerationTimer > 1f) {
 
-                currentStamina += staminaRegenerationAmount * Time.deltaTime;
-                UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
+                    // 가드를 올리고 있을때는 좀더 느린속도로 스태미너가 회복되어야 함
+
+                    currentStamina += staminaRegenerationAmount * Time.deltaTime;
+                    UIManager.instance.staminaBar.SetCurrentStamina(currentStamina);
+                }
             }
         }
 
         public override void HealPlayer(float healAmount) {
             base.HealPlayer(healAmount);
-            UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
+            if (player.IsOwner)
+                UIManager.instance.healthBar.SetCurrentHealth(currentHealth);
         }
 
         public void DeductFocus(float focusPoints) {
-            currentFocus -= focusPoints;
-            if (currentFocus < 0) {
-                currentFocus = 0;
+            if (player.IsOwner) {
+                currentFocus -= focusPoints;
+                if (currentFocus < 0) {
+                    currentFocus = 0;
+                }
+                UIManager.instance.focusBar.SetCurrentFocus(currentFocus);
             }
-            UIManager.instance.focusBar.SetCurrentFocus(currentFocus);
         }
 
         public void AddSouls(int souls) {
+
             soulCount += souls;
         }
 

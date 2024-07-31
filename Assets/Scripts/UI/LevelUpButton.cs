@@ -7,7 +7,7 @@ namespace SoulsLike {
     public class LevelUpButton : MonoBehaviour {
         public LevelUpUI levelUpUI;
         public int btnIndex;
-        public Text stat; // º¯°æÇÒ ½ºÅÈ °ª
+        public Text stat; // ë³€ê²½í•  ìŠ¤íƒ¯ ê°’
         public bool isUpperDirection;
         public int initValue;
 
@@ -17,17 +17,16 @@ namespace SoulsLike {
         }
 
         int value = 0;
-        int usedSouls = 0;
 
-        // ·¹º§¾÷
-        // ½ºÅÈ ¼öÄ¡ Áõ°¡/°¨¼Ò
-        // ½ºÅÈ ÅØ½ºÆ® »ö±ò º¯°æ
+        // ë ˆë²¨ì—…
+        // ìŠ¤íƒ¯ ìˆ˜ì¹˜ ì¦ê°€/ê°ì†Œ
+        // ìŠ¤íƒ¯ í…ìŠ¤íŠ¸ ìƒ‰ê¹” ë³€ê²½
         public void OnClickButton() {
             value = int.Parse(stat.text);
             if (isUpperDirection && levelUpUI.playerStatsManager.soulCount >= levelUpUI.playerStatsManager.level * 65) {
                 value += 1;
                 levelUpUI.playerStatsManager.soulCount -= levelUpUI.playerStatsManager.level * 65;
-            } else if (!isUpperDirection && value > initValue) { // ±âÁ¸ ½ºÅÈÆ÷ÀÎÆ®º¸´Ù Àû¾îÁú¼ö´Â ¾øÀ½
+            } else if (!isUpperDirection && value > initValue) { // ê¸°ì¡´ ìŠ¤íƒ¯í¬ì¸íŠ¸ë³´ë‹¤ ì ì–´ì§ˆìˆ˜ëŠ” ì—†ìŒ
                 value -= 1;
                 levelUpUI.playerStatsManager.soulCount += (levelUpUI.playerStatsManager.level - 1) * 65;
             }
