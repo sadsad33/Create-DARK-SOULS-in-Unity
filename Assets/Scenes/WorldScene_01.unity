@@ -8140,16 +8140,12 @@ MonoBehaviour:
   canBeRiposted: 0
   canBeParried: 0
   isParrying: 0
-  isBlocking: 0
   isInvulnerable: 0
   canDoCombo: 0
-  isUsingRightHand: 0
-  isUsingLeftHand: 0
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
   isGrounded: 0
-  isTwoHandingWeapon: 0
   isClimbing: 0
   isMoving: 0
   isFiringSpell: 0
@@ -48372,10 +48368,6 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 969424266}
   rightHandConstraint: {fileID: 1397932456}
-  damageAnimationForward: Damage_Forward_1
-  damageAnimationBackward: Damage_Backward_1
-  damageAnimationRight: Damage_Right_1
-  damageAnimationLeft: Damage_Left_1
 --- !u!4 &2173030237397731460
 Transform:
   m_ObjectHideFlags: 0
@@ -50298,10 +50290,6 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 1165792849}
   rightHandConstraint: {fileID: 1048734311}
-  damageAnimationForward: Damage_Forward_1
-  damageAnimationBackward: Damage_Backward_1
-  damageAnimationRight: Damage_Right_1
-  damageAnimationLeft: Damage_Left_1
   npcInventory: {fileID: 4086121375643061407}
   npcWeaponSlotManager: {fileID: 4086121375643061409}
 --- !u!114 &4086121375643061407
@@ -51657,6 +51645,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_CC
       objectReference: {fileID: 0}
+    - target: {fileID: 1247414621750747090, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2674730931720195349, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: armorPoiseBonus
       value: 0
@@ -51679,19 +51671,19 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 97bddef150715c649a8292e24f93aa09, type: 3}
     - target: {fileID: 5366713705374868742, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5366713705374868742, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6940408568532814206, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6940408568532814206, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08d5f5dd3f92d0d40b1a29ceeff7e8ff, type: 3}
@@ -52001,6 +51993,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cc4c98a29fa3f4a82201230e728589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
+  animator: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterWeaponSlotManager: {fileID: 0}
+  characterStatsManager: {fileID: 0}
+  characterInventoryManager: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
+  characterSoundEffectsManager: {fileID: 0}
+  lockOnTransform: {fileID: 0}
+  backStabCollider: {fileID: 0}
+  riposteCollider: {fileID: 0}
+  canTalk: 0
+  isInteracting: 0
+  canBeRiposted: 0
+  canBeParried: 0
+  isParrying: 0
+  isInvulnerable: 0
+  canDoCombo: 0
+  isGrabbed: 0
+  isRotatingWithRootMotion: 0
+  canRotate: 0
+  isGrounded: 0
+  isClimbing: 0
+  isMoving: 0
+  isFiringSpell: 0
+  pendingCriticalDamage: 0
+  currentState: {fileID: 0}
+  currentTarget: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  rotationSpeed: 15
+  maximumAggroRadius: 1.5
+  detectionRadius: 20
+  maximumDetectionAngle: 50
+  minimumDetectionAngle: -50
+  currentRecoveryTime: 0
+  allowAIToPerformCombos: 0
+  isPhaseShifting: 0
+  comboLikelyHood: 0
   bossName: Rogue Leader
   particleFX: {fileID: 6098213378169517917, guid: 8791eaaa1929b164d9e75e309fbde66e, type: 3}
 --- !u!114 &6777079784069156015
@@ -52054,16 +52085,12 @@ MonoBehaviour:
   canBeRiposted: 0
   canBeParried: 0
   isParrying: 0
-  isBlocking: 0
   isInvulnerable: 0
   canDoCombo: 0
-  isUsingRightHand: 0
-  isUsingLeftHand: 0
   isGrabbed: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
   isGrounded: 0
-  isTwoHandingWeapon: 0
   isClimbing: 0
   isMoving: 0
   isFiringSpell: 0

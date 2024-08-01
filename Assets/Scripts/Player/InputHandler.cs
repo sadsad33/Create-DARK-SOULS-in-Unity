@@ -41,21 +41,15 @@ namespace SoulsLike {
 
         // Input Action 인스턴스
         PlayerControls inputActions;
-
-        PlayerCombatManager playerCombatManager;
         PlayerManager player;
-        UIManager uiManager;
         CameraHandler cameraHandler;
-
         BlockingCollider blockingCollider;
 
         Vector2 movementInput;
         Vector2 cameraInput;
 
         public void Awake() {
-            playerCombatManager = GetComponent<PlayerCombatManager>();
             player = GetComponent<PlayerManager>();
-            uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
@@ -161,15 +155,15 @@ namespace SoulsLike {
         }
 
         private void HandleCombatInput() {
-            if (uiManager.uiStack.Count >= 2) return;
+            if (UIManager.instance.uiStack.Count >= 2) return;
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
             if (rb_Input) {
-                playerCombatManager.HandleRBAction();
+                player.playerCombatManager.HandleRBAction();
             }
             if (rt_Input) {
                 if (player.isInteracting) return;
                 if (player.canDoCombo) return;
-                playerCombatManager.HandleHeavyAttack(player.playerInventoryManager.rightWeapon);
+                player.playerCombatManager.HandleHeavyAttack(player.playerInventoryManager.rightWeapon);
             }
 
             if (lt_Input) {
@@ -179,12 +173,12 @@ namespace SoulsLike {
                 } else {
                     // 왼손또한 무기를 들고있다면 왼손 약공
                     // 방패를 들고있다면 방패 전투기술 사용
-                    playerCombatManager.HandleLTAction();
+                    player.playerCombatManager.HandleLTAction();
                 }
             }
 
             if (lb_Input) {
-                playerCombatManager.HandleLBAction();
+                player.playerCombatManager.HandleLBAction();
             } else {
                 player.characterNetworkManager.isBlocking.Value = false;
                 if (blockingCollider.blockingCollider.enabled) {
@@ -208,11 +202,11 @@ namespace SoulsLike {
 
         private void HandleInventoryInput() {
             if (inventory_Input) {
-                if (uiManager.uiStack.Count <= 1) {
-                    uiManager.OpenSelectedWindow(0);
-                    uiManager.UpdateUI();
+                if (UIManager.instance.uiStack.Count <= 1) {
+                    UIManager.instance.OpenSelectedWindow(0);
+                    UIManager.instance.UpdateUI();
                 } else {
-                    uiManager.CloseWindow();
+                    UIManager.instance.CloseWindow();
                 }
             }
         }
@@ -262,11 +256,11 @@ namespace SoulsLike {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
                 if (twoHandFlag) { // 양잡
-                    player.isTwoHandingWeapon = true;
+                    player.characterNetworkManager.isTwoHandingWeapon.Value = true;
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
                     player.playerWeaponSlotManager.LoadTwoHandIKTargets(true);
                 } else { // 양잡 해제
-                    player.isTwoHandingWeapon = false;
+                    player.characterNetworkManager.isTwoHandingWeapon.Value = false;
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.leftWeapon, true);
                     player.playerWeaponSlotManager.LoadTwoHandIKTargets(false);
@@ -277,7 +271,7 @@ namespace SoulsLike {
         private void HandleCriticalAttackInput() {
             if (critical_Attack_Input) {
                 critical_Attack_Input = false;
-                playerCombatManager.AttemptBackStabOrRiposte();
+                player.playerCombatManager.AttemptBackStabOrRiposte();
             }
         }
 

@@ -14,9 +14,9 @@ namespace SoulsLike {
         public void StartNewGames() {
             SceneManager.LoadScene(worldSceneIndex);
             PlayerManager player = FindObjectOfType<PlayerManager>();
-            if (player != null) {
-                UIManager.instance.transform.gameObject.GetComponent<CanvasGroup>().alpha = 1;
-            }
+            //if (player != null) {
+            //    UIManager.instance.transform.gameObject.GetComponent<CanvasGroup>().alpha = 1;
+            //}
         }
     }
 }

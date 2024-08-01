@@ -13919,6 +13919,8 @@ MonoBehaviour:
   playerInventory: {fileID: 0}
   playerStatsManager: {fileID: 0}
   equipmentWindowUI: {fileID: 1459538715}
+  quickSlotsUI: {fileID: 0}
+  canvasGroup: {fileID: 1793335852}
   soulCount: {fileID: 3374036298737047956}
   healthBar: {fileID: 4110212348090737349}
   staminaBar: {fileID: 5779780424125324873}
@@ -13932,6 +13934,9 @@ MonoBehaviour:
   itemInfoWindow: {fileID: 3374036298174581068}
   bonfireWindow: {fileID: 3374036299503796424}
   levelUpWindow: {fileID: 3374036298811206650}
+  interactableUIGameObject: {fileID: 901758663}
+  itemInteractableGameObject: {fileID: 2974136225756236065}
+  dialogUI: {fileID: 3374036298843288388}
   rightHandSlot1Selected: 0
   rightHandSlot2Selected: 0
   rightHandSlot3Selected: 0

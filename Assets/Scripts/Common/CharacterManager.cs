@@ -36,7 +36,6 @@ namespace SoulsLike {
         public bool isRotatingWithRootMotion;
         public bool canRotate;
         public bool isGrounded;
-        public bool isTwoHandingWeapon;
         public bool isClimbing;
         public bool isMoving;
 
@@ -80,7 +79,7 @@ namespace SoulsLike {
             }
         }
         protected virtual void FixedUpdate() {
-            characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHandingWeapon);
+            characterAnimatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, characterNetworkManager.isTwoHandingWeapon.Value);
         }
 
         public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {

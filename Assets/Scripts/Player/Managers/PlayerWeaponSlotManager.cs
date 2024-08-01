@@ -7,7 +7,6 @@ namespace SoulsLike {
         PlayerInventoryManager playerInventoryManager;
 
         Animator animator;
-        QuickSlots quickSlots;
         PlayerStatsManager playerStatsManager;
         InputHandler inputHandler;
         PlayerManager player;
@@ -21,16 +20,15 @@ namespace SoulsLike {
             playerStatsManager = GetComponent<PlayerStatsManager>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
             animator = GetComponent<Animator>();
-            quickSlots = FindObjectOfType<QuickSlots>();
             cameraHandler = FindObjectOfType<CameraHandler>();
         }
 
         public override void LoadSpellOnSlot(SpellItem spellItem) {
-            quickSlots.UpdateCurrentSpellIcon(spellItem);
+            UIManager.instance.quickSlotsUI.UpdateCurrentSpellIcon(spellItem);
         }
 
         public override void LoadConsumableOnSlot(ConsumableItem consumableItem) {
-            quickSlots.UpdateCurrentConsumableIcon(consumableItem);
+            UIManager.instance.quickSlotsUI.UpdateCurrentConsumableIcon(consumableItem);
         }
 
         public override void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft) {
@@ -39,18 +37,21 @@ namespace SoulsLike {
                     leftHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 왼쪽 무기를 기억한다.
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
-                    quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
-                    animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
-                    if (character.IsOwner)
+                    //animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation(weaponItem.Left_Hand_Idle, false, true);
+                    if (character.IsOwner) {
                         character.characterNetworkManager.currentLeftWeaponID.Value = weaponItem.itemID;
+                        UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
+                    }
                 } else {
                     if (inputHandler.twoHandFlag) {
                         // 양잡시 왼쪽손의 무기를 등으로 옮기고, 왼손에 있는 무기는 제거한다.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
-                        animator.CrossFade(weaponItem.th_idle, 0.2f);
+                        player.playerAnimatorManager.PlayTargetAnimation(weaponItem.th_idle, false, true);
                     } else {
-                        animator.CrossFade("BothArmsEmpty", 0.2f);
+                        //animator.CrossFade("BothArmsEmpty", 0.2f);
+                        player.playerAnimatorManager.PlayTargetAnimation("BothArmsEmpty", false, true);
                         backSlot.UnloadWeaponAndDestroy();
                         animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
@@ -59,30 +60,35 @@ namespace SoulsLike {
                     rightHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 오른쪽 무기를 기억한다.
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
-                    quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
-                    if (character.IsOwner)
+                    if (character.IsOwner) {
                         character.characterNetworkManager.currentRightWeaponID.Value = weaponItem.itemID;
+                        UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    }
                 }
             } else {
                 weaponItem = unarmedWeapon;
                 if (isLeft) {
-                    animator.CrossFade("LeftArmEmpty", 0.2f);
+                    //animator.CrossFade("LeftArmEmpty", 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation("LeftArmEmpty", false, true);
                     playerInventoryManager.leftWeapon = unarmedWeapon;
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
-                    quickSlots.UpdateWeaponQuickSlotsUI(true, weaponItem);
-                    if (character.IsOwner)
+                    if (character.IsOwner) {
                         character.characterNetworkManager.currentLeftWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                        UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
+                    }
                 } else {
-                    animator.CrossFade("RightArmEmpty", 0.2f);
+                    //animator.CrossFade("RightArmEmpty", 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation("RightArmEmpty", false, true);
                     playerInventoryManager.rightWeapon = unarmedWeapon;
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
-                    quickSlots.UpdateWeaponQuickSlotsUI(false, weaponItem);
-                    if (character.IsOwner)
+                    if (character.IsOwner) {
                         character.characterNetworkManager.currentRightWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                        UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    }
                 }
             }
         }
@@ -104,7 +110,6 @@ namespace SoulsLike {
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.up * fireBombItem.upwardVelocity);
             damageCollider.teamIDNumber = playerStatsManager.teamIDNumber; // 피아식별을 위한 팀ID 설정
                                                                            // LoadWeaponSlot(playerInventory.rightWeapon, false);
-
         }
 
         #region Handle Weapon's Stamina Drainage

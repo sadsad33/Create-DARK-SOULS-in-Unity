@@ -102,7 +102,7 @@ namespace SoulsLike {
                     if (character.IsOwner)
                         character.characterNetworkManager.currentLeftWeaponID.Value = weaponItem.itemID;
                 } else {
-                    if (character.isTwoHandingWeapon) {
+                    if (character.characterNetworkManager.isTwoHandingWeapon.Value) {
                         // 양잡시 왼쪽손의 무기를 등으로 옮기고, 왼손에 있는 무기는 제거한다.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
@@ -117,7 +117,7 @@ namespace SoulsLike {
                     rightHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 오른쪽 무기를 기억한다.
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
-                    LoadTwoHandIKTargets(character.isTwoHandingWeapon);
+                    LoadTwoHandIKTargets(character.characterNetworkManager.isTwoHandingWeapon.Value);
                     if (character.IsOwner)
                         character.characterNetworkManager.currentRightWeaponID.Value = weaponItem.itemID;
                 }
