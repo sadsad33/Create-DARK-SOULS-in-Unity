@@ -117,7 +117,7 @@ namespace SoulsLike {
         }
 
         private void PlayBlockSoundEffect(CharacterManager character) {
-            if (character.isTwoHandingWeapon) {
+            if (character.characterNetworkManager.isTwoHandingWeapon.Value) {
                 character.characterSoundEffectsManager.PlayRandomSoundEffectFromArray(character.characterInventoryManager.rightWeapon.blockingNoises);
             } else {
                 character.characterSoundEffectsManager.PlayRandomSoundEffectFromArray(character.characterInventoryManager.leftWeapon.blockingNoises);

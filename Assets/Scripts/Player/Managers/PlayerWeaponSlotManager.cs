@@ -37,7 +37,8 @@ namespace SoulsLike {
                     leftHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 왼쪽 무기를 기억한다.
                     leftHandSlot.LoadWeaponModel(weaponItem);
                     LoadLeftWeaponDamageCollider();
-                    animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
+                    //animator.CrossFade(weaponItem.Left_Hand_Idle, 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation(weaponItem.Left_Hand_Idle, false, true);
                     if (character.IsOwner) {
                         character.characterNetworkManager.currentLeftWeaponID.Value = weaponItem.itemID;
                         UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
@@ -47,9 +48,10 @@ namespace SoulsLike {
                         // 양잡시 왼쪽손의 무기를 등으로 옮기고, 왼손에 있는 무기는 제거한다.
                         backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
-                        animator.CrossFade(weaponItem.th_idle, 0.2f);
+                        player.playerAnimatorManager.PlayTargetAnimation(weaponItem.th_idle, false, true);
                     } else {
-                        animator.CrossFade("BothArmsEmpty", 0.2f);
+                        //animator.CrossFade("BothArmsEmpty", 0.2f);
+                        player.playerAnimatorManager.PlayTargetAnimation("BothArmsEmpty", false, true);
                         backSlot.UnloadWeaponAndDestroy();
                         animator.CrossFade(weaponItem.Right_Hand_Idle, 0.2f);
                     }
@@ -66,7 +68,8 @@ namespace SoulsLike {
             } else {
                 weaponItem = unarmedWeapon;
                 if (isLeft) {
-                    animator.CrossFade("LeftArmEmpty", 0.2f);
+                    //animator.CrossFade("LeftArmEmpty", 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation("LeftArmEmpty", false, true);
                     playerInventoryManager.leftWeapon = unarmedWeapon;
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
@@ -76,7 +79,8 @@ namespace SoulsLike {
                         UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                     }
                 } else {
-                    animator.CrossFade("RightArmEmpty", 0.2f);
+                    //animator.CrossFade("RightArmEmpty", 0.2f);
+                    player.playerAnimatorManager.PlayTargetAnimation("RightArmEmpty", false, true);
                     playerInventoryManager.rightWeapon = unarmedWeapon;
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);

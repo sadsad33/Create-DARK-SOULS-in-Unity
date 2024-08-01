@@ -256,11 +256,11 @@ namespace SoulsLike {
                 y_Input = false;
                 twoHandFlag = !twoHandFlag;
                 if (twoHandFlag) { // 양잡
-                    player.isTwoHandingWeapon = true;
+                    player.characterNetworkManager.isTwoHandingWeapon.Value = true;
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
                     player.playerWeaponSlotManager.LoadTwoHandIKTargets(true);
                 } else { // 양잡 해제
-                    player.isTwoHandingWeapon = false;
+                    player.characterNetworkManager.isTwoHandingWeapon.Value = false;
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.rightWeapon, false);
                     player.playerWeaponSlotManager.LoadWeaponOnSlot(player.playerInventoryManager.leftWeapon, true);
                     player.playerWeaponSlotManager.LoadTwoHandIKTargets(false);

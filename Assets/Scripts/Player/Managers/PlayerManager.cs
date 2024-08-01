@@ -136,7 +136,7 @@ namespace SoulsLike {
             if (!IsOwner) return;
 
             inputHandler.TickInput(delta);
-            isTwoHandingWeapon = inputHandler.twoHandFlag;
+            characterNetworkManager.isTwoHandingWeapon.Value = inputHandler.twoHandFlag;
             HandleConversation();
 
             // Rigidbody�� �̵��Ǵ� �������� �ƴ϶�� �Ϲ����� Update�Լ����� ȣ���ص� ������.

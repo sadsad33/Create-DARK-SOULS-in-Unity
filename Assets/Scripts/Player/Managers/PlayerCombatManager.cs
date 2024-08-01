@@ -146,7 +146,7 @@ namespace SoulsLike {
             player.playerAnimatorManager.PlayTargetAnimation("Block Start", false, true);
             player.playerEquipmentManager.OpenBlockingCollider();
             player.characterNetworkManager.isBlocking.Value = true;
-            if (player.isTwoHandingWeapon) player.UpdateWhichHandCharacterIsUsing(true);
+            if (player.characterNetworkManager.isTwoHandingWeapon.Value) player.UpdateWhichHandCharacterIsUsing(true);
             else player.UpdateWhichHandCharacterIsUsing(false);
         }
 
