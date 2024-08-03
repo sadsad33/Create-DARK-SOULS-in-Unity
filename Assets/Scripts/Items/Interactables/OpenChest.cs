@@ -15,24 +15,24 @@ namespace SoulsLike {
             openChest = GetComponent<OpenChest>();
         }
 
-        // »óÀÚ ¿­±â
-        public override void Interact(PlayerManager playerManager) {
-            // ÇÃ·¹ÀÌ¾î°¡ »óÀÚ¸¦ ¹Ù¶óº¸µµ·Ï È¸ÀüÀ» °­Á¦ÇÑ´Ù.
+        // ìƒì ì—´ê¸°
+        public override void Interact(PlayerManager player) {
+            // í”Œë ˆì´ì–´ê°€ ìƒìë¥¼ ë°”ë¼ë³´ë„ë¡ íšŒì „ì„ ê°•ì œí•œë‹¤.
             Vector3 rotationDirection = -transform.forward;
             rotationDirection.y = 0;
             rotationDirection.Normalize();
 
             Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 300 * Time.deltaTime);
-            playerManager.transform.rotation = targetRotation;
+            Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 300 * Time.deltaTime);
+            player.transform.rotation = targetRotation;
 
-            // ÇÃ·¹ÀÌ¾î°¡ »óÀÚ¸¦ ¿­¶§ ÀûÀıÇÑ À§Ä¡¿¡ ¿Àµµ·Ï ÁÂÇ¥¸¦ °­Á¦ÇÑ´Ù.
-            playerManager.InteractionAtPosition("Open Chest", playerStandingPosition);
+            // í”Œë ˆì´ì–´ê°€ ìƒìë¥¼ ì—´ë•Œ ì ì ˆí•œ ìœ„ì¹˜ì— ì˜¤ë„ë¡ ì¢Œí‘œë¥¼ ê°•ì œí•œë‹¤.
+            player.playerInteractionManager.InteractionAtPosition("Open Chest", playerStandingPosition);
             
-            // »óÀÚ ¿©´Â ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            // ìƒì ì—¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
             animator.Play("ChestOpen");
             
-            // »óÀÚ¿¡ ¾ÆÀÌÅÛÀ» ½ºÆù½ÃÄÑ ÇÃ·¹ÀÌ¾î°¡ ·çÆÃÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+            // ìƒìì— ì•„ì´í…œì„ ìŠ¤í°ì‹œì¼œ í”Œë ˆì´ì–´ê°€ ë£¨íŒ…í•  ìˆ˜ ìˆë„ë¡ í•œë‹¤.
             StartCoroutine(SpawnItemInChest());
             ItemPickUp itemPickUp = itemSpawner.GetComponent<ItemPickUp>();
             if (itemPickUp != null) {
@@ -44,7 +44,7 @@ namespace SoulsLike {
         private IEnumerator SpawnItemInChest() {
             yield return new WaitForSeconds(3f);
             Instantiate(itemSpawner, transform);
-            // »óÀÚ¿Í »óÈ£ÀÛ¿ëÀ» ³¡³½ ÈÄ¿¡´Â ´õÀÌ»ó »óÈ£ÀÛ¿ëÀÌ µÇÁö ¾Êµµ·Ï
+            // ìƒìì™€ ìƒí˜¸ì‘ìš©ì„ ëë‚¸ í›„ì—ëŠ” ë”ì´ìƒ ìƒí˜¸ì‘ìš©ì´ ë˜ì§€ ì•Šë„ë¡
             Destroy(openChest);
         }
     }

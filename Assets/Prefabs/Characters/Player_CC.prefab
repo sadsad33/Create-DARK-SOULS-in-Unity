@@ -205,6 +205,68 @@ Transform:
   m_Father: {fileID: 4086121375157841862}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1664486847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664486848}
+  - component: {fileID: 1664486850}
+  - component: {fileID: 1664486849}
+  m_Layer: 11
+  m_Name: PlayerInteractions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664486848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664486847}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4086121375157841862}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664486850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664486847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240012a3be476564f8c0afa6d76a4239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableUI: {fileID: 0}
+  currentDialog: []
+  currentInteractable: {fileID: 0}
+--- !u!136 &1664486849
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664486847}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!1 &1974401908
 GameObject:
   m_ObjectHideFlags: 0
@@ -8201,6 +8263,7 @@ Transform:
   - {fileID: 456356398}
   - {fileID: 134254331368470849}
   - {fileID: 134254329872594871}
+  - {fileID: 1664486848}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8282,9 +8345,12 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 259
+  verticalMovement: 0
+  horizontalMovement: 0
+  movementAmount: 0
   inAirTimer: 0
   yVelocity: {x: 0, y: 0, z: 0}
-  groundedYVelocity: -20
+  groundedYVelocity: -10
   fallStartYVelocity: -4
   gravityForce: -25
   groundCheckSphereRadius: 0.2
@@ -8295,9 +8361,6 @@ MonoBehaviour:
   walkingSpeed: 1
   sprintSpeed: 7
   rotationSpeed: 18
-  verticalMovement: 0
-  horizontalMovement: 0
-  movementAmount: 0
   rollStaminaCost: 15
 --- !u!114 &6482744793811343848
 MonoBehaviour:
@@ -8390,34 +8453,30 @@ MonoBehaviour:
   isRotatingWithRootMotion: 0
   canRotate: 0
   isGrounded: 0
-  isTwoHandingWeapon: 0
   isClimbing: 0
   isMoving: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
   inputHandler: {fileID: 0}
-  interactableUIGameObject: {fileID: 0}
-  itemInteractableGameObject: {fileID: 0}
-  dialogUI: {fileID: 0}
-  leftFoot: {fileID: 3417426343914960240}
-  rightFoot: {fileID: 3417426344644001915}
-  ladderEndPositionDetector: {fileID: 0}
-  playerNetworkManager: {fileID: 0}
-  playerInventoryManager: {fileID: 0}
-  playerWeaponSlotManager: {fileID: 0}
-  isInConversation: 0
+  cameraHandler: {fileID: 0}
   isJumping: 0
   rightFootUp: 0
   isLadderTop: 0
   isAtBonfire: 0
+  isInConversation: 0
+  leftFoot: {fileID: 3417426343914960240}
+  rightFoot: {fileID: 3417426344644001915}
+  ladderEndPositionDetector: {fileID: 0}
+  playerCombatManager: {fileID: 0}
+  playerNetworkManager: {fileID: 0}
+  playerInventoryManager: {fileID: 0}
+  playerWeaponSlotManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   playerStatsManager: {fileID: 0}
   playerEffectsManager: {fileID: 0}
-  playerLocomotion: {fileID: 0}
-  currentDialog: []
-  cameraHandler: {fileID: 0}
-  interactableUI: {fileID: 0}
+  playerLocomotionManager: {fileID: 0}
+  playerInteractionManager: {fileID: 0}
   interactionTargetPosition: {fileID: 0}
 --- !u!114 &6482744793811343854
 MonoBehaviour:
@@ -8661,6 +8720,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isBlocking:
     m_InternalValue: 0
+  isTwoHandingWeapon:
+    m_InternalValue: 0
   currentRightWeaponID:
     m_InternalValue: 0
   currentLeftWeaponID:
@@ -8690,7 +8751,7 @@ CharacterController:
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.87, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &8912925779965385022
 Rigidbody:
   m_ObjectHideFlags: 0

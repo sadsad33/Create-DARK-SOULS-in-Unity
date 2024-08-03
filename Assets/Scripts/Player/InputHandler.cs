@@ -127,7 +127,7 @@ namespace SoulsLike {
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
-            player.playerLocomotion.SetMovementValues(vertical, horizontal, moveAmount);
+            player.playerLocomotionManager.SetMovementValues(vertical, horizontal, moveAmount);
         }
 
         // 구르기 버튼이 눌리면 회피 Flag의 bool값이 true가 된다.

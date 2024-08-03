@@ -16,7 +16,6 @@ namespace SoulsLike {
             horizontal = Animator.StringToHash("Horizontal");
         }
 
-        // BlendTree�� �̿��� �ܼ� �̵�����
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting) {
             #region Vertical
             float v = 0;
@@ -69,6 +68,7 @@ namespace SoulsLike {
 
         public void FinishLadderInteractionAtTop() {
             player.isMoving = false;
+            player.characterController.enabled = true;
         }
     }
 }

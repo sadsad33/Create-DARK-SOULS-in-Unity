@@ -12,10 +12,10 @@ namespace SoulsLike {
             worldEventManager = FindObjectOfType<WorldEventManager>();
         }
 
-        // ¾È°³ÀÇ º® Åë°úÇÏ±â
-        public override void Interact(PlayerManager playerManager) {
-            base.Interact(playerManager);
-            playerManager.PassThroughFogWallInteraction(transform);
+        // ì•ˆê°œì˜ ë²½ í†µê³¼í•˜ê¸°
+        public override void Interact(PlayerManager player) {
+            base.Interact(player);
+            player.playerInteractionManager.PassThroughFogWallInteraction(transform);
             worldEventManager.ActivateBossFight();
         }
     }

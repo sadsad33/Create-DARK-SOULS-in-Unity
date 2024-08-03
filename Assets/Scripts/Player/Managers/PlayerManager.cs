@@ -3,12 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-// �÷��̾ ���� Update �Լ��� ó��
-// �÷��̾��� ���� Flag�� ó���Ѵ�.
-// �÷��̾��� ���� ��ɵ��� �����Ѵ�.
 
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
+        
         [Header("Input")]
         public InputHandler inputHandler;
 
@@ -19,10 +17,6 @@ namespace SoulsLike {
         public bool rightFootUp;
         public bool isLadderTop;
         public bool isAtBonfire;
-        private float turnPageTimer;
-        private readonly float turnPageTime = 10f;
-        private int currentPageIndex;
-        // ��ũ�ҿ� �ø������ ��ȭ ���� �ൿ�� �����ϹǷ� isInteracting �� �и�
         public bool isInConversation;
 
         public Transform leftFoot, rightFoot;
@@ -36,44 +30,45 @@ namespace SoulsLike {
         public PlayerAnimatorManager playerAnimatorManager;
         public PlayerStatsManager playerStatsManager;
         public PlayerEffectsManager playerEffectsManager;
-        public PlayerLocomotionManager playerLocomotion;
-        public NPCScript[] currentDialog;
-
-        [SerializeField]
-        InteractableUI interactableUI; // ��ȣ�ۿ붧 ��Ÿ���� �޼��� â
-        LayerMask interactableLayer;
+        public PlayerLocomotionManager playerLocomotionManager;
+        public PlayerInteractionManager playerInteractionManager;
+        
+        //[SerializeField]
+        //InteractableUI interactableUI;
+        //LayerMask interactableLayer;
 
         protected override void Awake() {
             base.Awake();
+
             playerCombatManager = GetComponent<PlayerCombatManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
-            ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
-            if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
-            backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             inputHandler = GetComponent<InputHandler>();
             animator = GetComponent<Animator>();
-            playerLocomotion = GetComponent<PlayerLocomotionManager>();
-            interactableUI = FindObjectOfType<InteractableUI>();
+            playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerEffectsManager = GetComponent<PlayerEffectsManager>();
-            interactableLayer = 1 << 0 | 1 << 9;
+            backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
+            playerInteractionManager = GetComponentInChildren<PlayerInteractionManager>();
+            ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
+            if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
+            //interactableUI = FindObjectOfType<InteractableUI>();
+            //interactableLayer = 1 << 0 | 1 << 9;
 
-            // Ÿ��Ʋ ��ũ������ �÷��̾ �Ѱܹޱ� ����
             WorldSaveGameManager.instance.player = this;
         }
         protected override void Start() {
             base.Start();
             DontDestroyOnLoad(this);
         }
-        
+
         // 이벤트 핸들러
         private void OnClientConnectedCallback(ulong clientID) {
-            Debug.Log("Client Connected! Client ID : " + clientID);
+            //Debug.Log("Client Connected! Client ID : " + clientID);
             GameSessionManager.instance.AddPlayerToActivePlayerList(this);
 
             // 호스트가 아닌 단순 클라이언트라면 
@@ -88,7 +83,7 @@ namespace SoulsLike {
 
         public override void OnNetworkSpawn() {
             base.OnNetworkSpawn();
-            
+
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
 
             if (IsOwner) {
@@ -108,13 +103,17 @@ namespace SoulsLike {
         protected override void Update() {
             base.Update();
             if (isClimbing) {
+                playerLocomotionManager.HandleClimbing();
                 if (leftFoot.position.y > rightFoot.position.y) {
                     rightFootUp = false;
                 } else if (leftFoot.position.y < rightFoot.position.y) {
                     rightFootUp = true;
                 }
             }
-            
+            if (isMoving) {
+                characterController.enabled = false;
+                transform.position = Vector3.Slerp(transform.position, interactionTargetPosition.position, Time.deltaTime);
+            }
 
             float delta = Time.deltaTime;
             isInteracting = animator.GetBool("isInteracting");
@@ -123,11 +122,9 @@ namespace SoulsLike {
             isInvulnerable = animator.GetBool("isInvulnerable");
             animator.SetBool("isDead", playerStatsManager.isDead);
             animator.SetBool("isBlocking", characterNetworkManager.isBlocking.Value);
-            
-            // ȭ���
+
             animator.SetBool("isAtBonefire", isAtBonfire);
 
-            // ��ٸ� ����
             animator.SetBool("isClimbing", isClimbing);
             animator.SetBool("isLadderTop", isLadderTop);
             animator.SetBool("rightFootUp", rightFootUp);
@@ -137,21 +134,17 @@ namespace SoulsLike {
 
             inputHandler.TickInput(delta);
             characterNetworkManager.isTwoHandingWeapon.Value = inputHandler.twoHandFlag;
-            HandleConversation();
 
-            // Rigidbody�� �̵��Ǵ� �������� �ƴ϶�� �Ϲ����� Update�Լ����� ȣ���ص� ������.
-            playerLocomotion.HandleRollingAndSprinting(delta);
-            playerLocomotion.HandleJumping();
-            // Rigidbody�� ���� ó���Ǵ� �������� FixedUpdate���� ó���Ǵ°��� ����
-            playerLocomotion.HandleGroundedMovement(delta);
-            playerLocomotion.HandleRotation(delta);
-            playerLocomotion.MaintainVelocity();
+            playerLocomotionManager.HandleRollingAndSprinting(delta);
+            playerLocomotionManager.HandleJumping();
+            playerLocomotionManager.HandleGroundedMovement(delta);
+            playerLocomotionManager.HandleRotation(delta);
+            playerLocomotionManager.MaintainVelocity();
             playerStatsManager.RegenerateStamina();
-            CheckForInteractableObject();
+            playerInteractionManager.HandleConversation();
+            //CheckForInteractableObject();
+            playerInteractionManager.TryInteraction();
 
-
-            // �̵�Ű�� �齺��Ű�� ª�� �������� ������ �齺�� ���� sprint �ִϸ��̼��� ����Ǵ� ��찡 �ִ�.
-            // �̸� �ذ��ϱ� ���� delay �߰�
             if (inputHandler.moveAmount == 0) {
                 inputHandler.backstepDelay += delta;
             } else {
@@ -163,14 +156,6 @@ namespace SoulsLike {
         protected override void FixedUpdate() {
             base.FixedUpdate();
             if (!IsOwner) return;
-            float delta = Time.fixedDeltaTime;
-
-            //playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
-            
-            if (isClimbing)
-                playerLocomotion.HandleClimbing();
-            if (isMoving)
-                transform.position = Vector3.Slerp(transform.position, interactionTargetPosition.position, Time.deltaTime);
         }
 
         private void LateUpdate() {
@@ -196,7 +181,7 @@ namespace SoulsLike {
             // �ִϸ��̼��� ���̰� ��� �ִϸ��̼��� ������ ������ ���� ����Ǵ� �Ŷ�� ��������� �ڿ������� ���̸� ���� ��κ� �׷��� �����Ƿ� Rigidbody�� velocity �� 0�� �Ǿ��ٰ� ������ �����ӿ���
             // �ٽ� OnAnimatorMove �޼��尡 ȣ��Ǹ鼭 Rigidbody �� velocity ���� ��ȭ�ϴ� ��
             if ((isClimbing || isAtBonfire) && animator.GetCurrentAnimatorClipInfoCount(5) == 0) { // �� �����Ӹ��� 5�� ���̾��� ���� �ִϸ��̼��� Empty ��� rigidbody �� �ӵ��� 0���� ����
-                playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
             float delta = Time.deltaTime;
@@ -206,130 +191,117 @@ namespace SoulsLike {
             }
         }
 
-        #region �÷��̾� ��ȣ�ۿ�
+        //CharacterManager character;
+        //public void CheckForInteractableObject() {
+        //    if (isInteracting || isInConversation || isClimbing || isAtBonfire) return;
+        //    Interactable interactableObject;
+        //    if (Physics.SphereCast(transform.root.position + (transform.forward * 0.2f), 0.5f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
+        //        if (hit.collider.CompareTag("Interactable")) {
+        //            interactableObject = hit.collider.GetComponent<Interactable>();
+        //            if (interactableObject != null) {
+        //                if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
+        //                    StartInteraction(interactableObject, hit, false);
+        //                } else if (inputHandler.a_Input) {
+        //                    UIManager.instance.itemInteractableGameObject.SetActive(false);
+        //                }
+        //            }
+        //        } else if (hit.collider.CompareTag("Character")) {
+        //            interactableObject = hit.collider.GetComponent<Interactable>();
+        //            character = hit.collider.GetComponent<CharacterManager>();
+        //            if (character.canTalk) {
+        //                if (interactableObject != null) {
+        //                    if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
+        //                        StartInteraction(interactableObject, hit, false);
+        //                    } else if (inputHandler.a_Input) {
+        //                        UIManager.instance.itemInteractableGameObject.SetActive(false);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    } else {
+        //        if (UIManager.instance.interactableUIGameObject != null) {
+        //            UIManager.instance.interactableUIGameObject.SetActive(false);
+        //        }
+        //        if (UIManager.instance.itemInteractableGameObject != null && inputHandler.a_Input) {
+        //            UIManager.instance.itemInteractableGameObject.SetActive(false);
+        //        }
+        //    }
+        //}
 
-        CharacterManager character;
-        public void CheckForInteractableObject() {
-            if (isInteracting || isInConversation || isClimbing || isAtBonfire) return; // �ൿ ���̰ų� ��ȭ���̶�� �ٸ� ������Ʈ�� NPC�� ��ȣ�ۿ� �Ұ�
+        //private void StartInteraction(Interactable interactableObject, RaycastHit hit, bool withCharacter) {
+        //    string interactableText = interactableObject.interactableText;
+        //    interactableUI.interactableText.text = interactableText;
+        //    UIManager.instance.interactableUIGameObject.SetActive(true);
 
-            Interactable interactableObject; // �ֺ� ��ȣ�ۿ� ������ ������Ʈ�� ���� ����
-            if (Physics.SphereCast(transform.position + transform.forward * 0.15f, 0.2f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
-                if (hit.collider.CompareTag("Interactable")) {
-                    interactableObject = hit.collider.GetComponent<Interactable>();
-                    if (interactableObject != null) { // �ֺ��� ��ȣ�ۿ� ������ ��ü�� �ִٸ�
-                        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-                            StartInteraction(interactableObject, hit, false);
-                        } else if (inputHandler.a_Input) {
-                            UIManager.instance.itemInteractableGameObject.SetActive(false);
-                        }
-                    }
-                } else if (hit.collider.CompareTag("Character")) {
-                    interactableObject = hit.collider.GetComponent<Interactable>();
-                    character = hit.collider.GetComponent<CharacterManager>();
-                    if (character.canTalk) {
-                        if (interactableObject != null) {
-                            if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-                                StartInteraction(interactableObject, hit, false);
-                            } else if (inputHandler.a_Input) {
-                                UIManager.instance.itemInteractableGameObject.SetActive(false);
-                            }
-                        }
-                    }
-                }
-            } else {
-                // �ֺ��� ��ȣ�ۿ밡���� ������Ʈ�� �������� �޼���â�� ������ �ʵ���
-                if (UIManager.instance.interactableUIGameObject != null) {
-                    UIManager.instance.interactableUIGameObject.SetActive(false);
-                }
-                //�������� �����ϰ� ���� ����Ű�� �ѹ� �� ������ �޽���â�� ������.
-                if (UIManager.instance.itemInteractableGameObject != null && inputHandler.a_Input) {
-                    UIManager.instance.itemInteractableGameObject.SetActive(false);
-                }
-            }
-        }
+        //    if (inputHandler.a_Input) {
+        //        Debug.Log("hi");
+        //        UIManager.instance.interactableUIGameObject.SetActive(false);
+        //        hit.collider.GetComponent<Interactable>().Interact(this);
+        //        if (withCharacter) currentPageIndex = 0;
+        //    }
+        //}
 
-        private void StartInteraction(Interactable interactableObject, RaycastHit hit, bool withCharacter) {
-            string interactableText = interactableObject.interactableText;
-            interactableUI.interactableText.text = interactableText;
-            UIManager.instance.interactableUIGameObject.SetActive(true);
+        //private void HandleConversation() {
+        //    if (isInConversation) {
+        //        float distance = Vector3.Distance(character.transform.position, transform.position);
+        //        if (currentPageIndex <= currentDialog.Length - 1) {
+        //            PrintDialog();
+        //            if (distance >= 3f) FinishConversation();
+        //        } else if (turnPageTimer <= 0) {
+        //            NPCManager npc = character.GetComponent<NPCManager>();
+        //            npc.interactCount++;
+        //            FinishConversation();
+        //        }
+        //    }
+        //}
 
-            if (inputHandler.a_Input) {
-                UIManager.instance.interactableUIGameObject.SetActive(false);
-                hit.collider.GetComponent<Interactable>().Interact(this); // �ش� ������Ʈ�� Interact �� ����
-                if (withCharacter) currentPageIndex = 0;
-            }
-        }
+        //public void LeaveBonfire() {
+        //    isAtBonfire = false;
+        //    playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
+        //}
 
-        // ��ȭ ����
-        private void HandleConversation() {
-            if (isInConversation) { // ���� ��ȭ���̰�
-                float distance = Vector3.Distance(character.transform.position, transform.position);
-                // ��縦 ��� ������� �ʾҴٸ�
-                if (currentPageIndex <= currentDialog.Length - 1) {
-                    PrintDialog();
-                    if (distance >= 3f) FinishConversation();
-                } else if (turnPageTimer <= 0) {
-                    NPCManager npc = character.GetComponent<NPCManager>();
-                    npc.interactCount++; // ����� ���������������� �о��ٸ� ��ȣ�ۿ� Ƚ���� �������� ���� ��ȣ�ۿ�� �ٸ� ��縦 ����ϰ� ��
-                    FinishConversation();
-                }
-            }
-        }
+        //private void FinishConversation() {
+        //    isInConversation = false;
+        //    currentPageIndex = 0;
+        //    UIManager.instance.dialogUI.SetActive(false);
+        //}
 
-        public void FinsihRest() {
-            isAtBonfire = false;
-            playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
-        }
+        //private void PrintDialog() {
+        //    if (!UIManager.instance.dialogUI.activeSelf) UIManager.instance.dialogUI.SetActive(true);
+        //    if (turnPageTimer == 0)
+        //        turnPageTimer = turnPageTime;
+        //    interactableUI.dialogText.text = currentDialog[currentPageIndex].script;
+        //    HandleTurnPageTimer();
+        //    if (turnPageTimer == 0 && currentPageIndex < currentDialog.Length)
+        //        currentPageIndex++;
+        //}
 
-        // ��ȭ ����
-        private void FinishConversation() {
-            isInConversation = false;
-            currentPageIndex = 0;
-            UIManager.instance.dialogUI.SetActive(false);
-        }
+        //private void HandleTurnPageTimer() {
+        //    if (turnPageTimer <= 0) turnPageTimer = 0;
+        //    else {
+        //        turnPageTimer -= Time.deltaTime;
+        //        if (inputHandler.a_Input) turnPageTimer -= turnPageTime;
+        //    }
+        //}
 
-        // ��� ���
-        private void PrintDialog() {
-            if (!UIManager.instance.dialogUI.activeSelf) UIManager.instance.dialogUI.SetActive(true);
-            if (turnPageTimer == 0)
-                turnPageTimer = turnPageTime;
-            interactableUI.dialogText.text = currentDialog[currentPageIndex].script;
-            HandleTurnPageTimer();
-            if (turnPageTimer == 0 && currentPageIndex < currentDialog.Length) {
-                currentPageIndex++;
-            }
-        }
+        //public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
+        //    characterWeaponSlotManager.rightHandSlot.UnloadWeapon();
+        //    characterWeaponSlotManager.leftHandSlot.UnloadWeapon();
+        //    //playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    playerAnimatorManager.PlayTargetAnimation(animation, true);
+        //    transform.position = playerStandingPosition.position;
+        //}
 
-        // ���� ��� ��� Ÿ�̸�
-        private void HandleTurnPageTimer() {
-            if (turnPageTimer <= 0) turnPageTimer = 0;
-            else {
-                turnPageTimer -= Time.deltaTime;
-                if (inputHandler.a_Input) turnPageTimer -= turnPageTime;
-            }
-        }
 
-        // �ش� ��ġ���� �ش� �ִϸ��̼��� ���� ��ȣ�ۿ� ����
-        public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
-            characterWeaponSlotManager.rightHandSlot.UnloadWeapon();
-            characterWeaponSlotManager.leftHandSlot.UnloadWeapon();
-            playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            playerAnimatorManager.PlayTargetAnimation(animation, true);
-            transform.position = playerStandingPosition.position;
-        }
+        //public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
+        //    playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    Vector3 rotationDirection = fogWallEntrance.transform.forward;
+        //    Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
+        //    transform.rotation = turnRotation;
 
-        // �Ȱ��� ��� ��ȣ�ۿ�
-        public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-            playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            Vector3 rotationDirection = fogWallEntrance.transform.forward;
-            Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
-            transform.rotation = turnRotation;
+        //    playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
+        //}
 
-            playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
-        }
-        #endregion
-
-        // ������ ���̺� ���Ͽ� ĳ���� ������ ����
         public void SaveCharacterDataToCurrentSaveData(ref CharacterSaveData currentCharacterSaveData) {
             currentCharacterSaveData.characterName = playerStatsManager.characterName;
             currentCharacterSaveData.characterLevel = playerStatsManager.level;
@@ -388,16 +360,8 @@ namespace SoulsLike {
             playerInventoryManager.leftWeapon = WorldItemDatabase.instance.GetWeaponItemByID(currentCharacterSaveData.currentLeftHandWeaponID);
             playerWeaponSlotManager.LoadBothWeaponsOnSlots();
 
-            //EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
-            //// ������ ���̽��� �ش� �������� �����ϸ� ����
-            //Debug.Log(headEquipment);
-            //if (headEquipment != null) {
-            //    playerInventoryManager.currentHelmetEquipment = headEquipment as HelmetEquipment;
-            //} else {
-            //    playerInventoryManager.currentHelmetEquipment = null;
-            //}
             EquipmentItem headEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentHeadGearItemID);
-            playerInventoryManager.currentHelmetEquipment = headEquipment == null ? null : headEquipment as HelmetEquipment; 
+            playerInventoryManager.currentHelmetEquipment = headEquipment == null ? null : headEquipment as HelmetEquipment;
 
             EquipmentItem bodyEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentChestGearItemID);
             playerInventoryManager.currentTorsoEquipment = bodyEquipment == null ? null : bodyEquipment as TorsoEquipment;
@@ -407,12 +371,12 @@ namespace SoulsLike {
 
             EquipmentItem legEquipment = WorldItemDatabase.instance.GetEquipmentItemByID(currentCharacterSaveData.currentLegGearItemID);
             playerInventoryManager.currentLegEquipment = legEquipment == null ? null : legEquipment as LegEquipment;
-            
+
             playerEquipmentManager.EquipAllEquipmentModels();
 
             RingItem slot01Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot01ItemID);
             playerInventoryManager.ringSlot01 = slot01Ring == null ? null : slot01Ring;
-            
+
             RingItem slot02Ring = WorldItemDatabase.instance.GetRingItemByID(currentCharacterSaveData.currentRingSlot02ItemID);
             playerInventoryManager.ringSlot02 = slot02Ring == null ? null : slot02Ring;
 
@@ -425,8 +389,8 @@ namespace SoulsLike {
             playerInventoryManager.LoadRingEffect();
         }
 
+        // 다른 플레이어의 장비 상태를 로드
         public void LoadOtherPlayerCharacterWhenJoiningOnline(PlayerManager player) {
-            Debug.Log("다른 플레이어 캐릭터 로드");
             player.playerNetworkManager.OnRightWeaponChange(0, player.playerNetworkManager.currentRightWeaponID.Value);
             player.playerNetworkManager.OnLeftWeaponChange(0, player.playerNetworkManager.currentLeftWeaponID.Value);
             player.playerNetworkManager.OnHeadEquipmentChange(0, player.playerNetworkManager.currentHeadEquipmentID.Value);

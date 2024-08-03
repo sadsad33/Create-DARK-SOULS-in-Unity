@@ -953,6 +953,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17cdeaeb221edf74e85fad5f56031769, type: 3}
+--- !u!1 &1470421701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3374036299503796424, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+  m_PrefabInstance: {fileID: 1793335850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1470421703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470421701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab7d1121cfceca4bb1773e45d4318de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1535975357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,6 +1156,22 @@ PrefabInstance:
     - target: {fileID: 3374036299211321305, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374036300228157347, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374036300228157347, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2105504079}
+    - target: {fileID: 3374036300228157347, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374036300228157347, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoulsLike.UIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4110212348774893764, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1469,6 +1502,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088266561}
   m_CullTransparentMesh: 1
+--- !u!114 &2105504079 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7583938588239694952, guid: 5f8f6749cc11118419a9be093f9f1f4b, type: 3}
+  m_PrefabInstance: {fileID: 1793335850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd676ff440b5ba4d869b11d0ecb4ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &876123783859635486
 PrefabInstance:
   m_ObjectHideFlags: 0
