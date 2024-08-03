@@ -21,7 +21,6 @@ namespace SoulsLike {
         public bool isRotatingWithRootMotionStatus = false;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
             CharacterManager character = animator.GetComponent<CharacterManager>();
 
             // 피격 애니메이션 재생 후 이전에 받은 강인도 데미지 변수를 초기화

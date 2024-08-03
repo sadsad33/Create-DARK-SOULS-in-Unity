@@ -33,9 +33,9 @@ namespace SoulsLike {
             GetStartIndex();
         }
 
-        public override void Interact(PlayerManager playerManager) {
-            base.Interact(playerManager);
-            StartConverstation(playerManager);
+        public override void Interact(PlayerManager player) {
+            base.Interact(player);
+            StartConverstation(player);
         }
 
 
@@ -48,23 +48,23 @@ namespace SoulsLike {
             }
         }
 
-        private void StartConverstation(PlayerManager playerManager) {
-            Debug.Log("NPC¿Í ´ëÈ­ ½ÃÀÛ");
-            playerManager.isInConversation = true;
+        private void StartConverstation(PlayerManager player) {
+            Debug.Log("NPCì™€ ëŒ€í™” ì‹œì‘");
+            player.isInConversation = true;
             
-            // Ã¹ Á¶¿ì½Ã Ãâ·ÂÇÒ ´ÙÀÌ¾ó·Î±× Àü´Ş
+            // ì²« ì¡°ìš°ì‹œ ì¶œë ¥í•  ë‹¤ì´ì–¼ë¡œê·¸ ì „ë‹¬
             if (npcManager.interactCount == 0) {
                 CopyScript(startIndex[0]);
             }
-            // ´ëÈ­¸¦ ¸ğµÎ ¸¶ÃÆ°í, Äù½ºÆ®°¡ ÀÖ´Ù¸é Äù½ºÆ® ´ÙÀÌ¾ó·Î±× Àü´Ş
+            // ëŒ€í™”ë¥¼ ëª¨ë‘ ë§ˆì³¤ê³ , í€˜ìŠ¤íŠ¸ê°€ ìˆë‹¤ë©´ í€˜ìŠ¤íŠ¸ ë‹¤ì´ì–¼ë¡œê·¸ ì „ë‹¬
             else if (npcManager.interactCount >= startIndex.Length - 1) {
                 CopyScript(startIndex[^1]);
             }
-            // Æò¼Ò ´ÙÀÌ¾ó·Î±× Àü´Ş
+            // í‰ì†Œ ë‹¤ì´ì–¼ë¡œê·¸ ì „ë‹¬
             else {
                 CopyScript(startIndex[npcManager.interactCount]);
             }
-            playerManager.currentDialog = currentDialog;
+            player.playerInteractionManager.currentDialog = currentDialog;
         }
 
         private void CopyScript(int start) {

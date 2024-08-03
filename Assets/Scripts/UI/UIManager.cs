@@ -34,8 +34,8 @@ namespace SoulsLike {
         public GameObject itemInfoWindow;
         public GameObject bonfireWindow;
         public GameObject levelUpWindow;
-        public GameObject interactableUIGameObject; // ��ȣ�ۿ� �޼��� (�� ����, ���� ������ ��) : InteractionPopUp
-        public GameObject itemInteractableGameObject; // ������ ȹ�� �޼��� : ItemPopup
+        public GameObject interactableUIGameObject; // InteractionPopUp
+        public GameObject itemInteractableGameObject; // ItemPopup
         public GameObject dialogUI; // NPC�� ��縦 ����� â
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록

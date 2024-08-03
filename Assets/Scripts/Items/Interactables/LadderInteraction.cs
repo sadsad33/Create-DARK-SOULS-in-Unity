@@ -15,27 +15,27 @@ namespace SoulsLike {
         public Transform bottomStartingPosition;
         public Transform bottomFinishingPosition;
 
-        public override void Interact(PlayerManager playerManager) {
-            base.Interact(playerManager);
-
-            Vector3 rotationDirection;
-            //rotationDirection = transform.InverseTransformDirection(-transform.forward);
-            rotationDirection = -ladderTransform.right;
+        public override void Interact(PlayerManager player) {
+            base.Interact(player);
+            Debug.Log("ì‚¬ë‹¤ë¦¬ íƒ€ê¸°");
+            Vector3 rotationDirection = -transform.forward;
+            rotationDirection.y = 0;
             rotationDirection.Normalize();
 
             Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 300 * Time.deltaTime);
-            playerManager.transform.rotation = targetRotation;
-            playerManager.isClimbing = true;
+            Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, 300 * Time.deltaTime);
+            player.transform.rotation = targetRotation;
 
-            playerManager.ladderEndPositionDetector.transform.gameObject.SetActive(true);
-            if (isTop) { // »ç´Ù¸®ÀÇ ²À´ë±â¿¡¼­ »óÈ£ÀÛ¿ëÀ» ½ÃÀÛÇÏ´Â °æ¿ì
-                playerManager.InteractionAtPosition("Ladder_StartTop", topStartingPosition);
-                playerManager.isLadderTop = true;
-            } else { // »ç´Ù¸®ÀÇ ¸Ç ¹Ø¿¡¼­ »óÈ£ÀÛ¿ëÀ» ½ÃÀÛÇÏ´Â °æ¿ì
-                playerManager.InteractionAtPosition("Ladder_StartBottom", bottomStartingPosition);
-                playerManager.isLadderTop = false;
+            player.isClimbing = true;
+            player.ladderEndPositionDetector.transform.gameObject.SetActive(true);
+            if (isTop) { // ì‚¬ë‹¤ë¦¬ì˜ ê¼­ëŒ€ê¸°ì—ì„œ ìƒí˜¸ì‘ìš©ì„ ì‹œì‘í•˜ëŠ” ê²½ìš°
+                player.playerInteractionManager.InteractionAtPosition("Ladder_StartTop", topStartingPosition);
+                player.isLadderTop = true;
+            } else { // ì‚¬ë‹¤ë¦¬ì˜ ë§¨ ë°‘ì—ì„œ ìƒí˜¸ì‘ìš©ì„ ì‹œì‘í•˜ëŠ” ê²½ìš°
+                player.playerInteractionManager.InteractionAtPosition("Ladder_StartBottom", bottomStartingPosition);
+                player.isLadderTop = false;
             }
         }
+        
     }
 }

@@ -5,31 +5,31 @@ using UnityEngine;
 namespace SoulsLike {
     public class BonfireInteraction : Interactable {
         public bool isIgnited = false;
-        //public UIManager playerUIManager;
+
         protected override void Awake() {
-            interactableText = "ºÒÀ» ºÙÀÎ´Ù";
+            interactableText = "ë¶ˆì„ ë¶™ì¸ë‹¤";
         }
 
-        public override void Interact(PlayerManager playerManager) {
-            base.Interact(playerManager);
+        public override void Interact(PlayerManager player) {
+            base.Interact(player);
             Vector3 rotationDirection;
-            Vector3 direction = transform.position - playerManager.transform.position;
+            Vector3 direction = transform.position - player.transform.position;
             direction.y = 0;
             rotationDirection = transform.InverseTransformDirection(direction);
             rotationDirection.Normalize();
 
             Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 300 * Time.deltaTime);
-            playerManager.transform.rotation = targetRotation;
+            Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 300 * Time.deltaTime);
+            player.transform.rotation = targetRotation;
             if (!isIgnited) {
                 isIgnited = true;
-                // È­ÅêºÒ ºÙÀÌ´Â ¸ğ¼Ç
-                playerManager.InteractionAtPosition("Bonfire_Ignite", playerManager.transform);
-                interactableText = "ÈŞ½ÄÇÑ´Ù";
+                // í™”í†³ë¶ˆ ë¶™ì´ëŠ” ëª¨ì…˜
+                player.playerInteractionManager.InteractionAtPosition("Bonfire_Ignite", player.transform);
+                interactableText = "íœ´ì‹í•œë‹¤";
             } else {
-                // ÇÃ·¹ÀÌ¾î ÈŞ½Ä ¸ğ¼Ç
-                playerManager.InteractionAtPosition("Bonfire_Start", playerManager.transform);
-                playerManager.isAtBonfire = true;
+                // í”Œë ˆì´ì–´ íœ´ì‹ ëª¨ì…˜
+                player.playerInteractionManager.InteractionAtPosition("Bonfire_Start", player.transform);
+                player.isAtBonfire = true;
                 UIManager.instance.OpenSelectedWindow(4);
             }
         }

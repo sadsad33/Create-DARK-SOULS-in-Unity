@@ -44,13 +44,7 @@ namespace SoulsLike {
         float sprintSpeed = 7;
         [SerializeField]
         float rotationSpeed = 10;
-
-        // CharacterLocomotionManager 클래스를 생성하면 옮길 것
-        // 다른 클라이언트에서 내 오브젝트의 이동 애니메이션을 제어하기 위한 변수들(?)
-        [Header("Animator Movement Values")]
-        public float verticalMovement;
-        public float horizontalMovement;
-        public float movementAmount;
+        
 
         [Header("Stamina Costs")]
         [SerializeField]
@@ -348,25 +342,27 @@ namespace SoulsLike {
 
         public void HandleClimbing() {
             if (player.ladderEndPositionDetector.isTopEnd && player.inputHandler.vertical >= 1) {
-                Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
+                //Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
                 player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
                 player.isMoving = true;
                 if (player.rightFootUp) {
-                    player.InteractionAtPosition("Ladder_End_Top_RightFootUp", player.transform);
+                    player.playerInteractionManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", player.transform);
                 } else {
-                    player.InteractionAtPosition("Ladder_End_Top_LeftFootUp", player.transform);
+                    player.playerInteractionManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", player.transform);
                 }
                 player.isClimbing = false;
             } else if (player.ladderEndPositionDetector.isBottomEnd && player.inputHandler.vertical <= -1) {
                 if (player.rightFootUp) {
-                    player.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                    player.playerInteractionManager.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 } else {
-                    player.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
+                    player.playerInteractionManager.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 }
                 player.isClimbing = false;
             } else {
                 player.animator.SetFloat("Vertical", player.inputHandler.vertical, 0.1f, Time.deltaTime);
-                GetComponent<Rigidbody>().velocity = new Vector3(0, player.inputHandler.vertical, 0);
+                //GetComponent<Rigidbody>().velocity = new Vector3(0, player.inputHandler.vertical, 0);
+                Vector3 climbingDirection = new Vector3(0, player.inputHandler.vertical / 200, 0);
+                player.characterController.Move(climbingDirection);
             }
         }
 
