@@ -39,6 +39,7 @@ namespace SoulsLike {
         // 해당 애니메이션을 실행한다.
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
             if (character.IsOwner) {
+                //Debug.Log("애니메이션 실행");
                 character.animator.applyRootMotion = isInteracting;
                 character.animator.SetBool("canRotate", canRotate);
                 character.animator.SetBool("isInteracting", isInteracting);
@@ -184,7 +185,9 @@ namespace SoulsLike {
 
             Vector3 velocity = character.animator.deltaPosition;
             character.characterController.Move(velocity);
-            character.transform.rotation *= character.animator.deltaRotation;
+            //character.transform.rotation *= character.animator.deltaRotation;
         }
+
+        
     }
 }

@@ -17,13 +17,13 @@ namespace SoulsLike {
 
         public override void Interact(PlayerManager player) {
             base.Interact(player);
-            Debug.Log("사다리 타기");
-            Vector3 rotationDirection = -transform.forward;
+
+            Vector3 rotationDirection = -ladderTransform.right;
             rotationDirection.y = 0;
             rotationDirection.Normalize();
 
             Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, 300 * Time.deltaTime);
+            Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 3000 * Time.deltaTime);
             player.transform.rotation = targetRotation;
 
             player.isClimbing = true;

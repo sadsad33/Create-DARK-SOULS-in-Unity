@@ -5,9 +5,12 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerInteractionManager : MonoBehaviour {
 
+        public delegate void InteractionDelegate();
+        private InteractionDelegate interactionDelegate;
+
         [SerializeField]
         InteractableUI interactableUI;
-        LayerMask interactableLayer;
+        //LayerMask interactableLayer;
         PlayerManager player;
 
         public NPCScript[] currentDialog;
@@ -19,36 +22,28 @@ namespace SoulsLike {
         private void Awake() {
             player = transform.root.GetComponent<PlayerManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
-            interactableLayer = 1 << 0 | 1 << 9;
+            //interactableLayer = 1 << 0 | 1 << 9;
         }
 
         private void OnTriggerStay(Collider other) {
             if (player.isInteracting || player.isInConversation || player.isClimbing || player.isAtBonfire) return;
             if (other.CompareTag("Interactable")) {
                 currentInteractable = other.GetComponent<Interactable>();
-                Debug.Log(currentInteractable);
-                //if (currentInteractable != null) {
-                //if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-                //    StartInteraction(currentInteractable, other, false);
-                //} else if (player.inputHandler.a_Input) {
-                //    UIManager.instance.itemInteractableGameObject.SetActive(false);
-                //}
-                //}
-                SetInteraction();
+                SetInteractionUI();
             } else if (other.CompareTag("Character")) {
                 CharacterManager character;
-                currentInteractable = other.GetComponent<Interactable>();
                 character = other.GetComponent<CharacterManager>();
-                //if (character.canTalk) {
-                //    if (currentInteractable != null) {
-                //        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-                //            StartInteraction(currentInteractable, other, false);
-                //        } else if (player.inputHandler.a_Input) {
-                //            UIManager.instance.itemInteractableGameObject.SetActive(false);
-                //        }
-                //    }
-                //}
-                SetInteraction();
+                if (character.canTalk) {
+                    currentInteractable = other.GetComponent<Interactable>();
+                    //    if (currentInteractable != null) {
+                    //        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
+                    //            StartInteraction(currentInteractable, other, false);
+                    //        } else if (player.inputHandler.a_Input) {
+                    //            UIManager.instance.itemInteractableGameObject.SetActive(false);
+                    //        }
+                    //    }
+                }
+                SetInteractionUI();
             }
         }
 
@@ -59,33 +54,7 @@ namespace SoulsLike {
             }
         }
 
-        //public void CheckForInteractableObject() {
-
-        //    if (Physics.SphereCast(transform.root.position + (transform.forward * 0.2f), 0.5f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
-
-        //    } else {
-        //        if (UIManager.instance.interactableUIGameObject != null) {
-        //            UIManager.instance.interactableUIGameObject.SetActive(false);
-        //        }
-        //        if (UIManager.instance.itemInteractableGameObject != null && player.inputHandler.a_Input) {
-        //            UIManager.instance.itemInteractableGameObject.SetActive(false);
-        //        }
-        //    }
-        //}
-
-        //private void StartInteraction(Interactable interactableObject, Collider collider, bool withCharacter) {
-        //    string interactableText = interactableObject.interactableText;
-        //    interactableUI.interactableText.text = interactableText;
-        //    UIManager.instance.interactableUIGameObject.SetActive(true);
-
-        //    if (player.inputHandler.a_Input) {
-        //        UIManager.instance.interactableUIGameObject.SetActive(false);
-        //        collider.GetComponent<Interactable>().Interact(player);
-        //        if (withCharacter) currentPageIndex = 0;
-        //    }
-        //}
-
-        private void SetInteraction() {
+        private void SetInteractionUI() {
             if (currentInteractable != null) {
                 string interactableText = currentInteractable.interactableText;
                 interactableUI.interactableText.text = interactableText;

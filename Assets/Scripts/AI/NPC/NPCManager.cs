@@ -78,7 +78,6 @@ namespace SoulsLike {
         }
 
         protected override void FixedUpdate() {
-            base.FixedUpdate();
         }
 
         private void HandleChangeTargetTimer() {
