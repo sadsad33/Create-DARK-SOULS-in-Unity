@@ -43,7 +43,7 @@ namespace SoulsLike {
         [SerializeField]
         float sprintSpeed = 7;
         [SerializeField]
-        float rotationSpeed = 10;
+        public float rotationSpeed = 10;
         
 
         [Header("Stamina Costs")]
