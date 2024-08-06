@@ -27,8 +27,8 @@ namespace SoulsLike {
             HandleRotateTowardsTarget(npcManager);
             if (distance > npcManager.maximumAggroRadius) return npcPursueTargetState;
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
-                Debug.Log("Å¸°Ù Àç¼³Á¤");
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
+                Debug.Log("íƒ€ê²Ÿ ìž¬ì„¤ì •");
                 npcManager.currentTarget = null;
                 return npcIdleState;
             }
@@ -38,7 +38,7 @@ namespace SoulsLike {
                 DecideCirclingAction(npcAnimatorManager);
             }
 
-            if (npcManager.currentRecoveryTime <= 0 && npcAttackState.currentAttack != null) { // ÇöÀç °ø°ÝÀÌ ¼±ÅÃµÈ »óÅÂ¶ó¸é °ø°Ý »óÅÂ·Î ÀüÀÌ
+            if (npcManager.currentRecoveryTime <= 0 && npcAttackState.currentAttack != null) { // í˜„ìž¬ ê³µê²©ì´ ì„ íƒëœ ìƒíƒœë¼ë©´ ê³µê²© ìƒíƒœë¡œ ì „ì´
                 randomDestinationSet = false;
                 return npcAttackState;
             } else {

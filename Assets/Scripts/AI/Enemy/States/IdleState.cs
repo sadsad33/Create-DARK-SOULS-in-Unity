@@ -9,31 +9,31 @@ namespace SoulsLike {
         public DeadState deadState;
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
-            // ¸ñÇ¥ Å½»ö
-            // ¸ñÇ¥ Å½»ö¿¡ ¼º°øÇÏ¸é Pursue Target State°¡ µÊ
-            // ¸ñÇ¥ Å½»öÀ» ½ÇÆĞÇÏ¸é Idle State À¯Áö
+            // ëª©í‘œ íƒìƒ‰
+            // ëª©í‘œ íƒìƒ‰ì— ì„±ê³µí•˜ë©´ Pursue Target Stateê°€ ë¨
+            // ëª©í‘œ íƒìƒ‰ì„ ì‹¤íŒ¨í•˜ë©´ Idle State ìœ ì§€
 
-            #region ¸ñÇ¥¹° Å½»ö
-            // ÁÖº¯ ¿ÀºêÁ§Æ®µé °¨Áö
+            #region ëª©í‘œë¬¼ íƒìƒ‰
+            // ì£¼ë³€ ì˜¤ë¸Œì íŠ¸ë“¤ ê°ì§€
             Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
             for (int i = 0; i < colliders.Length; i++) {
-                // °¨ÁöÇÑ ÁÖº¯ collider·ÎºÎÅÍ CharacterStatsÀ» °¡Á®¿Â´Ù.
-                CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
+                // ê°ì§€í•œ ì£¼ë³€ colliderë¡œë¶€í„° CharacterStatsì„ ê°€ì ¸ì˜¨ë‹¤.
+                CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
 
-                // ÇØ´ç ¿ÀºêÁ§Æ®¿¡ CharacterStatsÀÌ Á¸ÀçÇÑ´Ù¸é
-                if (characterStats != null && characterStats.teamIDNumber != enemyStats.teamIDNumber) {
-                    Vector3 targetDirection = characterStats.transform.position - enemyManager.transform.position;
+                // í•´ë‹¹ ì˜¤ë¸Œì íŠ¸ì— CharacterStatsì´ ì¡´ì¬í•œë‹¤ë©´
+                if (character != null && character.characterStatsManager.teamIDNumber != enemyStats.teamIDNumber) {
+                    Vector3 targetDirection = character.transform.position - enemyManager.transform.position;
                     float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
 
-                    // Á¤¸é°ú ¸ñÇ¥¹° »çÀÌÀÇ °¢µµ°¡ ÃÖ¼Ò ½Ã¾ß°¢°ú ÃÖ´ë ½Ã¾ß°¢ ³»ÀÇ ¹üÀ§¿¡ ÀÖ´Ù¸é
+                    // ì •ë©´ê³¼ ëª©í‘œë¬¼ ì‚¬ì´ì˜ ê°ë„ê°€ ìµœì†Œ ì‹œì•¼ê°ê³¼ ìµœëŒ€ ì‹œì•¼ê° ë‚´ì˜ ë²”ìœ„ì— ìˆë‹¤ë©´
                     if (viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle) {
-                        enemyManager.currentTarget = characterStats; // Å¸°ÙÀ» ¼³Á¤ÇÑ´Ù.
+                        enemyManager.currentTarget = character; // íƒ€ê²Ÿì„ ì„¤ì •í•œë‹¤.
                     }
                 }
             }
             #endregion
 
-            #region ´ÙÀ½ »óÅÂ ÀüÀÌ
+            #region ë‹¤ìŒ ìƒíƒœ ì „ì´
             if (enemyManager.currentTarget != null) {
                 return pursueTargetState;
             } else {

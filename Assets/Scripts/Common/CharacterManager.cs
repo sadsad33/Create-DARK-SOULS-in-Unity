@@ -13,6 +13,7 @@ namespace SoulsLike {
         public CharacterEffectsManager characterEffectsManager;
         public CharacterNetworkManager characterNetworkManager;
         public CharacterSoundEffectsManager characterSoundEffectsManager;
+
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -31,6 +32,9 @@ namespace SoulsLike {
         public bool isInvulnerable;
         public bool canDoCombo;
         public bool isGrabbed;
+
+        [Header("Target")]
+        public CharacterManager currentTarget;
 
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;

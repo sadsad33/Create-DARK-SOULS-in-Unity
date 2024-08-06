@@ -16,7 +16,7 @@ namespace SoulsLike {
         public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
             float distanceFromTarget = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
                 Debug.Log("타겟 재설정");
                 npcManager.currentTarget = null;
                 return npcIdleState;

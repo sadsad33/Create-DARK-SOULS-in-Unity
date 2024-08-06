@@ -8,7 +8,7 @@ namespace SoulsLike {
         PoisonBuildUpBar poisonBuildUpBar;
         public PoisonAmountBar poisonAmountBar;
         public GameObject currentParticleFX; // 현재 플레이어의 상태에 따른 이펙트
-        public GameObject instantiatedFXModel;
+        
         public float amountToBeHealed;
 
         // 데미지와 같은 즉각적인 효과

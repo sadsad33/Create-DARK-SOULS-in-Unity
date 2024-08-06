@@ -20,12 +20,12 @@ namespace SoulsLike {
             Collider[] colliders = Physics.OverlapSphere(enemyManager.transform.position, detectionRadius, detectionLayer);
 
             for (int i = 0; i < colliders.Length; i++) {
-                CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
-                if (characterStats != null) {
-                    Vector3 targetDirection = characterStats.transform.position - enemyManager.transform.position;
+                CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
+                if (character != null) {
+                    Vector3 targetDirection = character.transform.position - enemyManager.transform.position;
                     float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
                     if (viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle) {
-                        enemyManager.currentTarget = characterStats;
+                        enemyManager.currentTarget = character;
                         isSleeping = false;
                         enemyAnimatorManager.PlayTargetAnimation(wakeAnimation, true);
                     }

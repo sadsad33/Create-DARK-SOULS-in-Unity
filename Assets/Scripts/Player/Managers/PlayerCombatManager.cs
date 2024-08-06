@@ -5,11 +5,12 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerCombatManager : MonoBehaviour {
         PlayerManager player;
-        
+
         public string lastAttack;
         LayerMask backStabLayer = 1 << 12;
         LayerMask riposteLayer = 1 << 13;
 
+        public ProjectileSpell currentSpelledProjectile;
         public void Awake() {
             player = GetComponent<PlayerManager>();
         }
@@ -57,7 +58,7 @@ namespace SoulsLike {
 
             if (player.playerInventoryManager.rightWeapon.isMeleeWeapon) {
                 PerformRBMeleeAction();
-            } else if (player.playerInventoryManager.rightWeapon.isMagicCaster || player.playerInventoryManager.rightWeapon.isFaithCaster 
+            } else if (player.playerInventoryManager.rightWeapon.isMagicCaster || player.playerInventoryManager.rightWeapon.isFaithCaster
                 || player.playerInventoryManager.rightWeapon.isPyroCaster) {
                 PerformRBSpellAction(player.playerInventoryManager.rightWeapon);
             }
@@ -93,12 +94,13 @@ namespace SoulsLike {
 
         // 영창 공격
         private void PerformRBSpellAction(WeaponItem weapon) {
+            //if (!player.IsOwner) return;
             if (player.isInteracting) return;
             player.UpdateWhichHandCharacterIsUsing(true);
             if (weapon.isFaithCaster) {
                 if (player.playerInventoryManager.currentSpell.isFaithSpell) {
                     if (player.playerStatsManager.currentFocus >= player.playerInventoryManager.currentSpell.focusCost)
-                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.playerWeaponSlotManager);
+                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player);
                     else player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 } else {
                     player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
@@ -106,12 +108,13 @@ namespace SoulsLike {
             } else if (weapon.isPyroCaster) {
                 if (player.playerInventoryManager.currentSpell.isPyroSpell) {
                     if (player.playerStatsManager.currentFocus >= player.playerInventoryManager.currentSpell.focusCost)
-                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.playerWeaponSlotManager);
+                        player.playerInventoryManager.currentSpell.AttemptToCastSpell(player);
                     else player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
                 } else {
                     player.playerAnimatorManager.PlayTargetAnimation("Shrugging", true);
-            }
                 }
+            }
+            player.playerCombatManager.currentSpelledProjectile = null;
         }
 
         private void PerformLTWeaponArt(bool isTwoHanding) {
@@ -129,7 +132,8 @@ namespace SoulsLike {
 
         // Animation Event에서 호출하기 위한 함수
         private void SuccessfullyCastSpell() {
-            player.playerInventoryManager.currentSpell.SuccessfullyCastSpell(player.playerAnimatorManager, player.playerStatsManager, player.cameraHandler, player.playerWeaponSlotManager);
+            if (!player.IsOwner) return;
+            player.playerInventoryManager.currentSpell.SuccessfullyCastSpell(player);
             player.animator.SetBool("isFiringSpell", true);
             //Debug.Log("투척 이벤트");
         }

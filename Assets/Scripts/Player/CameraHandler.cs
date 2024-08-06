@@ -21,7 +21,7 @@ namespace SoulsLike {
 
         public static CameraHandler instance;
         public InputHandler inputHandler;
-        public PlayerManager playerManager;
+        public PlayerManager player;
 
         public float lookSpeed = 0.1f;
         public float groundedFollowSpeed = 20f;
@@ -44,14 +44,10 @@ namespace SoulsLike {
         public float lockedPivotPosition = 2.25f;
         public float unlockedPivotPosition = 1.65f;
 
-        public CharacterManager currentLockOnTarget;
-
         List<CharacterManager> availableTargets = new();
         public CharacterManager nearestLockOnTarget;
         public float maximumLockOnDistance;
         public CharacterManager leftLockTarget, rightLockTarget;
-
-
 
         private void Awake() {
             if (instance == null) instance = this;
@@ -64,7 +60,7 @@ namespace SoulsLike {
         }
 
         public void AssignCameraToPlayer(PlayerManager player) {
-            playerManager = player;
+            this.player = player;
             targetTransform = player.transform;
             inputHandler = player.inputHandler;
         }
@@ -72,7 +68,7 @@ namespace SoulsLike {
         // 카메라가 대상을 따라가도록 하는 함수
         public void FollowTarget(float delta) {
 
-            if (playerManager.isGrounded) {
+            if (player.isGrounded) {
                 // 목표 지점까지 부드럽게 이동한다
                 Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, groundedFollowSpeed * Time.deltaTime);
                 //Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
@@ -96,7 +92,7 @@ namespace SoulsLike {
          */
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput) {
             // 록온을 하지 않았을 경우
-            if (!playerManager.playerNetworkManager.isLockedOn.Value && currentLockOnTarget == null) {
+            if (!player.playerNetworkManager.isLockedOn.Value && player.currentTarget == null) {
                 // 시간에 따른 각각의 회전값 변화량을 대입
                 lookAngle += (mouseXInput * lookSpeed) * delta; // 좌우 앵글
                 pivotAngle -= (mouseYInput * pivotSpeed) * delta; // 상하 앵글
@@ -115,7 +111,7 @@ namespace SoulsLike {
             // 록온을 했을 경우
             else {
                 // 카메라가 록온한 대상을 정면으로 바라보며 수평회전하도록 한다.
-                Vector3 dir = currentLockOnTarget.transform.position - transform.position;
+                Vector3 dir = player.currentTarget.transform.position - transform.position;
                 dir.Normalize();
                 dir.y = 0;
 
@@ -196,7 +192,6 @@ namespace SoulsLike {
                         if (Physics.Linecast(startPosition, endPosition, out hit, obstacleLayer)) return;
                         availableTargets.Add(character);
                     }
-
                 }
             }
 
@@ -206,7 +201,7 @@ namespace SoulsLike {
                     shortestDistance = distanceFromTarget;
                     nearestLockOnTarget = availableTargets[i];
                 }
-                if (playerManager.playerNetworkManager.isLockedOn.Value) { // 록온 상태
+                if (player.playerNetworkManager.isLockedOn.Value) { // 록온 상태
                     // InverseTransformPoint : 객체의 월드좌표를 로컬좌표로 변환
                     // 주변에 락온이 가능한 타겟들의 월드 좌표를 자기 자신의 로컬좌표계로 편입시킨다.
                     Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);
@@ -216,7 +211,7 @@ namespace SoulsLike {
                     // 만약 x 좌표가 음수라면 자신을 기준으로 왼쪽에 있는 것
                     // 왼쪽에 있는 타겟들은 x 좌표의 값이 - 이므로 멀수록 값이 작아지고 가까울수록 값이 커짐
                     // 해당 좌표의 타겟이 현재 록온된 타겟이 아니라면
-                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget && availableTargets[i] != currentLockOnTarget) {
+                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget && availableTargets[i] != player.currentTarget) {
                         shortestDistanceOfLeftTarget = distanceFromLeftTarget;
                         // 현재 록온된 오브젝트와 가장 가까운 거리를 가진 왼쪽 오브젝트를 저장
                         leftLockTarget = availableTargets[i];
@@ -224,7 +219,7 @@ namespace SoulsLike {
                     // x 좌표가 양수라면 자신을 기준으로 오른쪽에 있는 것
                     // 오른쪽에 있는 타겟들은 x 좌표의 값이 + 이므로 멀수록 값이 커지고 가까울수록 값이 작아짐
                     // 해당 좌표의 타겟이 현재 록온된 타겟이 아니라면
-                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget && availableTargets[i] != currentLockOnTarget) {
+                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget && availableTargets[i] != player.currentTarget) {
                         shortestDistanceOfRightTarget = distanceFromRightTarget;
                         // 현재 록온된 오브젝트와 가장 가까운 거리를 가진 오른쪽 오브젝트를 저장
                         rightLockTarget = availableTargets[i];
@@ -232,10 +227,11 @@ namespace SoulsLike {
                 }
             }
         }
+
         public void ClearLockOnTargets() {
             availableTargets.Clear();
             nearestLockOnTarget = null;
-            currentLockOnTarget = null;
+            player.currentTarget = null;
         }
 
         // 록온 여부에따라 카메라의 높낮이를 바꾼다.
@@ -243,7 +239,7 @@ namespace SoulsLike {
             Vector3 velocity = Vector3.zero;
             Vector3 newLockedPosition = new Vector3(0, lockedPivotPosition);
             Vector3 newUnlockedPosition = new Vector3(0, unlockedPivotPosition);
-            if (currentLockOnTarget != null) {
+            if (player.currentTarget != null) {
                 cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockedPosition, ref velocity, Time.deltaTime);
             } else {
                 cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
@@ -251,7 +247,7 @@ namespace SoulsLike {
         }
 
         public void ZoomForInteraction(float delta) {
-            if (playerManager.isInConversation) {
+            if (player.isInConversation) {
                 //Debug.Log("줌 인");
                 cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, cameraTransform.localPosition.z + 5, delta);
                 cameraTransform.localPosition = cameraTransformPosition;

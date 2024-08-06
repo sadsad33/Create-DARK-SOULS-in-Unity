@@ -25,6 +25,9 @@ namespace SoulsLike {
         public NetworkVariable<float> horizontalNetworkMovement = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<float> moveAmountNetworkMovement = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+        [Header("Target")]
+        public NetworkVariable<ulong> currentTargetID = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
         // sprintFlag 와 lockOnFlag 대체 (내 경우 사다리를 오르내릴때의 블렌드 트리가 따로 있어서 추가해줘야 할듯)
         // 기본적으로는 게임내의 어떤 다른 사람이 내 게임의 특정 스크립트에서 특정 변수가 변경되는것을 알아낼 방법이 없음
         // 하지만 네트워크 변수는 한쪽에서 변경될 때마다 모든 클라이언트들에 대해 변경되기 때문에 sprintFlag 와 lockOnFlag를 네트워크 변수로 만들어 사용
@@ -46,7 +49,11 @@ namespace SoulsLike {
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
         }
-        
+
+        public void OnTargetIDChanged(ulong oldTarget, ulong newTarget) {
+            character.currentTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[newTarget].gameObject.GetComponent<CharacterManager>();
+        }
+
         // RPC(Remote Procedure Call) : 원격 프로시저 호출
         // 원격제어를 위한 코딩없이 다른 주소 공간에서 함수나 프로시저를 실행할 수 있게 하는 프로세스 간 통신 기술
 

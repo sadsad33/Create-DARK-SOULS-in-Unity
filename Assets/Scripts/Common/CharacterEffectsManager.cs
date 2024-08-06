@@ -6,6 +6,7 @@ using UnityEngine;
 namespace SoulsLike {
     public class CharacterEffectsManager : MonoBehaviour {
         CharacterManager character;
+        public GameObject instantiatedFXModel;
 
         [Header("Static Effect")]
         [SerializeField] List<StaticCharacterEffect> staticCharacterEffects;

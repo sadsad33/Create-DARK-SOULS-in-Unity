@@ -13,8 +13,8 @@ namespace SoulsLike {
                 return this;
             }
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.isDead) {
-                Debug.Log("Å¸°Ù Àç¼³Á¤");
+            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
+                Debug.Log("íƒ€ê²Ÿ ìž¬ì„¤ì •");
                 npcManager.currentTarget = null;
                 return npcIdleState;
             }

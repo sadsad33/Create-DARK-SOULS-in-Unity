@@ -10,13 +10,11 @@ namespace SoulsLike {
         public GameObject muzzleParticles;
 
         bool hasCollided = false;
-        Rigidbody rigidBody;
         CharacterManager spellTarget; // 목표물의 Stat
         Vector3 impactNormal; // impactParticles 회전축
 
         protected override void Awake() {
             base.Awake();
-            rigidBody = GetComponent<Rigidbody>();
         }
 
         private void Start() {
@@ -29,20 +27,49 @@ namespace SoulsLike {
             }
         }
 
-        private void OnCollisionEnter(Collision collision) {
+        //private void OnCollisionEnter(Collision collision) {
+
+        //    if (!hasCollided) {
+        //        spellTarget = collision.transform.root.GetComponent<CharacterManager>();
+        //        if (spellTarget != null && spellTarget.characterStatsManager.teamIDNumber != teamIDNumber) {
+        //            TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+        //            takeDamageEffect.physicalDamage = physicalDamage;
+        //            takeDamageEffect.fireDamage = fireDamage;
+        //            takeDamageEffect.poiseDamage = poiseDamage;
+        //            takeDamageEffect.contactPoint = contactPoint;
+        //            takeDamageEffect.angleHitFrom = angleHitFrom;
+        //            spellTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+        //        }
+
+        //        hasCollided = true;
+        //        GameObject checkLocation = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
+        //        impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전
+
+        //        Destroy(projectileParticles);
+        //        Destroy(impactParticles, 2f);
+        //        Destroy(gameObject, 5f);
+        //    }
+        //}
+
+        private void OnTriggerEnter(Collider other) {
             if (!hasCollided) {
-                spellTarget = collision.transform.root.GetComponent<CharacterManager>();
-                if (spellTarget != null && spellTarget.characterStatsManager.teamIDNumber != teamIDNumber) {
-                    TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
-                    takeDamageEffect.physicalDamage = physicalDamage;
-                    takeDamageEffect.fireDamage = fireDamage;
-                    takeDamageEffect.poiseDamage = poiseDamage;
-                    takeDamageEffect.contactPoint = contactPoint;
-                    takeDamageEffect.angleHitFrom = angleHitFrom;
-                    spellTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+                spellTarget = other.transform.root.GetComponent<CharacterManager>();
+                if (spellTarget != null) {
+                    if (spellTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                    else {
+                        Debug.Log(other.transform.gameObject.name + "과 충돌 ! ");
+                        TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
+                        takeDamageEffect.physicalDamage = physicalDamage;
+                        takeDamageEffect.fireDamage = fireDamage;
+                        takeDamageEffect.poiseDamage = poiseDamage;
+                        takeDamageEffect.contactPoint = contactPoint;
+                        takeDamageEffect.angleHitFrom = angleHitFrom;
+                        spellTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+                    }
                 }
 
                 hasCollided = true;
+                GameObject checkLocation = Instantiate(impactParticles, transform.position, Quaternion.identity);
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전
 
                 Destroy(projectileParticles);

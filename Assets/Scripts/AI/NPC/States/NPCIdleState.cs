@@ -16,9 +16,9 @@ namespace SoulsLike {
             npcManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
 
             for (int i = 0; i < colliders.Length; i++) {
-                CharacterStatsManager character = colliders[i].transform.GetComponent<CharacterStatsManager>();
-                if (character != null && !character.isDead) {
-                    teamCode = character.teamIDNumber;
+                CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
+                if (character != null && !character.characterStatsManager.isDead) {
+                    teamCode = character.characterStatsManager.teamIDNumber;
 
                     if (teamCode == 1 && npcManager.aggravationToEnemy >= 30) {
                         npcManager.currentHostile |= LayerMask.GetMask("Character");

@@ -16,8 +16,7 @@ namespace SoulsLike {
         public NavMeshAgent navMeshAgent;
 
         // 적대 상태가 됐을시 필요
-        public List<CharacterStatsManager> targets = new List<CharacterStatsManager>();
-        public CharacterStatsManager currentTarget;
+        public List<CharacterManager> targets = new List<CharacterManager>();
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 3f;
         public float attackDistance = 1.5f;
@@ -51,7 +50,7 @@ namespace SoulsLike {
         }
 
         private void Start() {
-            npcRigidbody.isKinematic = false;
+            //npcRigidbody.isKinematic = false;
         }
 
         protected override void Update() {

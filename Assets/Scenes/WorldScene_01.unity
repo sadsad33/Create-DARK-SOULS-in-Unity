@@ -49814,7 +49814,7 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   verticalMovement: 0
   horizontalMovement: 0
   movementAmount: 0
@@ -49823,9 +49823,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -7
   gravityForce: -25
-  groundCheckSphereRadius: 0
-  characterColliderBlocker: {fileID: 0}
-  npcCharacterCollider: {fileID: 0}
+  groundCheckSphereRadius: 0.2
 --- !u!114 &4086121375643061412
 MonoBehaviour:
   m_ObjectHideFlags: 0

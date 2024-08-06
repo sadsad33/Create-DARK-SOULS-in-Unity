@@ -10,6 +10,7 @@ namespace SoulsLike {
         public WeaponItem unarmedWeapon;
         public List<Item> allItems = new List<Item>();
         public List<WeaponItem> weaponItems = new List<WeaponItem>();
+        public List<SpellItem> spellItems = new List<SpellItem>();
         public List<EquipmentItem> equipmentItems = new List<EquipmentItem>();
         public List<RingItem> ringItems = new List<RingItem>();
 
@@ -27,6 +28,10 @@ namespace SoulsLike {
             }
 
             foreach (var item in ringItems) {
+                allItems.Add(item);
+            }
+
+            foreach (var item in spellItems) {
                 allItems.Add(item);
             }
 
@@ -49,6 +54,10 @@ namespace SoulsLike {
 
         public RingItem GetRingItemByID(int ringID) {
             return ringItems.FirstOrDefault(ring => ring.itemID == ringID);
+        }
+
+        public SpellItem GetSpellItemByID(int spellID) {
+            return spellItems.FirstOrDefault(spell => spell.itemID == spellID);
         }
     }
 }
