@@ -20,13 +20,17 @@ namespace SoulsLike {
         [TextArea]
         public string spellDescription;
 
-        public virtual void AttemptToCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager) {
-            Debug.Log("�ֹ� ��â �õ�");
+        public virtual void AttemptToCastSpell(CharacterManager character) {
+            //Debug.Log("주문 영창 시도");
         }
 
-        public virtual void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, CameraHandler cameraHandler, PlayerWeaponSlotManager weaponSlotManager) {
-            Debug.Log("�ֹ� ��â ����");
-            playerStats.DeductFocus(focusCost);
+        public virtual void SuccessfullyCastSpell(CharacterManager character) {
+            //Debug.Log("주문 영창 성공");
+
+            // 주문을 사용한게 플레이어라면 집중력 소모
+            PlayerManager player = character.transform.GetComponent<PlayerManager>();
+            if (player != null)
+                player.playerStatsManager.DeductFocus(focusCost);
         }
     }
 }

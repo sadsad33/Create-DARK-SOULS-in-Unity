@@ -174,7 +174,7 @@ namespace SoulsLike {
             EnemyManager enemy = character as EnemyManager;
 
             if (enemy != null && characterCausingDamage != null) {
-                enemy.currentTarget = characterCausingDamage.characterStatsManager;
+                enemy.currentTarget = characterCausingDamage;
             }
         }
     }

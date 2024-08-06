@@ -9,7 +9,6 @@ namespace SoulsLike {
         EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
         public State currentState;
-        public CharacterStatsManager currentTarget;
         public NavMeshAgent navMeshAgent;
 
         public float rotationSpeed = 15;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class CharacterLocomotionManager : MonoBehaviour {
-        CharacterManager character;
+        [SerializeField] protected CharacterManager character;
 
         public Vector3 moveDirection;
         public LayerMask groundLayer;

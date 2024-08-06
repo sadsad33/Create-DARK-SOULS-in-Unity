@@ -7,18 +7,18 @@ namespace SoulsLike {
     public class HealingSpell : SpellItem {
         public float healAmount;
 
-        public override void AttemptToCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager) {
-            base.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
-            Instantiate(spellWarmUpFX, animatorHandler.transform);
-            animatorHandler.PlayTargetAnimation(spellAnimation, true);
-            Debug.Log("øµ√¢ ¡ﬂ..");
+        public override void AttemptToCastSpell(CharacterManager character) {
+            base.AttemptToCastSpell(character);
+            Instantiate(spellWarmUpFX, character.characterAnimatorManager.transform);
+            character.characterAnimatorManager.PlayTargetAnimation(spellAnimation, true);
+            Debug.Log("ÏòÅÏ∞Ω Ï§ë..");
         }
 
-        public override void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, CameraHandler cameraHandler, PlayerWeaponSlotManager weaponSlotManager) {
-            base.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
-            Instantiate(spellCastFX, animatorHandler.transform);
-            playerStats.HealPlayer(healAmount);
-            Debug.Log("Ω√¿¸!!");
+        public override void SuccessfullyCastSpell(CharacterManager character) {
+            base.SuccessfullyCastSpell(character);
+            Instantiate(spellCastFX, character.characterAnimatorManager.transform);
+            character.characterStatsManager.HealPlayer(healAmount);
+            Debug.Log("ÏãúÏ†Ñ!!");
         }
     }
 }

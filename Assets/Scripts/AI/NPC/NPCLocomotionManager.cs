@@ -4,12 +4,18 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class NPCLocomotionManager : CharacterLocomotionManager {
-        //public CapsuleCollider characterColliderBlocker;
-        //public CapsuleCollider npcCharacterCollider;
+        NPCManager npc;
 
+        protected override void Awake() {
+            base.Awake();
+            npc = GetComponent<NPCManager>();
+        }
         protected override void Start() {
             base.Start();
-            //Physics.IgnoreCollision(npcCharacterCollider, characterColliderBlocker, true);
+        }
+
+        protected override void Update() {
+            base.Update();
         }
     }
 }

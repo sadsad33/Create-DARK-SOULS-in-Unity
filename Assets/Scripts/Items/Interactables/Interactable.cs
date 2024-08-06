@@ -18,9 +18,9 @@ namespace SoulsLike {
         protected virtual void Start() {
         }
 
-        // ´Ù¸¥ Å¬·¡½º¿¡¼­ »ç¿ëÇÒ¶§ overrideÇØ¼­ »ç¿ëÇÒ ¼ö ÀÖµµ·Ï virtual ÇüÀ¸·Î ¸¸µç´Ù.
+        // ë‹¤ë¥¸ í´ë˜ìŠ¤ì—ì„œ ì‚¬ìš©í• ë•Œ overrideí•´ì„œ ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ virtual í˜•ìœ¼ë¡œ ë§Œë“ ë‹¤.
         public virtual void Interact(PlayerManager playerManager) {
-            Debug.Log("You interacted with an object");
+            //Debug.Log("You interacted with an object");
         }
     }
 }

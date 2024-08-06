@@ -56,5 +56,69 @@ namespace SoulsLike {
             }
             player.playerEquipmentManager.EquipAllEquipmentModels();
         }
+
+        [ServerRpc]
+        public void NotifyServerOfReleaseProjectileServerRpc(ulong clientID,
+            int projectileID,
+            float xPosition,
+            float yPosition,
+            float zPosition,
+            float yCharacterRotation,
+            float playerLookAngle) {
+            if (IsServer) {
+                NotifyServerOfReleaseProjectileClientRpc(clientID, projectileID, xPosition, yPosition, zPosition, yCharacterRotation, playerLookAngle);
+            }
+        }
+
+        [ClientRpc]
+        public void NotifyServerOfReleaseProjectileClientRpc(ulong clientID,
+            int projectileID,
+            float xPosition,
+            float yPosition,
+            float zPosition,
+            float yCharacterRotation,
+            float playerLookAngle) {
+            if (clientID != NetworkManager.Singleton.LocalClientId) {
+                PerformReleaseProjectile(clientID, projectileID, xPosition, yPosition, zPosition, yCharacterRotation, playerLookAngle);
+            }
+        }
+
+        public virtual void PerformReleaseProjectile(ulong clientID,
+            int projectileID,
+            float xPosition,
+            float yPosition,
+            float zPosition,
+            float yCharacterRotation,
+            float playerLookAngle) {
+
+            // Instantiate the projectile
+            //Transform projectileInstantiationLocation;
+            //projectileInstantiationLocation = player.playerWeaponSlotManager.rightHandSlot.transform;
+
+            //Animator bowAnimator;
+            //bowAnimator = player.playerWeaponSlotManager.rightHandSlot.GetComponentInChildren<Animator>();
+            //bowAnimator.SetBool("isDrawn", false);
+            //bowAnimator.Play("Bow_TH_Fire_01");
+            //Destroy(player.characterEffectsManager.instantiatedFXModel);
+
+            GameObject instantiatedSpellFX = Instantiate(WorldItemDatabase.instance.GetSpellItemByID(projectileID).spellCastFX, player.playerWeaponSlotManager.rightHandSlot.transform.position, player.cameraHandler.cameraPivotTransform.rotation);
+            Rigidbody rigidbody = instantiatedSpellFX.GetComponent<Rigidbody>();
+            SpellDamageCollider spellDamageCollider = instantiatedSpellFX.GetComponent<SpellDamageCollider>();
+            spellDamageCollider.characterSpelledThis = player;
+            spellDamageCollider.teamIDNumber = player.playerStatsManager.teamIDNumber; // 피아식별을 위한 팀ID 설정
+
+            if (player.currentTarget != null) {
+                Quaternion flameRotation = Quaternion.LookRotation(player.currentTarget.lockOnTransform.position - instantiatedSpellFX.gameObject.transform.position);
+                instantiatedSpellFX.transform.rotation = flameRotation;
+            } else {
+                instantiatedSpellFX.transform.rotation = Quaternion.Euler(playerLookAngle, yCharacterRotation, 0);
+            }
+            ProjectileSpell projectile = WorldItemDatabase.instance.GetSpellItemByID(projectileID) as ProjectileSpell;
+            rigidbody.AddForce(instantiatedSpellFX.transform.forward * projectile.projectileForwardVelocity);
+            rigidbody.AddForce(instantiatedSpellFX.transform.up * projectile.projectileUpwardVelocity);
+            rigidbody.useGravity = projectile.isEffectedByGravity;
+            rigidbody.mass = projectile.projectileMass;
+            instantiatedSpellFX.transform.parent = null;
+        }
     }
 }

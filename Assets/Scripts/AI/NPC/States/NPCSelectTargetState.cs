@@ -11,13 +11,13 @@ namespace SoulsLike {
             if (npcManager.currentTarget == null) {
                 if (npcManager.targets.Count <= 0) return npcIdleState;
 
-                // ÇöÀç ÁÖº¯ Àû´ë °ü°è ¿ÀºêÁ§Æ®µé°úÀÇ °Å¸®¸¦ ±¸ÇÔ
-                // ÃÖ¼Ò °Å¸®¿¡ ÀÖ´Â ¿ÀºêÁ§Æ®¸¦ ¸ñÇ¥·Î ¼³Á¤
+                // í˜„ìž¬ ì£¼ë³€ ì ëŒ€ ê´€ê³„ ì˜¤ë¸Œì íŠ¸ë“¤ê³¼ì˜ ê±°ë¦¬ë¥¼ êµ¬í•¨
+                // ìµœì†Œ ê±°ë¦¬ì— ìžˆëŠ” ì˜¤ë¸Œì íŠ¸ë¥¼ ëª©í‘œë¡œ ì„¤ì •
                 float shortestPath = Mathf.Infinity;
                 for (int i = 0; i < npcManager.targets.Count; i++) {
-                    CharacterStatsManager character = npcManager.targets[i].transform.GetComponent<CharacterStatsManager>();
+                    CharacterManager character = npcManager.targets[i];
                     if (character != null) {
-                        if (character.isDead) continue;
+                        if (character.characterStatsManager.isDead) continue;
 
                         float distance = Vector3.Distance(npcManager.transform.position, character.transform.position);
                         if (distance < shortestPath) {
@@ -28,7 +28,7 @@ namespace SoulsLike {
                 }
             }
             if (npcManager.currentTarget != null) {
-                if (!npcManager.currentTarget.isDead) {
+                if (!npcManager.currentTarget.characterStatsManager.isDead) {
                     if (npcManager.changeTargetTimer <= 0) npcManager.changeTargetTimer = npcManager.changeTargetTime;
                     return npcPursueTargetState;
                 } else {

@@ -125,7 +125,7 @@ namespace SoulsLike {
                         transform.rotation = targetRotation;
                     } else {
                         Vector3 rotationDirection = moveDirection;
-                        rotationDirection = player.cameraHandler.currentLockOnTarget.transform.position - transform.position;
+                        rotationDirection = player.currentTarget.transform.position - transform.position;
                         rotationDirection.y = 0;
                         rotationDirection.Normalize();
                         Quaternion tr = Quaternion.LookRotation(rotationDirection);

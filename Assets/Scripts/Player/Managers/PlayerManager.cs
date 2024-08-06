@@ -6,7 +6,7 @@ using Unity.Netcode;
 
 namespace SoulsLike {
     public class PlayerManager : CharacterManager {
-        
+
         [Header("Input")]
         public InputHandler inputHandler;
 
@@ -98,6 +98,8 @@ namespace SoulsLike {
             playerNetworkManager.currentTorsoEquipmentID.OnValueChanged += playerNetworkManager.OnTorsoEquipmentChange;
             playerNetworkManager.currentGuntletEquipmentID.OnValueChanged += playerNetworkManager.OnGuntletEquipmentChange;
             playerNetworkManager.currentLegEquipmentID.OnValueChanged += playerNetworkManager.OnLegEquipmentChange;
+
+            playerNetworkManager.currentTargetID.OnValueChanged += playerNetworkManager.OnTargetIDChanged;
         }
 
         protected override void Update() {

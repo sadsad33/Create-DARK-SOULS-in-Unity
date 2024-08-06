@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace SoulsLike {
     public class InputHandler : MonoBehaviour {
@@ -219,7 +220,8 @@ namespace SoulsLike {
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.nearestLockOnTarget != null) {
                     // 록온 대상 설정
-                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                    player.currentTarget = cameraHandler.nearestLockOnTarget;
+                    player.playerNetworkManager.currentTargetID.Value = player.currentTarget.GetComponent<NetworkObject>().NetworkObjectId;
                     player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 }
             }
@@ -234,7 +236,8 @@ namespace SoulsLike {
                 right_Stick_Left_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.leftLockTarget != null) {
-                    cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
+                    player.currentTarget = cameraHandler.leftLockTarget;
+                    player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 }
             }
 
@@ -242,7 +245,8 @@ namespace SoulsLike {
                 right_Stick_Right_Input = false;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.rightLockTarget != null) {
-                    cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
+                    player.currentTarget = cameraHandler.rightLockTarget;
+                    player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 }
             }
 
