@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 namespace SoulsLike {
-    public class EnemyManager : CharacterManager {
+    public class AICharacterManager : CharacterManager {
         
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyStatsManager enemyStatsManager;
@@ -13,6 +13,9 @@ namespace SoulsLike {
 
         public float rotationSpeed = 15;
         public float maximumAggroRadius = 1.5f; // 공격 가능 사거리
+
+        [Header("AI Character ID")]
+        public int aiCharacterID;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;

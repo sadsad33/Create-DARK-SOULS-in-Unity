@@ -7,7 +7,7 @@ namespace SoulsLike {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
         public DeadState deadState;
-        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨
@@ -31,7 +31,7 @@ namespace SoulsLike {
         }
 
         // 목표 방향으로 회전
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager) { // 회전 제어
+        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // 회전 제어
             //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity); // 월드 좌표계 -> 로컬 좌표계
             //Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
             //enemyManager.navMeshAgent.enabled = true;

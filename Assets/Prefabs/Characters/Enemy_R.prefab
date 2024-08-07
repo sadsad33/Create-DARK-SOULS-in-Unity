@@ -630,7 +630,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307058f48fb8a9448b4494f3e2b3509f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  slider: {fileID: 0}
+  yellowBar: {fileID: 0}
+  yellowBarTimer: 2
+  damageText: {fileID: 0}
+  currentDamageTaken: 0
 --- !u!1 &1438136247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,12 +1191,13 @@ GameObject:
   - component: {fileID: 1247414621750747084}
   - component: {fileID: 1876851044213949390}
   - component: {fileID: 1876851044213949387}
-  - component: {fileID: 2674730931720195349}
-  - component: {fileID: 1735633484}
   - component: {fileID: 1735633489}
   - component: {fileID: 2674730931720195348}
   - component: {fileID: 2674730931720195355}
   - component: {fileID: 2674730931720195354}
+  - component: {fileID: -2609282140648248177}
+  - component: {fileID: 57579907318054234}
+  - component: {fileID: 7653150784955993919}
   m_Layer: 9
   m_Name: Enemy_R
   m_TagString: Character
@@ -1287,7 +1292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e13273d7fbe9a54aa7795df635a921f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   canRotate: 0
   leftHandConstraint: {fileID: 6389220528036698311}
   rightHandConstraint: {fileID: 6389220526764800313}
@@ -1313,101 +1317,6 @@ MonoBehaviour:
   attackingWeapon: {fileID: 0}
   rightHandIKTarget: {fileID: 0}
   leftHandIKTarget: {fileID: 0}
---- !u!114 &2674730931720195349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247414621750747090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3ed6b924acef144097847a59bee8a07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamIDNumber: 1
-  soulsAwardedOnDeath: 0
-  healthLevel: 10
-  maxHealth: 0
-  currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
-  focusLevel: 10
-  maxFocus: 0
-  currentFocus: 0
-  soulCount: 0
-  isBoss: 0
-  totalPoiseDefense: 0
-  offensivePoiseBonus: 0
-  armorPoiseBonus: 40
-  totalPoiseResetTime: 3
-  poiseResetTimer: 0
-  isStuned: 0
-  physicalDamageAbsorptionHead: 0
-  physicalDamageAbsorptionBody: 0
-  physicalDamageAbsorptionLegs: 0
-  physicalDamageAbsorptionHands: 0
-  totalPhysicalDamageAbsorption: 0
-  fireDamageAbsorptionHead: 0
-  fireDamageAbsorptionBody: 0
-  fireDamageAbsorptionLegs: 0
-  fireDamageAbsorptionHands: 0
-  totalFireDamageAbsorption: 0
-  isDead: 0
-  enemyLocomotionManager: {fileID: 0}
-  enemyHealthBar: {fileID: 1360540455}
-  worldEventManager: {fileID: 0}
---- !u!114 &1735633484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247414621750747090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9236ad839a2af418234fdcfc9cbad4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterWeaponSlotManager: {fileID: 0}
-  lockOnTransform: {fileID: 1284610322}
-  backStabCollider: {fileID: 4436255635506644370}
-  riposteCollider: {fileID: 4436255637133151643}
-  canTalk: 0
-  isInteracting: 0
-  canBeRiposted: 0
-  canBeParried: 0
-  isParrying: 0
-  isBlocking: 0
-  isInvulnerable: 0
-  canDoCombo: 0
-  isUsingRightHand: 0
-  isUsingLeftHand: 0
-  isGrabbed: 0
-  isRotatingWithRootMotion: 0
-  canRotate: 0
-  isSprinting: 0
-  isInAir: 0
-  isGrounded: 0
-  isTwoHandingWeapon: 0
-  isClimbing: 0
-  isMoving: 0
-  isFiringSpell: 0
-  pendingCriticalDamage: 0
-  currentState: {fileID: 634820070}
-  currentTarget: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  enemyRigidbody: {fileID: 0}
-  rotationSpeed: 15
-  maximumAggroRadius: 2
-  detectionRadius: 10
-  maximumDetectionAngle: 50
-  minimumDetectionAngle: -50
-  currentRecoveryTime: 0
-  allowAIToPerformCombos: 1
-  isPhaseShifting: 0
-  comboLikelyHood: 50
 --- !u!114 &1735633489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,11 +1329,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d3e019774199448a540bbafd9bb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionLayer:
+  character: {fileID: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
+  groundLayer:
     serializedVersion: 2
     m_Bits: 0
-  characterCollider: {fileID: 1247414621750747087}
-  characterColliderBlocker: {fileID: 1840872852}
+  verticalMovement: 0
+  horizontalMovement: 0
+  movementAmount: 0
+  inAirTimer: 0
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: 0
+  fallStartYVelocity: 0
+  gravityForce: 0
+  groundCheckSphereRadius: 0
 --- !u!114 &2674730931720195348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,18 +1355,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab93e3ab23f8a63499317d9481939fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightWeaponFX: {fileID: 0}
-  leftWeaponFX: {fileID: 0}
+  instantiatedFXModel: {fileID: 0}
+  staticCharacterEffects: []
+  timedEffects: []
+  effectTickTimer: 0
+  timedEffectParticles: []
+  rightWeaponManager: {fileID: 0}
+  leftWeaponManager: {fileID: 0}
   bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
-  defaultPoisonedParticleFX: {fileID: 6036021610362047377, guid: c59dddb4847201d4bbc6dfdf30c1748d, type: 3}
-  currentPoisonedParticleFX: {fileID: 0}
+  rightWeaponBuffEffect: {fileID: 0}
   buildUpTransform: {fileID: 0}
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  defaultPoisonAmount: 0
-  poisonDamage: 0
-  poisonTimer: 2
 --- !u!114 &2674730931720195355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,6 +1403,10 @@ MonoBehaviour:
   currentTorsoEquipment: {fileID: 0}
   currentLegEquipment: {fileID: 0}
   currentGuntletEquipment: {fileID: 0}
+  ringSlot01: {fileID: 0}
+  ringSlot02: {fileID: 0}
+  ringSlot03: {fileID: 0}
+  ringSlot04: {fileID: 0}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   currentSpellIndex: 0
@@ -1507,6 +1427,129 @@ MonoBehaviour:
   - m_Rig: {fileID: 6389220527414114765}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &-2609282140648248177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &57579907318054234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d09ca41fb774943ac328fc58f05174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
+  animator: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterWeaponSlotManager: {fileID: 0}
+  characterStatsManager: {fileID: 0}
+  characterInventoryManager: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
+  characterSoundEffectsManager: {fileID: 0}
+  lockOnTransform: {fileID: 0}
+  backStabCollider: {fileID: 0}
+  riposteCollider: {fileID: 0}
+  canTalk: 0
+  isInteracting: 0
+  canBeRiposted: 0
+  canBeParried: 0
+  isParrying: 0
+  isInvulnerable: 0
+  canDoCombo: 0
+  isGrabbed: 0
+  currentTarget: {fileID: 0}
+  isRotatingWithRootMotion: 0
+  canRotate: 0
+  isGrounded: 0
+  isClimbing: 0
+  isMoving: 0
+  isFiringSpell: 0
+  pendingCriticalDamage: 0
+  currentState: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  rotationSpeed: 15
+  maximumAggroRadius: 1.5
+  aiCharacterID: 0
+  detectionRadius: 20
+  maximumDetectionAngle: 50
+  minimumDetectionAngle: -50
+  currentRecoveryTime: 0
+  allowAIToPerformCombos: 0
+  isPhaseShifting: 0
+  comboLikelyHood: 0
+--- !u!114 &7653150784955993919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15795b634edef2549b3568c4909c6080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
+  teamIDNumber: 0
+  soulsAwardedOnDeath: 0
+  healthLevel: 10
+  maxHealth: 0
+  currentHealth: 0
+  staminaLevel: 10
+  maxStamina: 0
+  currentStamina: 0
+  focusLevel: 10
+  maxFocus: 0
+  currentFocus: 0
+  blockingStabilityRating: 0
+  soulCount: 0
+  isBoss: 0
+  totalPoiseDefense: 0
+  offensivePoiseBonus: 0
+  armorPoiseBonus: 0
+  totalPoiseResetTime: 0
+  poiseResetTimer: 0
+  isStuned: 0
+  physicalDamageAbsorptionHead: 0
+  physicalDamageAbsorptionBody: 0
+  physicalDamageAbsorptionLegs: 0
+  physicalDamageAbsorptionHands: 0
+  totalPhysicalDamageDefenseRate: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
+  totalFireDamageDefenseRate: 0
+  poisonResistance: 0
+  isDead: 0
+  physicalDamagePercentageModifier: 100
+  fireDamagePercentageModifier: 100
+  physicalAbsorptionPercentageModifier: 0
+  fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
+  enemyLocomotionManager: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  worldEventManager: {fileID: 0}
 --- !u!1 &1253894068147768686
 GameObject:
   m_ObjectHideFlags: 0

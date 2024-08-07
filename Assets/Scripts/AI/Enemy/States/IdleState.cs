@@ -7,7 +7,7 @@ namespace SoulsLike {
         public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
         public DeadState deadState;
-        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             // 목표 탐색
             // 목표 탐색에 성공하면 Pursue Target State가 됨

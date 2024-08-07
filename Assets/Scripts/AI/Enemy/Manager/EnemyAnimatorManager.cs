@@ -6,10 +6,10 @@ namespace SoulsLike {
     public class EnemyAnimatorManager : CharacterAnimatorManager {
         BossManager bossManager;
         //EnemyEffectsManager enemyEffectsManager;
-        EnemyManager enemyManager;
+        AICharacterManager enemyManager;
         protected override void Awake() {
             base.Awake();
-            enemyManager = GetComponent<EnemyManager>();
+            enemyManager = GetComponent<AICharacterManager>();
             enemyManager.animator = GetComponent<Animator>();
             //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             bossManager = GetComponent<BossManager>();

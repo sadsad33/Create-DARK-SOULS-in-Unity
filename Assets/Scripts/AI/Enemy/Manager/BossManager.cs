@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class BossManager : EnemyManager {
+    public class BossManager : AICharacterManager {
         BossHealthBar bossHealthBar;
         public string bossName;
         EnemyStatsManager enemyStats;

@@ -13,7 +13,7 @@ namespace SoulsLike {
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             enemyManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // 앞,뒤 이동
@@ -50,7 +50,7 @@ namespace SoulsLike {
         }
 
         // 목표 방향으로 회전
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager) { // 회전 제어
+        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // 회전 제어
             //Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
             //enemyManager.navMeshAgent.enabled = true;
             //enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
@@ -91,7 +91,7 @@ namespace SoulsLike {
         // 공격 선택
         // 거리, 각도 판단
         // 각 공격들의 점수를 설정할때, 어떤 상황에라도 가능한 공격일수록 높은 점수로 설정하는 것이 좋을듯
-        protected virtual void GetNewAttack(EnemyManager enemyManager) {
+        protected virtual void GetNewAttack(AICharacterManager enemyManager) {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);

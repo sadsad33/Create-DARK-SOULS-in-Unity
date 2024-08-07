@@ -14,7 +14,7 @@ namespace SoulsLike {
         bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false; // 공격 수행 여부
 
-        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             RotateTowardsTargetWhileAttacking(enemyManager); // 공격 도중 일부 구간에서 회전 가능
@@ -43,7 +43,7 @@ namespace SoulsLike {
         }
 
         // 공격 수행
-        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
+        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //enemyAnimatorManager.PlayWeaponTrailFX();
             //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
@@ -61,7 +61,7 @@ namespace SoulsLike {
             }
         }
 
-        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager) {
+        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
             willDoComboOnNextAttack = false;
             //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             //enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
@@ -73,7 +73,7 @@ namespace SoulsLike {
             currentAttack = null;
         }
 
-        private void RotateTowardsTargetWhileAttacking(EnemyManager enemyManager) {
+        private void RotateTowardsTargetWhileAttacking(AICharacterManager enemyManager) {
             //if (enemyManager.isInteracting) return;
 
             // 공격 모션도중 회전이 가능한 구간이 있음
@@ -93,7 +93,7 @@ namespace SoulsLike {
 
 
         // 콤보 공격을 위한 시행
-        private void RollForComboChance(EnemyManager enemyManager) {
+        private void RollForComboChance(AICharacterManager enemyManager) {
             float comboChance = Random.Range(0, 100);
             
             if (enemyManager.allowAIToPerformCombos && comboChance <= enemyManager.comboLikelyHood) {
