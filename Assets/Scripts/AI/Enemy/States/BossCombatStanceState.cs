@@ -8,7 +8,7 @@ namespace SoulsLike {
         public bool hasPhaseShifted; // 페이즈 전환 여부를 저장할 변수
         public EnemyAttackActions[] secondPhaseEnemyAttacks; // 2페이즈 진입시 사용될 공격 목록
 
-        protected override void GetNewAttack(EnemyManager enemyManager) {
+        protected override void GetNewAttack(AICharacterManager enemyManager) {
             if (hasPhaseShifted) {
 
                 Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;

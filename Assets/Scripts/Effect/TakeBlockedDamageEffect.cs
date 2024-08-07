@@ -124,7 +124,7 @@ namespace SoulsLike {
             }
         }
         private void AssignNewAITarget(CharacterManager character) {
-            EnemyManager enemy = character as EnemyManager;
+            AICharacterManager enemy = character as AICharacterManager;
 
             if (enemy != null && characterCausingDamage != null) {
                 enemy.currentTarget = characterCausingDamage;
