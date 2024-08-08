@@ -76,7 +76,7 @@ namespace SoulsLike {
             float finalDamage = physicalDamage + fireDamage;
             finalDamage = 0;
             character.characterStatsManager.currentHealth -= finalDamage;
-
+            if (character.IsOwner) UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
             if (character.characterStatsManager.currentHealth <= 0) {
                 character.characterStatsManager.currentHealth = 0;
                 character.characterStatsManager.isDead = true;
@@ -87,6 +87,7 @@ namespace SoulsLike {
             float staminaDamageAbsorption = staminaDamage * (character.characterStatsManager.blockingStabilityRating / 100);
             float staminaDamageAfterAbsorption = staminaDamage - staminaDamageAbsorption;
             character.characterStatsManager.currentStamina -= staminaDamageAfterAbsorption;
+            if (character.IsOwner) UIManager.instance.staminaBar.SetCurrentStamina(character.characterStatsManager.currentStamina);
         }
 
         private void DecideBlockAnimationBasedOnPoiseDamage(CharacterManager character) {

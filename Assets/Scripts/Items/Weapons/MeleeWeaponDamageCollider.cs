@@ -9,6 +9,11 @@ namespace SoulsLike {
         public float fireBuffDamage;
         public float poiseBuffDamage;
 
+        protected override void Start() {
+            for (int i = 0; i < characterCausingDamage.characterColliders.Length; i++) {
+                Physics.IgnoreCollision(damageCollider, characterCausingDamage.characterColliders[i]);
+            }
+        }
         protected override void DealDamage(CharacterManager damageTarget) {
             float finalPhysicalDamage = physicalDamage + physicalBuffDamage;
             float finalFireDamage = fireDamage + fireBuffDamage;
@@ -29,17 +34,17 @@ namespace SoulsLike {
             }
 
             // 이 클라이언트가 데미지를 입혔다면
-            if (characterCausingDamage.IsOwner) {
-                // 데미지를 받는쪽에서 서버RPC 호출
-                damageTarget.characterNetworkManager.NotifyServerOfCharacterDamageServerRpc(damageTarget.NetworkObjectId, 
-                    takeDamageEffect.physicalDamage, 
-                    takeDamageEffect.fireDamage, 
-                    takeDamageEffect.poiseDamage,
-                    takeDamageEffect.contactPoint.x,
-                    takeDamageEffect.contactPoint.y,
-                    takeDamageEffect.contactPoint.z,
-                    characterCausingDamage.NetworkObjectId);
-            }
+            //if (characterCausingDamage.IsOwner) {
+            // 데미지를 받는쪽에서 서버RPC 호출
+            damageTarget.characterNetworkManager.NotifyServerOfCharacterDamageServerRpc(damageTarget.NetworkObjectId,
+                takeDamageEffect.physicalDamage,
+                takeDamageEffect.fireDamage,
+                takeDamageEffect.poiseDamage,
+                takeDamageEffect.contactPoint.x,
+                takeDamageEffect.contactPoint.y,
+                takeDamageEffect.contactPoint.z,
+                characterCausingDamage.NetworkObjectId);
+            //}
         }
 
         protected override void CheckForBlock(CharacterManager damageTarget, BlockingCollider shield, CharacterStatsManager enemyStats) {

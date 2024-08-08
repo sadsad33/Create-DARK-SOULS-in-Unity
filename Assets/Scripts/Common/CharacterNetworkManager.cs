@@ -122,23 +122,10 @@ namespace SoulsLike {
             if (IsServer) {
                 ProcessDamageForCharacterAcrossAllClientRpc(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, characterCausingDamageID);
             }
-        
         }
 
         [ClientRpc]
         private void ProcessDamageForCharacterAcrossAllClientRpc(ulong damagedCharacterID,
-            float physicalDamage,
-            float fireDamage,
-            float poiseDamage,
-            float contactPointX,
-            float contactPointY,
-            float contactPointZ,
-            ulong characterCausingDamageID) {
-
-            ProcessCharacterDamage(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, characterCausingDamageID);
-        }
-
-        private void ProcessCharacterDamage(ulong damagedCharacterID,
             float physicalDamage,
             float fireDamage,
             float poiseDamage,
@@ -152,16 +139,13 @@ namespace SoulsLike {
             takeDamageEffect.fireDamage = fireDamage;
             takeDamageEffect.poiseDamage = poiseDamage;
             takeDamageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
-            
+
             //공격한 오브젝트와 공격당한 오브젝트를 구분할때 클라이언트ID 를 사용하지 않는 이유는 AI 캐릭터는 클라이언트 ID를 갖지 않기 때문
             takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();
             CharacterManager damageTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
-
             if (damageTarget.isInvulnerable) return;
-
             damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
         }
-
 
         [ServerRpc(RequireOwnership = false)]
         public virtual void NotifyServerOfCharacterBlockedDamageServerRpc(ulong damagedCharacterID,

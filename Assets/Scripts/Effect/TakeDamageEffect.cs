@@ -47,7 +47,6 @@ namespace SoulsLike {
             PlayBloodSplatter(character);
             // 만약 캐릭터가 AI라면, AI에게 현재 타겟을 공격한 캐릭터로 설정
             AssignNewAITarget(character);
-
         }
 
         private void CalculateDamage(CharacterManager character) {
@@ -80,7 +79,7 @@ namespace SoulsLike {
             float finalDamage = physicalDamage + fireDamage;
             Debug.Log("Final Damage : " + finalDamage);
             character.characterStatsManager.currentHealth -= finalDamage;
-
+            if (character.IsOwner) UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
             if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
                 poiseIsBroken = true;
             }

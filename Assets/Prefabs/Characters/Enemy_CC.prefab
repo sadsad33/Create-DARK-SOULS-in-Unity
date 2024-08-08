@@ -1107,7 +1107,7 @@ MonoBehaviour:
   characterEffectsManager: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   characterSoundEffectsManager: {fileID: 0}
-  lockOnTransform: {fileID: 0}
+  lockOnTransform: {fileID: 1284610322}
   backStabCollider: {fileID: 4436255635506644370}
   riposteCollider: {fileID: 4436255637133151643}
   canTalk: 0
@@ -1151,7 +1151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousPoiseDamageTaken: 0
-  teamIDNumber: 0
+  teamIDNumber: 1
   soulsAwardedOnDeath: 0
   healthLevel: 10
   maxHealth: 0
