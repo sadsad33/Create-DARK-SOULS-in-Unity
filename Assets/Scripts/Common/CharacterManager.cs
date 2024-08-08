@@ -48,7 +48,7 @@ namespace SoulsLike {
 
         // 데미지는 애니메이션 이벤트로 가해질 것
         public float pendingCriticalDamage;
-
+        public Collider[] characterColliders;
         protected virtual void Awake() {
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();

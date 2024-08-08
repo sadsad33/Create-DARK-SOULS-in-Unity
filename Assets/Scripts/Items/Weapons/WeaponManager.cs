@@ -15,7 +15,7 @@ namespace SoulsLike {
         private bool weaponIsBuffed; // 현재 무기가 버프된 상태인지
         private BuffType weaponBuffType; // 어떤 타입의 버프를 받았는지
 
-        [HideInInspector] public MeleeWeaponDamageCollider damageCollider;
+        public MeleeWeaponDamageCollider damageCollider;
         public AudioSource audioSource; // 버프 적용중 재생되는 소리
 
         private void Awake() {

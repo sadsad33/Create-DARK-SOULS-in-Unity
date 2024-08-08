@@ -8341,6 +8341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d66cc0f284a3ef40a493b10b7f3dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
@@ -8450,6 +8451,7 @@ MonoBehaviour:
   isInvulnerable: 0
   canDoCombo: 0
   isGrabbed: 0
+  currentTarget: {fileID: 0}
   isRotatingWithRootMotion: 0
   canRotate: 0
   isGrounded: 0
@@ -8457,6 +8459,13 @@ MonoBehaviour:
   isMoving: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
+  characterColliders:
+  - {fileID: -2231115656020088457}
+  - {fileID: 1974401910}
+  - {fileID: 229186707484642023}
+  - {fileID: 3417426344457492007}
+  - {fileID: 134254329872594865}
+  - {fileID: 1664486849}
   inputHandler: {fileID: 0}
   cameraHandler: {fileID: 0}
   isJumping: 0
@@ -8561,6 +8570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastAttack: 
+  currentSpelledProjectile: {fileID: 0}
 --- !u!114 &6482744793811343853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8608,6 +8618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c2e201d470fbc47af6d49237e3c2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiatedFXModel: {fileID: 0}
   staticCharacterEffects:
   - {fileID: 0}
   - {fileID: 0}
@@ -8621,7 +8632,6 @@ MonoBehaviour:
   buildUpTransform: {fileID: 199501606}
   poisonAmountBar: {fileID: 0}
   currentParticleFX: {fileID: 0}
-  instantiatedFXModel: {fileID: 0}
   amountToBeHealed: 0
 --- !u!114 &6482744793811343847
 MonoBehaviour:
@@ -8709,6 +8719,8 @@ MonoBehaviour:
   horizontalNetworkMovement:
     m_InternalValue: 0
   moveAmountNetworkMovement:
+    m_InternalValue: 0
+  currentTargetID:
     m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0

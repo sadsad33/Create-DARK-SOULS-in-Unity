@@ -32,6 +32,7 @@ namespace SoulsLike {
         public PlayerEffectsManager playerEffectsManager;
         public PlayerLocomotionManager playerLocomotionManager;
         public PlayerInteractionManager playerInteractionManager;
+
         
         //[SerializeField]
         //InteractableUI interactableUI;
@@ -76,6 +77,7 @@ namespace SoulsLike {
                 foreach (var player in GameSessionManager.instance.players) {
                     if (player != this) {
                         player.LoadOtherPlayerCharacterWhenJoiningOnline(player);
+                        //player.playerStatsManager.teamIDNumber = 9;
                     }
                 }
             }

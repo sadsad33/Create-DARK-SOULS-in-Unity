@@ -11,12 +11,12 @@ namespace SoulsLike {
             slider = GetComponent<Slider>();
         }
 
-        public void SetMaxHealth(float maxHealth) { // ÃÖ´ë Ã¼·Â
+        public void SetMaxHealth(float maxHealth) { // ìµœëŒ€ ì²´ë ¥
             slider.maxValue = maxHealth;
             slider.value = maxHealth;
         }
 
-        public void SetCurrentHealth(float currentHealth) { // ÇöÀç Ã¼·Â
+        public void SetCurrentHealth(float currentHealth) { // í˜„ìž¬ ì²´ë ¥
             slider.value = currentHealth;
         }
     }

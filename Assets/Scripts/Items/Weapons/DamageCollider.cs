@@ -32,6 +32,11 @@ namespace SoulsLike {
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = enabledDamageColliderOnStartUp;
+            
+        }
+
+        protected virtual void Start() {
+            
         }
 
         public void EnableDamageCollider() {
@@ -43,48 +48,42 @@ namespace SoulsLike {
         }
 
         [Obsolete("캐릭터에게 데미지를 주는 부분을 추출해서 메서드로 만듬, 만약 NPC 관련해서 문제가 발생한다면 이곳 참조")]
-        private void OnTriggerEnter(Collider other) {
+        protected void OnTriggerEnter(Collider other) {
+            if (!characterCausingDamage.IsOwner) return;
             if (other.CompareTag("Character")) {
                 shieldHasBeenHit = false;
                 hasBeenParried = false;
                 CharacterManager damageTarget = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                
+                Debug.Log(damageTarget.characterStatsManager.isDead);
                 if (damageTarget.characterStatsManager.isDead) return;
-                
+                Debug.Log("passed DeathCheck");
                 if (damageTarget != null) {
-                    if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
-                    CheckForParry(damageTarget);
-                    CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
-                }
-                
-                if (damageTarget.characterStatsManager != null) {
-                    if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
-                   
-                    if (hasBeenParried) return;
-                    
-                    if (shieldHasBeenHit) return;
-                    
-                    damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
-                    damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
+                    if (damageTarget.characterStatsManager != null) {
+                        if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
+                        CheckForParry(damageTarget);
+                        CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
+                        if (hasBeenParried) return;
+                        if (shieldHasBeenHit) return;
+                        damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
+                        damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
 
-                    if (damageTarget.characterStatsManager.teamIDNumber == 0) {
-                        NPCManager npcManager = damageTarget.transform.GetComponent<NPCManager>();
-                        if (teamIDNumber == 1) {
-                            npcManager.aggravationToEnemy += 30;
-                        } else if (teamIDNumber == 2) {
-                            npcManager.aggravationToPlayer += 10;
+                        if (damageTarget.characterStatsManager.teamIDNumber == 0) {
+                            NPCManager npcManager = damageTarget.transform.GetComponent<NPCManager>();
+                            if (teamIDNumber == 1) {
+                                npcManager.aggravationToEnemy += 30;
+                            } else if (teamIDNumber == 2) {
+                                npcManager.aggravationToPlayer += 10;
+                            }
+                            if (npcManager.currentTarget != characterCausingDamage.transform.GetComponent<CharacterStatsManager>()) {
+                                npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
+                            }
                         }
-                        if (npcManager.currentTarget != characterCausingDamage.transform.GetComponent<CharacterStatsManager>()) {
-                            Debug.Log("타겟 설정 시간 감소");
-                            npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
-                        }
+
+                        contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                        angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up));
+                        DealDamage(damageTarget);
                     }
-
-                    // 타격 지점
-                    contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                    angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up));
-                    DealDamage(damageTarget);
                 }
             }
 
@@ -113,7 +112,6 @@ namespace SoulsLike {
                 takeDamageEffect.angleHitFrom = angleHitFrom;
                 target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
             }
-
         }
 
         protected virtual void CheckForParry(CharacterManager enemyManager) {

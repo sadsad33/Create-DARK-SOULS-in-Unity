@@ -37,7 +37,7 @@ namespace SoulsLike {
 
             int randomValue = Random.Range(0, potentialDamageSounds.Count);
             lastDamageSoundPlayed = takingDamageSounds[randomValue];
-            Debug.Log(takingDamageSounds[randomValue]);
+            //Debug.Log(takingDamageSounds[randomValue]);
             audioSource.PlayOneShot(takingDamageSounds[randomValue], 0.4f);
         }
 
