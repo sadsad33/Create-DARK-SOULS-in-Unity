@@ -79,7 +79,9 @@ namespace SoulsLike {
             float finalDamage = physicalDamage + fireDamage;
             Debug.Log("Final Damage : " + finalDamage);
             character.characterStatsManager.currentHealth -= finalDamage;
-            if (character.IsOwner) UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
+            PlayerManager player = character as PlayerManager;
+            if (player != null && player.IsOwner)
+                UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
             if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
                 poiseIsBroken = true;
             }
