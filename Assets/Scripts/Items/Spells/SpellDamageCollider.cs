@@ -51,7 +51,7 @@ namespace SoulsLike {
         //    }
         //}
 
-        private void OnTriggerEnter(Collider other) {
+        new private void OnTriggerEnter(Collider other) {
             if (!hasCollided) {
                 spellTarget = other.transform.root.GetComponent<CharacterManager>();
                 if (spellTarget != null) {
@@ -69,7 +69,6 @@ namespace SoulsLike {
                 }
 
                 hasCollided = true;
-                GameObject checkLocation = Instantiate(impactParticles, transform.position, Quaternion.identity);
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)); // Vector3.up 을 impactNoraml 에 대해 회전
 
                 Destroy(projectileParticles);

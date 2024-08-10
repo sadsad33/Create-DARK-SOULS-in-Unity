@@ -6,7 +6,7 @@ namespace SoulsLike {
     public class AICharacterManager : CharacterManager {
         
         EnemyAnimatorManager enemyAnimatorManager;
-        EnemyStatsManager enemyStatsManager;
+        public EnemyStatsManager enemyStatsManager;
         EnemyEffectsManager enemyEffectsManager;
         public State currentState;
         public NavMeshAgent navMeshAgent;

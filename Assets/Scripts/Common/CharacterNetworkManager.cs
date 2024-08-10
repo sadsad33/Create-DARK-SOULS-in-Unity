@@ -116,11 +116,12 @@ namespace SoulsLike {
             float contactPointX,
             float contactPointY,
             float contactPointZ,
+            float angleHitFrom,
             ulong characterCausingDamageID) {
 
             // 내가 요청을 수행하는 서버라면
             if (IsServer) {
-                ProcessDamageForCharacterAcrossAllClientRpc(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, characterCausingDamageID);
+                ProcessDamageForCharacterAcrossAllClientRpc(damagedCharacterID, physicalDamage, fireDamage, poiseDamage, contactPointX, contactPointY, contactPointZ, angleHitFrom, characterCausingDamageID);
             }
         }
 
@@ -132,6 +133,7 @@ namespace SoulsLike {
             float contactPointX,
             float contactPointY,
             float contactPointZ,
+            float angleHitFrom,
             ulong characterCausingDamageID) {
 
             TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
@@ -139,6 +141,7 @@ namespace SoulsLike {
             takeDamageEffect.fireDamage = fireDamage;
             takeDamageEffect.poiseDamage = poiseDamage;
             takeDamageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
+            takeDamageEffect.angleHitFrom = angleHitFrom;
 
             //공격한 오브젝트와 공격당한 오브젝트를 구분할때 클라이언트ID 를 사용하지 않는 이유는 AI 캐릭터는 클라이언트 ID를 갖지 않기 때문
             takeDamageEffect.characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();

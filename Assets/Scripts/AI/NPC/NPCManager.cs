@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace SoulsLike {
-    public class NPCManager : CharacterManager {
+    public class NPCManager : AICharacterManager {
         NPCAnimatorManager npcAnimatorManager;
         NPCStatsManager npcStatsManager;
         NPCEffectsManager npcEffectsManager;

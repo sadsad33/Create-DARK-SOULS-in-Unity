@@ -27,17 +27,17 @@ namespace SoulsLike {
         }
 
         public virtual void PlayRandomDamageSoundFX() {
-            potentialDamageSounds = new List<AudioClip>();
+            //potentialDamageSounds = new List<AudioClip>();
 
-            foreach (var damageSound in takingDamageSounds) {
-                if (damageSound != lastDamageSoundPlayed) {
-                    potentialDamageSounds.Add(damageSound);
-                }
-            }
+            //foreach (var damageSound in takingDamageSounds) {
+            //    if (damageSound != lastDamageSoundPlayed) {
+            //        potentialDamageSounds.Add(damageSound);
+            //    }
+            //}
 
-            int randomValue = Random.Range(0, potentialDamageSounds.Count);
-            lastDamageSoundPlayed = takingDamageSounds[randomValue];
-            //Debug.Log(takingDamageSounds[randomValue]);
+            //int randomValue = Random.Range(0, potentialDamageSounds.Count);
+            //lastDamageSoundPlayed = takingDamageSounds[randomValue];
+            int randomValue = Random.Range(0, takingDamageSounds.Length);
             audioSource.PlayOneShot(takingDamageSounds[randomValue], 0.4f);
         }
 

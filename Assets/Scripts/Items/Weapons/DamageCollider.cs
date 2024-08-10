@@ -32,7 +32,6 @@ namespace SoulsLike {
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = enabledDamageColliderOnStartUp;
-            
         }
 
         protected virtual void Start() {
@@ -55,9 +54,9 @@ namespace SoulsLike {
                 hasBeenParried = false;
                 CharacterManager damageTarget = other.GetComponent<CharacterManager>();
                 BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
-                Debug.Log(damageTarget.characterStatsManager.isDead);
+                //Debug.Log(damageTarget.characterStatsManager.isDead);
                 if (damageTarget.characterStatsManager.isDead) return;
-                Debug.Log("passed DeathCheck");
+                //Debug.Log("passed DeathCheck");
                 if (damageTarget != null) {
                     if (damageTarget.characterStatsManager != null) {
                         if (damageTarget.characterStatsManager.teamIDNumber == teamIDNumber) return;
