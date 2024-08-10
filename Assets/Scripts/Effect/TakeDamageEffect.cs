@@ -28,7 +28,7 @@ namespace SoulsLike {
 
         [Header("Directional Damage Taken From")]
         public float angleHitFrom;
-        public Vector3 contactPoint; // 캐릭터에게 데미지가 가해진 방향(피격 애니메이션 설정에 사용)
+        public Vector3 contactPoint; // 캐릭터에게 데미지가 가해진 지점 ( 피 이펙트를 위해 사용)
 
 
         public override void ProcessEffect(CharacterManager character) {
@@ -77,11 +77,11 @@ namespace SoulsLike {
             fireDamage -= fireDamage * (character.characterStatsManager.fireAbsorptionPercentageModifier / 100);
 
             float finalDamage = physicalDamage + fireDamage;
-            Debug.Log("Final Damage : " + finalDamage);
             character.characterStatsManager.currentHealth -= finalDamage;
-            PlayerManager player = character as PlayerManager;
-            if (player != null && player.IsOwner)
-                UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
+            //PlayerManager player = character as PlayerManager;
+            //if (player != null && player.IsOwner)
+            //    UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
+
             if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
                 poiseIsBroken = true;
             }
@@ -94,16 +94,19 @@ namespace SoulsLike {
 
         private void CheckWhichDirectionDamageCameFrom(CharacterManager character) {
             if (manuallySelectDamageAnimation) return;
-            if (angleHitFrom >= 145 && angleHitFrom <= 180) {
-                damageAnimation = "Damage_Forward_1";
-            } else if (angleHitFrom <= -145 && angleHitFrom >= -180) {
-                damageAnimation = "Damage_Forward_1";
-            } else if (angleHitFrom >= -45 && angleHitFrom <= 45) {
+            Debug.Log(angleHitFrom);
+            if (angleHitFrom >= -30 && angleHitFrom <= 30) {
+                Debug.Log("뒤!!!");
                 damageAnimation = "Damage_Backward_1";
-            } else if (angleHitFrom >= -144 && angleHitFrom <= -45) {
+            } else if (angleHitFrom < -30 && angleHitFrom > -150) {
+                Debug.Log("오른쪽!!!");
                 damageAnimation = "Damage_Right_1";
-            } else if (angleHitFrom >= 45 && angleHitFrom <= 144) {
+            } else if (angleHitFrom > 30 && angleHitFrom < 150) {
+                Debug.Log("왼쪽!!!");
                 damageAnimation = "Damage_Left_1";
+            } else {
+                Debug.Log("앞!!!");
+                damageAnimation = "Damage_Forward_1";
             }
         }
 
@@ -136,9 +139,9 @@ namespace SoulsLike {
 
         private void PlayDamageSoundFX(CharacterManager character) {
             character.characterSoundEffectsManager.PlayRandomDamageSoundFX();
-            if (fireDamage > 0) {
-                character.characterSoundEffectsManager.PlaySoundEffect(elementalDamageSoundSFX);
-            }
+            //if (fireDamage > 0) {
+            //character.characterSoundEffectsManager.PlaySoundEffect(elementalDamageSoundSFX);
+            //}
         }
 
         private void PlayDamageAnimation(CharacterManager character) {

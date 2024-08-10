@@ -166,6 +166,5 @@ namespace SoulsLike {
                 currentHealth = maxHealth;
             }
         }
-
     }
 }

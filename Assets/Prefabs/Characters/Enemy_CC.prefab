@@ -1028,9 +1028,9 @@ GameObject:
   - component: {fileID: 2674730931720195348}
   - component: {fileID: 2674730931720195355}
   - component: {fileID: 2674730931720195354}
-  - component: {fileID: 2682100639615162616}
   - component: {fileID: 5960027575949627544}
-  - component: {fileID: -7072365610602054591}
+  - component: {fileID: 514397258328356543}
+  - component: {fileID: 8599258115822543736}
   - component: {fileID: 1247414621750747084}
   - component: {fileID: 7871449295077461981}
   - component: {fileID: 3784916503212670562}
@@ -1126,6 +1126,8 @@ MonoBehaviour:
   isMoving: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
+  characterColliders: []
+  enemyStatsManager: {fileID: 0}
   currentState: {fileID: 0}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
@@ -1153,7 +1155,7 @@ MonoBehaviour:
   previousPoiseDamageTaken: 0
   teamIDNumber: 1
   soulsAwardedOnDeath: 0
-  healthLevel: 10
+  healthLevel: 100000
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
@@ -1275,7 +1277,7 @@ MonoBehaviour:
   timedEffectParticles: []
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
-  bloodSplatterFX: {fileID: 0}
+  bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
   rightWeaponBuffEffect: {fileID: 0}
   buildUpTransform: {fileID: 0}
 --- !u!114 &2674730931720195355
@@ -1340,19 +1342,6 @@ MonoBehaviour:
   - m_Rig: {fileID: 6389220527414114765}
     m_Active: 1
   m_Effectors: []
---- !u!114 &2682100639615162616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247414621750747090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c527da29a12a84eb8f9e2f705f109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  takingDamageSounds: []
 --- !u!114 &5960027575949627544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1369,7 +1358,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-7072365610602054591
+--- !u!114 &514397258328356543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1378,7 +1367,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247414621750747090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f333c4daa18b95744bc1a60921c23b7a, type: 3}
+  m_Script: {fileID: 11500000, guid: 71712bdddd7300947be45c2fca1eb112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   networkPosition:
@@ -1420,6 +1409,22 @@ MonoBehaviour:
     m_InternalValue: 0
   currentLegEquipmentID:
     m_InternalValue: 0
+--- !u!114 &8599258115822543736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247414621750747090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c527da29a12a84eb8f9e2f705f109e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takingDamageSounds:
+  - {fileID: 8300000, guid: bd4871c9cbf2a8c4cbf58291800eb98d, type: 3}
+  - {fileID: 8300000, guid: 319914c91d8ceee4ebec0b3c04fe9681, type: 3}
+  - {fileID: 8300000, guid: 97bddef150715c649a8292e24f93aa09, type: 3}
 --- !u!54 &1247414621750747084
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -43,6 +43,7 @@ namespace SoulsLike {
                 takeDamageEffect.contactPoint.x,
                 takeDamageEffect.contactPoint.y,
                 takeDamageEffect.contactPoint.z,
+                takeDamageEffect.angleHitFrom,
                 characterCausingDamage.NetworkObjectId);
             //}
         }

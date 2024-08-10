@@ -20,13 +20,18 @@ namespace SoulsLike {
             player = GetComponent<PlayerManager>();
             poisonBuildUpBar = UIManager.instance.poisonBuildUpBar;
             poisonAmountBar = UIManager.instance.poisonAmountBar;
-            //poisonBuildUpBar = FindObjectOfType<PoisonBuildUpBar>();
-            //poisonAmountBar = FindObjectOfType<PoisonAmountBar>();
         }
 
         //protected override void Start() {
         //    base.Start();
         //}
+
+        public override void ProcessEffectInstantly(CharacterEffect effect) {
+            base.ProcessEffectInstantly(effect);
+            if (effect is TakeDamageEffect && player.IsOwner) {
+                UIManager.instance.healthBar.SetCurrentHealth(player.playerStatsManager.currentHealth);
+            }
+        }
 
         public void HealPlayerFromEffect() {
             player.playerStatsManager.HealPlayer(amountToBeHealed);
