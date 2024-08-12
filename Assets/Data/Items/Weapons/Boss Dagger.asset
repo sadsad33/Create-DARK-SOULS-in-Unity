@@ -15,11 +15,13 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemName: "\uB3C4\uC801\uC758 \uB2E8\uAC80"
   flavorText: 
-  itemID: 2
+  itemID: 9
   modelPrefab: {fileID: 6540428604315627310, guid: a3b44e40c2bc8124594baf78236c0338, type: 3}
   isUnarmed: 0
   physicalDamage: 25
   fireDamage: 0
+  lightAttackDamageModifier: 0
+  heavyAttackDamageModifier: 0
   criticalDamageMultiplier: 4
   poiseBreak: 20
   offensivePoiseBonus: 0
@@ -41,3 +43,7 @@ MonoBehaviour:
   isPyroCaster: 0
   isMeleeWeapon: 1
   isShieldWeapon: 0
+  weaponAttackSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  blockingNoises: []

@@ -14,7 +14,7 @@ namespace SoulsLike {
         bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false; // 공격 수행 여부
 
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             RotateTowardsTargetWhileAttacking(enemyManager); // 공격 도중 일부 구간에서 회전 가능
@@ -43,7 +43,7 @@ namespace SoulsLike {
         }
 
         // 공격 수행
-        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
+        private void AttackTarget(AICharacterAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //enemyAnimatorManager.PlayWeaponTrailFX();
             //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
@@ -61,7 +61,7 @@ namespace SoulsLike {
             }
         }
 
-        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
+        private void AttackTargetWithCombo(AICharacterAnimatorManager enemyAnimatorManager, AICharacterManager enemyManager) {
             willDoComboOnNextAttack = false;
             //enemyManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             //enemyManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);

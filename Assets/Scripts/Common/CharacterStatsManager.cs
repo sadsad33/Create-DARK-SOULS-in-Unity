@@ -145,17 +145,17 @@ namespace SoulsLike {
             currentStamina -= staminaToDeduct;
         }
 
-        public float SetMaxHealthFromHealthLevel() {
+        public virtual float SetMaxHealthFromHealthLevel() {
             maxHealth = healthLevel * 10;
             return maxHealth;
         }
 
-        public float SetMaxFocusFromFocusLevel() {
+        public virtual float SetMaxFocusFromFocusLevel() {
             maxFocus = focusLevel * 10;
             return maxFocus;
         }
 
-        public float SetMaxStaminaFromStaminaLevel() {
+        public virtual float SetMaxStaminaFromStaminaLevel() {
             maxStamina = staminaLevel * 10;
             return maxStamina;
         }

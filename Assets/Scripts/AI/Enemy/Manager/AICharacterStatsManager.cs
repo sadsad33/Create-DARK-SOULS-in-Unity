@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace SoulsLike {
     // 스탯 관리(방어력, 강인도, HP, FP, 스태미나, 받는 피해 등)
-    public class EnemyStatsManager : CharacterStatsManager {
-        EnemyAnimatorManager enemyAnimatorManager;
-        public EnemyLocomotionManager enemyLocomotionManager;
+    public class AICharacterStatsManager : CharacterStatsManager {
+        AICharacterAnimatorManager enemyAnimatorManager;
+        public AICharacterLocomotionManager enemyLocomotionManager;
         BossManager bossManager;
         AICharacterManager enemyManager;
         public UIEnemyHealthBar enemyHealthBar;
@@ -14,8 +14,8 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             enemyManager = GetComponent<AICharacterManager>();
-            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            enemyLocomotionManager = GetComponent<AICharacterLocomotionManager>();
             bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
             maxHealth = SetMaxHealthFromHealthLevel();
@@ -27,8 +27,8 @@ namespace SoulsLike {
             if (!isBoss) enemyHealthBar.SetMaxHealth(maxHealth);
         }
 
-        private float SetMaxHealthFromHealthLevel() {
-            maxHealth = healthLevel * 10;
+        public override float SetMaxHealthFromHealthLevel() {
+            base.SetMaxHealthFromHealthLevel();
             return maxHealth;
         }
 

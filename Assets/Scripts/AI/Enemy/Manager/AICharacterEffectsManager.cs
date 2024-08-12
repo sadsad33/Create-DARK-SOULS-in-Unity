@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class EnemyEffectsManager : CharacterEffectsManager {
+    public class AICharacterEffectsManager : CharacterEffectsManager {
         AICharacterManager aiCharacterManager;
 
         protected override void Awake() {

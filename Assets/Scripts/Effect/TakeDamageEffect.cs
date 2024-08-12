@@ -77,10 +77,8 @@ namespace SoulsLike {
             fireDamage -= fireDamage * (character.characterStatsManager.fireAbsorptionPercentageModifier / 100);
 
             float finalDamage = physicalDamage + fireDamage;
+            //Debug.Log(finalDamage);
             character.characterStatsManager.currentHealth -= finalDamage;
-            //PlayerManager player = character as PlayerManager;
-            //if (player != null && player.IsOwner)
-            //    UIManager.instance.healthBar.SetCurrentHealth(character.characterStatsManager.currentHealth);
 
             if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
                 poiseIsBroken = true;
@@ -94,18 +92,18 @@ namespace SoulsLike {
 
         private void CheckWhichDirectionDamageCameFrom(CharacterManager character) {
             if (manuallySelectDamageAnimation) return;
-            Debug.Log(angleHitFrom);
+            //Debug.Log(angleHitFrom);
             if (angleHitFrom >= -30 && angleHitFrom <= 30) {
-                Debug.Log("뒤!!!");
+                //Debug.Log("뒤!!!");
                 damageAnimation = "Damage_Backward_1";
             } else if (angleHitFrom < -30 && angleHitFrom > -150) {
-                Debug.Log("오른쪽!!!");
+                //Debug.Log("오른쪽!!!");
                 damageAnimation = "Damage_Right_1";
             } else if (angleHitFrom > 30 && angleHitFrom < 150) {
-                Debug.Log("왼쪽!!!");
+                //Debug.Log("왼쪽!!!");
                 damageAnimation = "Damage_Left_1";
             } else {
-                Debug.Log("앞!!!");
+                //Debug.Log("앞!!!");
                 damageAnimation = "Damage_Forward_1";
             }
         }
@@ -163,7 +161,7 @@ namespace SoulsLike {
             if (!poiseIsBroken) {
                 return;
             } else {
-                Debug.Log("피격 애니메이션 재생");
+                //Debug.Log("피격 애니메이션 재생");
                 if (playDamageAnimation) {
                     character.characterAnimatorManager.PlayTargetAnimation(damageAnimation, true);
                 }

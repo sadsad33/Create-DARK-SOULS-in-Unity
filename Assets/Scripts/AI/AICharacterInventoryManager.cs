@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class EnemyInventoryManager : CharacterInventoryManager {
+    public class AICharacterInventoryManager : CharacterInventoryManager {
         
     }
 }

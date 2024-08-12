@@ -11,7 +11,7 @@ namespace SoulsLike {
         public LayerMask detectionLayer;
 
         public PursueTargetState pursueTargetState;
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             if (isSleeping && !enemyManager.isInteracting) {
                 enemyAnimatorManager.PlayTargetAnimation(sleepAnimation, true);
             }

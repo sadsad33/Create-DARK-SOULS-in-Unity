@@ -6,8 +6,8 @@ namespace SoulsLike {
     public class BossManager : AICharacterManager {
         BossHealthBar bossHealthBar;
         public string bossName;
-        EnemyStatsManager enemyStats;
-        EnemyAnimatorManager enemyAnimatorManager;
+        AICharacterStatsManager enemyStats;
+        AICharacterAnimatorManager enemyAnimatorManager;
         BossCombatStanceState bossCombatStanceState;
 
         [Header("Second Phase FX")]
@@ -16,8 +16,8 @@ namespace SoulsLike {
         protected override void Awake() {
             animator = GetComponent<Animator>();
             bossHealthBar = FindObjectOfType<BossHealthBar>();
-            enemyStats = GetComponent<EnemyStatsManager>();
-            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+            enemyStats = GetComponent<AICharacterStatsManager>();
+            enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
             bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
         }
 

@@ -11,6 +11,7 @@ namespace SoulsLike {
         [SerializeField] List<AISpawn> area_00_Spawns;
         [SerializeField] List<AICharacterManager> spawnedInCharacters;
 
+
         private void Awake() {
             if (instance == null) {
                 instance = this;

@@ -39,7 +39,7 @@ namespace SoulsLike {
         }
 
         public virtual void HandleGroundCheck() {
-            if (character.isClimbing) return; 
+            if (character.isClimbing || character.isJumping) return; 
             if (character.isGrounded) {
                 //if (yVelocity.y < groundedYVelocity) { 
                 inAirTimer = 0;

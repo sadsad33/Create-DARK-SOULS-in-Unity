@@ -8354,7 +8354,7 @@ MonoBehaviour:
   groundedYVelocity: -10
   fallStartYVelocity: -4
   gravityForce: -25
-  groundCheckSphereRadius: 0.2
+  groundCheckSphereRadius: 0.4
   myTransform: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   normalCamera: {fileID: 0}
@@ -8457,6 +8457,7 @@ MonoBehaviour:
   isGrounded: 0
   isClimbing: 0
   isMoving: 0
+  isJumping: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders:
@@ -8468,7 +8469,6 @@ MonoBehaviour:
   - {fileID: 1664486849}
   inputHandler: {fileID: 0}
   cameraHandler: {fileID: 0}
-  isJumping: 0
   rightFootUp: 0
   isLadderTop: 0
   isAtBonfire: 0
@@ -8757,13 +8757,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1.85
-  m_Radius: 0.2
+  m_Height: 1.75
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!54 &8912925779965385022
 Rigidbody:
   m_ObjectHideFlags: 0

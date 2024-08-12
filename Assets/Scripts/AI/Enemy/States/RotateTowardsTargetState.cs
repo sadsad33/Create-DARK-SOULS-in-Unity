@@ -6,7 +6,7 @@ namespace SoulsLike {
     public class RotateTowardsTargetState : State {
         public CombatStanceState combatStanceState;
         public PursueTargetState pursueTargetState;
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             enemyManager.animator.SetFloat("Vertical", 0);
             enemyManager.animator.SetFloat("Horizontal", 0);
 

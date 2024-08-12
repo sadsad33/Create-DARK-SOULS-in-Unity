@@ -13,7 +13,7 @@ namespace SoulsLike {
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
 
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
             enemyManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // 앞,뒤 이동
@@ -65,7 +65,7 @@ namespace SoulsLike {
         }
 
         // 원을 그리며 이동할때 어떤식으로 움직일지 결정
-        protected void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager) {
+        protected void DecideCirclingAction(AICharacterAnimatorManager enemyAnimatorManager) {
             // 원을 그리며 앞으로만 이동
             // 원을 그리며 달림
             // 원을 그리며 걷기 등...
@@ -73,7 +73,7 @@ namespace SoulsLike {
         }
 
         // 타겟을 향해 걸어간다.
-        protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager) {
+        protected void WalkAroundTarget(AICharacterAnimatorManager enemyAnimatorManager) {
             // 앞으로 이동하는 모션만 사용하기 위함
             // 뒷걸음질을 구현하고 싶다면 verticalMovementValue 변수값 범위에 음수를 포함시키면 됨
             verticalMovementValue = Random.Range(-1f, 1f);

@@ -179,8 +179,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.29391733, y: 1.137312, z: 0.08148711}
-  m_Center: {x: 0.0000035873195, y: 0.6061538, z: 0.0000013907603}
+  m_Size: {x: 0.13596638, y: 1.1618068, z: 0.08148711}
+  m_Center: {x: -0.0010463815, y: 0.45640397, z: 0.000014040918}
 --- !u!114 &8184918767322873739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ MonoBehaviour:
   characterCausingDamage: {fileID: 0}
   enabledDamageColliderOnStartUp: 0
   teamIDNumber: 0
-  poiseBreak: 0
+  poiseDamage: 0
   offensivePoiseBonus: 0
   physicalDamage: 0
   fireDamage: 0

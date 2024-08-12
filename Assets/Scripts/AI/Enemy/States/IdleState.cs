@@ -7,7 +7,7 @@ namespace SoulsLike {
         public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
         public DeadState deadState;
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
             // 목표 탐색
             // 목표 탐색에 성공하면 Pursue Target State가 됨
@@ -19,7 +19,6 @@ namespace SoulsLike {
             for (int i = 0; i < colliders.Length; i++) {
                 // 감지한 주변 collider로부터 CharacterStats을 가져온다.
                 CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
-
                 // 해당 오브젝트에 CharacterStats이 존재한다면
                 if (character != null && character.characterStatsManager.teamIDNumber != enemyStats.teamIDNumber) {
                     Vector3 targetDirection = character.transform.position - enemyManager.transform.position;
@@ -35,6 +34,7 @@ namespace SoulsLike {
 
             #region 다음 상태 전이
             if (enemyManager.currentTarget != null) {
+                //Debug.Log("추적상태로 전이");
                 return pursueTargetState;
             } else {
                 return this;

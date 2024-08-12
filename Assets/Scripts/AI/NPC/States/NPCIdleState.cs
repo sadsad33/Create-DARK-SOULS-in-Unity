@@ -32,8 +32,8 @@ namespace SoulsLike {
             }
 
             if (npcManager.targets.Count > 0) {
-                if (!npcManager.drawnWeapon) {
-                    npcManager.drawnWeapon = true;
+                if (!npcManager.hasDrawnWeapon) {
+                    npcManager.hasDrawnWeapon = true;
                     npcAnimatorManager.PlayTargetAnimation("Equip", true);
                 }
                 return npcSelectTargetState;
