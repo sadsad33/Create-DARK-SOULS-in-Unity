@@ -230,7 +230,7 @@ namespace SoulsLike {
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             // 다른 행동을하고 있다면
-            if (player.isInteracting || player.isClimbing || player.isAtBonfire) return;
+            if (player.isInteracting || player.isClimbing || player.isAtBonfire || player.isJumping) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -331,6 +331,8 @@ namespace SoulsLike {
             if (player.inputHandler.jump_Input) {
                 if (player.playerNetworkManager.isSprinting.Value && player.inputHandler.moveAmount > 0) {
                     player.isJumping = true;
+                    player.isGrounded = false;
+                    player.playerLocomotionManager.enabled = false;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;

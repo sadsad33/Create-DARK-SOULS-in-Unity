@@ -5,14 +5,14 @@ using UnityEngine.AI;
 namespace SoulsLike {
     public class AICharacterManager : CharacterManager {
         
-        EnemyAnimatorManager enemyAnimatorManager;
-        public EnemyStatsManager enemyStatsManager;
-        EnemyEffectsManager enemyEffectsManager;
+        AICharacterAnimatorManager enemyAnimatorManager;
+        public AICharacterStatsManager enemyStatsManager;
+        AICharacterEffectsManager enemyEffectsManager;
         public State currentState;
         public NavMeshAgent navMeshAgent;
 
         public float rotationSpeed = 15;
-        public float maximumAggroRadius = 1.5f; // 공격 가능 사거리
+        public float maximumAggroRadius; // 공격 가능 사거리
 
         [Header("AI Character ID")]
         public int aiCharacterID;
@@ -30,9 +30,9 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
-            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
-            enemyStatsManager = GetComponent<EnemyStatsManager>();
-            enemyEffectsManager = GetComponent<EnemyEffectsManager>();
+            enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            enemyStatsManager = GetComponent<AICharacterStatsManager>();
+            enemyEffectsManager = GetComponent<AICharacterEffectsManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             navMeshAgent.enabled = false;
             navMeshAgent.updateRotation = false;
@@ -46,7 +46,6 @@ namespace SoulsLike {
             HandleRecoveryTimer();
             HandleStateMachine();
 
-            isPhaseShifting = animator.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = animator.GetBool("isRotatingWithRootMotion");
             isInteracting = animator.GetBool("isInteracting");
             canDoCombo = animator.GetBool("canDoCombo");
@@ -54,9 +53,10 @@ namespace SoulsLike {
             isInvulnerable = animator.GetBool("isInvulnerable");
             animator.SetBool("isDead", enemyStatsManager.isDead);
             animator.SetBool("isGrabbed", isGrabbed);
+            isPhaseShifting = animator.GetBool("isPhaseShifting");
         }
 
-        private void LateUpdate() {
+        protected virtual void LateUpdate() {
             navMeshAgent.transform.localPosition = Vector3.zero;
             navMeshAgent.transform.localRotation = Quaternion.identity;
         }
@@ -69,7 +69,7 @@ namespace SoulsLike {
         protected virtual void HandleStateMachine() {
             if (currentState != null) {
                 //if (!enemyStatsManager.isBoss)
-                    //Debug.Log(currentState);
+                //Debug.Log(currentState);
                 State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
                 if (nextState != null) {
                     SwitchToNextState(nextState);

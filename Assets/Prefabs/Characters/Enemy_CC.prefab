@@ -255,7 +255,7 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 2048
-  pursueTargetState: {fileID: 0}
+  pursueTargetState: {fileID: 367362763}
   deadState: {fileID: 6389220527170694998}
 --- !u!1 &724058275
 GameObject:
@@ -1124,6 +1124,7 @@ MonoBehaviour:
   isGrounded: 0
   isClimbing: 0
   isMoving: 0
+  isJumping: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders: []
@@ -1131,9 +1132,9 @@ MonoBehaviour:
   currentState: {fileID: 0}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
-  maximumAggroRadius: 1.5
+  maximumAggroRadius: 2
   aiCharacterID: 0
-  detectionRadius: 20
+  detectionRadius: 10
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
   currentRecoveryTime: 0
@@ -1149,13 +1150,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247414621750747090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15795b634edef2549b3568c4909c6080, type: 3}
+  m_Script: {fileID: 11500000, guid: 9999285b125b2aa489c3cd81ef347c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   previousPoiseDamageTaken: 0
   teamIDNumber: 1
   soulsAwardedOnDeath: 0
-  healthLevel: 100000
+  healthLevel: 10
   maxHealth: 0
   currentHealth: 0
   staminaLevel: 10
@@ -1204,7 +1205,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247414621750747090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e13273d7fbe9a54aa7795df635a921f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d674b6b64f78de4494364efdbcae8be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canRotate: 0
@@ -1257,7 +1258,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -4
   gravityForce: -25
-  groundCheckSphereRadius: 0.2
+  groundCheckSphereRadius: 0.4
 --- !u!114 &2674730931720195348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,7 +1454,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.85
-  m_Radius: 0.2
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
@@ -2065,7 +2066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 1269662335}
-  pursueTargetState: {fileID: 0}
+  pursueTargetState: {fileID: 367362763}
 --- !u!1 &3293097305115279476
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class NPCLocomotionManager : CharacterLocomotionManager {
-        NPCManager npc;
+    public class NPCLocomotionManager : AICharacterLocomotionManager {
+        //NPCManager npc;
 
-        protected override void Awake() {
-            base.Awake();
-            npc = GetComponent<NPCManager>();
-        }
-        protected override void Start() {
-            base.Start();
-        }
+        //protected override void Awake() {
+        //    base.Awake();
+        //    npc = GetComponent<NPCManager>();
+        //}
+        //protected override void Start() {
+        //    base.Start();
+        //}
 
-        protected override void Update() {
-            base.Update();
-        }
+        //protected override void Update() {
+        //    base.Update();
+        //}
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class EnemyAnimatorManager : CharacterAnimatorManager {
+    public class AICharacterAnimatorManager : CharacterAnimatorManager {
         BossManager bossManager;
         //EnemyEffectsManager enemyEffectsManager;
         AICharacterManager enemyManager;
@@ -11,8 +11,8 @@ namespace SoulsLike {
             base.Awake();
             enemyManager = GetComponent<AICharacterManager>();
             enemyManager.animator = GetComponent<Animator>();
-            //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
             bossManager = GetComponent<BossManager>();
+            //enemyEffectsManager = GetComponent<EnemyEffectsManager>();
         }
 
         public void InstantiateBossParticleFX() {
@@ -20,7 +20,7 @@ namespace SoulsLike {
             GameObject phaseFX = Instantiate(bossManager.particleFX, bossFXTransform.transform);
         }
 
-        public void AwardSoulsOnDeath() {
+        protected virtual void AwardSoulsOnDeath() {
             // 씬 내의 모든 플레이어에게 소울을 줌
             PlayerStatsManager playerStats = FindObjectOfType<PlayerStatsManager>();
             SoulCountBar soulCountBar = FindObjectOfType<SoulCountBar>();

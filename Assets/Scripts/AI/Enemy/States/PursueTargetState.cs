@@ -7,22 +7,22 @@ namespace SoulsLike {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
         public DeadState deadState;
-        public override State Tick(AICharacterManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager) {
+        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
             if (enemyStats.isDead) return deadState;
-            // ¸ñÇ¥ ÃßÀû
-            // °ø°İ »ç°Å¸®³»¿¡ Å¸°ÙÀÌ µé¾î¿À¸é Combat Stance State°¡ µÊ
-            // Å¸°ÙÀÌ °ø°İ »ç°Å¸® ¹ÛÀ¸·Î ³ª°¡¸é Pursue Target State
+            // ëª©í‘œ ì¶”ì 
+            // ê³µê²© ì‚¬ê±°ë¦¬ë‚´ì— íƒ€ê²Ÿì´ ë“¤ì–´ì˜¤ë©´ Combat Stance Stateê°€ ë¨
+            // íƒ€ê²Ÿì´ ê³µê²© ì‚¬ê±°ë¦¬ ë°–ìœ¼ë¡œ ë‚˜ê°€ë©´ Pursue Target State
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             HandleRotateTowardsTarget(enemyManager);
 
-            // Çàµ¿ ÁßÀÌ¶ó¸é
+            // í–‰ë™ ì¤‘ì´ë¼ë©´
             if (enemyManager.isInteracting) {
-                enemyManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // Á¦ÀÚ¸®¿¡ Á¤Áö
+                enemyManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // ì œìë¦¬ì— ì •ì§€
                 return this;
             }
 
-            if (distanceFromTarget <= enemyManager.maximumAggroRadius) { 
+            if (distanceFromTarget <= enemyManager.maximumAggroRadius) {
                 return combatStanceState;
             } else {
                 enemyManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
@@ -30,9 +30,9 @@ namespace SoulsLike {
             }
         }
 
-        // ¸ñÇ¥ ¹æÇâÀ¸·Î È¸Àü
-        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // È¸Àü Á¦¾î
-            //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity); // ¿ùµå ÁÂÇ¥°è -> ·ÎÄÃ ÁÂÇ¥°è
+        // ëª©í‘œ ë°©í–¥ìœ¼ë¡œ íšŒì „
+        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // íšŒì „ ì œì–´
+            //Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navmeshAgent.desiredVelocity); // ì›”ë“œ ì¢Œí‘œê³„ -> ë¡œì»¬ ì¢Œí‘œê³„
             //Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
             //enemyManager.navMeshAgent.enabled = true;
             //enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);

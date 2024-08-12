@@ -5,34 +5,19 @@ using UnityEngine.AI;
 
 namespace SoulsLike {
     public class NPCManager : AICharacterManager {
-        NPCAnimatorManager npcAnimatorManager;
-        NPCStatsManager npcStatsManager;
-        NPCEffectsManager npcEffectsManager;
 
         public LayerMask hostileLayer;
         public LayerMask currentHostile;
-        public NPCState currentState;
-        public Rigidbody npcRigidbody;
-        public NavMeshAgent navMeshAgent;
 
         // 적대 상태가 됐을시 필요
         public List<CharacterManager> targets = new List<CharacterManager>();
-        public float rotationSpeed = 15;
-        public float maximumAggroRadius = 3f;
-        public float attackDistance = 1.5f;
 
         [Header("AI Settings")]
         public float changeTargetTime = 10;
         public float changeTargetTimer;
-        public float detectionRadius = 10;
-        public float maximumDetectionAngle = 50;
-        public float minimumDetectionAngle = -50;
-        public float currentRecoveryTime = 0;
 
         [Header("AI CombatSettings")]
-        public bool allowAIToPerformCombos;
-        public bool drawnWeapon;
-        public float comboLikelyHood;
+        public bool hasDrawnWeapon;
 
         public int interactCount = 0;
         public float aggravationToEnemy;
@@ -41,42 +26,24 @@ namespace SoulsLike {
         protected override void Awake() {
             base.Awake();
             canTalk = true;
-            npcAnimatorManager = GetComponent<NPCAnimatorManager>();
-            npcStatsManager = GetComponent<NPCStatsManager>();
-            npcRigidbody = GetComponent<Rigidbody>();
-            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-            navMeshAgent.updateRotation = false;
         }
 
-        private void Start() {
-            //npcRigidbody.isKinematic = false;
+        protected override void Start() {
+            base.Start();
         }
 
         protected override void Update() {
-            HandleStateMachine();
-            HandleChangeTargetTimer();
-            HandleRecoveryTimer();
-
-            //isUsingLeftHand = animator.GetBool("isUsingLeftHand");
-            //isUsingRightHand = animator.GetBool("isUsingRightHand");
-
-            isRotatingWithRootMotion =animator.GetBool("isRotatingWithRootMotion");
-            isInteracting = animator.GetBool("isInteracting");
-            canDoCombo = animator.GetBool("canDoCombo");
-            canRotate = animator.GetBool("canRotate");
-            isInvulnerable = animator.GetBool("isInvulnerable");
-            animator.SetBool("isDead", npcStatsManager.isDead);
-            animator.SetBool("isGrabbed", isGrabbed);
+            base.Update();
             if (aggravationToPlayer >= 30 && canTalk) canTalk = false;
+            HandleChangeTargetTimer();
         }
 
-        private void LateUpdate() {
-            navMeshAgent.transform.localPosition = Vector3.zero;
-            navMeshAgent.transform.localRotation = Quaternion.identity;
+        protected override void LateUpdate() {
+            base.LateUpdate();
         }
 
         protected override void FixedUpdate() {
+            base.FixedUpdate();
         }
 
         private void HandleChangeTargetTimer() {
@@ -89,25 +56,26 @@ namespace SoulsLike {
             }
         }
 
-        private void HandleStateMachine() {
-            if (currentState != null) {
-                NPCState nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
-                if (nextState != null) {
-                    SwitchToNextState(nextState);
-                }
-            }
+        protected override void HandleStateMachine() {
+            //if (currentState != null) {
+            //    NPCState nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
+            //    if (nextState != null) {
+            //        SwitchToNextState(nextState);
+            //    }
+            //}
+            base.HandleStateMachine();
         }
 
-        public void SwitchToNextState(NPCState state) {
-            //if (currentState != state)
-            //    Debug.Log("상태 전이 : " + currentState + " -> " + state);
-            currentState = state;
-        }
+        //public void SwitchToNextState(NPCState state) {
+        //    //if (currentState != state)
+        //    //    Debug.Log("상태 전이 : " + currentState + " -> " + state);
+        //    currentState = state;
+        //}
 
-        private void HandleRecoveryTimer() {
-            if (currentRecoveryTime > 0) {
-                currentRecoveryTime -= Time.deltaTime;
-            } else currentRecoveryTime = 0;
-        }
+        //private void HandleRecoveryTimer() {
+        //    if (currentRecoveryTime > 0) {
+        //        currentRecoveryTime -= Time.deltaTime;
+        //    } else currentRecoveryTime = 0;
+        //}
     }
 }

@@ -13,7 +13,7 @@ namespace SoulsLike {
         [Header("Camera")]
         public CameraHandler cameraHandler;
 
-        public bool isJumping = false;
+        
         public bool rightFootUp;
         public bool isLadderTop;
         public bool isAtBonfire;
@@ -185,7 +185,7 @@ namespace SoulsLike {
             // �ִϸ��̼��� ���̰� ��� �ִϸ��̼��� ������ ������ ���� ����Ǵ� �Ŷ�� ��������� �ڿ������� ���̸� ���� ��κ� �׷��� �����Ƿ� Rigidbody�� velocity �� 0�� �Ǿ��ٰ� ������ �����ӿ���
             // �ٽ� OnAnimatorMove �޼��尡 ȣ��Ǹ鼭 Rigidbody �� velocity ���� ��ȭ�ϴ� ��
             //if ((isClimbing || isAtBonfire) && animator.GetCurrentAnimatorClipInfoCount(5) == 0) { // �� �����Ӹ��� 5�� ���̾��� ���� �ִϸ��̼��� Empty ��� rigidbody �� �ӵ��� 0���� ����
-            //    playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                //playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
             //}
 
             float delta = Time.deltaTime;

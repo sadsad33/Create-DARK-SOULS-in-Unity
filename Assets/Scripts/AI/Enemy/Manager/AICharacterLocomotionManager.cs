@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace SoulsLike {
-    public class EnemyLocomotionManager : CharacterLocomotionManager {
+    public class AICharacterLocomotionManager : CharacterLocomotionManager {
         #region 리지드 바디를 사용할 경우
         //public CapsuleCollider characterCollider;
         //public CapsuleCollider characterColliderBlocker;

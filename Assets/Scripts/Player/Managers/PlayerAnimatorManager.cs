@@ -62,8 +62,10 @@ namespace SoulsLike {
         }
 
         public void FinishJump() {
-            if (player.isJumping)
+            if (player.isJumping) {
                 player.isJumping = false;
+                player.playerLocomotionManager.enabled = true;
+            }
         }
 
         public void FinishLadderInteractionAtTop() {
