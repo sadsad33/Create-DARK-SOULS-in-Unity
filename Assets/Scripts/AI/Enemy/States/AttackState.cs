@@ -14,24 +14,24 @@ namespace SoulsLike {
         bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false; // 공격 수행 여부
 
-        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
-            if (enemyStats.isDead) return deadState;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // 타겟과의 거리
-            RotateTowardsTargetWhileAttacking(enemyManager); // 공격 도중 일부 구간에서 회전 가능
+        public override State Tick(AICharacterManager aiManager) {
+            if (aiManager.aiStatsManager.isDead) return deadState;
+            float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position); // 타겟과의 거리
+            RotateTowardsTargetWhileAttacking(aiManager); // 공격 도중 일부 구간에서 회전 가능
             
-            if (distanceFromTarget > enemyManager.maximumAggroRadius) { // 공격 사거리를 벗어나면 추적 상태로 전이
+            if (distanceFromTarget > aiManager.maximumAggroRadius) { // 공격 사거리를 벗어나면 추적 상태로 전이
                 return pursueTargetState;
             }
 
-            if (willDoComboOnNextAttack && enemyManager.canDoCombo) {
+            if (willDoComboOnNextAttack && aiManager.canDoCombo) {
                 // 콤보 공격
-                AttackTargetWithCombo(enemyAnimatorManager, enemyManager);
+                AttackTargetWithCombo(aiManager.aiAnimatorManager, aiManager);
             }
 
             //Debug.Log(hasPerformedAttack);
             if (!hasPerformedAttack) {
                 //Debug.Log("공격?");
-                AttackTarget(enemyAnimatorManager, enemyManager);
+                AttackTarget(aiManager.aiAnimatorManager, aiManager);
             }
 
             // 콤보 공격 플래그가 공격 이후 결정되기 때문에, 공격이 끝난후 콤보 공격 플래그가 true라면 다시 현재 상태를 반환하여 콤보 공격을 수행할수 있도록

@@ -9,48 +9,48 @@ namespace SoulsLike {
         public PursueTargetState pursueTargetState;
         public DeadState deadState;
 
-        protected bool randomDestinationSet = false; // animator value , ¼öÁ÷ ÀÌµ¿, ¼öÆò ÀÌµ¿ °ªÀ» Á¶ÀıÇÏ±â À§ÇÑ bool º¯¼ö
+        protected bool randomDestinationSet = false; // animator value , ìˆ˜ì§ ì´ë™, ìˆ˜í‰ ì´ë™ ê°’ì„ ì¡°ì ˆí•˜ê¸° ìœ„í•œ bool ë³€ìˆ˜
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
 
-        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
-            if (enemyStats.isDead) return deadState;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position); // Å¸°Ù°úÀÇ °Å¸®
-            enemyManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // ¾Õ,µÚ ÀÌµ¿
-            enemyManager.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime); // ÁÂ,¿ì ÀÌµ¿
-            attackState.hasPerformedAttack = false; // ÀüÅõ ÅÂ¼¼ -> ÇÃ·¹ÀÌ¾î°¡ ÀûÁ¤ »ç°Å¸® ³»¿¡ ÀÖÀ» °æ¿ì °ø°İ ¼±ÅÃ -> °ø°İ
+        public override State Tick(AICharacterManager aiCharacter) {
+            if (aiCharacter.aiStatsManager.isDead) return deadState;
+            float distanceFromTarget = Vector3.Distance(aiCharacter.currentTarget.transform.position, aiCharacter.transform.position); // íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬
+            aiCharacter.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime); // ì•,ë’¤ ì´ë™
+            aiCharacter.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime); // ì¢Œ,ìš° ì´ë™
+            attackState.hasPerformedAttack = false; // ì „íˆ¬ íƒœì„¸ -> í”Œë ˆì´ì–´ê°€ ì ì • ì‚¬ê±°ë¦¬ ë‚´ì— ìˆì„ ê²½ìš° ê³µê²© ì„ íƒ -> ê³µê²©
 
-            if (enemyManager.isInteracting) { // Çàµ¿ÁßÀÌ¶ó¸é 
-                enemyManager.animator.SetFloat("Vertical", 0);
-                enemyManager.animator.SetFloat("Horizontal", 0);
+            if (aiCharacter.isInteracting) { // í–‰ë™ì¤‘ì´ë¼ë©´ 
+                aiCharacter.animator.SetFloat("Vertical", 0);
+                aiCharacter.animator.SetFloat("Horizontal", 0);
                 return this;
             }
 
-            HandleRotateTowardsTarget(enemyManager);
+            HandleRotateTowardsTarget(aiCharacter);
 
-            if (distanceFromTarget > enemyManager.maximumAggroRadius) return pursueTargetState;
+            if (distanceFromTarget > aiCharacter.maximumAggroRadius) return pursueTargetState;
 
             if (!randomDestinationSet) {
                 randomDestinationSet = true;
-                DecideCirclingAction(enemyAnimatorManager);
+                DecideCirclingAction(aiCharacter.aiAnimatorManager);
             }
 
-            // ÇöÀç »óÅÂ¸¦ ¶°³ª±â Àü¿¡ °ø°İÀ» Á¤ÇÑ´Ù.
-            // ÇöÀç »óÅÂ¿¡¼­ °ø°İ »óÅÂ·Î ³Ñ¾î°¡±â Àü¿¡ ÇØ¾ßÇÒ °ÍÀº °ø°İÀ» ¼±ÅÃÇÏ´Â °Í
-            if (enemyManager.currentRecoveryTime <= 0 && attackState.currentAttack != null) { // ÇöÀç °ø°İÀÌ ¼±ÅÃµÈ »óÅÂ¶ó¸é °ø°İ »óÅÂ·Î ÀüÀÌ
+            // í˜„ì¬ ìƒíƒœë¥¼ ë– ë‚˜ê¸° ì „ì— ê³µê²©ì„ ì •í•œë‹¤.
+            // í˜„ì¬ ìƒíƒœì—ì„œ ê³µê²© ìƒíƒœë¡œ ë„˜ì–´ê°€ê¸° ì „ì— í•´ì•¼í•  ê²ƒì€ ê³µê²©ì„ ì„ íƒí•˜ëŠ” ê²ƒ
+            if (aiCharacter.currentRecoveryTime <= 0 && attackState.currentAttack != null) { // í˜„ì¬ ê³µê²©ì´ ì„ íƒëœ ìƒíƒœë¼ë©´ ê³µê²© ìƒíƒœë¡œ ì „ì´
                 randomDestinationSet = false;
                 //Debug.Log(attackState.hasPerformedAttack);
                 //Debug.Log(attackState.currentAttack);
                 return attackState;
-            } else { // ¾Æ´Ï¶ó¸é °ø°İ ¼±ÅÃ
-                GetNewAttack(enemyManager);
+            } else { // ì•„ë‹ˆë¼ë©´ ê³µê²© ì„ íƒ
+                GetNewAttack(aiCharacter);
             }
 
             return this;
         }
 
-        // ¸ñÇ¥ ¹æÇâÀ¸·Î È¸Àü
-        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // È¸Àü Á¦¾î
+        // ëª©í‘œ ë°©í–¥ìœ¼ë¡œ íšŒì „
+        private void HandleRotateTowardsTarget(AICharacterManager enemyManager) { // íšŒì „ ì œì–´
             //Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
             //enemyManager.navMeshAgent.enabled = true;
             //enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
@@ -64,18 +64,18 @@ namespace SoulsLike {
             enemyManager.transform.rotation = targetRotation;
         }
 
-        // ¿øÀ» ±×¸®¸ç ÀÌµ¿ÇÒ¶§ ¾î¶²½ÄÀ¸·Î ¿òÁ÷ÀÏÁö °áÁ¤
+        // ì›ì„ ê·¸ë¦¬ë©° ì´ë™í• ë•Œ ì–´ë–¤ì‹ìœ¼ë¡œ ì›€ì§ì¼ì§€ ê²°ì •
         protected void DecideCirclingAction(AICharacterAnimatorManager enemyAnimatorManager) {
-            // ¿øÀ» ±×¸®¸ç ¾ÕÀ¸·Î¸¸ ÀÌµ¿
-            // ¿øÀ» ±×¸®¸ç ´Ş¸²
-            // ¿øÀ» ±×¸®¸ç °È±â µî...
+            // ì›ì„ ê·¸ë¦¬ë©° ì•ìœ¼ë¡œë§Œ ì´ë™
+            // ì›ì„ ê·¸ë¦¬ë©° ë‹¬ë¦¼
+            // ì›ì„ ê·¸ë¦¬ë©° ê±·ê¸° ë“±...
             WalkAroundTarget(enemyAnimatorManager);
         }
 
-        // Å¸°ÙÀ» ÇâÇØ °É¾î°£´Ù.
+        // íƒ€ê²Ÿì„ í–¥í•´ ê±¸ì–´ê°„ë‹¤.
         protected void WalkAroundTarget(AICharacterAnimatorManager enemyAnimatorManager) {
-            // ¾ÕÀ¸·Î ÀÌµ¿ÇÏ´Â ¸ğ¼Ç¸¸ »ç¿ëÇÏ±â À§ÇÔ
-            // µŞ°ÉÀ½ÁúÀ» ±¸ÇöÇÏ°í ½Í´Ù¸é verticalMovementValue º¯¼ö°ª ¹üÀ§¿¡ À½¼ö¸¦ Æ÷ÇÔ½ÃÅ°¸é µÊ
+            // ì•ìœ¼ë¡œ ì´ë™í•˜ëŠ” ëª¨ì…˜ë§Œ ì‚¬ìš©í•˜ê¸° ìœ„í•¨
+            // ë’·ê±¸ìŒì§ˆì„ êµ¬í˜„í•˜ê³  ì‹¶ë‹¤ë©´ verticalMovementValue ë³€ìˆ˜ê°’ ë²”ìœ„ì— ìŒìˆ˜ë¥¼ í¬í•¨ì‹œí‚¤ë©´ ë¨
             verticalMovementValue = Random.Range(-1f, 1f);
             if (verticalMovementValue < 0f) verticalMovementValue = 0f;
             else verticalMovementValue = 0.5f;
@@ -88,9 +88,9 @@ namespace SoulsLike {
             }
         }
 
-        // °ø°İ ¼±ÅÃ
-        // °Å¸®, °¢µµ ÆÇ´Ü
-        // °¢ °ø°İµéÀÇ Á¡¼ö¸¦ ¼³Á¤ÇÒ¶§, ¾î¶² »óÈ²¿¡¶óµµ °¡´ÉÇÑ °ø°İÀÏ¼ö·Ï ³ôÀº Á¡¼ö·Î ¼³Á¤ÇÏ´Â °ÍÀÌ ÁÁÀ»µí
+        // ê³µê²© ì„ íƒ
+        // ê±°ë¦¬, ê°ë„ íŒë‹¨
+        // ê° ê³µê²©ë“¤ì˜ ì ìˆ˜ë¥¼ ì„¤ì •í• ë•Œ, ì–´ë–¤ ìƒí™©ì—ë¼ë„ ê°€ëŠ¥í•œ ê³µê²©ì¼ìˆ˜ë¡ ë†’ì€ ì ìˆ˜ë¡œ ì„¤ì •í•˜ëŠ” ê²ƒì´ ì¢‹ì„ë“¯
         protected virtual void GetNewAttack(AICharacterManager enemyManager) {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
@@ -98,34 +98,34 @@ namespace SoulsLike {
 
             int maxScore = 0;
 
-            // Enemy°¡ ¼öÇàÇÒ¼ö ÀÖ´Â ¸ğµç °ø°İÀ» ¼øÈ¸
+            // Enemyê°€ ìˆ˜í–‰í• ìˆ˜ ìˆëŠ” ëª¨ë“  ê³µê²©ì„ ìˆœíšŒ
             for (int i = 0; i < enemyAttacks.Length; i++) {
                 EnemyAttackActions enemyAttackAction = enemyAttacks[i];
                 
-                // °ø°İ¿¡µû¶ó »ç°Å¸®, °¢µµ, Á¡¼ö°¡ ´Ù¸£´Ù°í °¡Á¤
-                // Æ¯Á¤ °ø°İÀÌ °¡´ÉÇÑ »óÈ²ÀÌ¶ó¸é Á¡¼ö¸¦ ´©Àû
+                // ê³µê²©ì—ë”°ë¼ ì‚¬ê±°ë¦¬, ê°ë„, ì ìˆ˜ê°€ ë‹¤ë¥´ë‹¤ê³  ê°€ì •
+                // íŠ¹ì • ê³µê²©ì´ ê°€ëŠ¥í•œ ìƒí™©ì´ë¼ë©´ ì ìˆ˜ë¥¼ ëˆ„ì 
                 if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
-                    distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) { // ÇöÀç ¸ñÇ¥°¡ °ø°İ »ç°Å¸® ³»¿¡ ÀÖ°í
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) { // °ø°İ °¡´ÉÇÑ ½Ã¾ß°¢³»¿¡ ÀÖ´Ù¸é
+                    distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) { // í˜„ì¬ ëª©í‘œê°€ ê³µê²© ì‚¬ê±°ë¦¬ ë‚´ì— ìˆê³ 
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) { // ê³µê²© ê°€ëŠ¥í•œ ì‹œì•¼ê°ë‚´ì— ìˆë‹¤ë©´
                         maxScore += enemyAttackAction.attackScore;
                     }
                 }
             }
 
-            // À§¿¡¼­ ±¸ÇÑ ´©Àû Á¡¼ö¿Í 0 »çÀÌ ÀÓÀÇÀÇ °ªÀ» ÃßÃâ
+            // ìœ„ì—ì„œ êµ¬í•œ ëˆ„ì  ì ìˆ˜ì™€ 0 ì‚¬ì´ ì„ì˜ì˜ ê°’ì„ ì¶”ì¶œ
             int randomValue = Random.Range(0, maxScore);
             int temporaryScore = 0;
             for (int i = 0; i < enemyAttacks.Length; i++) {
                 EnemyAttackActions enemyAttackAction = enemyAttacks[i];
 
-                // Æ¯Á¤ °ø°İÀÌ °¡´ÉÇÑ »óÈ²ÀÌ¶ó¸é Á¡¼ö¸¦ ´©Àû
+                // íŠ¹ì • ê³µê²©ì´ ê°€ëŠ¥í•œ ìƒí™©ì´ë¼ë©´ ì ìˆ˜ë¥¼ ëˆ„ì 
                 if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack &&
                     distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack) {
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle) {
-                        if (attackState.currentAttack != null) return; // ÀÌ¹Ì °ø°İÁßÀÌ¶ó¸é
+                        if (attackState.currentAttack != null) return; // ì´ë¯¸ ê³µê²©ì¤‘ì´ë¼ë©´
                         temporaryScore += enemyAttackAction.attackScore;
 
-                        // ÇöÀç °Ë»çÇÏ´Â °ø°İÀÇ Á¡¼ö¸¦ ÇÕ»êÇßÀ»¶§, randomValue º¸´Ù Å©´Ù¸é ÇØ´ç °ø°İÀ» ¼±ÅÃ
+                        // í˜„ì¬ ê²€ì‚¬í•˜ëŠ” ê³µê²©ì˜ ì ìˆ˜ë¥¼ í•©ì‚°í–ˆì„ë•Œ, randomValue ë³´ë‹¤ í¬ë‹¤ë©´ í•´ë‹¹ ê³µê²©ì„ ì„ íƒ
                         if (temporaryScore > randomValue) {
                             attackState.currentAttack = enemyAttackAction;
                         }

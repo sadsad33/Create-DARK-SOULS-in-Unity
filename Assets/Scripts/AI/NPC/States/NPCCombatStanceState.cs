@@ -3,46 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class NPCCombatStanceState : NPCState {
+    public class NPCCombatStanceState : CombatStanceState {
         public NPCIdleState npcIdleState;
         public NPCSelectTargetState npcSelectTargetState;
         public NPCAttackState npcAttackState;
         public NPCPursueTargetState npcPursueTargetState;
         public EnemyAttackActions[] npcAttacks;
 
-        protected bool randomDestinationSet = false;
-        protected float verticalMovementValue = 0;
-        protected float horizontalMovementValue = 0;
-        public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
-            npcManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
-            npcManager.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
+        //protected bool randomDestinationSet = false;
+        //protected float verticalMovementValue = 0;
+        //protected float horizontalMovementValue = 0;
+        public override State Tick(AICharacterManager aiCharacter) {
+            NPCManager npc = aiCharacter as NPCManager;
+            float distance = Vector3.Distance(npc.transform.position, npc.currentTarget.transform.position);
+            npc.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
+            npc.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
 
-            if (npcManager.isInteracting) {
-                npcManager.animator.SetFloat("Vertical", 0);
-                npcManager.animator.SetFloat("Horizontal", 0);
+            if (npc.isInteracting) {
+                npc.animator.SetFloat("Vertical", 0);
+                npc.animator.SetFloat("Horizontal", 0);
                 return this;
             }
 
-            HandleRotateTowardsTarget(npcManager);
-            if (distance > npcManager.maximumAggroRadius) return npcPursueTargetState;
+            HandleRotateTowardsTarget(npc);
+            if (distance > npc.maximumAggroRadius) return npcPursueTargetState;
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
+            if (npc.changeTargetTimer <= 0 || npc.currentTarget.characterStatsManager.isDead) {
                 Debug.Log("타겟 재설정");
-                npcManager.currentTarget = null;
+                npc.currentTarget = null;
                 return npcIdleState;
             }
             
             if (!randomDestinationSet) {
                 randomDestinationSet = true;
-                DecideCirclingAction(npcAnimatorManager);
+                DecideCirclingAction(npc.aiAnimatorManager);
             }
 
-            if (npcManager.currentRecoveryTime <= 0 && npcAttackState.currentAttack != null) { // 현재 공격이 선택된 상태라면 공격 상태로 전이
+            if (npc.currentRecoveryTime <= 0 && npcAttackState.currentAttack != null) { // 현재 공격이 선택된 상태라면 공격 상태로 전이
                 randomDestinationSet = false;
                 return npcAttackState;
             } else {
-                GetNewAttack(npcManager);
+                GetNewAttack(npc);
             }
 
             return this;
@@ -90,22 +91,22 @@ namespace SoulsLike {
                 }
             }
         }
-        protected void DecideCirclingAction(NPCAnimatorManager npcAnimatorManager) {
-            WalkAroundTarget(npcAnimatorManager);
-        }
+        //protected void DecideCirclingAction(AICharacterAnimatorManager npcAnimatorManager) {
+        //    WalkAroundTarget(npcAnimatorManager);
+        //}
 
-        protected void WalkAroundTarget(NPCAnimatorManager npcAnimatorManager) {
-            //verticalMovementValue = 0.5f;
+        //protected void WalkAroundTarget(AICharacterAnimatorManager npcAnimatorManager) {
+        //    //verticalMovementValue = 0.5f;
 
-            verticalMovementValue = Random.Range(-1, 1);
-            if (verticalMovementValue < 0) verticalMovementValue = 0f;
-            else verticalMovementValue = 0.5f;
+        //    verticalMovementValue = Random.Range(-1, 1);
+        //    if (verticalMovementValue < 0) verticalMovementValue = 0f;
+        //    else verticalMovementValue = 0.5f;
 
-            horizontalMovementValue = Random.Range(-1, 1);
-            if (horizontalMovementValue >= 0)
-                horizontalMovementValue = 0.5f;
-            else
-                horizontalMovementValue = -0.5f;
-        }
+        //    horizontalMovementValue = Random.Range(-1, 1);
+        //    if (horizontalMovementValue >= 0)
+        //        horizontalMovementValue = 0.5f;
+        //    else
+        //        horizontalMovementValue = -0.5f;
+        //}
     }
 }

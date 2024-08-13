@@ -7,25 +7,25 @@ namespace SoulsLike {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
         public DeadState deadState;
-        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
-            if (enemyStats.isDead) return deadState;
+        public override State Tick(AICharacterManager aiManager) {
+            if (aiManager.aiStatsManager.isDead) return deadState;
             // 목표 추적
             // 공격 사거리내에 타겟이 들어오면 Combat Stance State가 됨
             // 타겟이 공격 사거리 밖으로 나가면 Pursue Target State
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            HandleRotateTowardsTarget(enemyManager);
+            Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
+            float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+            HandleRotateTowardsTarget(aiManager);
 
             // 행동 중이라면
-            if (enemyManager.isInteracting) {
-                enemyManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 제자리에 정지
+            if (aiManager.isInteracting) {
+                aiManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime); // 제자리에 정지
                 return this;
             }
 
-            if (distanceFromTarget <= enemyManager.maximumAggroRadius) {
+            if (distanceFromTarget <= aiManager.maximumAggroRadius) {
                 return combatStanceState;
             } else {
-                enemyManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                aiManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
                 return this;
             }
         }

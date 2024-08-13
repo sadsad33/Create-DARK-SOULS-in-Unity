@@ -3,38 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class NPCIdleState : NPCState {
-        //public NPCPursueTargetState npcPursueTargetState;
+    public class NPCIdleState : State {
         public NPCSelectTargetState npcSelectTargetState;
         Collider[] colliders;
         int teamCode;
 
-        public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            if (npcManager.targets.Count > 0) npcManager.targets.Clear();
-            colliders = Physics.OverlapSphere(npcManager.transform.position, npcManager.detectionRadius, npcManager.hostileLayer);
-            npcManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-            npcManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+        public override State Tick(AICharacterManager aiCharacter) {
+
+            NPCManager npc = aiCharacter as NPCManager;
+            if (npc.targets.Count > 0) npc.targets.Clear();
+            colliders = Physics.OverlapSphere(npc.transform.position, npc.detectionRadius, npc.hostileLayer);
+            npc.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            npc.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
 
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
                 if (character != null && !character.characterStatsManager.isDead) {
                     teamCode = character.characterStatsManager.teamIDNumber;
 
-                    if (teamCode == 1 && npcManager.aggravationToEnemy >= 30) {
-                        npcManager.currentHostile |= LayerMask.GetMask("Character");
-                        npcManager.targets.Add(character);
+                    if (teamCode == 1 && npc.aggravationToEnemy >= 30) {
+                        npc.currentHostile |= LayerMask.GetMask("Character");
+                        npc.targets.Add(character);
                     }
-                    if (teamCode == 2 && npcManager.aggravationToPlayer >= 30) {
-                        npcManager.currentHostile |= LayerMask.GetMask("Player");
-                        npcManager.targets.Add(character);
+                    if (teamCode == 2 && npc.aggravationToPlayer >= 30) {
+                        npc.currentHostile |= LayerMask.GetMask("Player");
+                        npc.targets.Add(character);
                     }
                 }
             }
 
-            if (npcManager.targets.Count > 0) {
-                if (!npcManager.hasDrawnWeapon) {
-                    npcManager.hasDrawnWeapon = true;
-                    npcAnimatorManager.PlayTargetAnimation("Equip", true);
+            if (npc.targets.Count > 0) {
+                if (!npc.hasDrawnWeapon) {
+                    npc.hasDrawnWeapon = true;
+                    npc.aiAnimatorManager.PlayTargetAnimation("Equip", true);
                 }
                 return npcSelectTargetState;
             }

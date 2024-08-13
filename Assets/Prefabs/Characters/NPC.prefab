@@ -647,6 +647,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9812d92ac8df7314f8742752bf95c98e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackState: {fileID: 0}
+  enemyAttacks: []
+  pursueTargetState: {fileID: 0}
+  deadState: {fileID: 0}
   npcIdleState: {fileID: 212062006495036191}
   npcSelectTargetState: {fileID: 212062005447532696}
   npcAttackState: {fileID: 212062005693756954}
@@ -743,10 +747,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 212062005125730443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc4682ba81f91db498879da6cb5ccbff, type: 3}
+  m_Script: {fileID: 11500000, guid: faf3ab124fae898429ca1c40629fb0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcCombatStanceState: {fileID: 212062004699349415}
+  combatStanceState: {fileID: 212062004699349415}
+  pursueTargetState: {fileID: 212062006232072303}
 --- !u!1 &212062005347266621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1095,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36634ccf62441945bb3d26f983d1f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatStanceState: {fileID: 0}
+  rotateTowardsTargetState: {fileID: 0}
+  deadState: {fileID: 0}
   npcIdleState: {fileID: 212062006495036191}
   npcSelectTargetState: {fileID: 212062005447532696}
   npcCombatStanceState: {fileID: 212062004699349415}
@@ -2734,8 +2742,11 @@ MonoBehaviour:
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders: []
-  enemyStatsManager: {fileID: 0}
-  currentState: {fileID: 0}
+  aiAnimatorManager: {fileID: 0}
+  aiStatsManager: {fileID: 0}
+  aiEffectsManager: {fileID: 0}
+  aiLocomotionManager: {fileID: 0}
+  currentState: {fileID: 212062006495036191}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 1.5

@@ -56,15 +56,9 @@ namespace SoulsLike {
             }
         }
 
-        protected override void HandleStateMachine() {
-            //if (currentState != null) {
-            //    NPCState nextState = currentState.Tick(this, npcStatsManager, npcAnimatorManager);
-            //    if (nextState != null) {
-            //        SwitchToNextState(nextState);
-            //    }
-            //}
-            base.HandleStateMachine();
-        }
+        //protected override void HandleStateMachine() {
+        //    base.HandleStateMachine();
+        //}
 
         //public void SwitchToNextState(NPCState state) {
         //    //if (currentState != state)
