@@ -5,9 +5,10 @@ using UnityEngine.AI;
 namespace SoulsLike {
     public class AICharacterManager : CharacterManager {
         
-        AICharacterAnimatorManager enemyAnimatorManager;
-        public AICharacterStatsManager enemyStatsManager;
-        AICharacterEffectsManager enemyEffectsManager;
+        public AICharacterAnimatorManager aiAnimatorManager;
+        public AICharacterStatsManager aiStatsManager;
+        public AICharacterEffectsManager aiEffectsManager;
+        public AICharacterLocomotionManager aiLocomotionManager;
         public State currentState;
         public NavMeshAgent navMeshAgent;
 
@@ -30,9 +31,9 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
-            enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
-            enemyStatsManager = GetComponent<AICharacterStatsManager>();
-            enemyEffectsManager = GetComponent<AICharacterEffectsManager>();
+            aiAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            aiStatsManager = GetComponent<AICharacterStatsManager>();
+            aiEffectsManager = GetComponent<AICharacterEffectsManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             navMeshAgent.enabled = false;
             navMeshAgent.updateRotation = false;
@@ -51,7 +52,7 @@ namespace SoulsLike {
             canDoCombo = animator.GetBool("canDoCombo");
             canRotate = animator.GetBool("canRotate");
             isInvulnerable = animator.GetBool("isInvulnerable");
-            animator.SetBool("isDead", enemyStatsManager.isDead);
+            animator.SetBool("isDead", aiStatsManager.isDead);
             animator.SetBool("isGrabbed", isGrabbed);
             isPhaseShifting = animator.GetBool("isPhaseShifting");
         }
@@ -70,7 +71,7 @@ namespace SoulsLike {
             if (currentState != null) {
                 //if (!enemyStatsManager.isBoss)
                 //Debug.Log(currentState);
-                State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
+                State nextState = currentState.Tick(this);
                 if (nextState != null) {
                     SwitchToNextState(nextState);
                 }

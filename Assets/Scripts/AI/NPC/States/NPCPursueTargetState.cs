@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    public class NPCPursueTargetState : NPCState {
+    public class NPCPursueTargetState : PursueTargetState {
         public NPCIdleState npcIdleState;
         public NPCSelectTargetState npcSelectTargetState;
         public NPCCombatStanceState npcCombatStanceState;
-        public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            if (npcManager.isInteracting) {
-                npcManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+        public override State Tick(AICharacterManager aiCharacter) {
+            NPCManager npc = aiCharacter as NPCManager;
+            if (npc.isInteracting) {
+                npc.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 return this;
             }
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
+            if (npc.changeTargetTimer <= 0 || npc.currentTarget.characterStatsManager.isDead) {
                 Debug.Log("타겟 재설정");
-                npcManager.currentTarget = null;
+                npc.currentTarget = null;
                 return npcIdleState;
             }
 
-            HandleRotateTowardsTarget(npcManager);
+            HandleRotateTowardsTarget(npc);
             
-            float distance = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
-            if (distance <= npcManager.maximumAggroRadius) return npcCombatStanceState;
+            float distance = Vector3.Distance(npc.transform.position, npc.currentTarget.transform.position);
+            if (distance <= npc.maximumAggroRadius) return npcCombatStanceState;
             else {
-                npcManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                npc.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
                 return this;
             }
         }

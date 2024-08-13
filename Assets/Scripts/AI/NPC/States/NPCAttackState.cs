@@ -4,34 +4,35 @@ using UnityEngine;
 
 
 namespace SoulsLike {
-    public class NPCAttackState : NPCState {
+    public class NPCAttackState : State {
         public NPCIdleState npcIdleState;
         public NPCSelectTargetState npcSelectTargetState;
         public NPCPursueTargetState npcPursueTargetState;
-        public NPCRotateTowardsTargetState npcRotateTowardsTargetState;
+        public RotateTowardsTargetState npcRotateTowardsTargetState;
         public EnemyAttackActions currentAttack;
 
         bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false;
-        public override NPCState Tick(NPCManager npcManager, NPCStatsManager npcStatsManager, NPCAnimatorManager npcAnimatorManager) {
-            float distanceFromTarget = Vector3.Distance(npcManager.transform.position, npcManager.currentTarget.transform.position);
+        public override State Tick(AICharacterManager aiCharacter) {
+            NPCManager npc = aiCharacter as NPCManager;
+            float distanceFromTarget = Vector3.Distance(npc.transform.position, npc.currentTarget.transform.position);
 
-            if (npcManager.changeTargetTimer <= 0 || npcManager.currentTarget.characterStatsManager.isDead) {
+            if (npc.changeTargetTimer <= 0 || npc.currentTarget.characterStatsManager.isDead) {
                 Debug.Log("타겟 재설정");
-                npcManager.currentTarget = null;
+                npc.currentTarget = null;
                 return npcIdleState;
             }
 
-            RotateTowardsTargetWhileAttacking(npcManager);
+            RotateTowardsTargetWhileAttacking(npc);
 
-            if (distanceFromTarget > npcManager.maximumAggroRadius) return npcPursueTargetState;
+            if (distanceFromTarget > npc.maximumAggroRadius) return npcPursueTargetState;
 
-            if (willDoComboOnNextAttack && npcManager.canDoCombo) {
-                AttackTargetWithCombo(npcAnimatorManager, npcManager);
+            if (willDoComboOnNextAttack && npc.canDoCombo) {
+                AttackTargetWithCombo(npc.aiAnimatorManager, npc);
             }
 
             if (!hasPerformedAttack) {
-                AttackTarget(npcAnimatorManager, npcManager);
+                AttackTarget(npc.aiAnimatorManager, npc);
             }
 
             if (willDoComboOnNextAttack && hasPerformedAttack) {
@@ -42,7 +43,8 @@ namespace SoulsLike {
             return npcRotateTowardsTargetState;
         }
 
-        private void AttackTarget(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
+        private void AttackTarget(AICharacterAnimatorManager npcAnimatorManager, NPCManager npcManager) {
+            Debug.Log(npcAnimatorManager.transform.root.gameObject);
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             //npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
@@ -58,7 +60,7 @@ namespace SoulsLike {
                 currentAttack = null;
             }
         }
-        private void AttackTargetWithCombo(NPCAnimatorManager npcAnimatorManager, NPCManager npcManager) {
+        private void AttackTargetWithCombo(AICharacterAnimatorManager npcAnimatorManager, NPCManager npcManager) {
             willDoComboOnNextAttack = false;
             //npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             //npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);

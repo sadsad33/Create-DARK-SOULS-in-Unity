@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: a80a639d7340db244a7deb957f5fa3ad, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 91601d991e8e7e24a8c29a723eeb857d, type: 2}
 --- !u!1 &18244971
 GameObject:
   m_ObjectHideFlags: 0
@@ -8173,7 +8173,10 @@ MonoBehaviour:
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders: []
-  enemyStatsManager: {fileID: 0}
+  aiAnimatorManager: {fileID: 0}
+  aiStatsManager: {fileID: 0}
+  aiEffectsManager: {fileID: 0}
+  aiLocomotionManager: {fileID: 0}
   currentState: {fileID: 0}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
@@ -8193,7 +8196,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   targets: []
-  attackDistance: 1.5
   changeTargetTime: 10
   changeTargetTimer: 0
   hasDrawnWeapon: 0
@@ -49824,7 +49826,9 @@ MonoBehaviour:
   isPoisoned: 0
   poisonBuildUp: 0
   poisonAmount: 100
-  npcHealthBar: {fileID: 677814067}
+  enemyLocomotionManager: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  worldEventManager: {fileID: 0}
 --- !u!114 &4086121375643061409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51367,7 +51371,10 @@ MonoBehaviour:
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders: []
-  enemyStatsManager: {fileID: 0}
+  aiAnimatorManager: {fileID: 0}
+  aiStatsManager: {fileID: 0}
+  aiEffectsManager: {fileID: 0}
+  aiLocomotionManager: {fileID: 0}
   currentState: {fileID: 0}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15

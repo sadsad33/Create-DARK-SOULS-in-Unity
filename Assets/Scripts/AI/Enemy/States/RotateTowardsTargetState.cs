@@ -6,18 +6,18 @@ namespace SoulsLike {
     public class RotateTowardsTargetState : State {
         public CombatStanceState combatStanceState;
         public PursueTargetState pursueTargetState;
-        public override State Tick(AICharacterManager enemyManager, AICharacterStatsManager enemyStats, AICharacterAnimatorManager enemyAnimatorManager) {
-            enemyManager.animator.SetFloat("Vertical", 0);
-            enemyManager.animator.SetFloat("Horizontal", 0);
+        public override State Tick(AICharacterManager aiManager) {
+            aiManager.animator.SetFloat("Vertical", 0);
+            aiManager.animator.SetFloat("Horizontal", 0);
 
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
 
-            //// enemyÀÇ Á¤¸é¹æÇâ°ú enemy¿¡¼­ ÇÃ·¹ÀÌ¾î ¹æÇâ »çÀÌÀÇ °¢µµ¸¦ °è»êÇÑ´Ù. 
-            //// 0 ~ 180 , -180 ~ 0 »çÀÌÀÇ °ªÀ» ¹ÝÈ¯ÇÑ´Ù.
+            //// enemyì˜ ì •ë©´ë°©í–¥ê³¼ enemyì—ì„œ í”Œë ˆì´ì–´ ë°©í–¥ ì‚¬ì´ì˜ ê°ë„ë¥¼ ê³„ì‚°í•œë‹¤. 
+            //// 0 ~ 180 , -180 ~ 0 ì‚¬ì´ì˜ ê°’ì„ ë°˜í™˜í•œë‹¤.
             //float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
-            // È¸Àü »óÅÂ¿¡ µ¹ÀÔÇß´Âµ¥ ¾ÆÁ÷ Çàµ¿ÀÌ ´Ù ³¡³ªÁö ¾Ê¾ÒÀ» °æ¿ì Èå¸§À» ¿©±â¿¡ Àâ¾ÆµÎ±â À§ÇÔ 
-            if (enemyManager.isInteracting)
+            // íšŒì „ ìƒíƒœì— ëŒìž…í–ˆëŠ”ë° ì•„ì§ í–‰ë™ì´ ë‹¤ ëë‚˜ì§€ ì•Šì•˜ì„ ê²½ìš° íë¦„ì„ ì—¬ê¸°ì— ìž¡ì•„ë‘ê¸° ìœ„í•¨ 
+            if (aiManager.isInteracting)
                 return this;
 
             ////Debug.Log(viewableAngle);
@@ -34,19 +34,19 @@ namespace SoulsLike {
             //Debug.DrawRay(enemyManager.transform.position, enemyManager.transform.forward, Color.red, Mathf.Infinity);
             //Debug.DrawRay(enemyManager.transform.position, targetDirection, Color.blue, Mathf.Infinity);
 
-            float angle = Vector3.SignedAngle(enemyManager.transform.forward, targetDirection, Vector3.up);
+            float angle = Vector3.SignedAngle(aiManager.transform.forward, targetDirection, Vector3.up);
             //Debug.Log(angle);
-            if (angle >= 30 && angle <= 120 && !enemyManager.isInteracting) {
-                enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Right", true);
+            if (angle >= 30 && angle <= 120 && !aiManager.isInteracting) {
+                aiManager.aiAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Right", true);
                 //Debug.Log("Turn_Right");
-            } else if (angle > 120 && angle <= 180 && !enemyManager.isInteracting) {
-                enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Right", true);
+            } else if (angle > 120 && angle <= 180 && !aiManager.isInteracting) {
+                aiManager.aiAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Right", true);
                 //Debug.Log("Turn_Behind_Right");
-            } else if (angle >= -120 && angle <= -30 && !enemyManager.isInteracting) {
-                enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Left", true);
+            } else if (angle >= -120 && angle <= -30 && !aiManager.isInteracting) {
+                aiManager.aiAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Left", true);
                 //Debug.Log("Turn_Left");
-            } else if (angle > -180 && angle < -120 && !enemyManager.isInteracting) {
-                enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Left", true);
+            } else if (angle > -180 && angle < -120 && !aiManager.isInteracting) {
+                aiManager.aiAnimatorManager.PlayTargetAnimationWithRootRotation("Turn_Behind_Left", true);
                 //Debug.Log("Turn_Behind_Left");
             }
             return combatStanceState;

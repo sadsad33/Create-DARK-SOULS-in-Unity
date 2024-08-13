@@ -1128,13 +1128,16 @@ MonoBehaviour:
   isFiringSpell: 0
   pendingCriticalDamage: 0
   characterColliders: []
-  enemyStatsManager: {fileID: 0}
-  currentState: {fileID: 0}
+  aiAnimatorManager: {fileID: 0}
+  aiStatsManager: {fileID: 0}
+  aiEffectsManager: {fileID: 0}
+  aiLocomotionManager: {fileID: 0}
+  currentState: {fileID: 634820070}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 2
   aiCharacterID: 0
-  detectionRadius: 10
+  detectionRadius: 5
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
   currentRecoveryTime: 0

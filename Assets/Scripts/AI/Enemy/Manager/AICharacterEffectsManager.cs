@@ -14,7 +14,7 @@ namespace SoulsLike {
         public override void ProcessEffectInstantly(CharacterEffect effect) {
             base.ProcessEffectInstantly(effect);
             if (effect is TakeDamageEffect) {
-                aiCharacterManager.enemyStatsManager.enemyHealthBar.UpdateHealth(aiCharacterManager.enemyStatsManager.currentHealth);
+                aiCharacterManager.aiStatsManager.enemyHealthBar.UpdateHealth(aiCharacterManager.aiStatsManager.currentHealth);
             }
         }
     }
