@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    // ¸Ê¿¡ Á¸ÀçÇÏ´Â ÀÌº¥Æ® °ü¸®
+    // ë§µì— ì¡´ì¬í•˜ëŠ” ì´ë²¤íŠ¸ ê´€ë¦¬
     public class WorldEventManager : MonoBehaviour {
 
         public List<FogWall> outsideFogWalls;
@@ -13,12 +13,12 @@ namespace SoulsLike {
         public BossHealthBar bossHealthBar;
         public BossManager boss;
 
-        public bool bossFightIsActive; // º¸½ºÀü ½ÃÀÛ ¿©ºÎ
-        public bool bossHasBeenAwakened; // º¸½º Çàµ¿ ½ÃÀÛ È¤Àº ÄÆ½Å Àç»ı
-        public bool bossHasBeenDefeated; // º¸½º °İÆÄ
+        public bool bossFightIsActive; // ë³´ìŠ¤ì „ ì‹œì‘ ì—¬ë¶€
+        public bool bossHasBeenAwakened; // ë³´ìŠ¤ í–‰ë™ ì‹œì‘ í˜¹ì€ ì»·ì‹  ì¬ìƒ
+        public bool bossHasBeenDefeated; // ë³´ìŠ¤ ê²©íŒŒ
 
         private void Awake() {
-            bossHealthBar = FindObjectOfType<BossHealthBar>();
+            bossHealthBar = GetComponentInChildren<BossHealthBar>();
         }
 
         public void ActivateBossFight() {
@@ -26,7 +26,7 @@ namespace SoulsLike {
             bossHasBeenAwakened = true;
             bossHealthBar.SetUIHealthBarToActive();
 
-            // ¾È°³º® »ı¼º
+            // ì•ˆê°œë²½ ìƒì„±
             fogWallEntrance.SetActive(false);
             foreach (var fogwall in outsideFogWalls) {
                 fogwall.DeactivateFogWall();
@@ -41,7 +41,7 @@ namespace SoulsLike {
             bossFightIsActive = false;
             bossHealthBar.SetHealthBarToInactive();
             Debug.Log("BossFightisEnded");
-            // ¾È°³º® ¼Ò¸ê
+            // ì•ˆê°œë²½ ì†Œë©¸
             foreach (var fogWall in insideFogWalls) {
                 fogWall.DeactivateFogWall();
             }

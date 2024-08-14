@@ -8,12 +8,12 @@ namespace SoulsLike {
     // 일정 시간에 따라 줄어들어 현재 체력양과 같아짐
     public class UIYellowBar : MonoBehaviour {
         [SerializeField] public Slider slider;
-        UIEnemyHealthBar parentHealthBar;
+        HealthBar parentHealthBar;
         public float timer;
 
         private void Awake() {
             slider = GetComponent<Slider>();
-            parentHealthBar = GetComponentInParent<UIEnemyHealthBar>();
+            parentHealthBar = GetComponentInParent<HealthBar>();
         }
         public void SetMaxStat(float maxStat) {
             slider.maxValue = maxStat;

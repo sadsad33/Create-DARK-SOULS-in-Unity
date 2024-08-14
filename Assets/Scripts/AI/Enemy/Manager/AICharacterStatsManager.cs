@@ -7,24 +7,27 @@ namespace SoulsLike {
     public class AICharacterStatsManager : CharacterStatsManager {
         AICharacterAnimatorManager enemyAnimatorManager;
         public AICharacterLocomotionManager enemyLocomotionManager;
-        BossManager bossManager;
-        AICharacterManager enemyManager;
+        //BossManager bossManager;
+        AICharacterManager aiCharacter;
+
         public UIEnemyHealthBar enemyHealthBar;
-        public WorldEventManager worldEventManager;
+        //public WorldEventManager worldEventManager;
         protected override void Awake() {
             base.Awake();
-            enemyManager = GetComponent<AICharacterManager>();
+            aiCharacter = GetComponent<AICharacterManager>();
             enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
             enemyLocomotionManager = GetComponent<AICharacterLocomotionManager>();
-            bossManager = GetComponent<BossManager>();
+            //bossManager = GetComponent<BossManager>();
             // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
-            maxHealth = SetMaxHealthFromHealthLevel();
-            currentHealth = maxHealth;
         }
 
         protected override void Start() {
             base.Start();
-            if (!isBoss) enemyHealthBar.SetMaxHealth(maxHealth);
+            if (!aiCharacter.isBoss) {
+                maxHealth = SetMaxHealthFromHealthLevel();
+                currentHealth = maxHealth;
+                enemyHealthBar.SetMaxHealth(maxHealth);
+            }
         }
 
         public override float SetMaxHealthFromHealthLevel() {
@@ -34,27 +37,25 @@ namespace SoulsLike {
 
         // 뒤잡이나 앞잡등 애니메이션을 강제해야 하는 경우 사용
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {
-            if (enemyManager.isInvulnerable) return;
+            if (aiCharacter.isInvulnerable) return;
             base.TakeDamageNoAnimation(damage, fireDamage);
-            if (!isBoss)
-                enemyHealthBar.UpdateHealth(currentHealth);
-            else if (isBoss && bossManager != null)
-                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-            if (isDead && !enemyManager.isGrabbed) {
+            enemyHealthBar.UpdateHealth(currentHealth);
+            //else if (isBoss && bossManager != null)
+            //    bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+            if (isDead && !aiCharacter.isGrabbed) {
                 HandleDeath("Dead");
-            } else if (isDead && enemyManager.isGrabbed) {
+            } else if (isDead && aiCharacter.isGrabbed) {
                 HandleDeathWithNoAnimation();
             }
         }
 
         public override void TakePoisonDamage(float damage) {
             base.TakePoisonDamage(damage);
-            if (!isBoss)
-                enemyHealthBar.UpdateHealth(currentHealth);
-            else if (isBoss && bossManager != null)
-                bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-            
-            if (isDead && !enemyManager.isGrabbed) {
+            enemyHealthBar.UpdateHealth(currentHealth);
+            //else if (isBoss && bossManager != null)
+            //    bossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+
+            if (isDead && !aiCharacter.isGrabbed) {
                 HandleDeath("PoisonedDeath");
             }
         }
@@ -68,7 +69,7 @@ namespace SoulsLike {
             //enemyLocomotionManager.characterCollider.enabled = false;
             //enemyManager.navMeshAgent.enabled = false;
 
-            if (isBoss) worldEventManager.BossHasBeenDefeated();
+            //if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);
             //Destroy(gameObject, 3.0f);
             //isDead = true;
@@ -80,7 +81,7 @@ namespace SoulsLike {
             //enemyManager.enemyRigidbody.useGravity = false;
             //enemyLocomotionManager.characterCollider.enabled = false;
             //enemyManager.navMeshAgent.enabled = false;
-            if (isBoss) worldEventManager.BossHasBeenDefeated();
+            //if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);
         }
 

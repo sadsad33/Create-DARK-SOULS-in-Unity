@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SoulsLike {
-    public class BossHealthBar : MonoBehaviour {
-        public Text bossName; // È­¸é¿¡ Ç¥½ÃÇÒ ÀÌ¸§À» ¹Ş¾Æ¿Ã º¯¼ö
-        Slider slider; // Ã¼·Â¹Ù¸¦ °ü¸®ÇÒ º¯¼ö
-
-        private void Awake() {
-            slider = GetComponentInChildren<Slider>();
+    public class BossHealthBar : UIEnemyHealthBar {
+        public Text bossName; // í™”ë©´ì— í‘œì‹œí•  ì´ë¦„ì„ ë°›ì•„ì˜¬ ë³€ìˆ˜
+        float damageTextResetTimer = 2;
+        //Slider slider;
+        protected override void Awake() {
+            base.Awake();
             bossName = GetComponentInChildren<Text>();
         }
 
@@ -29,13 +30,33 @@ namespace SoulsLike {
             slider.gameObject.SetActive(false);
         }
 
-        public void SetBossMaxHealth(float maxHealth) {
-            slider.maxValue = maxHealth;
-            slider.value = maxHealth;
+        public override void SetMaxHealth(float maxHealth) {
+            base.SetMaxHealth(maxHealth);
         }
 
-        public void SetBossCurrentHealth(float currentHealth) {
-            slider.value = currentHealth;
+        public override void UpdateHealth(float health) {
+            if (yellowBar != null) {
+                yellowBar.gameObject.SetActive(true);
+                yellowBar.timer = yellowBarTimer; // ë°ë¯¸ì§€ë¥¼ ë°›ì„ë•Œë§ˆë‹¤ íƒ€ì´ë¨¸ ë¦¬ì…‹ 
+                if (health > slider.value) {
+                    yellowBar.slider.value = health;
+                }
+            }
+            damageText.enabled = true;
+            currentDamageTaken += (slider.value - health);
+            damageText.text = currentDamageTaken.ToString();
+            slider.value = health;
+            damageTextResetTimer = 2;
+        }
+
+        protected override void Update() {
+            damageTextResetTimer -= Time.deltaTime;
+            if (slider != null) {
+                if (damageTextResetTimer < 0) {
+                    damageTextResetTimer = 0;
+                    damageText.enabled = false;
+                }
+            }
         }
     }
 }

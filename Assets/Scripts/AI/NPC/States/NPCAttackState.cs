@@ -44,7 +44,7 @@ namespace SoulsLike {
         }
 
         private void AttackTarget(AICharacterAnimatorManager npcAnimatorManager, NPCManager npcManager) {
-            Debug.Log(npcAnimatorManager.transform.root.gameObject);
+            //Debug.Log(npcAnimatorManager.transform.root.gameObject);
             npcAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             //npcManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             //npcManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);

@@ -22,7 +22,7 @@ namespace SoulsLike {
         public CriticalDamageCollider riposteCollider;
 
         [Header("Interaction")]
-        public bool canTalk;
+        //public bool canTalk;
         public bool isInteracting;
         
         [Header("Combat Flags")]

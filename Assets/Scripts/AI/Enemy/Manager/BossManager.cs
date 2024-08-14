@@ -6,30 +6,32 @@ namespace SoulsLike {
     public class BossManager : AICharacterManager {
         BossHealthBar bossHealthBar;
         public string bossName;
-        AICharacterStatsManager enemyStats;
-        AICharacterAnimatorManager enemyAnimatorManager;
         BossCombatStanceState bossCombatStanceState;
 
         [Header("Second Phase FX")]
         public GameObject particleFX;
 
         protected override void Awake() {
+            base.Awake();
+            isBoss = true;
             animator = GetComponent<Animator>();
             bossHealthBar = FindObjectOfType<BossHealthBar>();
-            enemyStats = GetComponent<AICharacterStatsManager>();
-            enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            Debug.Log(bossHealthBar);
+            //enemyStats = GetComponent<AICharacterStatsManager>();
+            //enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
             bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
         }
 
         protected override void Start() {
+            base.Start();
             bossHealthBar.SetBossName(bossName);
-            bossHealthBar.SetBossMaxHealth(enemyStats.maxHealth);
+            bossHealthBar.SetMaxHealth(aiStatsManager.maxHealth);
         }
 
         public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
-            bossHealthBar.SetBossCurrentHealth(currentHealth);
+            bossHealthBar.SetCurrentHealth(currentHealth);
             if (currentHealth <= maxHealth / 2 && !bossCombatStanceState.hasPhaseShifted) {
-                if (enemyStats.isStuned) return;
+                if (aiStatsManager.isStuned) return;
                 //Debug.Log("2페이즈 진입");
                 bossCombatStanceState.hasPhaseShifted = true;
                 ShiftToSecondPhase();
@@ -40,7 +42,7 @@ namespace SoulsLike {
         public void ShiftToSecondPhase() {
             animator.SetBool("isInvulnerable", true);
             animator.SetBool("isPhaseShifting", true);
-            enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
+            aiAnimatorManager.PlayTargetAnimation("PhaseShift", true);
             //패턴 전환
         }
     }
