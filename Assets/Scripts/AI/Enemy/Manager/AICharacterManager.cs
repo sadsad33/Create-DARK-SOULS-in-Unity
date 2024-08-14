@@ -19,12 +19,14 @@ namespace SoulsLike {
         public int aiCharacterID;
 
         [Header("AI Settings")]
+        public bool isBoss = false;
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
         public float currentRecoveryTime = 0;
 
         [Header("AI CombatSettings")]
+        public bool canTalk;
         public bool allowAIToPerformCombos;
         public bool isPhaseShifting; // 페이즈 전환을 수행했는지 여부
         public float comboLikelyHood;

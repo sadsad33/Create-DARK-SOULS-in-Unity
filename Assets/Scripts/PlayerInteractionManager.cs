@@ -5,9 +5,6 @@ using UnityEngine;
 namespace SoulsLike {
     public class PlayerInteractionManager : MonoBehaviour {
 
-        public delegate void InteractionDelegate();
-        private InteractionDelegate interactionDelegate;
-
         [SerializeField]
         InteractableUI interactableUI;
         //LayerMask interactableLayer;
@@ -31,9 +28,10 @@ namespace SoulsLike {
                 currentInteractable = other.GetComponent<Interactable>();
                 SetInteractionUI();
             } else if (other.CompareTag("Character")) {
-                CharacterManager character;
-                character = other.GetComponent<CharacterManager>();
+                AICharacterManager character;
+                character = other.GetComponent<CharacterManager>() as AICharacterManager;
                 if (character.canTalk) {
+                    Debug.Log(character.transform.root.gameObject);
                     currentInteractable = other.GetComponent<Interactable>();
                     //    if (currentInteractable != null) {
                     //        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
@@ -42,7 +40,7 @@ namespace SoulsLike {
                     //            UIManager.instance.itemInteractableGameObject.SetActive(false);
                     //        }
                     //    }
-                }
+                } else currentInteractable = null;                
                 SetInteractionUI();
             }
         }
