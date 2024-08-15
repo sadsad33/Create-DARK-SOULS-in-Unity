@@ -51,7 +51,9 @@ namespace SoulsLike {
         }
 
         public void OnTargetIDChanged(ulong oldTarget, ulong newTarget) {
-            character.currentTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[newTarget].gameObject.GetComponent<CharacterManager>();
+            if (newTarget != 0)
+                character.currentTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[newTarget].gameObject.GetComponent<CharacterManager>();
+
         }
 
         // RPC(Remote Procedure Call) : 원격 프로시저 호출
@@ -109,9 +111,9 @@ namespace SoulsLike {
         // 어떤 클라이언트가 다른 클라이언트의 오브젝트에서 서버 rpc를 호출할 수 있도록 해줌
         // 다른 클라이언트의 오브젝트에 데미지를 줬다면, 해당 오브젝트에서 서버 rpc를 호출해서 모든 클라이언트에게 이 오브젝트가 데미지를 받았다는 사실을 알릴수 있도록
         [ServerRpc(RequireOwnership = false)]
-        public virtual void NotifyServerOfCharacterDamageServerRpc(ulong damagedCharacterID, 
-            float physicalDamage, 
-            float fireDamage, 
+        public virtual void NotifyServerOfCharacterDamageServerRpc(ulong damagedCharacterID,
+            float physicalDamage,
+            float fireDamage,
             float poiseDamage,
             float contactPointX,
             float contactPointY,

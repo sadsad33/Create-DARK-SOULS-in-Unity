@@ -6,13 +6,13 @@ using UnityEngine;
 namespace SoulsLike {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
-
+        
         public List<FogWall> outsideFogWalls;
         public List<FogWall> insideFogWalls;
         public GameObject fogWallEntrance;
         public BossHealthBar bossHealthBar;
         public BossManager boss;
-
+        
         public bool bossFightIsActive; // 보스전 시작 여부
         public bool bossHasBeenAwakened; // 보스 행동 시작 혹은 컷신 재생
         public bool bossHasBeenDefeated; // 보스 격파
@@ -34,6 +34,10 @@ namespace SoulsLike {
             foreach (var fogWall in insideFogWalls) {
                 fogWall.ActivateFogWall();
             }
+        }
+        
+        public static WorldEventManager ReturnThis(WorldEventManager instance) {
+            return instance;
         }
 
         public void BossHasBeenDefeated() {

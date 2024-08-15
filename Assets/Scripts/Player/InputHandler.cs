@@ -215,13 +215,13 @@ namespace SoulsLike {
         private void HandleLockOnInput() {
             // 록온 버튼이 눌렸고 아직 록온 상태가 아닌경우
             if (lockOn_Input && !player.playerNetworkManager.isLockedOn.Value) {
-
                 lockOn_Input = !lockOn_Input;
                 cameraHandler.HandleLockOn();
                 if (cameraHandler.nearestLockOnTarget != null) {
                     // 록온 대상 설정
                     player.currentTarget = cameraHandler.nearestLockOnTarget;
                     player.playerNetworkManager.currentTargetID.Value = player.currentTarget.GetComponent<NetworkObject>().NetworkObjectId;
+                    //Debug.Log("플레이어의 현재 타겟 ID : " + player.playerNetworkManager.currentTargetID.Value);
                     player.playerNetworkManager.isLockedOn.Value = !player.playerNetworkManager.isLockedOn.Value;
                 }
             }

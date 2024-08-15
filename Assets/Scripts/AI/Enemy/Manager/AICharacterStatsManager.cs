@@ -18,16 +18,15 @@ namespace SoulsLike {
             enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
             enemyLocomotionManager = GetComponent<AICharacterLocomotionManager>();
             //bossManager = GetComponent<BossManager>();
-            // 보스몬스터의 경우 Start 메서드에서 스탯을 가져오기 때문에 그전에 세팅해줘야함
         }
 
         protected override void Start() {
             base.Start();
-            if (!aiCharacter.isBoss) {
-                maxHealth = SetMaxHealthFromHealthLevel();
-                currentHealth = maxHealth;
-                enemyHealthBar.SetMaxHealth(maxHealth);
-            }
+            //if (!aiCharacter.isBoss) {
+            maxHealth = SetMaxHealthFromHealthLevel();
+            currentHealth = maxHealth;
+            enemyHealthBar.SetMaxHealth(maxHealth);
+            //}
         }
 
         public override float SetMaxHealthFromHealthLevel() {
@@ -86,6 +85,7 @@ namespace SoulsLike {
         }
 
         private void ChangeLayerIncludingAllChilds(GameObject obj) {
+            obj.gameObject.layer = 7;
             foreach (Transform child in obj.transform) {
                 ChangeLayerIncludingAllChilds(child.gameObject);
                 child.gameObject.layer = 7;

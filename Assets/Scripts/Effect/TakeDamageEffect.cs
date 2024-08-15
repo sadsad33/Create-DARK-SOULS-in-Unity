@@ -87,6 +87,14 @@ namespace SoulsLike {
             if (character.characterStatsManager.currentHealth <= 0) {
                 character.characterStatsManager.currentHealth = 0;
                 character.characterStatsManager.isDead = true;
+                if (characterCausingDamage.currentTarget == character) {
+                    characterCausingDamage.currentTarget = null;
+                    if (characterCausingDamage is PlayerManager) {
+                        Debug.Log("타겟이 죽으면 록온 해제");
+                        characterCausingDamage.characterNetworkManager.isLockedOn.Value = false;
+                        CameraHandler.instance.ClearLockOnTargets();
+                    }
+                }
             }
         }
 
