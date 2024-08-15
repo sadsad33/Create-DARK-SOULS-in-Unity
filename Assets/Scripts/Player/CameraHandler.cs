@@ -203,7 +203,7 @@ namespace SoulsLike {
                 }
                 if (player.playerNetworkManager.isLockedOn.Value) { // 록온 상태
                     // InverseTransformPoint : 객체의 월드좌표를 로컬좌표로 변환
-                    // 주변에 락온이 가능한 타겟들의 월드 좌표를 자기 자신의 로컬좌표계로 편입시킨다.
+                    // 주변에 록온이 가능한 타겟들의 월드 좌표를 자기 자신의 로컬좌표계로 편입시킨다.
                     Vector3 relativeEnemyPosition = inputHandler.transform.InverseTransformPoint(availableTargets[i].transform.position);
                     var distanceFromLeftTarget = relativeEnemyPosition.x; // 왼쪽 타겟의 좌표
                     var distanceFromRightTarget = relativeEnemyPosition.x; // 오른쪽 타겟의 좌표
@@ -232,6 +232,7 @@ namespace SoulsLike {
             availableTargets.Clear();
             nearestLockOnTarget = null;
             player.currentTarget = null;
+            player.playerNetworkManager.currentTargetID.Value = 0;
         }
 
         // 록온 여부에따라 카메라의 높낮이를 바꾼다.

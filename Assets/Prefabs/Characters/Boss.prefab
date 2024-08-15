@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: 456348331913708501}
   - component: {fileID: 5815671829589842351}
   - component: {fileID: 1193537342765022682}
-  - component: {fileID: 5815671829589842355}
   - component: {fileID: 5815671829589842348}
   - component: {fileID: 5815671829589842349}
   - component: {fileID: 5815671829589842350}
@@ -209,6 +208,7 @@ GameObject:
   - component: {fileID: 5815671829589842363}
   - component: {fileID: 5815671829589842354}
   - component: {fileID: 5815671829589842356}
+  - component: {fileID: -4606267213864854187}
   m_Layer: 9
   m_Name: Boss
   m_TagString: Character
@@ -283,61 +283,6 @@ MonoBehaviour:
   attackingWeapon: {fileID: 0}
   rightHandIKTarget: {fileID: 0}
   leftHandIKTarget: {fileID: 0}
---- !u!114 &5815671829589842355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945358788725004655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9999285b125b2aa489c3cd81ef347c05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previousPoiseDamageTaken: 0
-  teamIDNumber: 0
-  soulsAwardedOnDeath: 0
-  healthLevel: 10
-  maxHealth: 0
-  currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
-  focusLevel: 10
-  maxFocus: 0
-  currentFocus: 0
-  blockingStabilityRating: 0
-  soulCount: 0
-  isBoss: 0
-  totalPoiseDefense: 0
-  offensivePoiseBonus: 0
-  armorPoiseBonus: 0
-  totalPoiseResetTime: 0
-  poiseResetTimer: 0
-  isStuned: 0
-  physicalDamageAbsorptionHead: 0
-  physicalDamageAbsorptionBody: 0
-  physicalDamageAbsorptionLegs: 0
-  physicalDamageAbsorptionHands: 0
-  totalPhysicalDamageDefenseRate: 0
-  fireDamageAbsorptionHead: 0
-  fireDamageAbsorptionBody: 0
-  fireDamageAbsorptionLegs: 0
-  fireDamageAbsorptionHands: 0
-  totalFireDamageDefenseRate: 0
-  poisonResistance: 0
-  isDead: 0
-  physicalDamagePercentageModifier: 100
-  fireDamagePercentageModifier: 100
-  physicalAbsorptionPercentageModifier: 0
-  fireAbsorptionPercentageModifier: 0
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  enemyLocomotionManager: {fileID: 0}
-  enemyHealthBar: {fileID: 0}
-  worldEventManager: {fileID: 0}
 --- !u!114 &5815671829589842348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +333,6 @@ MonoBehaviour:
   lockOnTransform: {fileID: 0}
   backStabCollider: {fileID: 0}
   riposteCollider: {fileID: 0}
-  canTalk: 0
   isInteracting: 0
   canBeRiposted: 0
   canBeParried: 0
@@ -415,10 +359,12 @@ MonoBehaviour:
   rotationSpeed: 15
   maximumAggroRadius: 1.5
   aiCharacterID: 0
+  isBoss: 0
   detectionRadius: 20
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
   currentRecoveryTime: 0
+  canTalk: 0
   allowAIToPerformCombos: 0
   isPhaseShifting: 0
   comboLikelyHood: 0
@@ -624,6 +570,61 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4606267213864854187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945358788725004655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bacd6550cfab67439c2143bbed251cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
+  teamIDNumber: 0
+  soulsAwardedOnDeath: 0
+  healthLevel: 20
+  maxHealth: 0
+  currentHealth: 0
+  staminaLevel: 10
+  maxStamina: 0
+  currentStamina: 0
+  focusLevel: 10
+  maxFocus: 0
+  currentFocus: 0
+  blockingStabilityRating: 0
+  soulCount: 0
+  isBoss: 0
+  totalPoiseDefense: 0
+  offensivePoiseBonus: 0
+  armorPoiseBonus: 0
+  totalPoiseResetTime: 0
+  poiseResetTimer: 0
+  isStuned: 0
+  physicalDamageAbsorptionHead: 0
+  physicalDamageAbsorptionBody: 0
+  physicalDamageAbsorptionLegs: 0
+  physicalDamageAbsorptionHands: 0
+  totalPhysicalDamageDefenseRate: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
+  totalFireDamageDefenseRate: 0
+  poisonResistance: 0
+  isDead: 0
+  physicalDamagePercentageModifier: 100
+  fireDamagePercentageModifier: 100
+  physicalAbsorptionPercentageModifier: 0
+  fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
+  enemyLocomotionManager: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  worldEventManager: {fileID: 0}
 --- !u!1 &1060717142764349270
 GameObject:
   m_ObjectHideFlags: 0

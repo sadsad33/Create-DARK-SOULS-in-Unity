@@ -56,6 +56,7 @@ namespace SoulsLike {
             backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             playerInteractionManager = GetComponentInChildren<PlayerInteractionManager>();
             ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
+            //Debug.Log("플레이어의 현재 타겟 ID : " + playerNetworkManager.currentTargetID.Value);
             if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
             //interactableUI = FindObjectOfType<InteractableUI>();
             //interactableLayer = 1 << 0 | 1 << 9;
