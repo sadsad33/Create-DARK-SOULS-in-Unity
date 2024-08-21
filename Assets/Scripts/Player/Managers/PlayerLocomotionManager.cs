@@ -345,7 +345,7 @@ namespace SoulsLike {
         public void HandleClimbing() {
             if (player.ladderEndPositionDetector.isTopEnd && player.inputHandler.vertical >= 1) {
                 //Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
-                player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform;
+                player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position;
                 player.isMoving = true;
                 if (player.rightFootUp) {
                     player.playerInteractionManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", player.transform);

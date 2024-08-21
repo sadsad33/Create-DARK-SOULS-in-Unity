@@ -15,6 +15,7 @@ namespace SoulsLike {
             base.ProcessEffectInstantly(effect);
             if (effect is TakeDamageEffect) {
                 aiCharacterManager.aiStatsManager.enemyHealthBar.UpdateHealth(aiCharacterManager.aiStatsManager.currentHealth);
+                //Debug.Log(aiCharacterManager.aiStatsManager.enemyHealthBar);
             }
         }
     }

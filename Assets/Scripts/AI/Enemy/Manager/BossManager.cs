@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class BossManager : AICharacterManager {
-        BossHealthBar bossHealthBar;
+        //BossHealthBar bossHealthBar;
         public string bossName;
         BossCombatStanceState bossCombatStanceState;
 
@@ -15,21 +15,15 @@ namespace SoulsLike {
             base.Awake();
             isBoss = true;
             animator = GetComponent<Animator>();
-            bossHealthBar = FindObjectOfType<BossHealthBar>();
-            Debug.Log(bossHealthBar);
-            //enemyStats = GetComponent<AICharacterStatsManager>();
-            //enemyAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            aiStatsManager = GetComponent<BossStatsManager>();    
             bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
         }
 
         protected override void Start() {
             base.Start();
-            bossHealthBar.SetBossName(bossName);
-            bossHealthBar.SetMaxHealth(aiStatsManager.maxHealth);
         }
 
         public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
-            bossHealthBar.SetCurrentHealth(currentHealth);
             if (currentHealth <= maxHealth / 2 && !bossCombatStanceState.hasPhaseShifted) {
                 if (aiStatsManager.isStuned) return;
                 //Debug.Log("2페이즈 진입");

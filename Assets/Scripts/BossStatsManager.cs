@@ -5,24 +5,23 @@ using System;
 
 namespace SoulsLike {
     public class BossStatsManager : AICharacterStatsManager {
-        //public static Func<WorldEventManager> FetchWorldEventManagerDelegate;
         BossManager boss;
-        //public BossHealthBar bossHealthBar;
-        public WorldEventManager worldEventManager;
         
         protected override void Awake() {
             base.Awake();
             boss = GetComponent<BossManager>();
-            worldEventManager = FindObjectOfType<WorldEventManager>();
-            worldEventManager.boss = boss;
         }
 
         protected override void Start() {
-            enemyHealthBar = worldEventManager.bossHealthBar;
-            base.Start();
-            //maxHealth = SetMaxHealthFromHealthLevel();
-            //currentHealth = maxHealth;
+            //base.Start();
+            maxHealth = SetMaxHealthFromHealthLevel();
+            currentHealth = maxHealth;
             //bossHealthBar.SetMaxHealth(maxHealth);
+        }
+
+        protected override void Update() {
+            base.Update();
+            
         }
 
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {

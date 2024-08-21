@@ -63,9 +63,6 @@ namespace SoulsLike {
             //currentHealth = 0;
             Debug.Log("Dead");
             enemyAnimatorManager.PlayTargetAnimation(deathAnimation, true);
-            //enemyManager.enemyRigidbody.isKinematic = false;
-            //enemyManager.enemyRigidbody.useGravity = false;
-            //enemyLocomotionManager.characterCollider.enabled = false;
             //enemyManager.navMeshAgent.enabled = false;
 
             //if (isBoss) worldEventManager.BossHasBeenDefeated();
@@ -75,10 +72,7 @@ namespace SoulsLike {
         }
 
         private void HandleDeathWithNoAnimation() {
-            Debug.Log("DeadWithNoAnimation");
-            //enemyManager.enemyRigidbody.isKinematic = false;
-            //enemyManager.enemyRigidbody.useGravity = false;
-            //enemyLocomotionManager.characterCollider.enabled = false;
+            //Debug.Log("DeadWithNoAnimation");
             //enemyManager.navMeshAgent.enabled = false;
             //if (isBoss) worldEventManager.BossHasBeenDefeated();
             ChangeLayerIncludingAllChilds(transform.gameObject);

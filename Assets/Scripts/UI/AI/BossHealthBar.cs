@@ -11,14 +11,19 @@ namespace SoulsLike {
         //Slider slider;
         protected override void Awake() {
             base.Awake();
-            bossName = GetComponentInChildren<Text>();
+            //bossName = GetComponentInChildren<Text>();
         }
 
         private void Start() {
             slider.gameObject.SetActive(false);
         }
 
+        protected override void LateUpdate() {
+
+        }
+
         public void SetBossName(string name) {
+            bossName.enabled = true;
             bossName.text = name;
         }
 
@@ -26,7 +31,7 @@ namespace SoulsLike {
             slider.gameObject.SetActive(true);    
         }
 
-        public void SetHealthBarToInactive() {
+        public void SetUIHealthBarToInactive() {
             slider.gameObject.SetActive(false);
         }
 

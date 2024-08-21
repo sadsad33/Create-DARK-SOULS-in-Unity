@@ -15,14 +15,14 @@ namespace SoulsLike {
         protected virtual void Awake() {
             slider = GetComponentInChildren<Slider>();
             yellowBar = GetComponentInChildren<UIYellowBar>();
-            damageText = GetComponentInChildren<Text>();
+            //damageText = GetComponentInChildren<Text>();
         }
 
         private void OnDisable() {
             currentDamageTaken = 0;
         }
 
-        private void LateUpdate() {
+        protected virtual void LateUpdate() {
             if (slider != null) {
                 transform.forward = CameraHandler.instance.transform.forward;
             }

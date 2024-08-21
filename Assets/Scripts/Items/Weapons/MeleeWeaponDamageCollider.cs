@@ -18,21 +18,25 @@ namespace SoulsLike {
             float finalPhysicalDamage = physicalDamage + physicalBuffDamage;
             float finalFireDamage = fireDamage + fireBuffDamage;
             TakeDamageEffect takeDamageEffect = Instantiate(WorldEffectsManager.instance.takeDamageEffect);
-            if (damageTarget.characterStatsManager.isBoss) {
-                if (damageTarget.characterStatsManager.totalPoiseDefense < 0 && !damageTarget.characterStatsManager.isStuned) {
-                    damageTarget.characterStatsManager.isStuned = true;
-                    damageTarget.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
-                }
-                //damageTarget.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
-            } else {
-                takeDamageEffect.physicalDamage = finalPhysicalDamage;
-                takeDamageEffect.fireDamage = finalFireDamage;
-                takeDamageEffect.poiseDamage = poiseDamage;
-                takeDamageEffect.contactPoint = contactPoint;
-                takeDamageEffect.angleHitFrom = angleHitFrom;
-                //damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
-            }
-
+            //if (damageTarget.characterStatsManager.isBoss) {
+            //    if (damageTarget.characterStatsManager.totalPoiseDefense < 0 && !damageTarget.characterStatsManager.isStuned) {
+            //        damageTarget.characterStatsManager.isStuned = true;
+            //        damageTarget.characterStatsManager.transform.GetComponent<CharacterAnimatorManager>().PlayTargetAnimation("BreakGuard", true);
+            //    }
+            //    //damageTarget.characterStatsManager.TakeDamageNoAnimation(finalPhysicalDamage, finalFireDamage);
+            //} else {
+            //    takeDamageEffect.physicalDamage = finalPhysicalDamage;
+            //    takeDamageEffect.fireDamage = finalFireDamage;
+            //    takeDamageEffect.poiseDamage = poiseDamage;
+            //    takeDamageEffect.contactPoint = contactPoint;
+            //    takeDamageEffect.angleHitFrom = angleHitFrom;
+            //    //damageTarget.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
+            //}
+            takeDamageEffect.physicalDamage = finalPhysicalDamage;
+            takeDamageEffect.fireDamage = finalFireDamage;
+            takeDamageEffect.poiseDamage = poiseDamage;
+            takeDamageEffect.contactPoint = contactPoint;
+            takeDamageEffect.angleHitFrom = angleHitFrom;
             // 이 클라이언트가 데미지를 입혔다면
             //if (characterCausingDamage.IsOwner) {
             // 데미지를 받는쪽에서 서버RPC 호출

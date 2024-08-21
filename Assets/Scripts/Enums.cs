@@ -22,6 +22,12 @@ namespace SoulsLike {
         Poison
     }
 
+    public enum WorldEventType {
+        //Cinematic,
+        //Quest,
+        BossFight
+    }
+
     public class Enums {
 
     }

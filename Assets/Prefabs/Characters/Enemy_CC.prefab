@@ -1110,7 +1110,6 @@ MonoBehaviour:
   lockOnTransform: {fileID: 1284610322}
   backStabCollider: {fileID: 4436255635506644370}
   riposteCollider: {fileID: 4436255637133151643}
-  canTalk: 0
   isInteracting: 0
   canBeRiposted: 0
   canBeParried: 0
@@ -1136,11 +1135,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 2
-  aiCharacterID: 0
+  aiCharacterID: 1
+  isBoss: 0
   detectionRadius: 5
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
   currentRecoveryTime: 0
+  canTalk: 0
   allowAIToPerformCombos: 0
   isPhaseShifting: 0
   comboLikelyHood: 0
@@ -1198,7 +1199,6 @@ MonoBehaviour:
   poisonAmount: 100
   enemyLocomotionManager: {fileID: 0}
   enemyHealthBar: {fileID: 6940408568606215649}
-  worldEventManager: {fileID: 0}
 --- !u!114 &1876851044213949390
 MonoBehaviour:
   m_ObjectHideFlags: 0

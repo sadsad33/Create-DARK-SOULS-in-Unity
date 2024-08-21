@@ -6,49 +6,60 @@ using UnityEngine;
 namespace SoulsLike {
     // 맵에 존재하는 이벤트 관리
     public class WorldEventManager : MonoBehaviour {
-        
-        public List<FogWall> outsideFogWalls;
-        public List<FogWall> insideFogWalls;
-        public GameObject fogWallEntrance;
-        public BossHealthBar bossHealthBar;
-        public BossManager boss;
-        
-        public bool bossFightIsActive; // 보스전 시작 여부
-        public bool bossHasBeenAwakened; // 보스 행동 시작 혹은 컷신 재생
-        public bool bossHasBeenDefeated; // 보스 격파
+        public static WorldEventManager instance;
 
+        public List<WorldEvent> worldEventList;
+        public List<WorldEvent> eventsInCurrentScene;
+        public WorldEvent currentEvent;
         private void Awake() {
-            bossHealthBar = GetComponentInChildren<BossHealthBar>();
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+            DontDestroyOnLoad(this);
+
         }
 
-        public void ActivateBossFight() {
-            bossFightIsActive = true;
-            bossHasBeenAwakened = true;
-            bossHealthBar.SetUIHealthBarToActive();
-
-            // 안개벽 생성
-            fogWallEntrance.SetActive(false);
-            foreach (var fogwall in outsideFogWalls) {
-                fogwall.DeactivateFogWall();
-            }
-            foreach (var fogWall in insideFogWalls) {
-                fogWall.ActivateFogWall();
-            }
-        }
-        
-        public static WorldEventManager ReturnThis(WorldEventManager instance) {
-            return instance;
+        private void Start() {
+            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += SceneChangedEventHandler;
         }
 
-        public void BossHasBeenDefeated() {
-            bossHasBeenDefeated = true;
-            bossFightIsActive = false;
-            bossHealthBar.SetHealthBarToInactive();
-            Debug.Log("BossFightisEnded");
-            // 안개벽 소멸
-            foreach (var fogWall in insideFogWalls) {
-                fogWall.DeactivateFogWall();
+        // 씬이 변경되면 이벤트 목록에서 현재 씬에서 일어날 수 있는 이벤트의 목록을 추림
+        private void SceneChangedEventHandler(UnityEngine.SceneManagement.Scene oldScene, UnityEngine.SceneManagement.Scene newScene) {
+            for (int i = 0; i < worldEventList.Count; i++) {
+                if (worldEventList[i].worldID == newScene.buildIndex) {
+                    eventsInCurrentScene.Add(worldEventList[i]);
+                }
             }
+            SetAllEventsInThisScene();
+        }
+
+        // 현재 씬에서 일어날 수 있는 모든 이벤트를 세팅
+        public void SetAllEventsInThisScene() {
+            for (int i = 0; i < eventsInCurrentScene.Count; i++) {
+                //Debug.Log("현재 씬의 모든 이벤트 세팅");
+                eventsInCurrentScene[i].SetAllEventObjects();
+            }
+        }
+
+        // 해당하는 이벤트의 조건이 완료됐다면 이벤트 진행
+        public void ProcessCurrentWorldEvent(WorldEvent worldEvent) {
+            switch (worldEvent.worldEventType) {
+                case WorldEventType.BossFight:
+                    currentEvent = worldEvent;
+                    worldEvent.ActivateWorldEvent();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void TerminateCurrentEvent() {
+            currentEvent.DeactivateWorldEvent();
+        }
+
+        // 완료된 이벤트는 목록에서 제거
+        public void RemoveCompletedEventFromList(WorldEvent worldEvent) {
+            worldEvent.isCleared = true;
+            eventsInCurrentScene.Remove(worldEvent);
         }
     }
 }
