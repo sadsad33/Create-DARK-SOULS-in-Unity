@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FogWall : MonoBehaviour
-{
-    private void Awake() { // È£Ãâ½Ã ¸Ç Ã³À½¿¡´Â ¾È°³º® ºñÈ°¼ºÈ­
-        //gameObject.SetActive(false);
-    }
+namespace SoulsLike {
+    
+    public class FogWall : MonoBehaviour {
+        public void CloseFogWall() {
+            //Debug.Log("ìž…êµ¬ ë‹«ê¸°");
+            //transform.GetChild(0).GetComponent<BoxCollider>().isTrigger = false;
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
+        }
 
-    public void ActivateFogWall() { // ¾È°³º® È°¼ºÈ­
-        gameObject.SetActive(true);
-    }
-
-    public void DeactivateFogWall() { // ¾È°³º® ºñÈ°¼ºÈ­
-        gameObject.SetActive(false);
+        public void DestroyFogWall() {
+            Destroy(this.gameObject);
+        }
     }
 }

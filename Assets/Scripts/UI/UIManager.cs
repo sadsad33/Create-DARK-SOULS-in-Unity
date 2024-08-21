@@ -14,7 +14,7 @@ namespace SoulsLike {
         public EquipmentWindowUI equipmentWindowUI;
         public QuickSlots quickSlotsUI;
         public Stack<GameObject> uiStack = new();
-
+        
         [Header("Canvas Group")]
         [SerializeField] CanvasGroup canvasGroup;
        
@@ -37,6 +37,7 @@ namespace SoulsLike {
         public GameObject interactableUIGameObject; // InteractionPopUp
         public GameObject itemInteractableGameObject; // ItemPopup
         public GameObject dialogUI; // NPC�� ��縦 ����� â
+        public GameObject bossFightUI;
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
         [Header("Equipment Window Weapon Slots Selected")]

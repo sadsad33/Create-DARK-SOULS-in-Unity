@@ -23,7 +23,7 @@ namespace SoulsLike {
         //public List<string> damageAnimationsBack = new List<string>();
         //public List<string> damageAnimationsLeft = new List<string>();
         //public List<string> damageAnimationsRight = new List<string>();
-        
+
 
         bool handIKWeightReset = false;
         protected virtual void Awake() {
@@ -33,7 +33,7 @@ namespace SoulsLike {
         }
 
         protected virtual void Start() {
-            
+
         }
 
         // 해당 애니메이션을 실행한다.
@@ -115,7 +115,7 @@ namespace SoulsLike {
             if (characterStatsManager.isDead) return;
             character.isGrabbed = false;
         }
-        
+
         #endregion
 
         // 무기의 HandIK 설정
@@ -182,12 +182,10 @@ namespace SoulsLike {
             //Vector3 velocity = deltaPosition / delta; // �Ÿ��� ��ȭ���� �ð����� ���� �ӵ��� ���Ѵ�.
             //player.playerLocomotion.GetComponent<Rigidbody>().velocity = velocity; // Rigidbody�� �ӵ��� ����
             #endregion
-
             Vector3 velocity = character.animator.deltaPosition;
-            character.characterController.Move(velocity);
+            if (character.characterController.enabled)
+                character.characterController.Move(velocity);
             //character.transform.rotation *= character.animator.deltaRotation;
         }
-
-        
     }
 }

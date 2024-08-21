@@ -53,6 +53,7 @@ namespace SoulsLike {
 
             if (characterCausingDamage != null) {
                 physicalDamage *= (characterCausingDamage.characterStatsManager.physicalDamagePercentageModifier / 100);
+                //Debug.Log(characterCausingDamage.characterStatsManager.physicalDamagePercentageModifier);
                 fireDamage *= (characterCausingDamage.characterStatsManager.fireDamagePercentageModifier / 100);
             }
 
@@ -77,7 +78,6 @@ namespace SoulsLike {
             fireDamage -= fireDamage * (character.characterStatsManager.fireAbsorptionPercentageModifier / 100);
 
             float finalDamage = physicalDamage + fireDamage;
-            //Debug.Log(finalDamage);
             character.characterStatsManager.currentHealth -= finalDamage;
 
             if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
@@ -87,14 +87,6 @@ namespace SoulsLike {
             if (character.characterStatsManager.currentHealth <= 0) {
                 character.characterStatsManager.currentHealth = 0;
                 character.characterStatsManager.isDead = true;
-                if (characterCausingDamage.currentTarget == character) {
-                    characterCausingDamage.currentTarget = null;
-                    if (characterCausingDamage is PlayerManager) {
-                        Debug.Log("타겟이 죽으면 록온 해제");
-                        characterCausingDamage.characterNetworkManager.isLockedOn.Value = false;
-                        CameraHandler.instance.ClearLockOnTargets();
-                    }
-                }
             }
         }
 
@@ -162,7 +154,21 @@ namespace SoulsLike {
 
             if (character.characterStatsManager.isDead) {
                 character.characterWeaponSlotManager.CloseDamageCollider();
+                if (characterCausingDamage.currentTarget == character) {
+                    characterCausingDamage.currentTarget = null;
+                    if (characterCausingDamage is PlayerManager) {
+                        //Debug.Log("타겟이 죽으면 록온 해제");
+                        characterCausingDamage.characterNetworkManager.isLockedOn.Value = false;
+                        CameraHandler.instance.ClearLockOnTargets();
+                    }
+                }
                 character.characterAnimatorManager.PlayTargetAnimation("Dead", true);
+                //Debug.Log(character.characterStatsManager);
+                if (character.characterStatsManager.isBoss) {
+                    if (WorldEventManager.instance.currentEvent != null) {
+                        WorldEventManager.instance.TerminateCurrentEvent();
+                    }
+                }
                 return;
             }
 

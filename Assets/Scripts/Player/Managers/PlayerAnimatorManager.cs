@@ -46,6 +46,7 @@ namespace SoulsLike {
         public void DisableCollision() {
             //playerManager.playerLocomotion.characterCollider.enabled = false;
             //playerManager.playerLocomotion.characterColliderBlocker.enabled = false;
+            player.isMoving = true;
             player.characterController.enabled = false;
         }
 
@@ -53,6 +54,7 @@ namespace SoulsLike {
             //player.playerLocomotion.characterCollider.enabled = true;
             //player.playerLocomotion.characterColliderBlocker.enabled = true;
             player.characterController.enabled = true;
+            player.isMoving = false;
         }
 
         public virtual void SuccessfullyUseCurrentConsumable() {
@@ -68,9 +70,9 @@ namespace SoulsLike {
             }
         }
 
-        public void FinishLadderInteractionAtTop() {
-            player.isMoving = false;
-            player.characterController.enabled = true;
-        }
+        //public void FinishLadderInteractionAtTop() {
+        //    player.isMoving = false;
+        //    player.characterController.enabled = true;
+        //}
     }
 }

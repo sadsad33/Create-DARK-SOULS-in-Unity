@@ -33,15 +33,8 @@ namespace SoulsLike {
                 if (character.canTalk) {
                     Debug.Log(character.transform.root.gameObject);
                     currentInteractable = other.GetComponent<Interactable>();
-                    //    if (currentInteractable != null) {
-                    //        if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-                    //            StartInteraction(currentInteractable, other, false);
-                    //        } else if (player.inputHandler.a_Input) {
-                    //            UIManager.instance.itemInteractableGameObject.SetActive(false);
-                    //        }
-                    //    }
-                } else currentInteractable = null;                
-                SetInteractionUI();
+                    SetInteractionUI();
+                }
             }
         }
 
@@ -74,7 +67,6 @@ namespace SoulsLike {
                 }
             }
         }
-
 
         public void HandleConversation() {
             if (player.isInConversation) {
@@ -130,12 +122,13 @@ namespace SoulsLike {
 
 
         public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-            player.playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            //player.playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
             Vector3 rotationDirection = fogWallEntrance.transform.forward;
             Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
-            transform.rotation = turnRotation;
-
+            player.transform.rotation = turnRotation;
+            //Debug.Log(player.interactionTargetPosition);
             player.playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
+            player.interactionTargetPosition = player.transform.position + Vector3.forward * 3f;
         }
     }
 }

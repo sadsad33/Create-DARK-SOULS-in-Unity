@@ -19,6 +19,7 @@ namespace SoulsLike {
         public bool isAtBonfire;
         public bool isInConversation;
 
+        public Vector3 interactionTargetPosition;
         public Transform leftFoot, rightFoot;
         public LadderEndPositionDetection ladderEndPositionDetector;
 
@@ -40,7 +41,6 @@ namespace SoulsLike {
 
         protected override void Awake() {
             base.Awake();
-
             playerCombatManager = GetComponent<PlayerCombatManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
@@ -116,8 +116,8 @@ namespace SoulsLike {
                 }
             }
             if (isMoving) {
-                characterController.enabled = false;
-                transform.position = Vector3.Slerp(transform.position, interactionTargetPosition.position, Time.deltaTime);
+                //characterController.enabled = false;
+                transform.position = Vector3.Slerp(transform.position, interactionTargetPosition, Time.deltaTime);
             }
 
             float delta = Time.deltaTime;
@@ -157,7 +157,7 @@ namespace SoulsLike {
             }
         }
 
-        public Transform interactionTargetPosition;
+        
         protected override void FixedUpdate() {
             base.FixedUpdate();
             if (!IsOwner) return;
@@ -195,117 +195,6 @@ namespace SoulsLike {
                 cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
             }
         }
-
-        //CharacterManager character;
-        //public void CheckForInteractableObject() {
-        //    if (isInteracting || isInConversation || isClimbing || isAtBonfire) return;
-        //    Interactable interactableObject;
-        //    if (Physics.SphereCast(transform.root.position + (transform.forward * 0.2f), 0.5f, transform.forward, out RaycastHit hit, 1f, interactableLayer)) {
-        //        if (hit.collider.CompareTag("Interactable")) {
-        //            interactableObject = hit.collider.GetComponent<Interactable>();
-        //            if (interactableObject != null) {
-        //                if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-        //                    StartInteraction(interactableObject, hit, false);
-        //                } else if (inputHandler.a_Input) {
-        //                    UIManager.instance.itemInteractableGameObject.SetActive(false);
-        //                }
-        //            }
-        //        } else if (hit.collider.CompareTag("Character")) {
-        //            interactableObject = hit.collider.GetComponent<Interactable>();
-        //            character = hit.collider.GetComponent<CharacterManager>();
-        //            if (character.canTalk) {
-        //                if (interactableObject != null) {
-        //                    if (!UIManager.instance.itemInteractableGameObject.activeSelf) {
-        //                        StartInteraction(interactableObject, hit, false);
-        //                    } else if (inputHandler.a_Input) {
-        //                        UIManager.instance.itemInteractableGameObject.SetActive(false);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    } else {
-        //        if (UIManager.instance.interactableUIGameObject != null) {
-        //            UIManager.instance.interactableUIGameObject.SetActive(false);
-        //        }
-        //        if (UIManager.instance.itemInteractableGameObject != null && inputHandler.a_Input) {
-        //            UIManager.instance.itemInteractableGameObject.SetActive(false);
-        //        }
-        //    }
-        //}
-
-        //private void StartInteraction(Interactable interactableObject, RaycastHit hit, bool withCharacter) {
-        //    string interactableText = interactableObject.interactableText;
-        //    interactableUI.interactableText.text = interactableText;
-        //    UIManager.instance.interactableUIGameObject.SetActive(true);
-
-        //    if (inputHandler.a_Input) {
-        //        Debug.Log("hi");
-        //        UIManager.instance.interactableUIGameObject.SetActive(false);
-        //        hit.collider.GetComponent<Interactable>().Interact(this);
-        //        if (withCharacter) currentPageIndex = 0;
-        //    }
-        //}
-
-        //private void HandleConversation() {
-        //    if (isInConversation) {
-        //        float distance = Vector3.Distance(character.transform.position, transform.position);
-        //        if (currentPageIndex <= currentDialog.Length - 1) {
-        //            PrintDialog();
-        //            if (distance >= 3f) FinishConversation();
-        //        } else if (turnPageTimer <= 0) {
-        //            NPCManager npc = character.GetComponent<NPCManager>();
-        //            npc.interactCount++;
-        //            FinishConversation();
-        //        }
-        //    }
-        //}
-
-        //public void LeaveBonfire() {
-        //    isAtBonfire = false;
-        //    playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
-        //}
-
-        //private void FinishConversation() {
-        //    isInConversation = false;
-        //    currentPageIndex = 0;
-        //    UIManager.instance.dialogUI.SetActive(false);
-        //}
-
-        //private void PrintDialog() {
-        //    if (!UIManager.instance.dialogUI.activeSelf) UIManager.instance.dialogUI.SetActive(true);
-        //    if (turnPageTimer == 0)
-        //        turnPageTimer = turnPageTime;
-        //    interactableUI.dialogText.text = currentDialog[currentPageIndex].script;
-        //    HandleTurnPageTimer();
-        //    if (turnPageTimer == 0 && currentPageIndex < currentDialog.Length)
-        //        currentPageIndex++;
-        //}
-
-        //private void HandleTurnPageTimer() {
-        //    if (turnPageTimer <= 0) turnPageTimer = 0;
-        //    else {
-        //        turnPageTimer -= Time.deltaTime;
-        //        if (inputHandler.a_Input) turnPageTimer -= turnPageTime;
-        //    }
-        //}
-
-        //public void InteractionAtPosition(string animation, Transform playerStandingPosition) {
-        //    characterWeaponSlotManager.rightHandSlot.UnloadWeapon();
-        //    characterWeaponSlotManager.leftHandSlot.UnloadWeapon();
-        //    //playerLocomotion.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //    playerAnimatorManager.PlayTargetAnimation(animation, true);
-        //    transform.position = playerStandingPosition.position;
-        //}
-
-
-        //public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-        //    playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //    Vector3 rotationDirection = fogWallEntrance.transform.forward;
-        //    Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
-        //    transform.rotation = turnRotation;
-
-        //    playerAnimatorManager.PlayTargetAnimation("PassThroughFog", true);
-        //}
 
         public void SaveCharacterDataToCurrentSaveData(ref CharacterSaveData currentCharacterSaveData) {
             currentCharacterSaveData.characterName = playerStatsManager.characterName;

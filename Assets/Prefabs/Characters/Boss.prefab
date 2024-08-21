@@ -197,18 +197,20 @@ GameObject:
   m_Component:
   - component: {fileID: 456348331913708501}
   - component: {fileID: 5815671829589842351}
-  - component: {fileID: 1193537342765022682}
-  - component: {fileID: 5815671829589842348}
   - component: {fileID: 5815671829589842349}
+  - component: {fileID: -4606267213864854187}
   - component: {fileID: 5815671829589842350}
-  - component: {fileID: 5815671829589842352}
+  - component: {fileID: 5815671829589842348}
   - component: {fileID: 5815671829589842359}
+  - component: {fileID: 1193537342765022682}
+  - component: {fileID: 5815671829589842352}
   - component: {fileID: 5815671829589842358}
   - component: {fileID: 5815671829589842357}
   - component: {fileID: 5815671829589842363}
-  - component: {fileID: 5815671829589842354}
+  - component: {fileID: -6425941762805156947}
+  - component: {fileID: 1360289527096816096}
   - component: {fileID: 5815671829589842356}
-  - component: {fileID: -4606267213864854187}
+  - component: {fileID: 5815671829589842354}
   m_Layer: 9
   m_Name: Boss
   m_TagString: Character
@@ -261,54 +263,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1193537342765022682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945358788725004655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b1fbb68c1540b4eb2b5bc3ff4932da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterEffectsManager: {fileID: 0}
-  unarmedWeapon: {fileID: 11400000, guid: 1988c26deec11134fbe97c2b980264fb, type: 2}
-  leftHandSlot: {fileID: 1193537341967418457}
-  rightHandSlot: {fileID: 1193537343665537173}
-  backSlot: {fileID: 1060717142764349268}
-  leftHandDamageCollider: {fileID: 0}
-  rightHandDamageCollider: {fileID: 0}
-  attackingWeapon: {fileID: 0}
-  rightHandIKTarget: {fileID: 0}
-  leftHandIKTarget: {fileID: 0}
---- !u!114 &5815671829589842348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945358788725004655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d3e019774199448a540bbafd9bb8eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 258
-  verticalMovement: 0
-  horizontalMovement: 0
-  movementAmount: 0
-  inAirTimer: 0
-  yVelocity: {x: 0, y: 0, z: 0}
-  groundedYVelocity: -20
-  fallStartYVelocity: -7
-  gravityForce: -25
-  groundCheckSphereRadius: 0.5
 --- !u!114 &5815671829589842349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,11 +308,11 @@ MonoBehaviour:
   aiStatsManager: {fileID: 0}
   aiEffectsManager: {fileID: 0}
   aiLocomotionManager: {fileID: 0}
-  currentState: {fileID: 0}
+  currentState: {fileID: 1193537342686913762}
   navMeshAgent: {fileID: 0}
   rotationSpeed: 15
   maximumAggroRadius: 1.5
-  aiCharacterID: 0
+  aiCharacterID: 11
   isBoss: 0
   detectionRadius: 20
   maximumDetectionAngle: 50
@@ -370,6 +324,60 @@ MonoBehaviour:
   comboLikelyHood: 0
   bossName: Rogue Leader
   particleFX: {fileID: 6098213378169517917, guid: 8791eaaa1929b164d9e75e309fbde66e, type: 3}
+--- !u!114 &-4606267213864854187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945358788725004655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bacd6550cfab67439c2143bbed251cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousPoiseDamageTaken: 0
+  teamIDNumber: 1
+  soulsAwardedOnDeath: 0
+  healthLevel: 20
+  maxHealth: 0
+  currentHealth: 0
+  staminaLevel: 10
+  maxStamina: 0
+  currentStamina: 0
+  focusLevel: 10
+  maxFocus: 0
+  currentFocus: 0
+  blockingStabilityRating: 0
+  soulCount: 0
+  isBoss: 1
+  totalPoiseDefense: 0
+  offensivePoiseBonus: 0
+  armorPoiseBonus: 0
+  totalPoiseResetTime: 0
+  poiseResetTimer: 0
+  isStuned: 0
+  physicalDamageAbsorptionHead: 0
+  physicalDamageAbsorptionBody: 0
+  physicalDamageAbsorptionLegs: 0
+  physicalDamageAbsorptionHands: 0
+  totalPhysicalDamageDefenseRate: 0
+  fireDamageAbsorptionHead: 0
+  fireDamageAbsorptionBody: 0
+  fireDamageAbsorptionLegs: 0
+  fireDamageAbsorptionHands: 0
+  totalFireDamageDefenseRate: 0
+  poisonResistance: 0
+  isDead: 0
+  physicalDamagePercentageModifier: 100
+  fireDamagePercentageModifier: 100
+  physicalAbsorptionPercentageModifier: 0
+  fireAbsorptionPercentageModifier: 0
+  isPoisoned: 0
+  poisonBuildUp: 0
+  poisonAmount: 100
+  enemyLocomotionManager: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
 --- !u!114 &5815671829589842350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +393,7 @@ MonoBehaviour:
   canRotate: 0
   leftHandConstraint: {fileID: 1060717143791151241}
   rightHandConstraint: {fileID: 1060717143345878187}
---- !u!114 &5815671829589842352
+--- !u!114 &5815671829589842348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,19 +402,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 945358788725004655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab93e3ab23f8a63499317d9481939fd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 33d3e019774199448a540bbafd9bb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantiatedFXModel: {fileID: 0}
-  staticCharacterEffects: []
-  timedEffects: []
-  effectTickTimer: 0
-  timedEffectParticles: []
-  rightWeaponManager: {fileID: 0}
-  leftWeaponManager: {fileID: 0}
-  bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
-  rightWeaponBuffEffect: {fileID: 0}
-  buildUpTransform: {fileID: 0}
+  character: {fileID: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 258
+  verticalMovement: 0
+  horizontalMovement: 0
+  movementAmount: 0
+  inAirTimer: 0
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: -20
+  fallStartYVelocity: -7
+  gravityForce: -25
+  groundCheckSphereRadius: 0.5
 --- !u!114 &5815671829589842359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +465,50 @@ MonoBehaviour:
   currentLeftWeaponIndex: 0
   currentSpellIndex: 0
   currentConsumableIndex: 0
+--- !u!114 &1193537342765022682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945358788725004655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b1fbb68c1540b4eb2b5bc3ff4932da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterEffectsManager: {fileID: 0}
+  unarmedWeapon: {fileID: 11400000, guid: 1988c26deec11134fbe97c2b980264fb, type: 2}
+  leftHandSlot: {fileID: 1193537341967418457}
+  rightHandSlot: {fileID: 1193537343665537173}
+  backSlot: {fileID: 1060717142764349268}
+  leftHandDamageCollider: {fileID: 0}
+  rightHandDamageCollider: {fileID: 0}
+  attackingWeapon: {fileID: 0}
+  rightHandIKTarget: {fileID: 0}
+  leftHandIKTarget: {fileID: 0}
+--- !u!114 &5815671829589842352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945358788725004655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab93e3ab23f8a63499317d9481939fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instantiatedFXModel: {fileID: 0}
+  staticCharacterEffects: []
+  timedEffects: []
+  effectTickTimer: 0
+  timedEffectParticles: []
+  rightWeaponManager: {fileID: 0}
+  leftWeaponManager: {fileID: 0}
+  bloodSplatterFX: {fileID: 414520594313402191, guid: c8e9dc9f48c523a4ba94345b65e4758c, type: 3}
+  rightWeaponBuffEffect: {fileID: 0}
+  buildUpTransform: {fileID: 0}
 --- !u!114 &5815671829589842358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,22 +592,118 @@ MonoBehaviour:
     m_InternalValue: 0
   currentLegEquipmentID:
     m_InternalValue: 0
---- !u!54 &5815671829589842354
-Rigidbody:
+--- !u!114 &-6425941762805156947
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945358788725004655}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.01
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c527da29a12a84eb8f9e2f705f109e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takingDamageSounds:
+  - {fileID: 8300000, guid: bd4871c9cbf2a8c4cbf58291800eb98d, type: 3}
+  - {fileID: 8300000, guid: 319914c91d8ceee4ebec0b3c04fe9681, type: 3}
+  - {fileID: 8300000, guid: 97bddef150715c649a8292e24f93aa09, type: 3}
+--- !u!82 &1360289527096816096
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945358788725004655}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!143 &5815671829589842356
 CharacterController:
   m_ObjectHideFlags: 0
@@ -570,61 +722,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &-4606267213864854187
-MonoBehaviour:
+--- !u!54 &5815671829589842354
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945358788725004655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bacd6550cfab67439c2143bbed251cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previousPoiseDamageTaken: 0
-  teamIDNumber: 0
-  soulsAwardedOnDeath: 0
-  healthLevel: 20
-  maxHealth: 0
-  currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
-  focusLevel: 10
-  maxFocus: 0
-  currentFocus: 0
-  blockingStabilityRating: 0
-  soulCount: 0
-  isBoss: 0
-  totalPoiseDefense: 0
-  offensivePoiseBonus: 0
-  armorPoiseBonus: 0
-  totalPoiseResetTime: 0
-  poiseResetTimer: 0
-  isStuned: 0
-  physicalDamageAbsorptionHead: 0
-  physicalDamageAbsorptionBody: 0
-  physicalDamageAbsorptionLegs: 0
-  physicalDamageAbsorptionHands: 0
-  totalPhysicalDamageDefenseRate: 0
-  fireDamageAbsorptionHead: 0
-  fireDamageAbsorptionBody: 0
-  fireDamageAbsorptionLegs: 0
-  fireDamageAbsorptionHands: 0
-  totalFireDamageDefenseRate: 0
-  poisonResistance: 0
-  isDead: 0
-  physicalDamagePercentageModifier: 100
-  fireDamagePercentageModifier: 100
-  physicalAbsorptionPercentageModifier: 0
-  fireAbsorptionPercentageModifier: 0
-  isPoisoned: 0
-  poisonBuildUp: 0
-  poisonAmount: 100
-  enemyLocomotionManager: {fileID: 0}
-  enemyHealthBar: {fileID: 0}
-  worldEventManager: {fileID: 0}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.01
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &1060717142764349270
 GameObject:
   m_ObjectHideFlags: 0
