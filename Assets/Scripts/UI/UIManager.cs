@@ -145,16 +145,16 @@ namespace SoulsLike {
 
         public void CloseWindow() {
             if (uiStack.Peek() == inventoryWindow) ResetAllSelectedEquipmentSlots();
-            Debug.Log("현재 닫을 창 : " + uiStack.Peek());
+            //Debug.Log("현재 닫을 창 : " + uiStack.Peek());
             uiStack.Peek().SetActive(false); // 가장 위에 열려있던 창을 닫는다
             uiStack.Pop();
             uiStack.Peek().SetActive(true); // 바로 다음 창을 다시 표시
-            Debug.Log("현재 최상위에 표시되는 창 : " + uiStack.Peek());
+            //Debug.Log("현재 최상위에 표시되는 창 : " + uiStack.Peek());
         }
 
         // 이전에 선택됐던 장비창의 슬롯을 초기화한다.
         public void ResetAllSelectedEquipmentSlots() {
-            Debug.Log("모든 슬롯 선택상태 해제");
+            //Debug.Log("모든 슬롯 선택상태 해제");
             rightHandSlot1Selected = false;
             rightHandSlot2Selected = false;
             rightHandSlot3Selected = false;

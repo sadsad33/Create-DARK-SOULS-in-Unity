@@ -69,10 +69,5 @@ namespace SoulsLike {
                 player.playerLocomotionManager.enabled = true;
             }
         }
-
-        //public void FinishLadderInteractionAtTop() {
-        //    player.isMoving = false;
-        //    player.characterController.enabled = true;
-        //}
     }
 }

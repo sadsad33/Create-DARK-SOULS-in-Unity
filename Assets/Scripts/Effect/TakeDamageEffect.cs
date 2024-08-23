@@ -37,8 +37,9 @@ namespace SoulsLike {
 
             // 캐릭터의 방어력을 적용한 최종 데미지 계산
             CalculateDamage(character);
-            // 어떤 방향으로부터 가해진 데미지인지에 따라 애니메이션 결정
-            CheckWhichDirectionDamageCameFrom(character);
+            if (poiseIsBroken)
+                // 어떤 방향으로부터 가해진 데미지인지에 따라 애니메이션 결정
+                CheckWhichDirectionDamageCameFrom(character);
             // 애니메이션 재생
             PlayDamageAnimation(character);
             // 데미지 SFX 재생
@@ -51,6 +52,7 @@ namespace SoulsLike {
 
         private void CalculateDamage(CharacterManager character) {
 
+           
             if (characterCausingDamage != null) {
                 physicalDamage *= (characterCausingDamage.characterStatsManager.physicalDamagePercentageModifier / 100);
                 //Debug.Log(characterCausingDamage.characterStatsManager.physicalDamagePercentageModifier);
@@ -80,7 +82,11 @@ namespace SoulsLike {
             float finalDamage = physicalDamage + fireDamage;
             character.characterStatsManager.currentHealth -= finalDamage;
 
-            if (character.characterStatsManager.totalPoiseDefense < poiseDamage) {
+            Debug.Log("캐릭터의 강인도 : " + character.characterStatsManager.totalPoiseDefense);
+            Debug.Log("강인도 데미지 : " + poiseDamage);
+            character.characterStatsManager.totalPoiseDefense -= poiseDamage;
+            character.characterStatsManager.poiseResetTimer = character.characterStatsManager.totalPoiseResetTime;
+            if (character.characterStatsManager.totalPoiseDefense <= 0) {
                 poiseIsBroken = true;
             }
 

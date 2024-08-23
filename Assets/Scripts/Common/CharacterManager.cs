@@ -40,7 +40,7 @@ namespace SoulsLike {
         public bool isRotatingWithRootMotion;
         public bool canRotate;
         public bool isGrounded;
-        public bool isClimbing;
+        //public bool isClimbing;
         public bool isMoving;
         public bool isJumping = false;
 

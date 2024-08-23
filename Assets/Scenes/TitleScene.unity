@@ -2252,6 +2252,7 @@ MonoBehaviour:
   worldEventList:
   - {fileID: 11400000, guid: 944824775125fa94888602636c8e9168, type: 2}
   eventsInCurrentScene: []
+  currentEvent: {fileID: 0}
 --- !u!4 &1386298105
 Transform:
   m_ObjectHideFlags: 0
