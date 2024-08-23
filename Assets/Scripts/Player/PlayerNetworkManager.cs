@@ -6,7 +6,7 @@ using Unity.Netcode;
 namespace SoulsLike {
     public class PlayerNetworkManager : CharacterNetworkManager {
         PlayerManager player;
-
+        public NetworkVariable<bool> isAtBonfire = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         protected override void Awake() {
             base.Awake();
             player = GetComponent<PlayerManager>();

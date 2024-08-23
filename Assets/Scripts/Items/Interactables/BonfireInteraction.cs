@@ -29,7 +29,7 @@ namespace SoulsLike {
             } else {
                 // 플레이어 휴식 모션
                 player.playerInteractionManager.InteractionAtPosition("Bonfire_Start", player.transform);
-                player.isAtBonfire = true;
+                player.playerNetworkManager.isAtBonfire.Value = true;
                 UIManager.instance.OpenSelectedWindow(4);
             }
         }

@@ -107,7 +107,7 @@ namespace SoulsLike {
 
         // 캐릭터 회전
         public void HandleRotation(float delta) {
-            if (player.isClimbing || player.isAtBonfire) return;
+            if (player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value) return;
             if (playerAnimatorManager.canRotate) {
                 if (player.playerNetworkManager.isLockedOn.Value) {
                     // 록온을 해도 달리거나 구를때는, 이동하던 방향으로 행동
@@ -162,7 +162,7 @@ namespace SoulsLike {
         // 캐릭터 이동
         public void HandleGroundedMovement(float delta) {
             if (player.inputHandler.rollFlag) return;
-            if (player.isInteracting || player.isClimbing || player.isAtBonfire) return;
+            if (player.isInteracting || player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value) return;
             if (!player.isGrounded) return;
 
             #region 리지드 바디를 이용하여 이동할때 필요한 벡터 생성
@@ -230,7 +230,7 @@ namespace SoulsLike {
         // 질주,회피
         public void HandleRollingAndSprinting(float delta) {
             // 다른 행동을하고 있다면
-            if (player.isInteracting || player.isClimbing || player.isAtBonfire || player.isJumping) return;
+            if (player.isInteracting || player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value || player.isJumping) return;
 
             if (playerStatsManager.currentStamina <= 0) return;
 
@@ -347,19 +347,19 @@ namespace SoulsLike {
                 //Debug.Log(player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position);
                 player.interactionTargetPosition = player.ladderEndPositionDetector.ladderTopFinishingPosition.transform.position;
                 player.isMoving = true;
-                if (player.rightFootUp) {
+                if (player.characterNetworkManager.rightFootUp.Value) {
                     player.playerInteractionManager.InteractionAtPosition("Ladder_End_Top_RightFootUp", player.transform);
                 } else {
                     player.playerInteractionManager.InteractionAtPosition("Ladder_End_Top_LeftFootUp", player.transform);
                 }
-                player.isClimbing = false;
+                player.characterNetworkManager.isClimbing.Value = false;
             } else if (player.ladderEndPositionDetector.isBottomEnd && player.inputHandler.vertical <= -1) {
-                if (player.rightFootUp) {
+                if (player.characterNetworkManager.rightFootUp.Value) {
                     player.playerInteractionManager.InteractionAtPosition("Ladder_End_Bottom_RightFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 } else {
                     player.playerInteractionManager.InteractionAtPosition("Ladder_End_Bottom_LeftFootUp", player.ladderEndPositionDetector.ladderBottomFinishingPosition.transform);
                 }
-                player.isClimbing = false;
+                player.characterNetworkManager.isClimbing.Value = false;
             } else {
                 player.animator.SetFloat("Vertical", player.inputHandler.vertical, 0.1f, Time.deltaTime);
                 //GetComponent<Rigidbody>().velocity = new Vector3(0, player.inputHandler.vertical, 0);

@@ -30,7 +30,7 @@ namespace SoulsLike {
         }
 
         public void HandleLightAttack(WeaponItem weapon) {
-            if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting || player.isClimbing || player.isAtBonfire) return;
+            if (player.playerStatsManager.currentStamina <= 0 || player.isInteracting || player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value) return;
             //Debug.Log("한손 약공");
             player.playerWeaponSlotManager.attackingWeapon = weapon;
             if (player.inputHandler.twoHandFlag) {

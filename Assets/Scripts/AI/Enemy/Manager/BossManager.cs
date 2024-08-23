@@ -23,7 +23,17 @@ namespace SoulsLike {
             base.Start();
         }
 
-        public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
+        protected override void HandleStateMachine() {
+            //Debug.Log("보스");
+            if (currentState != null) {
+                State nextState = currentState.Tick(this);
+                if (nextState != null) {
+                    SwitchToNextState(nextState);
+                }
+            }
+        }
+
+        public void HandlePhaseShifting(float currentHealth, float maxHealth) {
             if (currentHealth <= maxHealth / 2 && !bossCombatStanceState.hasPhaseShifted) {
                 if (aiStatsManager.isStuned) return;
                 //Debug.Log("2페이즈 진입");

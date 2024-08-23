@@ -40,6 +40,7 @@ namespace SoulsLike {
         }
 
         public override void UpdateHealth(float health) {
+
             if (yellowBar != null) {
                 yellowBar.gameObject.SetActive(true);
                 yellowBar.timer = yellowBarTimer; // 데미지를 받을때마다 타이머 리셋 

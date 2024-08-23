@@ -26,7 +26,7 @@ namespace SoulsLike {
             Quaternion targetRotation = Quaternion.Slerp(player.transform.rotation, tr, 3000 * Time.deltaTime);
             player.transform.rotation = targetRotation;
 
-            player.isClimbing = true;
+            player.characterNetworkManager.isClimbing.Value = true;
             player.ladderEndPositionDetector.transform.gameObject.SetActive(true);
             if (isTop) { // 사다리의 꼭대기에서 상호작용을 시작하는 경우
                 player.playerInteractionManager.InteractionAtPosition("Ladder_StartTop", topStartingPosition);

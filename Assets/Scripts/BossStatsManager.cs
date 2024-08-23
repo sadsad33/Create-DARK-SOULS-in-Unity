@@ -21,7 +21,7 @@ namespace SoulsLike {
 
         protected override void Update() {
             base.Update();
-            
+            boss.HandlePhaseShifting(currentHealth, maxHealth);
         }
 
         public override void TakeDamageNoAnimation(float damage, float fireDamage) {

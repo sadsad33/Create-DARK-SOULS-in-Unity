@@ -14,9 +14,9 @@ namespace SoulsLike {
         public CameraHandler cameraHandler;
 
         
-        public bool rightFootUp;
+        //public bool rightFootUp;
         public bool isLadderTop;
-        public bool isAtBonfire;
+        //public bool isAtBonfire;
         public bool isInConversation;
 
         public Vector3 interactionTargetPosition;
@@ -107,12 +107,12 @@ namespace SoulsLike {
 
         protected override void Update() {
             base.Update();
-            if (isClimbing) {
+            if (characterNetworkManager.isClimbing.Value && IsOwner) {
                 playerLocomotionManager.HandleClimbing();
                 if (leftFoot.position.y > rightFoot.position.y) {
-                    rightFootUp = false;
+                    characterNetworkManager.rightFootUp.Value = false;
                 } else if (leftFoot.position.y < rightFoot.position.y) {
-                    rightFootUp = true;
+                    characterNetworkManager.rightFootUp.Value = true;
                 }
             }
             if (isMoving) {
@@ -128,11 +128,11 @@ namespace SoulsLike {
             animator.SetBool("isDead", playerStatsManager.isDead);
             animator.SetBool("isBlocking", characterNetworkManager.isBlocking.Value);
 
-            animator.SetBool("isAtBonefire", isAtBonfire);
+            animator.SetBool("isAtBonefire", playerNetworkManager.isAtBonfire.Value);
 
-            animator.SetBool("isClimbing", isClimbing);
+            animator.SetBool("isClimbing", characterNetworkManager.isClimbing.Value);
             animator.SetBool("isLadderTop", isLadderTop);
-            animator.SetBool("rightFootUp", rightFootUp);
+            animator.SetBool("rightFootUp", characterNetworkManager.rightFootUp.Value);
             playerAnimatorManager.canRotate = animator.GetBool("canRotate");
 
             if (!IsOwner) return;

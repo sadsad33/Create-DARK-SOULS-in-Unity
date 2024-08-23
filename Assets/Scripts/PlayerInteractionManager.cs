@@ -23,7 +23,7 @@ namespace SoulsLike {
         }
 
         private void OnTriggerStay(Collider other) {
-            if (player.isInteracting || player.isInConversation || player.isClimbing || player.isAtBonfire) return;
+            if (player.isInteracting || player.isInConversation || player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value) return;
             if (other.CompareTag("Interactable")) {
                 currentInteractable = other.GetComponent<Interactable>();
                 SetInteractionUI();
@@ -46,7 +46,7 @@ namespace SoulsLike {
         }
 
         private void SetInteractionUI() {
-            if (currentInteractable != null) {
+            if (currentInteractable != null && player.IsOwner) {
                 string interactableText = currentInteractable.interactableText;
                 interactableUI.interactableText.text = interactableText;
                 UIManager.instance.interactableUIGameObject.SetActive(true);
@@ -54,7 +54,7 @@ namespace SoulsLike {
         }
 
         public void TryInteraction() {
-            if (player.isInteracting || player.isInConversation || player.isClimbing || player.isAtBonfire) return;
+            if (player.isInteracting || player.isInConversation || player.characterNetworkManager.isClimbing.Value || player.playerNetworkManager.isAtBonfire.Value) return;
             if (player.inputHandler.a_Input) {
                 if (currentInteractable != null) {
                     currentInteractable.GetComponent<Interactable>().Interact(player);
@@ -83,7 +83,7 @@ namespace SoulsLike {
         }
 
         public void LeaveBonfire() {
-            player.isAtBonfire = false;
+            player.playerNetworkManager.isAtBonfire.Value = false;
             player.playerAnimatorManager.PlayTargetAnimation("Bonfire_End", true);
         }
 
@@ -122,7 +122,6 @@ namespace SoulsLike {
 
 
         public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-            //player.playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
             Vector3 rotationDirection = fogWallEntrance.transform.forward;
             Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
             player.transform.rotation = turnRotation;
