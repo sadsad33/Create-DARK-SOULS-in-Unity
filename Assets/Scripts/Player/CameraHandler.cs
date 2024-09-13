@@ -9,7 +9,6 @@ namespace SoulsLike {
         public Transform targetTransform;
         // 카메라의 위치(중심 기준)
         public Transform cameraTransform;
-        // 카메라를 움직일때 사용할 깡통 변수
         private Vector3 cameraTransformPosition;
         // 카메라의 중심 위치
         public Transform cameraPivotTransform;

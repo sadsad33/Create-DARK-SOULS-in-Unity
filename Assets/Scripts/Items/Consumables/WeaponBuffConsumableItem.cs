@@ -14,7 +14,10 @@ namespace SoulsLike {
         [SerializeField] AudioClip buffTriggerSound;
         public AudioSource buffTriggerSource;
         public override void AttemptToConsumeItem(PlayerManager player) {
-            if (!CanIUseThisItem(player)) return;
+            if (!CanIUseThisItem(player)) {
+                Debug.Log(CanIUseThisItem(player));
+                return;
+            }
             if (currentItemAmount > 0) player.playerAnimatorManager.PlayTargetAnimation(consumeAnimation, isInteracting, true);
             else player.playerAnimatorManager.PlayTargetAnimation("Shrug", true);
         }

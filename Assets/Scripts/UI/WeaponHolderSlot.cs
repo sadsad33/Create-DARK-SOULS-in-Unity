@@ -4,18 +4,22 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class WeaponHolderSlot : MonoBehaviour {
-        public Transform parentOverride; // ¹«±â prefabÀ» ÇÏ³ª¸¸ ¾²±âÀ§ÇØ ÇÊ¿ä
+        public Transform parentOverride; // ë¬´ê¸° prefabì„ í•˜ë‚˜ë§Œ ì“°ê¸°ìœ„í•´ í•„ìš”
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
         public bool isBackSlot;
 
-        // ¹«±â¸¦ ¼³Á¤ÇÏ´Â °Í°ú, ¹«±âÀÇ ¸ğµ¨À» ¼³Á¤ÇÏ´Â °ÍÀº º°°³
-        public WeaponItem currentWeapon; // ¾çÀâ½Ã µî¿¡ ¸á ¹«±â¸¦ ÀúÀåÇÏ±â À§ÇØ WeaponItem Çü º¯¼ö¸¦ ¸¸µé¾î ÇöÀç ¿ŞÂÊ/¿À¸¥ÂÊ ¼ÕÀÇ ¹«±â¸¦ ÀúÀåÇÑ´Ù.
-        public GameObject currentWeaponModel; // ÀúÀåµÈ ¹«±âÀÇ ¸ğµ¨
-
+        // ë¬´ê¸°ë¥¼ ì„¤ì •í•˜ëŠ” ê²ƒê³¼, ë¬´ê¸°ì˜ ëª¨ë¸ì„ ì„¤ì •í•˜ëŠ” ê²ƒì€ ë³„ê°œ
+        public WeaponItem currentWeapon; // ì–‘ì¡ì‹œ ë“±ì— ë©œ ë¬´ê¸°ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•´ WeaponItem í˜• ë³€ìˆ˜ë¥¼ ë§Œë“¤ì–´ í˜„ì¬ ì™¼ìª½/ì˜¤ë¥¸ìª½ ì†ì˜ ë¬´ê¸°ë¥¼ ì €ì¥í•œë‹¤.
+        public GameObject currentWeaponModel; // ì €ì¥ëœ ë¬´ê¸°ì˜ ëª¨ë¸
+        [SerializeField] WeaponManager currentWeaponManager;
+        [SerializeField] BuffType currentWeaponBuffType;
         public void UnloadWeapon() {
-            if (currentWeaponModel != null) // ÇöÀç ¹«±â°¡ nullÀÌ ¾Æ´Ï¶ó¸é
-                currentWeaponModel.SetActive(false); // ÇöÀç ¹«±â¸¦ ºñÈ°¼ºÈ­ ÇÑ´Ù.
+            if (currentWeaponModel != null) { // í˜„ì¬ ë¬´ê¸°ê°€ nullì´ ì•„ë‹ˆë¼ë©´
+                currentWeaponManager = currentWeaponModel.GetComponentInChildren<WeaponManager>();
+                if (currentWeaponManager.weaponIsBuffed) currentWeaponBuffType = currentWeaponManager.weaponBuffType;
+                currentWeaponModel.SetActive(false); // í˜„ì¬ ë¬´ê¸°ë¥¼ ë¹„í™œì„±í™” í•œë‹¤.
+            }
         }
 
         public void UnloadWeaponAndDestroy() {
@@ -23,22 +27,22 @@ namespace SoulsLike {
                 Destroy(currentWeaponModel);
         }
 
-        // ¹«±â °¡Á®¿À±â
+        // ë¬´ê¸° ê°€ì ¸ì˜¤ê¸°
         public void LoadWeaponModel(WeaponItem weaponItem) {
-            if (weaponItem == null) { // ºÒ·¯¿Ã weaponItemÀÌ nullÀÌ¸é
+            if (weaponItem == null) { // ë¶ˆëŸ¬ì˜¬ weaponItemì´ nullì´ë©´
                 UnloadWeapon();
                 return;
             }
 
             GameObject model = Instantiate(weaponItem.modelPrefab);
             if (model != null) {
-                UnloadWeaponAndDestroy(); // ÀÌÀü ¹«±â´Â ÆÄ±«, ºñÈ°¼ºÈ­
+                UnloadWeaponAndDestroy(); // ì´ì „ ë¬´ê¸°ëŠ” íŒŒê´´, ë¹„í™œì„±í™”
 
                 //if (parentOverride != null)
-                //    model.transform.parent = parentOverride; // ¹«±â À§Ä¡¸¦ Á¶Á¤ÇÏ±â À§ÇÑ override Ç×¸ñÀÌ ºÎ¸ğ¿¡ Á¸ÀçÇÑ´Ù¸é ÇØ´ç À§Ä¡¿¡ ¸ÂÃçÁØ´Ù.
+                //    model.transform.parent = parentOverride; // ë¬´ê¸° ìœ„ì¹˜ë¥¼ ì¡°ì •í•˜ê¸° ìœ„í•œ override í•­ëª©ì´ ë¶€ëª¨ì— ì¡´ì¬í•œë‹¤ë©´ í•´ë‹¹ ìœ„ì¹˜ì— ë§ì¶°ì¤€ë‹¤.
 
                 //else
-                //    model.transform.parent = transform; // override Ç×¸ñÀÌ ¾øÀ¸¸é ÀÚ½ÅÀÇ À§Ä¡¿¡ ¸ÂÃá´Ù.
+                //    model.transform.parent = transform; // override í•­ëª©ì´ ì—†ìœ¼ë©´ ìì‹ ì˜ ìœ„ì¹˜ì— ë§ì¶˜ë‹¤.
                 
                 model.transform.parent = parentOverride;
                 model.transform.localPosition = Vector3.zero;

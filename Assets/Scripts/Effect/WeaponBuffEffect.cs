@@ -26,49 +26,61 @@ namespace SoulsLike {
         [SerializeField] bool buffHasStarted = false;
         private WeaponManager weaponManager;
 
+        // 무기 버프 진행
         public override void ProcessEffect(CharacterManager character) {
             base.ProcessEffect(character);
 
+            // 버프 시작
             if (!buffHasStarted) {
                 timeRemainingOnBuff = lengthOfBuff;
                 buffHasStarted = true;
-                weaponManager = character.characterWeaponSlotManager.rightHandDamageCollider.GetComponentInParent<WeaponManager>();
-                weaponManager.audioSource.loop = true;
-                weaponManager.audioSource.clip = buffAmbientSound;
-                weaponManager.audioSource.volume = ambientSoundVolume;
-
-                float baseWeaponDamage = weaponManager.damageCollider.physicalDamage + weaponManager.damageCollider.fireDamage;
-                float physicalBuffDamage = 0;
-                float fireBuffDamage = 0;
-                float poiseBuffDamage = 0;
-
-                if (buffPoiseDamage) {
-                    poiseBuffDamage = weaponManager.damageCollider.poiseDamage * (buffBasePoiseDamagePercentageMultiplier / 100);
-                }
-
-                switch (buffType) {
-                    case BuffType.Physical:
-                        physicalBuffDamage = baseWeaponDamage * (buffBaseDamagePercentageMultiplier / 100);
-                        break;
-                    case BuffType.Fire:
-                        fireBuffDamage = baseWeaponDamage * (buffBaseDamagePercentageMultiplier / 100);
-                        break;
-                    default:
-                        break;
-                }
-
-                weaponManager.BuffWeapon(buffType, physicalBuffDamage, fireBuffDamage, poiseBuffDamage);
+                BuffStart(character);
             }
+
+            // 버프 유지
             if (buffHasStarted) {
                 timeRemainingOnBuff -= 1;
                 Debug.Log(" 버프의 남은 시간 : " + timeRemainingOnBuff);
                 if (timeRemainingOnBuff <= 0) {
                     weaponManager.DebuffWeapon();
                     if (isRightHandedBuff) {
-                        character.characterEffectsManager.rightWeaponBuffEffect = null;           
+                        character.characterEffectsManager.rightWeaponBuffEffect = null;
                     }
                 }
             }
+        }
+
+        public void BuffStart(CharacterManager character) {
+            weaponManager = character.characterWeaponSlotManager.rightHandDamageCollider.GetComponentInParent<WeaponManager>();
+            weaponManager.audioSource.loop = true;
+            weaponManager.audioSource.clip = buffAmbientSound;
+            weaponManager.audioSource.volume = ambientSoundVolume;
+
+            float baseWeaponDamage = weaponManager.damageCollider.physicalDamage + weaponManager.damageCollider.fireDamage;
+            float physicalBuffDamage = 0;
+            float fireBuffDamage = 0;
+            float poiseBuffDamage = 0;
+
+            if (buffPoiseDamage) {
+                poiseBuffDamage = weaponManager.damageCollider.poiseDamage * (buffBasePoiseDamagePercentageMultiplier / 100);
+            }
+
+            switch (buffType) {
+                case BuffType.Physical:
+                    physicalBuffDamage = baseWeaponDamage * (buffBaseDamagePercentageMultiplier / 100);
+                    break;
+                case BuffType.Fire:
+                    fireBuffDamage = baseWeaponDamage * (buffBaseDamagePercentageMultiplier / 100);
+                    break;
+                default:
+                    break;
+            }
+
+            weaponManager.BuffWeapon(buffType, physicalBuffDamage, fireBuffDamage, poiseBuffDamage);
+        }
+
+        public BuffType GetCurrentBuffType() {
+            return buffType;
         }
     }
 }

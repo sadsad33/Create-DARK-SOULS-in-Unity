@@ -15,6 +15,7 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: 062eeb9d5e8ba8f45a9ddfea52518f82, type: 3}
   itemName: "\uD654\uC5FC\uBCD1"
   flavorText: 
+  itemID: 0
   maxItemAmount: 20
   currentItemAmount: 20
   itemModel: {fileID: 7718585223797566845, guid: 9f84e2ee8daaabd45a1c0ac420a96b47, type: 3}

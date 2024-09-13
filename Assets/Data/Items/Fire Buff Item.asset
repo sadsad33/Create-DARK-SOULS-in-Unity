@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7aae2c9088ad24bb389463fd5a4c68, type: 3}
   m_Name: Fire Buff Item
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: d3590afc6b555c44d8fcd6c5241012ab, type: 3}
   itemName: Fire Buff
   flavorText: 
   itemID: 0
   maxItemAmount: 10
-  currentItemAmount: 10
+  currentItemAmount: 7
   itemModel: {fileID: 0}
   consumeAnimation: Buff_Sword_01
   isInteracting: 1
   weaponBuffEffect: {fileID: 11400000, guid: 976279eaa8d16804ab0fc9b3f2007846, type: 2}
   buffTriggerSound: {fileID: 8300000, guid: aac59b3175fa36943ab5be218bb68967, type: 3}
+  buffTriggerSource: {fileID: 0}

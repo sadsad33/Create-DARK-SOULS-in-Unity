@@ -60,6 +60,7 @@ namespace SoulsLike {
                     rightHandSlot.currentWeapon = weaponItem; // 양잡상태에서 돌아올때를 위해 현재 오른쪽 무기를 기억한다.
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
+
                     if (character.IsOwner) {
                         character.characterNetworkManager.currentRightWeaponID.Value = weaponItem.itemID;
                         UIManager.instance.quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
@@ -103,7 +104,8 @@ namespace SoulsLike {
 
             // 화염병 속도 설정
             BombDamageCollider damageCollider = activeBombModel.GetComponentInChildren<BombDamageCollider>();
-            damageCollider.characterThrowsThis = player;
+            damageCollider.characterCausingDamage = player;
+            damageCollider.characterThrowingThis = player;
             damageCollider.contactDamage = fireBombItem.baseDamage;
             damageCollider.fireExplosionDamage = fireBombItem.explosiveDamage;
             damageCollider.bombRigidbody.AddForce(activeBombModel.transform.forward * fireBombItem.forwardVelocity);

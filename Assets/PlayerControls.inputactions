@@ -127,7 +127,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RB",
+                    "name": "MouseLeftBtn",
                     "type": "Button",
                     "id": "d6c375d1-6738-4acf-b9a7-cb2e5d7c18c8",
                     "expectedControlType": "Button",
@@ -136,7 +136,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LB",
+                    "name": "MouseRightBtn",
                     "type": "Button",
                     "id": "d285a60f-edda-45d4-9867-6af3981fba31",
                     "expectedControlType": "Button",
@@ -154,7 +154,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RT",
+                    "name": "RBtn",
                     "type": "Button",
                     "id": "0dfcef9e-0145-491b-a551-93f694c4b5b9",
                     "expectedControlType": "Button",
@@ -163,7 +163,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "D-pad Up",
+                    "name": "UpArrowBtn",
                     "type": "Button",
                     "id": "16bfbb94-4afc-43e3-8922-e63bf326a5a4",
                     "expectedControlType": "Button",
@@ -172,7 +172,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "D-pad Down",
+                    "name": "DownArrowBtn",
                     "type": "Button",
                     "id": "010e9afb-2fa8-45d6-ab2a-4c06529c3e9e",
                     "expectedControlType": "Button",
@@ -181,7 +181,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "D-pad Right",
+                    "name": "RightArrowBtn",
                     "type": "Button",
                     "id": "382bcbb0-ffd9-4cd1-87eb-fdb75a8a5c1d",
                     "expectedControlType": "Button",
@@ -190,7 +190,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "D-pad Left",
+                    "name": "LeftArrowBtn",
                     "type": "Button",
                     "id": "e6caef85-ff1d-47b2-808d-b4433551a026",
                     "expectedControlType": "Button",
@@ -199,7 +199,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "A-button",
+                    "name": "InteractionBtn",
                     "type": "Button",
                     "id": "3f56557a-0b27-4526-b8da-03e3f378ff33",
                     "expectedControlType": "Button",
@@ -217,7 +217,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inventory",
+                    "name": "InGameMenu",
                     "type": "Button",
                     "id": "7ad06337-3c66-4228-8cce-927df9213491",
                     "expectedControlType": "Button",
@@ -262,7 +262,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "X-button",
+                    "name": "XBtn",
                     "type": "Button",
                     "id": "0f7e33c9-53d7-40b0-9107-c91c2c5cf195",
                     "expectedControlType": "Button",
@@ -272,17 +272,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "63989517-bafa-4b97-a0bb-33fb562a4cfe",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Roll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "d0d4f0cb-2c44-4a7e-aa01-d9913a85d072",
@@ -301,7 +290,7 @@
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "RB",
+                    "action": "MouseLeftBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -312,7 +301,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RT",
+                    "action": "RBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -323,18 +312,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "D-pad Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3ccf1801-ad54-4189-80dd-72c7be01b61d",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-pad Up",
+                    "action": "UpArrowBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -345,18 +323,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "D-pad Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "de172070-9dd4-426f-bce6-765c618f26e0",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-pad Down",
+                    "action": "DownArrowBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -367,18 +334,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "D-pad Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d0b2e700-8614-44bb-a46a-21ac8accdae0",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-pad Right",
+                    "action": "RightArrowBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -389,29 +345,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "D-pad Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b0732128-4aaa-41db-9d5e-60a26b70a850",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-pad Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4ad86aa7-fe37-47d2-96ed-31f18aaa94bf",
-                    "path": "<NimbusGamepadHid>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "A-button",
+                    "action": "LeftArrowBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -422,7 +356,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "A-button",
+                    "action": "InteractionBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -444,18 +378,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "837b442b-e741-48e2-a5be-6c9e9347f367",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
+                    "action": "InGameMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -472,34 +395,12 @@
                 },
                 {
                     "name": "",
-                    "id": "3f24cbaf-6635-4a47-ae47-e9018e171994",
-                    "path": "<Gamepad>/rightStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LockOnTargetLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5edaee48-4e23-406f-ba5a-a6c4989391ba",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "LockOnTargetLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "90278c47-9500-405d-b548-e211fe245e88",
-                    "path": "<Gamepad>/rightStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LockOnTargetRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -527,45 +428,12 @@
                 },
                 {
                     "name": "",
-                    "id": "9a477ed4-4d2f-4e11-a855-d3abdb2e0902",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Y-button",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3d3ad79a-691b-40c3-808f-226ce34df56e",
                     "path": "<Mouse>/leftButton",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "CriticalAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b774cfa0-a308-49d3-81ff-f048e1270cd9",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CriticalAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ea402c5f-1c2e-4101-a77c-30f371c46eca",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LT",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -587,7 +455,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LB",
+                    "action": "MouseRightBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -598,7 +466,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "X-button",
+                    "action": "XBtn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

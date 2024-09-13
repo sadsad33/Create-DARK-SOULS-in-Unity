@@ -85,7 +85,7 @@ namespace SoulsLike {
         }
 
         public virtual void LoadSpellOnSlot(SpellItem spellItem) {
-        
+
         }
 
         public virtual void LoadConsumableOnSlot(ConsumableItem consumableItem) {
