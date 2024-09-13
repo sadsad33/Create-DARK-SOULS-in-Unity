@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulsLike {
     public class BombDamageCollider : DamageCollider {
-        public CharacterManager characterThrowsThis;
+        public CharacterManager characterThrowingThis;
 
         [Header("Explosive Damage & Radius")]
         public int explosiveRadius = 1;

@@ -12,15 +12,15 @@ namespace SoulsLike {
 
         public bool b_Input;
         public bool x_Input;
-        public bool rb_Input;
-        public bool lb_Input;
-        public bool rt_Input;
+        public bool mouseLeftBtn;
+        public bool mouseRightBtn;
+        public bool heavyAtkInput;
         public bool lt_Input;
         public bool critical_Attack_Input;
-        public bool d_Pad_Up;
-        public bool d_Pad_Down;
-        public bool d_Pad_Right;
-        public bool d_Pad_Left;
+        public bool nextMemorySlotInput;
+        public bool nextConsumableSlotInput;
+        public bool nextRightHandSlotInput;
+        public bool nextLeftHandSlotInput;
         public bool a_Input;
         public bool y_Input;
         public bool jump_Input;
@@ -63,32 +63,33 @@ namespace SoulsLike {
 
                 // InputAction은 Event 형식이므로 굳이 Update에서 입력을 계속해서 감지할 필요 없음
                 // 버튼의 입력을 매 프레임마다 감지하게 되면 GarbageCollector에게 부담을 주게 된다.
-                inputActions.PlayerActions.RB.performed += i => rb_Input = true;
-                inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+                inputActions.PlayerActions.MouseLeftBtn.performed += i => mouseLeftBtn = true;
+                inputActions.PlayerActions.RBtn.performed += i => heavyAtkInput = true;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
-                inputActions.PlayerActions.DpadRight.performed += i => d_Pad_Right = true;
-                inputActions.PlayerActions.DpadLeft.performed += i => d_Pad_Left = true;
-                inputActions.PlayerActions.DpadUp.performed += i => d_Pad_Up = true;
-                inputActions.PlayerActions.DpadDown.performed += i => d_Pad_Down = true;
-                inputActions.PlayerActions.Xbutton.performed += i => x_Input = true;
+                inputActions.PlayerActions.UpArrowBtn.performed += i => nextMemorySlotInput = true;
+                inputActions.PlayerActions.DownArrowBtn.performed += i => nextConsumableSlotInput = true;
+                inputActions.PlayerActions.RightArrowBtn.performed += i => nextRightHandSlotInput = true;
+                inputActions.PlayerActions.LeftArrowBtn.performed += i => nextLeftHandSlotInput = true;
+                inputActions.PlayerActions.XBtn.performed += i => x_Input = true;
 
                 // 버튼이 눌리면 이벤트 호출
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
-                inputActions.PlayerActions.Abutton.performed += i => a_Input = true;
-                inputActions.PlayerActions.LB.performed += i => lb_Input = true;
+                inputActions.PlayerActions.InteractionBtn.performed += i => a_Input = true;
+                inputActions.PlayerActions.MouseRightBtn.performed += i => mouseRightBtn = true;
                 
                 // 버튼을 눌렀다 바로 뗄떼 이벤트가 호출되는듯
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
-                inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
+                inputActions.PlayerActions.MouseRightBtn.canceled += i => mouseRightBtn = false;
 
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
-                inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
+                inputActions.PlayerActions.InGameMenu.performed += i => inventory_Input = true;
                 inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;
                 inputActions.PlayerActions.LockOnTargetLeft.performed += i => right_Stick_Left_Input = true;
                 inputActions.PlayerActions.LockOnTargetRight.performed += i => right_Stick_Right_Input = true;
                 inputActions.PlayerActions.Ybutton.performed += i => y_Input = true;
                 inputActions.PlayerActions.CriticalAttack.performed += i => critical_Attack_Input = true;
             }
+
             inputActions.Enable();
         }
 
@@ -107,6 +108,7 @@ namespace SoulsLike {
                 }
             }
         }
+
         // 모든 입력 처리 호출
         public void TickInput(float delta) {
             if (player.playerStatsManager.isDead) return;
@@ -158,10 +160,10 @@ namespace SoulsLike {
         private void HandleCombatInput() {
             if (UIManager.instance.uiStack.Count >= 2) return;
             // RB 버튼은 오른손에 들린 무기로 공격하는 버튼
-            if (rb_Input) {
+            if (mouseLeftBtn) {
                 player.playerCombatManager.HandleRBAction();
             }
-            if (rt_Input) {
+            if (heavyAtkInput) {
                 if (player.isInteracting) return;
                 if (player.canDoCombo) return;
                 player.playerCombatManager.HandleHeavyAttack(player.playerInventoryManager.rightWeapon);
@@ -178,7 +180,7 @@ namespace SoulsLike {
                 }
             }
 
-            if (lb_Input) {
+            if (mouseRightBtn) {
                 player.playerCombatManager.HandleLBAction();
             } else {
                 player.characterNetworkManager.isBlocking.Value = false;
@@ -190,13 +192,13 @@ namespace SoulsLike {
         }
 
         private void HandleQuickSlotInput() {
-            if (d_Pad_Right) {
+            if (nextRightHandSlotInput) {
                 player.playerInventoryManager.ChangeRightWeapon();
-            } else if (d_Pad_Left) {
+            } else if (nextLeftHandSlotInput) {
                 player.playerInventoryManager.ChangeLeftWeapon();
-            } else if (d_Pad_Up) {
+            } else if (nextMemorySlotInput) {
                 player.playerInventoryManager.ChangeSpell();
-            } else if (d_Pad_Down) {
+            } else if (nextConsumableSlotInput) {
                 player.playerInventoryManager.ChangeConsumableItem();
             }
         }

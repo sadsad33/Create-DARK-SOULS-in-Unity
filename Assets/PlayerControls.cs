@@ -149,7 +149,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RB"",
+                    ""name"": ""MouseLeftBtn"",
                     ""type"": ""Button"",
                     ""id"": ""d6c375d1-6738-4acf-b9a7-cb2e5d7c18c8"",
                     ""expectedControlType"": ""Button"",
@@ -158,7 +158,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LB"",
+                    ""name"": ""MouseRightBtn"",
                     ""type"": ""Button"",
                     ""id"": ""d285a60f-edda-45d4-9867-6af3981fba31"",
                     ""expectedControlType"": ""Button"",
@@ -176,7 +176,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RT"",
+                    ""name"": ""RBtn"",
                     ""type"": ""Button"",
                     ""id"": ""0dfcef9e-0145-491b-a551-93f694c4b5b9"",
                     ""expectedControlType"": ""Button"",
@@ -185,7 +185,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""D-pad Up"",
+                    ""name"": ""UpArrowBtn"",
                     ""type"": ""Button"",
                     ""id"": ""16bfbb94-4afc-43e3-8922-e63bf326a5a4"",
                     ""expectedControlType"": ""Button"",
@@ -194,7 +194,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""D-pad Down"",
+                    ""name"": ""DownArrowBtn"",
                     ""type"": ""Button"",
                     ""id"": ""010e9afb-2fa8-45d6-ab2a-4c06529c3e9e"",
                     ""expectedControlType"": ""Button"",
@@ -203,7 +203,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""D-pad Right"",
+                    ""name"": ""RightArrowBtn"",
                     ""type"": ""Button"",
                     ""id"": ""382bcbb0-ffd9-4cd1-87eb-fdb75a8a5c1d"",
                     ""expectedControlType"": ""Button"",
@@ -212,7 +212,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""D-pad Left"",
+                    ""name"": ""LeftArrowBtn"",
                     ""type"": ""Button"",
                     ""id"": ""e6caef85-ff1d-47b2-808d-b4433551a026"",
                     ""expectedControlType"": ""Button"",
@@ -221,7 +221,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""A-button"",
+                    ""name"": ""InteractionBtn"",
                     ""type"": ""Button"",
                     ""id"": ""3f56557a-0b27-4526-b8da-03e3f378ff33"",
                     ""expectedControlType"": ""Button"",
@@ -239,7 +239,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inventory"",
+                    ""name"": ""InGameMenu"",
                     ""type"": ""Button"",
                     ""id"": ""7ad06337-3c66-4228-8cce-927df9213491"",
                     ""expectedControlType"": ""Button"",
@@ -284,7 +284,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""X-button"",
+                    ""name"": ""XBtn"",
                     ""type"": ""Button"",
                     ""id"": ""0f7e33c9-53d7-40b0-9107-c91c2c5cf195"",
                     ""expectedControlType"": ""Button"",
@@ -294,17 +294,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""63989517-bafa-4b97-a0bb-33fb562a4cfe"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""d0d4f0cb-2c44-4a7e-aa01-d9913a85d072"",
@@ -323,7 +312,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RB"",
+                    ""action"": ""MouseLeftBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -334,7 +323,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RT"",
+                    ""action"": ""RBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -345,18 +334,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""D-pad Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ccf1801-ad54-4189-80dd-72c7be01b61d"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-pad Up"",
+                    ""action"": ""UpArrowBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -367,18 +345,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""D-pad Down"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""de172070-9dd4-426f-bce6-765c618f26e0"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-pad Down"",
+                    ""action"": ""DownArrowBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -389,18 +356,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""D-pad Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d0b2e700-8614-44bb-a46a-21ac8accdae0"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-pad Right"",
+                    ""action"": ""RightArrowBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -411,29 +367,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""D-pad Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b0732128-4aaa-41db-9d5e-60a26b70a850"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-pad Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4ad86aa7-fe37-47d2-96ed-31f18aaa94bf"",
-                    ""path"": ""<NimbusGamepadHid>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""A-button"",
+                    ""action"": ""LeftArrowBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -444,7 +378,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""A-button"",
+                    ""action"": ""InteractionBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -466,18 +400,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""837b442b-e741-48e2-a5be-6c9e9347f367"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
+                    ""action"": ""InGameMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -494,34 +417,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3f24cbaf-6635-4a47-ae47-e9018e171994"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LockOnTargetLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""5edaee48-4e23-406f-ba5a-a6c4989391ba"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LockOnTargetLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""90278c47-9500-405d-b548-e211fe245e88"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LockOnTargetRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -549,45 +450,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9a477ed4-4d2f-4e11-a855-d3abdb2e0902"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Y-button"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""3d3ad79a-691b-40c3-808f-226ce34df56e"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CriticalAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b774cfa0-a308-49d3-81ff-f048e1270cd9"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": ""Hold"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CriticalAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ea402c5f-1c2e-4101-a77c-30f371c46eca"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LT"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -609,7 +477,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LB"",
+                    ""action"": ""MouseRightBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -620,7 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""X-button"",
+                    ""action"": ""XBtn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -637,22 +505,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_Roll = m_PlayerActions.FindAction("Roll", throwIfNotFound: true);
-        m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
-        m_PlayerActions_LB = m_PlayerActions.FindAction("LB", throwIfNotFound: true);
+        m_PlayerActions_MouseLeftBtn = m_PlayerActions.FindAction("MouseLeftBtn", throwIfNotFound: true);
+        m_PlayerActions_MouseRightBtn = m_PlayerActions.FindAction("MouseRightBtn", throwIfNotFound: true);
         m_PlayerActions_CriticalAttack = m_PlayerActions.FindAction("CriticalAttack", throwIfNotFound: true);
-        m_PlayerActions_RT = m_PlayerActions.FindAction("RT", throwIfNotFound: true);
-        m_PlayerActions_DpadUp = m_PlayerActions.FindAction("D-pad Up", throwIfNotFound: true);
-        m_PlayerActions_DpadDown = m_PlayerActions.FindAction("D-pad Down", throwIfNotFound: true);
-        m_PlayerActions_DpadRight = m_PlayerActions.FindAction("D-pad Right", throwIfNotFound: true);
-        m_PlayerActions_DpadLeft = m_PlayerActions.FindAction("D-pad Left", throwIfNotFound: true);
-        m_PlayerActions_Abutton = m_PlayerActions.FindAction("A-button", throwIfNotFound: true);
+        m_PlayerActions_RBtn = m_PlayerActions.FindAction("RBtn", throwIfNotFound: true);
+        m_PlayerActions_UpArrowBtn = m_PlayerActions.FindAction("UpArrowBtn", throwIfNotFound: true);
+        m_PlayerActions_DownArrowBtn = m_PlayerActions.FindAction("DownArrowBtn", throwIfNotFound: true);
+        m_PlayerActions_RightArrowBtn = m_PlayerActions.FindAction("RightArrowBtn", throwIfNotFound: true);
+        m_PlayerActions_LeftArrowBtn = m_PlayerActions.FindAction("LeftArrowBtn", throwIfNotFound: true);
+        m_PlayerActions_InteractionBtn = m_PlayerActions.FindAction("InteractionBtn", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerActions_Inventory = m_PlayerActions.FindAction("Inventory", throwIfNotFound: true);
+        m_PlayerActions_InGameMenu = m_PlayerActions.FindAction("InGameMenu", throwIfNotFound: true);
         m_PlayerActions_LockOnTargetLeft = m_PlayerActions.FindAction("LockOnTargetLeft", throwIfNotFound: true);
         m_PlayerActions_LockOnTargetRight = m_PlayerActions.FindAction("LockOnTargetRight", throwIfNotFound: true);
         m_PlayerActions_Ybutton = m_PlayerActions.FindAction("Y-button", throwIfNotFound: true);
         m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
-        m_PlayerActions_Xbutton = m_PlayerActions.FindAction("X-button", throwIfNotFound: true);
+        m_PlayerActions_XBtn = m_PlayerActions.FindAction("XBtn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -770,44 +638,44 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_Roll;
-    private readonly InputAction m_PlayerActions_RB;
-    private readonly InputAction m_PlayerActions_LB;
+    private readonly InputAction m_PlayerActions_MouseLeftBtn;
+    private readonly InputAction m_PlayerActions_MouseRightBtn;
     private readonly InputAction m_PlayerActions_CriticalAttack;
-    private readonly InputAction m_PlayerActions_RT;
-    private readonly InputAction m_PlayerActions_DpadUp;
-    private readonly InputAction m_PlayerActions_DpadDown;
-    private readonly InputAction m_PlayerActions_DpadRight;
-    private readonly InputAction m_PlayerActions_DpadLeft;
-    private readonly InputAction m_PlayerActions_Abutton;
+    private readonly InputAction m_PlayerActions_RBtn;
+    private readonly InputAction m_PlayerActions_UpArrowBtn;
+    private readonly InputAction m_PlayerActions_DownArrowBtn;
+    private readonly InputAction m_PlayerActions_RightArrowBtn;
+    private readonly InputAction m_PlayerActions_LeftArrowBtn;
+    private readonly InputAction m_PlayerActions_InteractionBtn;
     private readonly InputAction m_PlayerActions_Jump;
-    private readonly InputAction m_PlayerActions_Inventory;
+    private readonly InputAction m_PlayerActions_InGameMenu;
     private readonly InputAction m_PlayerActions_LockOnTargetLeft;
     private readonly InputAction m_PlayerActions_LockOnTargetRight;
     private readonly InputAction m_PlayerActions_Ybutton;
     private readonly InputAction m_PlayerActions_LT;
-    private readonly InputAction m_PlayerActions_Xbutton;
+    private readonly InputAction m_PlayerActions_XBtn;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @Roll => m_Wrapper.m_PlayerActions_Roll;
-        public InputAction @RB => m_Wrapper.m_PlayerActions_RB;
-        public InputAction @LB => m_Wrapper.m_PlayerActions_LB;
+        public InputAction @MouseLeftBtn => m_Wrapper.m_PlayerActions_MouseLeftBtn;
+        public InputAction @MouseRightBtn => m_Wrapper.m_PlayerActions_MouseRightBtn;
         public InputAction @CriticalAttack => m_Wrapper.m_PlayerActions_CriticalAttack;
-        public InputAction @RT => m_Wrapper.m_PlayerActions_RT;
-        public InputAction @DpadUp => m_Wrapper.m_PlayerActions_DpadUp;
-        public InputAction @DpadDown => m_Wrapper.m_PlayerActions_DpadDown;
-        public InputAction @DpadRight => m_Wrapper.m_PlayerActions_DpadRight;
-        public InputAction @DpadLeft => m_Wrapper.m_PlayerActions_DpadLeft;
-        public InputAction @Abutton => m_Wrapper.m_PlayerActions_Abutton;
+        public InputAction @RBtn => m_Wrapper.m_PlayerActions_RBtn;
+        public InputAction @UpArrowBtn => m_Wrapper.m_PlayerActions_UpArrowBtn;
+        public InputAction @DownArrowBtn => m_Wrapper.m_PlayerActions_DownArrowBtn;
+        public InputAction @RightArrowBtn => m_Wrapper.m_PlayerActions_RightArrowBtn;
+        public InputAction @LeftArrowBtn => m_Wrapper.m_PlayerActions_LeftArrowBtn;
+        public InputAction @InteractionBtn => m_Wrapper.m_PlayerActions_InteractionBtn;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
-        public InputAction @Inventory => m_Wrapper.m_PlayerActions_Inventory;
+        public InputAction @InGameMenu => m_Wrapper.m_PlayerActions_InGameMenu;
         public InputAction @LockOnTargetLeft => m_Wrapper.m_PlayerActions_LockOnTargetLeft;
         public InputAction @LockOnTargetRight => m_Wrapper.m_PlayerActions_LockOnTargetRight;
         public InputAction @Ybutton => m_Wrapper.m_PlayerActions_Ybutton;
         public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
-        public InputAction @Xbutton => m_Wrapper.m_PlayerActions_Xbutton;
+        public InputAction @XBtn => m_Wrapper.m_PlayerActions_XBtn;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -823,39 +691,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
-            @RB.started += instance.OnRB;
-            @RB.performed += instance.OnRB;
-            @RB.canceled += instance.OnRB;
-            @LB.started += instance.OnLB;
-            @LB.performed += instance.OnLB;
-            @LB.canceled += instance.OnLB;
+            @MouseLeftBtn.started += instance.OnMouseLeftBtn;
+            @MouseLeftBtn.performed += instance.OnMouseLeftBtn;
+            @MouseLeftBtn.canceled += instance.OnMouseLeftBtn;
+            @MouseRightBtn.started += instance.OnMouseRightBtn;
+            @MouseRightBtn.performed += instance.OnMouseRightBtn;
+            @MouseRightBtn.canceled += instance.OnMouseRightBtn;
             @CriticalAttack.started += instance.OnCriticalAttack;
             @CriticalAttack.performed += instance.OnCriticalAttack;
             @CriticalAttack.canceled += instance.OnCriticalAttack;
-            @RT.started += instance.OnRT;
-            @RT.performed += instance.OnRT;
-            @RT.canceled += instance.OnRT;
-            @DpadUp.started += instance.OnDpadUp;
-            @DpadUp.performed += instance.OnDpadUp;
-            @DpadUp.canceled += instance.OnDpadUp;
-            @DpadDown.started += instance.OnDpadDown;
-            @DpadDown.performed += instance.OnDpadDown;
-            @DpadDown.canceled += instance.OnDpadDown;
-            @DpadRight.started += instance.OnDpadRight;
-            @DpadRight.performed += instance.OnDpadRight;
-            @DpadRight.canceled += instance.OnDpadRight;
-            @DpadLeft.started += instance.OnDpadLeft;
-            @DpadLeft.performed += instance.OnDpadLeft;
-            @DpadLeft.canceled += instance.OnDpadLeft;
-            @Abutton.started += instance.OnAbutton;
-            @Abutton.performed += instance.OnAbutton;
-            @Abutton.canceled += instance.OnAbutton;
+            @RBtn.started += instance.OnRBtn;
+            @RBtn.performed += instance.OnRBtn;
+            @RBtn.canceled += instance.OnRBtn;
+            @UpArrowBtn.started += instance.OnUpArrowBtn;
+            @UpArrowBtn.performed += instance.OnUpArrowBtn;
+            @UpArrowBtn.canceled += instance.OnUpArrowBtn;
+            @DownArrowBtn.started += instance.OnDownArrowBtn;
+            @DownArrowBtn.performed += instance.OnDownArrowBtn;
+            @DownArrowBtn.canceled += instance.OnDownArrowBtn;
+            @RightArrowBtn.started += instance.OnRightArrowBtn;
+            @RightArrowBtn.performed += instance.OnRightArrowBtn;
+            @RightArrowBtn.canceled += instance.OnRightArrowBtn;
+            @LeftArrowBtn.started += instance.OnLeftArrowBtn;
+            @LeftArrowBtn.performed += instance.OnLeftArrowBtn;
+            @LeftArrowBtn.canceled += instance.OnLeftArrowBtn;
+            @InteractionBtn.started += instance.OnInteractionBtn;
+            @InteractionBtn.performed += instance.OnInteractionBtn;
+            @InteractionBtn.canceled += instance.OnInteractionBtn;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Inventory.started += instance.OnInventory;
-            @Inventory.performed += instance.OnInventory;
-            @Inventory.canceled += instance.OnInventory;
+            @InGameMenu.started += instance.OnInGameMenu;
+            @InGameMenu.performed += instance.OnInGameMenu;
+            @InGameMenu.canceled += instance.OnInGameMenu;
             @LockOnTargetLeft.started += instance.OnLockOnTargetLeft;
             @LockOnTargetLeft.performed += instance.OnLockOnTargetLeft;
             @LockOnTargetLeft.canceled += instance.OnLockOnTargetLeft;
@@ -868,9 +736,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started += instance.OnLT;
             @LT.performed += instance.OnLT;
             @LT.canceled += instance.OnLT;
-            @Xbutton.started += instance.OnXbutton;
-            @Xbutton.performed += instance.OnXbutton;
-            @Xbutton.canceled += instance.OnXbutton;
+            @XBtn.started += instance.OnXBtn;
+            @XBtn.performed += instance.OnXBtn;
+            @XBtn.canceled += instance.OnXBtn;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -881,39 +749,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
-            @RB.started -= instance.OnRB;
-            @RB.performed -= instance.OnRB;
-            @RB.canceled -= instance.OnRB;
-            @LB.started -= instance.OnLB;
-            @LB.performed -= instance.OnLB;
-            @LB.canceled -= instance.OnLB;
+            @MouseLeftBtn.started -= instance.OnMouseLeftBtn;
+            @MouseLeftBtn.performed -= instance.OnMouseLeftBtn;
+            @MouseLeftBtn.canceled -= instance.OnMouseLeftBtn;
+            @MouseRightBtn.started -= instance.OnMouseRightBtn;
+            @MouseRightBtn.performed -= instance.OnMouseRightBtn;
+            @MouseRightBtn.canceled -= instance.OnMouseRightBtn;
             @CriticalAttack.started -= instance.OnCriticalAttack;
             @CriticalAttack.performed -= instance.OnCriticalAttack;
             @CriticalAttack.canceled -= instance.OnCriticalAttack;
-            @RT.started -= instance.OnRT;
-            @RT.performed -= instance.OnRT;
-            @RT.canceled -= instance.OnRT;
-            @DpadUp.started -= instance.OnDpadUp;
-            @DpadUp.performed -= instance.OnDpadUp;
-            @DpadUp.canceled -= instance.OnDpadUp;
-            @DpadDown.started -= instance.OnDpadDown;
-            @DpadDown.performed -= instance.OnDpadDown;
-            @DpadDown.canceled -= instance.OnDpadDown;
-            @DpadRight.started -= instance.OnDpadRight;
-            @DpadRight.performed -= instance.OnDpadRight;
-            @DpadRight.canceled -= instance.OnDpadRight;
-            @DpadLeft.started -= instance.OnDpadLeft;
-            @DpadLeft.performed -= instance.OnDpadLeft;
-            @DpadLeft.canceled -= instance.OnDpadLeft;
-            @Abutton.started -= instance.OnAbutton;
-            @Abutton.performed -= instance.OnAbutton;
-            @Abutton.canceled -= instance.OnAbutton;
+            @RBtn.started -= instance.OnRBtn;
+            @RBtn.performed -= instance.OnRBtn;
+            @RBtn.canceled -= instance.OnRBtn;
+            @UpArrowBtn.started -= instance.OnUpArrowBtn;
+            @UpArrowBtn.performed -= instance.OnUpArrowBtn;
+            @UpArrowBtn.canceled -= instance.OnUpArrowBtn;
+            @DownArrowBtn.started -= instance.OnDownArrowBtn;
+            @DownArrowBtn.performed -= instance.OnDownArrowBtn;
+            @DownArrowBtn.canceled -= instance.OnDownArrowBtn;
+            @RightArrowBtn.started -= instance.OnRightArrowBtn;
+            @RightArrowBtn.performed -= instance.OnRightArrowBtn;
+            @RightArrowBtn.canceled -= instance.OnRightArrowBtn;
+            @LeftArrowBtn.started -= instance.OnLeftArrowBtn;
+            @LeftArrowBtn.performed -= instance.OnLeftArrowBtn;
+            @LeftArrowBtn.canceled -= instance.OnLeftArrowBtn;
+            @InteractionBtn.started -= instance.OnInteractionBtn;
+            @InteractionBtn.performed -= instance.OnInteractionBtn;
+            @InteractionBtn.canceled -= instance.OnInteractionBtn;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Inventory.started -= instance.OnInventory;
-            @Inventory.performed -= instance.OnInventory;
-            @Inventory.canceled -= instance.OnInventory;
+            @InGameMenu.started -= instance.OnInGameMenu;
+            @InGameMenu.performed -= instance.OnInGameMenu;
+            @InGameMenu.canceled -= instance.OnInGameMenu;
             @LockOnTargetLeft.started -= instance.OnLockOnTargetLeft;
             @LockOnTargetLeft.performed -= instance.OnLockOnTargetLeft;
             @LockOnTargetLeft.canceled -= instance.OnLockOnTargetLeft;
@@ -926,9 +794,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started -= instance.OnLT;
             @LT.performed -= instance.OnLT;
             @LT.canceled -= instance.OnLT;
-            @Xbutton.started -= instance.OnXbutton;
-            @Xbutton.performed -= instance.OnXbutton;
-            @Xbutton.canceled -= instance.OnXbutton;
+            @XBtn.started -= instance.OnXBtn;
+            @XBtn.performed -= instance.OnXBtn;
+            @XBtn.canceled -= instance.OnXBtn;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -955,21 +823,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnLockOn(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
-        void OnRB(InputAction.CallbackContext context);
-        void OnLB(InputAction.CallbackContext context);
+        void OnMouseLeftBtn(InputAction.CallbackContext context);
+        void OnMouseRightBtn(InputAction.CallbackContext context);
         void OnCriticalAttack(InputAction.CallbackContext context);
-        void OnRT(InputAction.CallbackContext context);
-        void OnDpadUp(InputAction.CallbackContext context);
-        void OnDpadDown(InputAction.CallbackContext context);
-        void OnDpadRight(InputAction.CallbackContext context);
-        void OnDpadLeft(InputAction.CallbackContext context);
-        void OnAbutton(InputAction.CallbackContext context);
+        void OnRBtn(InputAction.CallbackContext context);
+        void OnUpArrowBtn(InputAction.CallbackContext context);
+        void OnDownArrowBtn(InputAction.CallbackContext context);
+        void OnRightArrowBtn(InputAction.CallbackContext context);
+        void OnLeftArrowBtn(InputAction.CallbackContext context);
+        void OnInteractionBtn(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
+        void OnInGameMenu(InputAction.CallbackContext context);
         void OnLockOnTargetLeft(InputAction.CallbackContext context);
         void OnLockOnTargetRight(InputAction.CallbackContext context);
         void OnYbutton(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
-        void OnXbutton(InputAction.CallbackContext context);
+        void OnXBtn(InputAction.CallbackContext context);
     }
 }

@@ -5,20 +5,20 @@ using UnityEngine;
 namespace SoulsLike {
     public class WeaponManager : MonoBehaviour {
         [Header("Buff FX")]// 버프의 이펙트
-        [SerializeField] GameObject physicalBuffFX; 
-        [SerializeField] GameObject fireBuffFX;
+        public GameObject physicalBuffFX;
+        public GameObject fireBuffFX;
 
         [Header("Trail FX")] // 버프 상태에 따른 무기의 트레일
         [SerializeField] ParticleSystem defaultTrailFX;
         [SerializeField] ParticleSystem fireTrailFX;
 
-        private bool weaponIsBuffed; // 현재 무기가 버프된 상태인지
-        private BuffType weaponBuffType; // 어떤 타입의 버프를 받았는지
+        public bool weaponIsBuffed; // 현재 무기가 버프된 상태인지
+        public BuffType weaponBuffType; // 어떤 타입의 버프를 받았는지
 
         public MeleeWeaponDamageCollider damageCollider;
         public AudioSource audioSource; // 버프 적용중 재생되는 소리
 
-        private void Awake() {
+        private void OnEnable() {
             damageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
             audioSource = gameObject.AddComponent<AudioSource>();
         }
@@ -26,15 +26,17 @@ namespace SoulsLike {
         public void BuffWeapon(BuffType buffType, float physicalBuffDamage, float fireBuffDamage, float poiseBuffDamage) {
             // 다른 활성화된 버프를 모두 리셋
             DebuffWeapon();
-            
+
             weaponIsBuffed = true;
             weaponBuffType = buffType;
             audioSource.Play();
 
             switch (buffType) {
-                case BuffType.Physical: physicalBuffFX.SetActive(true);
+                case BuffType.Physical:
+                    physicalBuffFX.SetActive(true);
                     break;
-                case BuffType.Fire: fireBuffFX.SetActive(true);
+                case BuffType.Fire:
+                    fireBuffFX.SetActive(true);
                     break;
                 default:
                     break;
@@ -45,6 +47,7 @@ namespace SoulsLike {
         }
 
         public void DebuffWeapon() {
+            if (!weaponIsBuffed) return;
             weaponIsBuffed = false;
             audioSource.Stop();
             physicalBuffFX.SetActive(false);

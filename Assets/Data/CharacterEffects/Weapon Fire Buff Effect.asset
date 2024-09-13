@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectID: 0
   buffType: 1
-  lengthOfBuff: 60
+  lengthOfBuff: 15
   timeRemainingOnBuff: 0
   isRightHandedBuff: 0
   buffAmbientSound: {fileID: 8300000, guid: b996238e5e218e44d9ccb70e6bf7889c, type: 3}

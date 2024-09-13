@@ -22,9 +22,6 @@ namespace SoulsLike {
             poisonAmountBar = UIManager.instance.poisonAmountBar;
         }
 
-        //protected override void Start() {
-        //    base.Start();
-        //}
 
         public override void ProcessEffectInstantly(CharacterEffect effect) {
             base.ProcessEffectInstantly(effect);

@@ -13,10 +13,7 @@ namespace SoulsLike {
         [Header("Camera")]
         public CameraHandler cameraHandler;
 
-        
-        //public bool rightFootUp;
         public bool isLadderTop;
-        //public bool isAtBonfire;
         public bool isInConversation;
 
         public Vector3 interactionTargetPosition;
@@ -33,11 +30,6 @@ namespace SoulsLike {
         public PlayerEffectsManager playerEffectsManager;
         public PlayerLocomotionManager playerLocomotionManager;
         public PlayerInteractionManager playerInteractionManager;
-
-        
-        //[SerializeField]
-        //InteractableUI interactableUI;
-        //LayerMask interactableLayer;
 
         protected override void Awake() {
             base.Awake();
@@ -58,8 +50,6 @@ namespace SoulsLike {
             ladderEndPositionDetector = GetComponentInChildren<LadderEndPositionDetection>();
             //Debug.Log("플레이어의 현재 타겟 ID : " + playerNetworkManager.currentTargetID.Value);
             if (ladderEndPositionDetector != null) ladderEndPositionDetector.transform.gameObject.SetActive(false);
-            //interactableUI = FindObjectOfType<InteractableUI>();
-            //interactableLayer = 1 << 0 | 1 << 9;
 
             WorldSaveGameManager.instance.player = this;
         }
@@ -116,7 +106,6 @@ namespace SoulsLike {
                 }
             }
             if (isMoving) {
-                //characterController.enabled = false;
                 transform.position = Vector3.Slerp(transform.position, interactionTargetPosition, Time.deltaTime);
             }
 
@@ -167,27 +156,16 @@ namespace SoulsLike {
             if (!IsOwner) return;
             // 1�����Ӵ� �ѹ��� ȣ�⸸ �̷������� �Ѵ�.
             inputHandler.rollFlag = false;
-            inputHandler.rb_Input = false;
-            inputHandler.rt_Input = false;
+            inputHandler.mouseLeftBtn = false;
+            inputHandler.heavyAtkInput = false;
             inputHandler.lt_Input = false;
-            inputHandler.d_Pad_Up = false;
-            inputHandler.d_Pad_Down = false;
-            inputHandler.d_Pad_Left = false;
-            inputHandler.d_Pad_Right = false;
+            inputHandler.nextMemorySlotInput = false;
+            inputHandler.nextConsumableSlotInput = false;
+            inputHandler.nextLeftHandSlotInput = false;
+            inputHandler.nextRightHandSlotInput = false;
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
-
-            // ��ٸ� ��ȣ�ۿ� �ִϸ��̼��� ������ Animator�� ���̾�5 ������ Empty �ִϸ��̼����� ���̰� �Ͼ
-            // ��ٸ��� ����� �κп��� ��ȣ�ۿ� �ִϸ��̼��� ����� ��� �ִϸ��̼��� ������ Rigidbody �� velocity �� 0�� �����ʾ� Ư�� �������� ���Ӿ��� �з������µ�
-            // �̴� PlayerAnimatorManager Ŭ�������� OnAnimatorMove �޼��� �����ΰ����� ����
-            // �ش� �޼���� �ִϸ��̼��� ����� �� ������ �����ӱ��� ȣ��Ǹ�, �ִϸ��̼��� ����Ǵµ���
-            // �ƹ�Ÿ�� ������ ��ǥ�� ��ȭ���� �����ϰ� �ִϸ��̼� ����� �ð����� ���� �ӵ��� ������ �÷��̾��� rigidbody �� �����Ͽ� �ڿ������Ժ��̵��� �ӵ��� ������
-            // �ִϸ��̼��� ���̰� ��� �ִϸ��̼��� ������ ������ ���� ����Ǵ� �Ŷ�� ��������� �ڿ������� ���̸� ���� ��κ� �׷��� �����Ƿ� Rigidbody�� velocity �� 0�� �Ǿ��ٰ� ������ �����ӿ���
-            // �ٽ� OnAnimatorMove �޼��尡 ȣ��Ǹ鼭 Rigidbody �� velocity ���� ��ȭ�ϴ� ��
-            //if ((isClimbing || isAtBonfire) && animator.GetCurrentAnimatorClipInfoCount(5) == 0) { // �� �����Ӹ��� 5�� ���̾��� ���� �ִϸ��̼��� Empty ��� rigidbody �� �ӵ��� 0���� ����
-                //playerLocomotionManager.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //}
 
             float delta = Time.deltaTime;
             if (cameraHandler != null) {

@@ -63,11 +63,18 @@ namespace SoulsLike {
         public virtual void ProcessEffectInstantly(CharacterEffect effect) {
             effect.ProcessEffect(character);
         }
+
         public void ProcessWeaponBuffs() {
             // 현재 오른손 무기에 버프가 걸린 상태라면
             if (rightWeaponBuffEffect != null) {
+                if (!rightWeaponManager.weaponIsBuffed) { // 아이템 사용 등으로 무기를 언로드 했다가 다시 로드하게 되면 무기 오브젝트가 꺼졋다 켜지므로 항목이 초기화됨
+                    rightWeaponManager.weaponIsBuffed = true;
+                    rightWeaponManager.weaponBuffType = rightWeaponBuffEffect.GetCurrentBuffType();
+                    rightWeaponBuffEffect.BuffStart(character);
+                }
                 // 버프 적용
                 rightWeaponBuffEffect.ProcessEffect(character);
+                
             }
         }
 
