@@ -4,31 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace SoulsLike {
-    // ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸® UIÀÇ ½½·Ô
+    // í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬ UIì˜ ìŠ¬ë¡¯
     public class ItemInventorySlot : MonoBehaviour {
+        
+        // ìŠ¬ë¡¯ì€ ì•„ì´ì½˜ê³¼ ì•„ì´í…œì„ ê°–ëŠ”ë‹¤.
+        [SerializeField] Image icon;
+        [SerializeField] Item item;
 
-        [SerializeField]
-        PlayerInventoryManager playerInventory;
-        [SerializeField]
-        PlayerWeaponSlotManager weaponSlotManager;
-        [SerializeField]
-        UIManager uiManager;
-
-        public ItemInfoWindowUI itemInfoWindowUI;
-
-        // ½½·ÔÀº ¾ÆÀÌÄÜ°ú ¾ÆÀÌÅÛÀ» °®´Â´Ù.
-        public Image icon;
-        //WeaponItem item;
-        [SerializeField]
-        Item item;
-
-        private void Awake() {
-            playerInventory = FindObjectOfType<PlayerInventoryManager>();
-            weaponSlotManager = FindObjectOfType<PlayerWeaponSlotManager>();
-            uiManager = FindObjectOfType<UIManager>();
-        }
-
-        // ½½·Ô¿¡ ¾ÆÀÌÅÛ Ãß°¡
+        // ìŠ¬ë¡¯ì— ì•„ì´í…œ ì¶”ê°€
         public void AddItem(Item newItem) {
             item = newItem;
             icon.sprite = item.itemIcon;
@@ -36,7 +19,7 @@ namespace SoulsLike {
             gameObject.SetActive(true);
         }
 
-        // ½½·Ô¿¡¼­ ¹«±â Á¦°Å
+        // ìŠ¬ë¡¯ì—ì„œ ë¬´ê¸° ì œê±°
         public void ClearInventorySlot() {
             item = null;
             icon.sprite = null;
@@ -54,72 +37,74 @@ namespace SoulsLike {
         }
 
         public void EquipWeaponItem() {
-            // ¸¸¾à ¿À¸¥ÂÊ¼Õ ½½·Ô1À» ¼±ÅÃÇÏ¿© ÇÃ·¹ÀÌ¾î ¹«±â ÀÎº¥Åä¸®·Î µé¾î°¬°í,
-            if (uiManager.rightHandSlot1Selected) {
-                // ¿À¸¥ÂÊ¼Õ ½½·Ô1ÀÌ ºñ¾îÀÖÁö ¾Ê´Ù¸é,
-                if (playerInventory.weaponsInRightHandSlots[0] != null) {
-                    // ¹«±â ÀÎº¥Åä¸® ¸®½ºÆ®¿¡ ÇöÀç ¿À¸¥ÂÊ¼Õ ½½·Ô1¿¡ ÀåÂøµÈ ¹«±â¸¦ Ãß°¡
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[0]);
-                    // ÀÎº¥Åä¸® ½½·ÔÀÇ item°ú ±³Ã¼¸¦ À§ÇØ ±â¾ï
-                    memorizedWeapon = playerInventory.weaponsInRightHandSlots[0];
+            // ë§Œì•½ ì˜¤ë¥¸ìª½ì† ìŠ¬ë¡¯1ì„ ì„ íƒí•˜ì—¬ í”Œë ˆì´ì–´ ë¬´ê¸° ì¸ë²¤í† ë¦¬ë¡œ ë“¤ì–´ê°”ê³ ,
+            if (UIManager.instance.rightHandSlot1Selected) {
+                // ì˜¤ë¥¸ìª½ì† ìŠ¬ë¡¯1ì´ ë¹„ì–´ìˆì§€ ì•Šë‹¤ë©´,
+                if (UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[0] != null) {
+                    // ë¬´ê¸° ì¸ë²¤í† ë¦¬ ë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ì˜¤ë¥¸ìª½ì† ìŠ¬ë¡¯1ì— ì¥ì°©ëœ ë¬´ê¸°ë¥¼ ì¶”ê°€
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[0]);
+                    // ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ itemê³¼ êµì²´ë¥¼ ìœ„í•´ ê¸°ì–µ
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[0];
                 }
-                // ¿À¸¥ÂÊ¼Õ ½½·Ô1¿¡ ÀÌ ½½·ÔÀÌ °¡Áö°íÀÖ´Â itemÀ» Àü´Ş
-                playerInventory.weaponsInRightHandSlots[0] = item as WeaponItem;
-                // ¹«±â ÀÎº¥Åä¸® ¸®½ºÆ®¿¡¼­ ÇØ´ç itemÀ» Á¦°Å
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
-                // ¸¸¾à ¿À¸¥ÂÊ¼Õ ½½·Ô1ÀÌ ºó ½½·ÔÀÌ¾ú´Ù¸é ÀÎº¥Åä¸® ½½·Ô¿¡ ¾Æ¹« ¾ÆÀÌÅÛµµ µé¾îÀÖÁö ¾Ê°ÔµÇ¹Ç·Î ÀÎº¥Åä¸® ½½·ÔÀ» ºñ¿ò
+
+                // ì˜¤ë¥¸ìª½ì† ìŠ¬ë¡¯1ì— ì´ ìŠ¬ë¡¯ì´ ê°€ì§€ê³ ìˆëŠ” itemì„ ì „ë‹¬
+                UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[0] = item as WeaponItem;
+                // ë¬´ê¸° ì¸ë²¤í† ë¦¬ ë¦¬ìŠ¤íŠ¸ì—ì„œ í•´ë‹¹ itemì„ ì œê±°
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
+                // ë§Œì•½ ì˜¤ë¥¸ìª½ì† ìŠ¬ë¡¯1ì´ ë¹ˆ ìŠ¬ë¡¯ì´ì—ˆë‹¤ë©´ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì— ì•„ë¬´ ì•„ì´í…œë„ ë“¤ì–´ìˆì§€ ì•Šê²Œë˜ë¯€ë¡œ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì„ ë¹„ì›€
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentRightWeaponIndex == 0) changeNow = true; // ¹Ù·Î ¹Ù²ãÁà¾ßÇÔ
-            } else if (uiManager.rightHandSlot2Selected) {
-                if (playerInventory.weaponsInRightHandSlots[1] != null) {
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[1]);
-                    memorizedWeapon = playerInventory.weaponsInRightHandSlots[1];
+                if (UIManager.instance.player.playerInventoryManager.currentRightWeaponIndex == 0) changeNow = true; // ë°”ë¡œ ë°”ê¿”ì¤˜ì•¼í•¨
+            } else if (UIManager.instance.rightHandSlot2Selected) {
+                if (UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[1] != null) {
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[1]);
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[1];
                 }
-                playerInventory.weaponsInRightHandSlots[1] = item as WeaponItem;
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
+                UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[1] = item as WeaponItem;
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentRightWeaponIndex == 1) changeNow = true;
-            } else if (uiManager.rightHandSlot3Selected) {
-                if (playerInventory.weaponsInRightHandSlots[2] != null) {
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInRightHandSlots[2]);
-                    memorizedWeapon = playerInventory.weaponsInRightHandSlots[2];
+                if (UIManager.instance.player.playerInventoryManager.currentRightWeaponIndex == 1) changeNow = true;
+            } else if (UIManager.instance.rightHandSlot3Selected) {
+                if (UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[2] != null) {
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[2]);
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[2];
                 }
-                playerInventory.weaponsInRightHandSlots[2] = item as WeaponItem;
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
+                UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[2] = item as WeaponItem;
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentRightWeaponIndex == 2) changeNow = true;
-            } else if (uiManager.leftHandSlot1Selected) {
-                if (playerInventory.weaponsInLeftHandSlots[0] != null) {
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[0]);
-                    memorizedWeapon = playerInventory.weaponsInLeftHandSlots[0];
+                if (UIManager.instance.player.playerInventoryManager.currentRightWeaponIndex == 2) changeNow = true;
+            } else if (UIManager.instance.leftHandSlot1Selected) {
+                if (UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[0] != null) {
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[0]);
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[0];
                 }
-                playerInventory.weaponsInLeftHandSlots[0] = item as WeaponItem;
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
+                UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[0] = item as WeaponItem;
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentLeftWeaponIndex == 0) changeNow = true;
-            } else if (uiManager.leftHandSlot2Selected) {
-                if (playerInventory.weaponsInLeftHandSlots[1] != null) {
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[1]);
-                    memorizedWeapon = playerInventory.weaponsInLeftHandSlots[1];
+                if (UIManager.instance.player.playerInventoryManager.currentLeftWeaponIndex == 0) changeNow = true;
+            } else if (UIManager.instance.leftHandSlot2Selected) {
+                if (UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[1] != null) {
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[1]);
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[1];
                 }
-                playerInventory.weaponsInLeftHandSlots[1] = item as WeaponItem;
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
+                UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[1] = item as WeaponItem;
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentLeftWeaponIndex == 1) changeNow = true;
-            } else if (uiManager.leftHandSlot3Selected) {
-                if (playerInventory.weaponsInLeftHandSlots[2] != null) {
-                    playerInventory.weaponsInventory.Add(playerInventory.weaponsInLeftHandSlots[2]);
-                    memorizedWeapon = playerInventory.weaponsInLeftHandSlots[2];
+                if (UIManager.instance.player.playerInventoryManager.currentLeftWeaponIndex == 1) changeNow = true;
+            } else if (UIManager.instance.leftHandSlot3Selected) {
+                if (UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[2] != null) {
+                    UIManager.instance.player.playerInventoryManager.weaponsInventory.Add(UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[2]);
+                    memorizedWeapon = UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[2];
                 }
-                playerInventory.weaponsInLeftHandSlots[2] = item as WeaponItem;
-                playerInventory.weaponsInventory.Remove(item as WeaponItem);
+                UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[2] = item as WeaponItem;
+                UIManager.instance.player.playerInventoryManager.weaponsInventory.Remove(item as WeaponItem);
                 if (memorizedWeapon == null) ClearInventorySlot();
-                if (playerInventory.currentLeftWeaponIndex == 2) changeNow = true;
+                if (UIManager.instance.player.playerInventoryManager.currentLeftWeaponIndex == 2) changeNow = true;
             } else {
                 return;
             }
 
             Debug.Log(memorizedWeapon);
+            
             if (memorizedWeapon != null) {
                 item = memorizedWeapon;
                 icon.sprite = memorizedWeapon.itemIcon;
@@ -127,47 +112,47 @@ namespace SoulsLike {
             }
 
             if (changeNow) {
-                playerInventory.rightWeapon = playerInventory.weaponsInRightHandSlots[playerInventory.currentRightWeaponIndex];
-                playerInventory.leftWeapon = playerInventory.weaponsInLeftHandSlots[playerInventory.currentLeftWeaponIndex];
+                UIManager.instance.player.playerInventoryManager.rightWeapon = UIManager.instance.player.playerInventoryManager.weaponsInRightHandSlots[UIManager.instance.player.playerInventoryManager.currentRightWeaponIndex];
+                UIManager.instance.player.playerInventoryManager.leftWeapon = UIManager.instance.player.playerInventoryManager.weaponsInLeftHandSlots[UIManager.instance.player.playerInventoryManager.currentLeftWeaponIndex];
                 changeNow = !changeNow;
             }
 
-            // ¹«±â¸¦ ±³Ã¼ÇßÀ¸¹Ç·Î »õ·Î ·ÎµåÇÑ´Ù.
-            weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+            // ë¬´ê¸°ë¥¼ êµì²´í–ˆìœ¼ë¯€ë¡œ ìƒˆë¡œ ë¡œë“œí•œë‹¤.
+            UIManager.instance.player.playerWeaponSlotManager.LoadWeaponOnSlot(UIManager.instance.player.playerInventoryManager.rightWeapon, false);
+            UIManager.instance.player.playerWeaponSlotManager.LoadWeaponOnSlot(UIManager.instance.player.playerInventoryManager.leftWeapon, true);
 
-            uiManager.equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventory);
+            UIManager.instance.equipmentWindowUI.LoadItemsOnEquipmentScreen(UIManager.instance.player.playerInventoryManager);
         }
 
         public void EquipConsumableItem() {
-            if (uiManager.consumableSlot1Selected) {
-                if (playerInventory.selectedConsumables[0] != null) {
-                    playerInventory.consumablesInventory.Add(playerInventory.selectedConsumables[0]);
-                    memorizedConsumable = playerInventory.selectedConsumables[0];
+            if (UIManager.instance.consumableSlot1Selected) {
+                if (UIManager.instance.player.playerInventoryManager.selectedConsumables[0] != null) {
+                    UIManager.instance.player.playerInventoryManager.consumablesInventory.Add(UIManager.instance.player.playerInventoryManager.selectedConsumables[0]);
+                    memorizedConsumable = UIManager.instance.player.playerInventoryManager.selectedConsumables[0];
                 }
 
-                playerInventory.selectedConsumables[0] = item as ConsumableItem;
-                playerInventory.consumablesInventory.Remove(item as ConsumableItem);
+                UIManager.instance.player.playerInventoryManager.selectedConsumables[0] = item as ConsumableItem;
+                UIManager.instance.player.playerInventoryManager.consumablesInventory.Remove(item as ConsumableItem);
                 if (memorizedConsumable == null) ClearInventorySlot();
-                if (playerInventory.currentConsumableIndex == 0) changeNow = true;
-            } else if (uiManager.consumableSlot2Selected) {
-                if (playerInventory.selectedConsumables[1] != null) {
-                    playerInventory.consumablesInventory.Add(playerInventory.selectedConsumables[1]);
-                    memorizedConsumable = playerInventory.selectedConsumables[1];
+                if (UIManager.instance.player.playerInventoryManager.currentConsumableIndex == 0) changeNow = true;
+            } else if (UIManager.instance.consumableSlot2Selected) {
+                if (UIManager.instance.player.playerInventoryManager.selectedConsumables[1] != null) {
+                    UIManager.instance.player.playerInventoryManager.consumablesInventory.Add(UIManager.instance.player.playerInventoryManager.selectedConsumables[1]);
+                    memorizedConsumable = UIManager.instance.player.playerInventoryManager.selectedConsumables[1];
                 }
-                playerInventory.selectedConsumables[1] = item as ConsumableItem;
-                playerInventory.consumablesInventory.Remove(item as ConsumableItem);
+                UIManager.instance.player.playerInventoryManager.selectedConsumables[1] = item as ConsumableItem;
+                UIManager.instance.player.playerInventoryManager.consumablesInventory.Remove(item as ConsumableItem);
                 if (memorizedConsumable == null) ClearInventorySlot();
-                if (playerInventory.currentConsumableIndex == 1) changeNow = true;
-            } else if (uiManager.consumableSlot3Selected) {
-                if (playerInventory.selectedConsumables[2] != null) {
-                    playerInventory.consumablesInventory.Add(playerInventory.selectedConsumables[2]);
-                    memorizedConsumable = playerInventory.selectedConsumables[2];
+                if (UIManager.instance.player.playerInventoryManager.currentConsumableIndex == 1) changeNow = true;
+            } else if (UIManager.instance.consumableSlot3Selected) {
+                if (UIManager.instance.player.playerInventoryManager.selectedConsumables[2] != null) {
+                    UIManager.instance.player.playerInventoryManager.consumablesInventory.Add(UIManager.instance.player.playerInventoryManager.selectedConsumables[2]);
+                    memorizedConsumable = UIManager.instance.player.playerInventoryManager.selectedConsumables[2];
                 }
-                playerInventory.selectedConsumables[2] = item as ConsumableItem;
-                playerInventory.consumablesInventory.Remove(item as ConsumableItem);
+                UIManager.instance.player.playerInventoryManager.selectedConsumables[2] = item as ConsumableItem;
+                UIManager.instance.player.playerInventoryManager.consumablesInventory.Remove(item as ConsumableItem);
                 if (memorizedConsumable == null) ClearInventorySlot();
-                if (playerInventory.currentConsumableIndex == 2) changeNow = true;
+                if (UIManager.instance.player.playerInventoryManager.currentConsumableIndex == 2) changeNow = true;
             } else return;
 
             if (memorizedConsumable != null) {
@@ -176,20 +161,21 @@ namespace SoulsLike {
                 memorizedConsumable = null;
             }
 
-            uiManager.equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventory);
+            UIManager.instance.equipmentWindowUI.LoadItemsOnEquipmentScreen(UIManager.instance.player.playerInventoryManager);
         }
 
-        public void OnClickButton() {
-            if (uiManager.handSlotIsSelected || uiManager.consumableSlotSelected) uiManager.CloseWindow();
+        // ì•„ì´í…œ ìŠ¬ë¡¯ í´ë¦­ ì´ë²¤íŠ¸
+        public void OnClickItemInventorySlot() {
+            if (UIManager.instance.handSlotIsSelected || UIManager.instance.consumableSlotSelected) UIManager.instance.CloseWindow();
             else ShowItemInfo();
-            uiManager.ResetAllSelectedEquipmentSlots();
+            UIManager.instance.ResetAllSelectedEquipmentSlots();
         }
 
         public void ShowItemInfo() {
-            Debug.Log(item);
-            uiManager.OpenSelectedWindow(3);
-            itemInfoWindowUI.SetItemInfo(item);
+            if (item == null) return;
+            UIManager.instance.OpenSelectedWindow(3);
+            //itemInfoWindowUI.SetItemInfo(item);
+            UIManager.instance.itemInfoWindow.GetComponentInChildren<ItemInfoWindowUI>().SetItemInfo(item);
         }
-
     }
 }

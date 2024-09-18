@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulsLike {
-    [CreateAssetMenu(menuName = "Items/Consumable/Weapon Buff")]
+    [CreateAssetMenu(menuName = "Items/Consumables/Weapon Buff")]
     public class WeaponBuffConsumableItem : ConsumableItem {
 
         [Header("Effect")]

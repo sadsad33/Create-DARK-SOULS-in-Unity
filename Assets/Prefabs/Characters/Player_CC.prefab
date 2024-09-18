@@ -1473,6 +1473,8 @@ MonoBehaviour:
   isBackSlot: 0
   currentWeapon: {fileID: 0}
   currentWeaponModel: {fileID: 0}
+  currentWeaponManager: {fileID: 0}
+  currentWeaponBuffType: 0
 --- !u!1 &3417426342764159888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,6 +2460,8 @@ MonoBehaviour:
   isBackSlot: 1
   currentWeapon: {fileID: 0}
   currentWeaponModel: {fileID: 0}
+  currentWeaponManager: {fileID: 0}
+  currentWeaponBuffType: 0
 --- !u!1 &3417426343104162781
 GameObject:
   m_ObjectHideFlags: 0
@@ -6651,6 +6655,8 @@ MonoBehaviour:
   isBackSlot: 0
   currentWeapon: {fileID: 0}
   currentWeaponModel: {fileID: 0}
+  currentWeaponManager: {fileID: 0}
+  currentWeaponBuffType: 0
 --- !u!1 &3417426344324663591
 GameObject:
   m_ObjectHideFlags: 0
@@ -8307,15 +8313,15 @@ MonoBehaviour:
   mouseY: 0
   b_Input: 0
   x_Input: 0
-  rb_Input: 0
-  lb_Input: 0
-  rt_Input: 0
+  mouseLeftBtn: 0
+  mouseRightBtn: 0
+  heavyAtkInput: 0
   lt_Input: 0
   critical_Attack_Input: 0
-  d_Pad_Up: 0
-  d_Pad_Down: 0
-  d_Pad_Right: 0
-  d_Pad_Left: 0
+  nextMemorySlotInput: 0
+  nextConsumableSlotInput: 0
+  nextRightHandSlotInput: 0
+  nextLeftHandSlotInput: 0
   a_Input: 0
   y_Input: 0
   jump_Input: 0
@@ -8443,7 +8449,6 @@ MonoBehaviour:
   lockOnTransform: {fileID: 199501606}
   backStabCollider: {fileID: 229186707681697945}
   riposteCollider: {fileID: 229186707484642016}
-  canTalk: 0
   isInteracting: 0
   canBeRiposted: 0
   canBeParried: 0
@@ -8455,7 +8460,6 @@ MonoBehaviour:
   isRotatingWithRootMotion: 0
   canRotate: 0
   isGrounded: 0
-  isClimbing: 0
   isMoving: 0
   isJumping: 0
   isFiringSpell: 0
@@ -8469,10 +8473,9 @@ MonoBehaviour:
   - {fileID: 1664486849}
   inputHandler: {fileID: 0}
   cameraHandler: {fileID: 0}
-  rightFootUp: 0
   isLadderTop: 0
-  isAtBonfire: 0
   isInConversation: 0
+  interactionTargetPosition: {x: 0, y: 0, z: 0}
   leftFoot: {fileID: 3417426343914960240}
   rightFoot: {fileID: 3417426344644001915}
   ladderEndPositionDetector: {fileID: 0}
@@ -8486,7 +8489,6 @@ MonoBehaviour:
   playerEffectsManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerInteractionManager: {fileID: 0}
-  interactionTargetPosition: {fileID: 0}
 --- !u!114 &6482744793811343854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8534,7 +8536,8 @@ MonoBehaviour:
   currentSpellIndex: 0
   currentConsumableIndex: 0
   weaponsInventory: []
-  consumablesInventory: []
+  consumablesInventory:
+  - {fileID: 11400000, guid: 92d7f7349be7bfb41ab39062e88e4e55, type: 2}
 --- !u!114 &6482744793811343855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8734,6 +8737,10 @@ MonoBehaviour:
     m_InternalValue: 0
   isTwoHandingWeapon:
     m_InternalValue: 0
+  isClimbing:
+    m_InternalValue: 0
+  rightFootUp:
+    m_InternalValue: 0
   currentRightWeaponID:
     m_InternalValue: 0
   currentLeftWeaponID:
@@ -8745,6 +8752,8 @@ MonoBehaviour:
   currentGuntletEquipmentID:
     m_InternalValue: 0
   currentLegEquipmentID:
+    m_InternalValue: 0
+  isAtBonfire:
     m_InternalValue: 0
 --- !u!143 &-2231115656020088457
 CharacterController:

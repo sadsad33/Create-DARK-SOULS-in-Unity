@@ -17,7 +17,9 @@ namespace SoulsLike {
         public void UnloadWeapon() {
             if (currentWeaponModel != null) { // 현재 무기가 null이 아니라면
                 currentWeaponManager = currentWeaponModel.GetComponentInChildren<WeaponManager>();
-                if (currentWeaponManager.weaponIsBuffed) currentWeaponBuffType = currentWeaponManager.weaponBuffType;
+                if (currentWeaponManager != null) {
+                    if (currentWeaponManager.weaponIsBuffed) currentWeaponBuffType = currentWeaponManager.weaponBuffType;
+                }
                 currentWeaponModel.SetActive(false); // 현재 무기를 비활성화 한다.
             }
         }

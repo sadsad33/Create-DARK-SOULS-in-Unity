@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: d3590afc6b555c44d8fcd6c5241012ab, type: 3}
   itemName: Fire Buff
-  flavorText: 
+  flavorText: "\uC77C\uC815\uC2DC\uAC04 \uB3D9\uC548 \uC624\uB978\uC190 \uBB34\uAE30\uC5D0
+    \uD654\uC5FC \uACF5\uACA9\uB825\uC744 \uCD94\uAC00\uD55C\uB2E4."
   itemID: 0
   maxItemAmount: 10
   currentItemAmount: 7

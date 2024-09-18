@@ -7,17 +7,15 @@ using UnityEngine.SceneManagement;
 namespace SoulsLike {
     public class UIManager : MonoBehaviour {
         public static UIManager instance;
-
         public PlayerManager player;
-        public PlayerInventoryManager playerInventory;
-        public PlayerStatsManager playerStatsManager;
+
         public EquipmentWindowUI equipmentWindowUI;
         public QuickSlots quickSlotsUI;
         public Stack<GameObject> uiStack = new();
-        
+
         [Header("Canvas Group")]
         [SerializeField] CanvasGroup canvasGroup;
-       
+
         [Header("HUD")]
         public Text soulCount;
         public HealthBar healthBar;
@@ -34,9 +32,9 @@ namespace SoulsLike {
         public GameObject itemInfoWindow;
         public GameObject bonfireWindow;
         public GameObject levelUpWindow;
-        public GameObject interactableUIGameObject; // InteractionPopUp
-        public GameObject itemInteractableGameObject; // ItemPopup
-        public GameObject dialogUI; // NPC�� ��縦 ����� â
+        public GameObject InteractionPopUpGameObject; // InteractionPopUp
+        public GameObject ItemPopUpGameObject; // ItemPopup
+        public GameObject dialogUI;
         public GameObject bossFightUI;
 
         // 어떤 슬롯을 선택해서 인벤토리 창에 들어왔는지 추적할 수 있도록
@@ -78,39 +76,47 @@ namespace SoulsLike {
         }
 
         // UI창 하나가 열릴때마다 호출됨
-        public void UpdateUI() {
+        public void UpdateInventoryUI() {
             #region Weapon Inventory Slots
             for (int i = 0; i < weaponInventorySlots.Length; i++) {
-                if (i < playerInventory.weaponsInventory.Count) {
-                    // 무기를 저장할 인벤토리의 슬롯수가 부족하다면
-                    if (weaponInventorySlots.Length < playerInventory.weaponsInventory.Count) {
-                        Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
-                        weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
-                    }
-                    if (playerInventory.weaponsInventory[i] != null) {
-                        weaponInventorySlots[i].AddItem(playerInventory.weaponsInventory[i]);
-                    }
-                } else { // 필요없는 곳은 비운다.
+                //if (i < player.playerInventoryManager.weaponsInventory.Count) {
+                //    // 무기를 저장할 인벤토리의 슬롯수가 부족하다면
+                //    if (weaponInventorySlots.Length < player.playerInventoryManager.weaponsInventory.Count) {
+                //        Instantiate(itemInventorySlotPrefab, weaponInventorySlotsParent); // 슬롯 추가
+                //        weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+                //    }
+
+                //    if (player.playerInventoryManager.weaponsInventory[i] != null) {
+                //        weaponInventorySlots[i].AddItem(player.playerInventoryManager.weaponsInventory[i]);
+                //    }
+                
+                if (i >= player.playerInventoryManager.weaponsInventory.Count && weaponInventorySlots[i] == null) {
                     weaponInventorySlots[i].ClearInventorySlot();
                 }
             }
+
             #endregion
 
             #region Consumable Inventory Slots
             for (int i = 0; i < consumableInventorySlots.Length; i++) {
-                if (i < playerInventory.consumablesInventory.Count) {
-                    if (consumableInventorySlots.Length < playerInventory.consumablesInventory.Count) {
-                        Instantiate(itemInventorySlotPrefab, consumableInventorySlotsParent);
-                        consumableInventorySlots = consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
-                    }
-                    if (playerInventory.consumablesInventory[i] != null)
-                        consumableInventorySlots[i].AddItem(playerInventory.consumablesInventory[i]);
-                } else {
+                //if (i < player.playerInventoryManager.consumablesInventory.Count) {
+                //    if (consumableInventorySlots.Length < player.playerInventoryManager.consumablesInventory.Count) {
+                //        Instantiate(itemInventorySlotPrefab, consumableInventorySlotsParent);
+                //        consumableInventorySlots = consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+                //    }
+
+                //    if (player.playerInventoryManager.consumablesInventory[i] != null) {
+                //        consumableInventorySlots[i].AddItem(player.playerInventoryManager.consumablesInventory[i]);
+                //    }
+
+                if (i >= player.playerInventoryManager.consumablesInventory.Count) {
                     consumableInventorySlots[i].ClearInventorySlot();
                 }
             }
             #endregion
         }
+
+
 
         public void OpenSelectedWindow(int code) {
             uiStack.Peek().SetActive(false);

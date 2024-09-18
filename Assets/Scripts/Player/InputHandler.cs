@@ -207,7 +207,7 @@ namespace SoulsLike {
             if (inventory_Input) {
                 if (UIManager.instance.uiStack.Count <= 1) {
                     UIManager.instance.OpenSelectedWindow(0);
-                    UIManager.instance.UpdateUI();
+                    UIManager.instance.UpdateInventoryUI();
                 } else {
                     UIManager.instance.CloseWindow();
                 }

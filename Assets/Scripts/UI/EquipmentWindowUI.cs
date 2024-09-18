@@ -5,15 +5,11 @@ using UnityEngine;
 namespace SoulsLike {
     public class EquipmentWindowUI : MonoBehaviour {
 
-        //public bool rightHandSlot1, rightHandSlot2, rightHandSlot3;
-        //public bool leftHandSlot1, leftHandSlot2, leftHandSlot3;
         public HandEquipmentSlotUI[] handEquipmentSlotUI;
-
-        //public bool consumableSlot1, consumableSlot2, consumableSlot3;
         public HandEquipmentSlotUI[] consumableEquipmentSlotUI;
 
-        // ´ÙÅ©¼Ò¿ï Ã³·³ ¿À¸¥¼Õ°ú ¿Ş¼Õ¿¡ °¢°¢ ¿©·¯°³ÀÇ ¹«±âµéÀ» Áö´Ï°íÀÖÀ½
-        // ÀåºñÃ¢¿¡ ÇÃ·¹ÀÌ¾î°¡ ÇöÀç ¾ç¼Õ¿¡ µé°íÀÖ´Â ¹«±âµé°ú ¼Ò¸ğÇ°µéÀ» Ç¥½ÃÇÑ´Ù.
+        // ë‹¤í¬ì†Œìš¸ ì²˜ëŸ¼ ì˜¤ë¥¸ì†ê³¼ ì™¼ì†ì— ê°ê° ì—¬ëŸ¬ê°œì˜ ë¬´ê¸°ë“¤ì„ ì§€ë‹ˆê³ ìˆìŒ
+        // ì¥ë¹„ì°½ì— í”Œë ˆì´ì–´ê°€ í˜„ì¬ ì–‘ì†ì— ë“¤ê³ ìˆëŠ” ë¬´ê¸°ë“¤ê³¼ ì†Œëª¨í’ˆë“¤ì„ í‘œì‹œí•œë‹¤.
         public void LoadItemsOnEquipmentScreen(PlayerInventoryManager playerInventory) {
             for (int i = 0; i < handEquipmentSlotUI.Length; i++) {
                 if (handEquipmentSlotUI[i].rightHandSlot1) {
@@ -41,41 +37,5 @@ namespace SoulsLike {
                 }
             }
         }
-
-        //public void SelectRightHandSlot1() {
-        //    rightHandSlot1 = true;
-        //}
-
-        //public void SelectRightHandSlot2() {
-        //    rightHandSlot2 = true;
-        //}
-
-        //public void SelectRightHandSlot3() {
-        //    rightHandSlot3 = true;
-        //}
-
-        //public void SelectLeftHandSlot1() {
-        //    leftHandSlot1 = true;
-        //}
-
-        //public void SelectLeftHandSlot2() {
-        //    leftHandSlot2 = true;
-        //}
-
-        //public void SelectLeftHandSlot3() {
-        //    leftHandSlot3 = true;
-        //}
-
-        //public void SelectConsumableSlot1() {
-        //    consumableSlot1 = true;
-        //}
-
-        //public void SelectConsumableSlot2() {
-        //    consumableSlot2 = true;
-        //}
-
-        //public void SelectConsumableSlot3() {
-        //    consumableSlot3 = true;
-        //}
     }
 }
