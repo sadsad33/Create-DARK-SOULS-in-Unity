@@ -56,6 +56,7 @@ namespace SoulsLike {
         protected override void Start() {
             base.Start();
             DontDestroyOnLoad(this);
+            UIManager.instance.equipmentWindowUI.LoadItemsOnEquipmentScreen(playerInventoryManager);
         }
 
         // 이벤트 핸들러
@@ -82,9 +83,10 @@ namespace SoulsLike {
             if (IsOwner) {
                 playerStatsManager.SetStatBarsHUD();
                 CameraHandler.instance.AssignCameraToPlayer(this);
-                UIManager.instance.playerStatsManager = playerStatsManager;
-                UIManager.instance.playerInventory = transform.GetComponent<PlayerInventoryManager>();
+                UIManager.instance.player = this;
+                LinkPlayerInventoryToUI();
             }
+
             playerNetworkManager.currentRightWeaponID.OnValueChanged += playerNetworkManager.OnRightWeaponChange;
             playerNetworkManager.currentLeftWeaponID.OnValueChanged += playerNetworkManager.OnLeftWeaponChange;
             playerNetworkManager.currentHeadEquipmentID.OnValueChanged += playerNetworkManager.OnHeadEquipmentChange;
@@ -269,6 +271,31 @@ namespace SoulsLike {
             player.playerNetworkManager.OnTorsoEquipmentChange(0, player.playerNetworkManager.currentTorsoEquipmentID.Value);
             player.playerNetworkManager.OnGuntletEquipmentChange(0, player.playerNetworkManager.currentGuntletEquipmentID.Value);
             player.playerNetworkManager.OnLegEquipmentChange(0, player.playerNetworkManager.currentLegEquipmentID.Value);
+        }
+
+        // 게임을 시작하고 플레이어가 스폰되면 인벤토리와 UI를 연결
+        private void LinkPlayerInventoryToUI() {
+            UIManager.instance.weaponInventorySlots = new ItemInventorySlot[playerInventoryManager.weaponsInventory.Count];
+            for (int i = 0; i < playerInventoryManager.weaponsInventory.Count; i++) {
+                if (playerInventoryManager.weaponsInventory[i] != null) {
+                    if (UIManager.instance.weaponInventorySlots[i] == null) {
+                        Instantiate(UIManager.instance.itemInventorySlotPrefab, UIManager.instance.weaponInventorySlotsParent);
+                        UIManager.instance.weaponInventorySlots = UIManager.instance.weaponInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+                    }
+                }
+                UIManager.instance.weaponInventorySlots[i].AddItem(playerInventoryManager.weaponsInventory[i]);
+            }
+
+            UIManager.instance.consumableInventorySlots = new ItemInventorySlot[playerInventoryManager.consumablesInventory.Count];
+            for (int i = 0; i < playerInventoryManager.consumablesInventory.Count; i++) {
+                if (playerInventoryManager.consumablesInventory[i] != null) {
+                    if (UIManager.instance.consumableInventorySlots[i] == null) {
+                        Instantiate(UIManager.instance.itemInventorySlotPrefab, UIManager.instance.consumableInventorySlotsParent);
+                        UIManager.instance.consumableInventorySlots = UIManager.instance.consumableInventorySlotsParent.GetComponentsInChildren<ItemInventorySlot>();
+                    }
+                }
+                UIManager.instance.consumableInventorySlots[i].AddItem(playerInventoryManager.consumablesInventory[i]);
+            }
         }
     }
 }

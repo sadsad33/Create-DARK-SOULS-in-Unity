@@ -40,8 +40,8 @@ namespace SoulsLike {
 
         private void OnTriggerExit(Collider other) {
             if (other.CompareTag("Interactable")) currentInteractable = null;
-            if (UIManager.instance.interactableUIGameObject != null) {
-                UIManager.instance.interactableUIGameObject.SetActive(false);
+            if (UIManager.instance.InteractionPopUpGameObject != null) {
+                UIManager.instance.InteractionPopUpGameObject.SetActive(false);
             }
         }
 
@@ -49,7 +49,7 @@ namespace SoulsLike {
             if (currentInteractable != null && player.IsOwner) {
                 string interactableText = currentInteractable.interactableText;
                 interactableUI.interactableText.text = interactableText;
-                UIManager.instance.interactableUIGameObject.SetActive(true);
+                UIManager.instance.InteractionPopUpGameObject.SetActive(true);
             }
         }
 
@@ -58,12 +58,12 @@ namespace SoulsLike {
             if (player.inputHandler.a_Input) {
                 if (currentInteractable != null) {
                     currentInteractable.GetComponent<Interactable>().Interact(player);
-                    UIManager.instance.interactableUIGameObject.SetActive(false);
+                    UIManager.instance.InteractionPopUpGameObject.SetActive(false);
                 } else {
-                    if (UIManager.instance.interactableUIGameObject != null)
-                        UIManager.instance.interactableUIGameObject.SetActive(false);
-                    if (UIManager.instance.itemInteractableGameObject != null)
-                        UIManager.instance.itemInteractableGameObject.SetActive(false);
+                    if (UIManager.instance.InteractionPopUpGameObject != null)
+                        UIManager.instance.InteractionPopUpGameObject.SetActive(false);
+                    if (UIManager.instance.ItemPopUpGameObject != null)
+                        UIManager.instance.ItemPopUpGameObject.SetActive(false);
                 }
             }
         }

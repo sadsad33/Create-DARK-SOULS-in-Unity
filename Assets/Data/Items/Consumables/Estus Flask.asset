@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 51e90e2f352d93d49b72bebce22d5c10, type: 3}
   itemName: "\uC5D0\uC2A4\uD2B8 \uBCD1"
-  flavorText: 
+  flavorText: "\uC0AC\uC6A9\uD558\uC5EC \uCCB4\uB825\uC744 \uD68C\uBCF5\uD55C\uB2E4."
+  itemID: 0
   maxItemAmount: 10
   currentItemAmount: 10
   itemModel: {fileID: 7317279581893439592, guid: 328d8bc6f7fb71b48b273b255eb5225b, type: 3}

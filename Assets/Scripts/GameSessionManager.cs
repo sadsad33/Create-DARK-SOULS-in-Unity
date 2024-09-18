@@ -9,11 +9,12 @@ namespace SoulsLike {
 
         // 네트워크 실험용
         [Header("Debug Join Game")]
-        [SerializeField] bool startGameAsClient;
-        [SerializeField] bool shutdownNetwork;
+        public bool startGameAsClient;
+        public bool shutdownNetwork;
 
         [Header("Player In Game")]
         public List<PlayerManager> players = new List<PlayerManager>();
+
         private void Awake() {
             if (instance == null) instance = this;
             else Destroy(gameObject);
