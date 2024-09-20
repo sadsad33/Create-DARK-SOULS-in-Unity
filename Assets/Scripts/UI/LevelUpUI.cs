@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace SoulsLike {
     public class LevelUpUI : MonoBehaviour {
-        public PlayerStatsManager playerStatsManager;
-        public PlayerWeaponSlotManager playerWeaponSlotManager;
+        //public PlayerStatsManager playerStatsManager;
+        //public PlayerWeaponSlotManager playerWeaponSlotManager;
         public StatSelectUI statSelectUI;
         public GameObject currentStatsBackground;
         public GameObject statSelectBackground;
@@ -47,14 +47,14 @@ namespace SoulsLike {
 
         // 각 스탯의 기존 최대치를 기록
         private void GetCurrentStatPoints() {
-            initStats[0] = playerStatsManager.maxHealth;
-            initStats[1] = playerStatsManager.maxFocus;
-            initStats[2] = playerStatsManager.maxStamina;
+            initStats[0] = UIManager.instance.player.playerStatsManager.maxHealth;
+            initStats[1] = UIManager.instance.player.playerStatsManager.maxFocus;
+            initStats[2] = UIManager.instance.player.playerStatsManager.maxStamina;
             //initStats[3] = playerStatsManager.maxStrength;
             //initStats[4] = playerStatsManager.maxAttunement;
             //initStats[5] = playerStatsManager.maxFaith;
-            initStats[6] = (float)playerStatsManager.level;
-            initStats[7] = playerStatsManager.soulCount;
+            initStats[6] = (float)UIManager.instance.player.playerStatsManager.level;
+            initStats[7] = UIManager.instance.player.playerStatsManager.soulCount;
         }
 
         // 스탯 포인트에따른 현재 능력치들을 UI에 출력한다
@@ -62,45 +62,45 @@ namespace SoulsLike {
             switch (index) {
                 case 0:
                     currentStats[index].text = "Current Health : ";
-                    currentStats[index].text += playerStatsManager.maxHealth.ToString();
+                    currentStats[index].text += UIManager.instance.player.playerStatsManager.maxHealth.ToString();
                     // 최대값이 달라졌다면(올랐다면) 빨간색으로 변경
-                    if (initStats[index] != playerStatsManager.maxHealth) currentStats[index].color = Color.red;
+                    if (initStats[index] != UIManager.instance.player.playerStatsManager.maxHealth) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
                 case 1:
                     currentStats[index].text = "Current Focus : ";
-                    currentStats[index].text += playerStatsManager.maxFocus.ToString();
-                    if (initStats[index] != playerStatsManager.maxFocus) currentStats[index].color = Color.red;
+                    currentStats[index].text += UIManager.instance.player.playerStatsManager.maxFocus.ToString();
+                    if (initStats[index] != UIManager.instance.player.playerStatsManager.maxFocus) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
                 case 2:
                     currentStats[index].text = "Current Stamina : ";
-                    currentStats[index].text += playerStatsManager.maxStamina.ToString();
-                    if (initStats[index] != playerStatsManager.maxStamina) currentStats[index].color = Color.red;
+                    currentStats[index].text += UIManager.instance.player.playerStatsManager.maxStamina.ToString();
+                    if (initStats[index] != UIManager.instance.player.playerStatsManager.maxStamina) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
                 case 3:
                     currentStats[index].text = "Current ATK(Right Hand) : ";
-                    currentStats[index].text += playerWeaponSlotManager.rightHandSlot.currentWeapon.physicalDamage.ToString();
+                    currentStats[index].text += UIManager.instance.player.playerWeaponSlotManager.rightHandSlot.currentWeapon.physicalDamage.ToString();
                     break;
                 case 4:
                     currentStats[index].text = "Current ATK(Left Hand) : ";
-                    currentStats[index].text += playerWeaponSlotManager.leftHandSlot.currentWeapon.physicalDamage.ToString();
+                    currentStats[index].text += UIManager.instance.player.playerWeaponSlotManager.leftHandSlot.currentWeapon.physicalDamage.ToString();
                     break;
                 case 5:
                     currentStats[index].text = "Current DEF : ";
-                    currentStats[5].text += (Mathf.Round(playerStatsManager.totalPhysicalDamageDefenseRate * 100)).ToString() + '%';
+                    currentStats[5].text += (Mathf.Round(UIManager.instance.player.playerStatsManager.totalPhysicalDamageDefenseRate * 100)).ToString() + '%';
                     break;
                 case 6:
                     currentStats[index].text = "Current Level : ";
-                    currentStats[6].text += playerStatsManager.level.ToString();
-                    if (initStats[index] != playerStatsManager.level) currentStats[index].color = Color.red;
+                    currentStats[6].text += UIManager.instance.player.playerStatsManager.level.ToString();
+                    if (initStats[index] != UIManager.instance.player.playerStatsManager.level) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
                 case 7:
                     currentStats[index].text = "Current Souls : ";
-                    currentStats[7].text += playerStatsManager.soulCount.ToString();
-                    if (initStats[index] != playerStatsManager.soulCount) currentStats[index].color = Color.red;
+                    currentStats[7].text += UIManager.instance.player.playerStatsManager.soulCount.ToString();
+                    if (initStats[index] != UIManager.instance.player.playerStatsManager.soulCount) currentStats[index].color = Color.red;
                     else currentStats[index].color = Color.white;
                     break;
             }
@@ -110,18 +110,18 @@ namespace SoulsLike {
         private void PrintCurrentStatPoints(int index) {
             switch (index) {
                 case 0:
-                    currentStatPoints[index].text = playerStatsManager.healthLevel.ToString();
+                    currentStatPoints[index].text = UIManager.instance.player.playerStatsManager.healthLevel.ToString();
                     break;
                 case 1:
-                    currentStatPoints[index].text = playerStatsManager.focusLevel.ToString();
+                    currentStatPoints[index].text = UIManager.instance.player.playerStatsManager.focusLevel.ToString();
                     break;
                 case 2:
-                    currentStatPoints[index].text = playerStatsManager.staminaLevel.ToString();
+                    currentStatPoints[index].text = UIManager.instance.player.playerStatsManager.staminaLevel.ToString();
                     break;
                 case 7:
                     requiredSoulsText.text = "Required Souls : ";
-                    requiredSoulsText.text += (playerStatsManager.level * 65).ToString();
-                    if (initStats[6] * 65 != playerStatsManager.level * 65) requiredSoulsText.color = Color.red;
+                    requiredSoulsText.text += (UIManager.instance.player.playerStatsManager.level * 65).ToString();
+                    if (initStats[6] * 65 != UIManager.instance.player.playerStatsManager.level * 65) requiredSoulsText.color = Color.red;
                     else requiredSoulsText.color = Color.white;
                     break;
             }
@@ -132,22 +132,22 @@ namespace SoulsLike {
             int delta = value;
             switch (index) {
                 case 0:
-                    delta -= playerStatsManager.healthLevel;
-                    playerStatsManager.maxHealth = value * 10;
-                    playerStatsManager.healthLevel = value;
+                    delta -= UIManager.instance.player.playerStatsManager.healthLevel;
+                    UIManager.instance.player.playerStatsManager.maxHealth = value * 10;
+                    UIManager.instance.player.playerStatsManager.healthLevel = value;
                     break;
                 case 1:
-                    delta -= playerStatsManager.focusLevel;
-                    playerStatsManager.maxFocus = value * 10;
-                    playerStatsManager.focusLevel = value;
+                    delta -= UIManager.instance.player.playerStatsManager.focusLevel;
+                    UIManager.instance.player.playerStatsManager.maxFocus = value * 10;
+                    UIManager.instance.player.playerStatsManager.focusLevel = value;
                     break;
                 case 2:
-                    delta -= playerStatsManager.staminaLevel;
-                    playerStatsManager.maxStamina = value * 10;
-                    playerStatsManager.staminaLevel = value;
+                    delta -= UIManager.instance.player.playerStatsManager.staminaLevel;
+                    UIManager.instance.player.playerStatsManager.maxStamina = value * 10;
+                    UIManager.instance.player.playerStatsManager.staminaLevel = value;
                     break;
             }
-            playerStatsManager.level += delta;
+            UIManager.instance.player.playerStatsManager.level += delta;
             PrintCurrentStats(index);
             PrintCurrentStats(6);
             PrintCurrentStats(7);

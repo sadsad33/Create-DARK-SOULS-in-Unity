@@ -23,12 +23,12 @@ namespace SoulsLike {
         // 스탯 텍스트 색깔 변경
         public void OnClickButton() {
             value = int.Parse(stat.text);
-            if (isUpperDirection && levelUpUI.playerStatsManager.soulCount >= levelUpUI.playerStatsManager.level * 65) {
+            if (isUpperDirection && UIManager.instance.player.playerStatsManager.soulCount >= UIManager.instance.player.playerStatsManager.level * 65) {
                 value += 1;
-                levelUpUI.playerStatsManager.soulCount -= levelUpUI.playerStatsManager.level * 65;
+                UIManager.instance.player.playerStatsManager.soulCount -= UIManager.instance.player.playerStatsManager.level * 65;
             } else if (!isUpperDirection && value > initValue) { // 기존 스탯포인트보다 적어질수는 없음
                 value -= 1;
-                levelUpUI.playerStatsManager.soulCount += (levelUpUI.playerStatsManager.level - 1) * 65;
+                UIManager.instance.player.playerStatsManager.soulCount += (UIManager.instance.player.playerStatsManager.level - 1) * 65;
             }
 
             levelUpUI.ChangeSelectedStat(btnIndex, value);

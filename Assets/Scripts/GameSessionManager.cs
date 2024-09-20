@@ -28,6 +28,7 @@ namespace SoulsLike {
             if (shutdownNetwork) {
                 shutdownNetwork = false;
                 NetworkManager.Singleton.Shutdown();
+                StartCoroutine("JoinGameAsClient", 3.0f);
             }
         }
 
@@ -41,6 +42,11 @@ namespace SoulsLike {
                     players.RemoveAt(i);
                 }
             }
+        }
+
+        IEnumerator JoinGameAsClient(float waitTime) {
+            yield return new WaitForSeconds(waitTime);
+            startGameAsClient = true;
         }
     }
 }
