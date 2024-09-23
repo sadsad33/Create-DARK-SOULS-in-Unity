@@ -6801,8 +6801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7a57a0dbb2f4c47b18d2dee1eb0b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStatsManager: {fileID: 0}
-  playerWeaponSlotManager: {fileID: 0}
   statSelectUI: {fileID: 3374036298579865576}
   currentStatsBackground: {fileID: 3374036299525174461}
   statSelectBackground: {fileID: 3374036299115377093}
